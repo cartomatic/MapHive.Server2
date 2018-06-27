@@ -1,7 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using BrockAllen.MembershipReboot;
+using BrockAllen.MembershipReboot.Relational;
+#if NETFULL
+using System.Data.Entity;
+#endif
+#if NETSTANDARD
+using Microsoft.EntityFrameworkCore;
+#endif
 
 namespace MapHive.MembershipReboot
 {
@@ -49,7 +57,22 @@ namespace MapHive.MembershipReboot
         /// <returns></returns>
         public static CustomDbContext GetMembershipRebootDbctx()
         {
-            return new CustomDbContext("WebGisMembershipReboot");
+            return new CustomDbContext("MapHiveMembershipReboot");
+        }
+
+        /// <summary>
+        /// Extracts a db context off the MembershipReboot's UserAccountService;
+        /// uses reflection to grab a private db property of the Query property. May get nasty if mbr stuff changes internally. Oh well...
+        /// </summary>
+        /// <param name="userAccountService"></param>
+        /// <returns></returns>
+        public static DbContext GetMembershipRebootDbCtx<TAccount>(UserAccountService<TAccount> userAccountService)
+            where TAccount : RelationalUserAccount
+        {
+            return userAccountService.Query.GetType()
+                    .GetField("db", BindingFlags.NonPublic | BindingFlags.Instance)
+                    .GetValue(userAccountService.Query)
+                as DbContext;
         }
     }
 
