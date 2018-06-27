@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net452;net462</TargetFrameworks>
+    <Version>1.0.0-dev0001</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
+aimed at working with pgsql initially</Description>
+    <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="msbump" Version="2.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
+  </ItemGroup>
+
+</Project>
