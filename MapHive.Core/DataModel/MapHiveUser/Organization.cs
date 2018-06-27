@@ -1,0 +1,120 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BrockAllen.MembershipReboot;
+using BrockAllen.MembershipReboot.Relational;
+
+#if NETFULL
+using System.Data.Entity;
+#endif
+#if NETSTANDARD
+using Microsoft.EntityFrameworkCore;
+#endif
+
+namespace MapHive.Core.DataModel
+{
+    public partial class MapHiveUser
+    {
+        /// <summary>
+        /// creates an organisation for maphhive user and sets links as expected
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
+        public async Task<Organization> CreateUserOrganizationAsync<TAccount>(DbContext dbCtx, UserAccountService<TAccount> userAccountService)
+            where TAccount : RelationalUserAccount
+        {
+            if (string.IsNullOrEmpty(Slug))
+            {
+                throw new Exception("Cannot create a user organisation without a valid user slug.");
+            }
+
+            //Note: creating user org in 2 steps so the org slug validation does not complain
+            //This is because org always needs a slug and the validation checks if a user has not already reserved it.
+            //because this org is only being created now it is not tied up with a user in anyway, so cannot check if its slug is ok at this stage
+
+            //org creation step 1
+            var org = await new Organization
+            {
+                Slug = Guid.NewGuid().ToString() //fake slug that will get updated in the next step
+            }.CreateAsync(dbCtx);
+
+            //tie the org to a user
+            UserOrgId = org.Uuid;
+            org.AddLink(this);
+            this.AddLink(await org.GetOrgOwnerRoleAsync(dbCtx));
+            await this.UpdateAsync(dbCtx, userAccountService);
+
+            //step 2 - update org slug; now the validation should not complain
+            org.Slug = Slug;
+            await org.UpdateAsync(dbCtx);
+
+            return org;
+        }
+
+        /// <summary>
+        /// updates user organisation
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <param name="org"></param>
+        /// <returns></returns>
+        public async Task<Organization> UpdateUserOrganizationAsync(DbContext dbCtx, Organization org)
+        {
+            if (string.IsNullOrEmpty(Slug))
+            {
+                throw new Exception("Cannot create a user organisation without a valid user slug.");
+            }
+
+            org.Slug = Slug;
+            await org.UpdateAsync(dbCtx);
+            return org;
+        }
+
+        /// <summary>
+        /// gets user's organisation - the org that is a counter part of user profile
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
+        public async Task<Organization> GetUserOrganizationAsync(DbContext dbCtx)
+        {
+            if (!UserOrgId.HasValue)
+            {
+                return null;
+            }
+            return await dbCtx.Set<Organization>().FirstOrDefaultAsync(o => o.Uuid == UserOrgId.Value);
+        }
+
+        /// <summary>
+        /// Gets organisations a user has an access to. If user has an own org, then it is returned at the begining
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static async Task<IEnumerable<Organization>> GetUserOrganizationsAsync(DbContext dbCtx, Guid userId)
+        {
+            var user = await dbCtx.Set<MapHiveUser>().FirstOrDefaultAsync(u => u.Uuid == userId);
+
+            if (user == null)
+            {
+                throw new InvalidOperationException("Unknown user");
+            }
+
+            return await user.GetUserOrganizationsAsync(dbCtx);
+        }
+
+        /// <summary>
+        /// Gets organisations a user has an access to. If user has an own org, then it is returned at the begining
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Organization>> GetUserOrganizationsAsync(DbContext dbCtx)
+        {
+            //users are assigned to orgs
+            //make sure the 'user' org is at the very begining
+            return (await this.GetParentsAsync<MapHiveUser, Organization>(dbCtx)).OrderByDescending(o => o.Slug == Slug);
+
+            //todo: will need to also properly order orgs a user has an owner role, so they seem a bit more important than the other orgs
+        }
+    }
+}

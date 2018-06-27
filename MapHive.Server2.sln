@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Core", "MapHive.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartomatic.Utils", "..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj", "{A9F2E357-C89C-4C50-8603-BEA36E7657B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHive.Localization", "MapHive.Localization\MapHive.Localization.csproj", "{46812CAB-416A-432C-94EE-879E2AE4D2A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHive.Auth", "MapHive.Auth\MapHive.Auth.csproj", "{7BFBA702-1976-40B0-9A5C-12C9E2DFEBB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{A9F2E357-C89C-4C50-8603-BEA36E7657B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9F2E357-C89C-4C50-8603-BEA36E7657B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9F2E357-C89C-4C50-8603-BEA36E7657B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46812CAB-416A-432C-94EE-879E2AE4D2A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46812CAB-416A-432C-94EE-879E2AE4D2A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46812CAB-416A-432C-94EE-879E2AE4D2A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46812CAB-416A-432C-94EE-879E2AE4D2A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BFBA702-1976-40B0-9A5C-12C9E2DFEBB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BFBA702-1976-40B0-9A5C-12C9E2DFEBB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BFBA702-1976-40B0-9A5C-12C9E2DFEBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BFBA702-1976-40B0-9A5C-12C9E2DFEBB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

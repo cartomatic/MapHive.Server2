@@ -1,0 +1,6 @@
+﻿add-migration -ConnectionString "server=localhost;user id=postgres;password=postgres;database=maphive_meta;port=5434" -project Core -ConnectionProviderName "Npgsql" -ConfigurationTypeName  MapHive.Core.DAL.Migrations.Ef.MapHiveMetaConfiguration.Configuration
+
+update-database -ConnectionString "server=localhost;user id=postgres;password=postgres;database=maphive_meta;port=5434" -project Core -ConnectionProviderName "Npgsql" -ConfigurationTypeName  MapHive.Core.DAL.Migrations.Ef.MapHiveMetaConfiguration.Configuration
+
+#rollback to the last git 'released' migration
+update-database -ConnectionString "server=localhost;user id=postgres;password=postgres;database=maphive_meta;port=5434" -project Core -ConnectionProviderName "Npgsql" -ConfigurationTypeName  MapHive.Core.DAL.Migrations.Ef.MapHiveMetaConfiguration.Configuration -TargetMigration:"InitialCreate"
