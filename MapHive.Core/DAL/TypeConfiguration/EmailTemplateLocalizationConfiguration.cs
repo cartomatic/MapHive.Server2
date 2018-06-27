@@ -19,13 +19,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace MapHive.Core.DAL.TypeConfiguration
 {
 #if NETFULL
-    public class EmailTemplateLocalisationConfiguration : EntityTypeConfiguration<EmailTemplateLocalization>
+    public class EmailTemplateLocalizationConfiguration : EntityTypeConfiguration<EmailTemplateLocalization>
     //Note:
-    //Deriving from ILocalisationConfiguration<DataModel.AppLocalisation> does not work. EF needs a concrete type nd throws otherwise
+    //Deriving from ILocalizationConfiguration<DataModel.AppLocalization> does not work. EF needs a concrete type nd throws otherwise
     {
-        public EmailTemplateLocalisationConfiguration()
+        public EmailTemplateLocalizationConfiguration()
         {
-            ToTable("email_templates", "mh_localisation");
+            ToTable("email_templates", "mh_localization");
             this.ApplyIBaseConfiguration(nameof(EmailTemplateLocalization));
 
             Property(en => en.ApplicationName).HasColumnName("application_name");
@@ -34,8 +34,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
             Property(en => en.Identifier).HasColumnName("identifier");
             Property(en => en.IsBodyHtml).HasColumnName("is_body_html");
 
-            //Stuff below would be true if the class derived from ILocalisationConfiguration; this does not seem to work though...
-            //Note: Translations dobe via ILocalisationConfiguration
+            //Stuff below would be true if the class derived from ILocalizationConfiguration; this does not seem to work though...
+            //Note: Translations dobe via ILocalizationConfiguration
             Property(p => p.Translations.Serialized).HasColumnName("translations");
 
 
@@ -59,11 +59,11 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
 
 #if NETSTANDARD
-    public class EmailTemplateLocalisationConfiguration : IEntityTypeConfiguration<EmailTemplateLocalization>
+    public class EmailTemplateLocalizationConfiguration : IEntityTypeConfiguration<EmailTemplateLocalization>
     {
         public void Configure(EntityTypeBuilder<EmailTemplateLocalization> builder)
         {
-            builder.ApplyIBaseConfiguration(nameof(EmailTemplateLocalization), "email_templates", "mh_localisation");
+            builder.ApplyIBaseConfiguration(nameof(EmailTemplateLocalization), "email_templates", "mh_localization");
 
             builder.Property(en => en.ApplicationName).HasColumnName("application_name");
             builder.Property(en => en.Name).HasColumnName("name");
@@ -71,8 +71,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(en => en.Identifier).HasColumnName("identifier");
             builder.Property(en => en.IsBodyHtml).HasColumnName("is_body_html");
 
-            //Stuff below would be true if the class derived from ILocalisationConfiguration; this does not seem to work though...
-            //Note: Translations dobe via ILocalisationConfiguration
+            //Stuff below would be true if the class derived from ILocalizationConfiguration; this does not seem to work though...
+            //Note: Translations dobe via ILocalizationConfiguration
             builder.Property(p => p.Translations.Serialized).HasColumnName("translations");
 
             builder.HasIndex(t => t.ApplicationName)
@@ -80,7 +80,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
                 .IsUnique();
 
             builder.HasIndex(t => new { t.ApplicationName, t.Identifier }) //this should create a unique composite field idx!
-                .HasName($"uq_localisation_class_translation_key")
+                .HasName($"uq_localization_class_translation_key")
                 .IsUnique();
         }
     }

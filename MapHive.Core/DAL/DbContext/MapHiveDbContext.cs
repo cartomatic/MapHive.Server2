@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DAL
 {
-    public class MapHiveDbContext : BaseDbContext, ILinksDbContext, IMapHiveAppsDbContext, IMapHiveUsersDbContext<MapHiveUser>
+    public class MapHiveDbContext : BaseDbContext, ILinksDbContext, IMapHiveAppsDbContext, ILocalizedDbContext, IMapHiveUsersDbContext<MapHiveUser>
     {
         public MapHiveDbContext()
             : this("MapHiveMeta") //use a default conn str name; useful when passing ctx as a generic param that is then instantiated 
@@ -40,6 +40,7 @@ namespace MapHive.Core.DAL
 #endif
         }
 
+        //common types
         public DbSet<Application> Applications { get; set; }
         public DbSet<MapHiveUser> Users { get; set; }
 
@@ -47,34 +48,43 @@ namespace MapHive.Core.DAL
         public DbSet<Role> Roles { get; set; }
         public DbSet<Team> Teams { get; set; }
 
+        //tokens
+        public DbSet<Token> Tokens { get; set; }
+
         //ILinksDbContext
         public DbSet<Link> Links { get; set; }
 
         //ILocalizedDbContext
-        //public DbSet<LocalizationClass> LocalizationClasses { get; set; }
-        //public DbSet<TranslationKey> TranslationKeys { get; set; }
-        //public DbSet<EmailTemplateLocalization> EmailTemplates { get; set; }
-        //public DbSet<Lang> Langs { get; set; }
+        public DbSet<LocalizationClass> LocalizationClasses { get; set; }
+        public DbSet<TranslationKey> TranslationKeys { get; set; }
+        public DbSet<EmailTemplateLocalization> EmailTemplates { get; set; }
+        public DbSet<Lang> Langs { get; set; }
+
+
 
 #if NETFULL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("mh_meta");
 
-            //type configs
+            //commen types configs
             modelBuilder.Configurations.Add(new ApplicationConfiguration());
             modelBuilder.Configurations.Add(new MapHiveUserConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
             modelBuilder.Configurations.Add(new RoleConfiguration());
             modelBuilder.Configurations.Add(new TeamConfiguration());
 
+            //tokens
+            modelBuilder.Configurations.Add(new TokenConfiguration());
+
+            //links
             modelBuilder.Configurations.Add(new LinkConfiguration());
 
             //Ilocalised type configs
-            //modelBuilder.Configurations.Add(new LocalizationClassConfiguration());
-            //modelBuilder.Configurations.Add(new EmailTemplateLocalizationConfiguration());
-            //modelBuilder.Configurations.Add(new LangConfiguration());
-            //modelBuilder.Configurations.Add(new TranslationKeyConfiguration());
+            modelBuilder.Configurations.Add(new LocalizationClassConfiguration());
+            modelBuilder.Configurations.Add(new EmailTemplateLocalizationConfiguration());
+            modelBuilder.Configurations.Add(new LangConfiguration());
+            modelBuilder.Configurations.Add(new TranslationKeyConfiguration());
 
         }
 #endif
@@ -84,23 +94,27 @@ namespace MapHive.Core.DAL
         {
             modelBuilder.HasDefaultSchema("mh_meta");
 
-            //type configs
+            //commen types configs
             modelBuilder.ApplyConfiguration(new ApplicationConfiguration());
             modelBuilder.ApplyConfiguration(new MapHiveUserConfiguration());
             modelBuilder.ApplyConfiguration(new OrganizationConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new TeamConfiguration());
 
+            //token
+            modelBuilder.ApplyConfiguration(new TokenConfiguration());
+
+            //links
             modelBuilder.ApplyConfiguration(new LinkConfiguration());
 
             //Ilocalised type configs
-            //modelBuilder.Configurations.Add(new LocalizationClassConfiguration());
-            //modelBuilder.Configurations.Add(new EmailTemplateLocalizationConfiguration());
-            //modelBuilder.Configurations.Add(new LangConfiguration());
-            //modelBuilder.Configurations.Add(new TranslationKeyConfiguration());
+            modelBuilder.ApplyConfiguration(new LocalizationClassConfiguration());
+            modelBuilder.ApplyConfiguration(new EmailTemplateLocalizationConfiguration());
+            modelBuilder.ApplyConfiguration(new LangConfiguration());
+            modelBuilder.ApplyConfiguration(new TranslationKeyConfiguration());
         }
 #endif
     }
 
-    
+
 }

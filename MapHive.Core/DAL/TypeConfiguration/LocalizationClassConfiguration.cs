@@ -19,13 +19,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace MapHive.Core.DAL.TypeConfiguration
 {
 #if NETFULL
-    public class LocalisationClassConfiguration : EntityTypeConfiguration<LocalizationClass> 
+    public class LocalizationClassConfiguration : EntityTypeConfiguration<LocalizationClass> 
         //Note:
-        //Deriving from ILocalisationConfiguration<DataModel.AppLocalisation> does not work. EF needs a concrete type nd throws otherwise
+        //Deriving from ILocalizationConfiguration<DataModel.AppLocalization> does not work. EF needs a concrete type nd throws otherwise
     {
-        public LocalisationClassConfiguration()
+        public LocalizationClassConfiguration()
         {
-            ToTable("localisation_classes", "mh_localisation");
+            ToTable("localization_classes", "mh_localization");
             this.ApplyIBaseConfiguration(nameof(LocalizationClass));
 
             Property(en => en.ApplicationName).HasColumnName("application_name");
@@ -50,11 +50,11 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
 
 #if NETSTANDARD
-    public class LocalisationClassConfiguration : IEntityTypeConfiguration<LocalizationClass>
+    public class LocalizationClassConfiguration : IEntityTypeConfiguration<LocalizationClass>
     {
         public void Configure(EntityTypeBuilder<LocalizationClass> builder)
         {
-            builder.ApplyIBaseConfiguration(nameof(LocalizationClass), "localisation_classes", "mh_localisation");
+            builder.ApplyIBaseConfiguration(nameof(LocalizationClass), "localization_classes", "mh_localization");
 
             builder.Property(en => en.ApplicationName).HasColumnName("application_name");
             builder.Property(en => en.ClassName).HasColumnName("class_name");
@@ -63,7 +63,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Ignore(p => p.TranslationKeys);
 
             builder.HasIndex(t => new { t.ApplicationName, t.ClassName }) //this should create a unique composite field idx!
-                .HasName($"uq_localisation_class_translation_key")
+                .HasName($"uq_localization_class_translation_key")
                 .IsUnique();
         }
     }

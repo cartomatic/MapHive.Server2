@@ -22,30 +22,30 @@ namespace MapHive.Core.DAL.TypeConfiguration
 #if NETFULL
     public class TranslationKeyConfiguration : EntityTypeConfiguration<TranslationKey> 
         //Note:
-        //Deriving from ILocalisationConfiguration<DataModel.AppLocalisation> does not work. EF needs a concrete type nd throws otherwise
+        //Deriving from ILocalizationConfiguration<DataModel.AppLocalization> does not work. EF needs a concrete type nd throws otherwise
     {
         public TranslationKeyConfiguration()
         {
-            ToTable("translation_keys", "mh_localisation");
+            ToTable("translation_keys", "mh_localization");
             this.ApplyIBaseConfiguration(nameof(TranslationKey));
 
-            Property(en => en.LocalizationClassUuid).HasColumnName("localisation_class_uuid");
+            Property(en => en.LocalizationClassUuid).HasColumnName("localization_class_uuid");
             Property(en => en.Key).HasColumnName("key");
 
-            //Stuff below would be true if the class derived from ILocalisationConfiguration; this does not seem to work though...
+            //Stuff below would be true if the class derived from ILocalizationConfiguration; this does not seem to work though...
             //and need to set the mapping explicitly. Looks like EF is not always happy with the interfaces.
-            //Note: Translations dobe via ILocalisationConfiguration
+            //Note: Translations dobe via ILocalizationConfiguration
             Property(p => p.Translations.Serialized).HasColumnName("translations");
 
             //indexes
             Property(en => en.LocalizationClassUuid)
                 .HasColumnAnnotation(
                     "Index",
-                    new IndexAnnotation(new IndexAttribute("uq_localisation_class_translation_key") { IsUnique = true, Order = 1 }));
+                    new IndexAnnotation(new IndexAttribute("uq_localization_class_translation_key") { IsUnique = true, Order = 1 }));
             Property(en => en.Key)
                 .HasColumnAnnotation(
                     "Index",
-                    new IndexAnnotation(new IndexAttribute("uq_localisation_class_translation_key") { IsUnique = true, Order = 2 }));
+                    new IndexAnnotation(new IndexAttribute("uq_localization_class_translation_key") { IsUnique = true, Order = 2 }));
         }
         
     }
@@ -57,19 +57,19 @@ namespace MapHive.Core.DAL.TypeConfiguration
     {
         public void Configure(EntityTypeBuilder<TranslationKey> builder)
         {
-            builder.ApplyIBaseConfiguration(nameof(TranslationKey), "translation_keys", "mh_localisation");
+            builder.ApplyIBaseConfiguration(nameof(TranslationKey), "translation_keys", "mh_localization");
 
-            builder.Property(en => en.LocalizationClassUuid).HasColumnName("localisation_class_uuid");
+            builder.Property(en => en.LocalizationClassUuid).HasColumnName("localization_class_uuid");
             builder.Property(en => en.Key).HasColumnName("key");
 
-            //Stuff below would be true if the class derived from ILocalisationConfiguration; this does not seem to work though...
+            //Stuff below would be true if the class derived from ILocalizationConfiguration; this does not seem to work though...
             //and need to set the mapping explicitly. Looks like EF is not always happy with the interfaces.
-            //Note: Translations dobe via ILocalisationConfiguration
+            //Note: Translations dobe via ILocalizationConfiguration
             builder.Property(p => p.Translations.Serialized).HasColumnName("translations");
 
 
             builder.HasIndex(t => new { t.LocalizationClassUuid, t.Key}) //this should create a unique composite field idx!
-                .HasName($"uq_localisation_class_translation_key")
+                .HasName($"uq_localization_class_translation_key")
                 .IsUnique();
         }
     }

@@ -20,11 +20,11 @@ namespace MapHive.Core.DAL.TypeConfiguration
 #if NETFULL
     public class LangConfiguration : EntityTypeConfiguration<Lang> 
         //Note:
-        //Deriving from ILocalisationConfiguration<DataModel.AppLocalisation> does not work. EF needs a concrete type nd throws otherwise
+        //Deriving from ILocalizationConfiguration<DataModel.AppLocalization> does not work. EF needs a concrete type nd throws otherwise
     {
         public LangConfiguration()
         {
-            ToTable("langs", "mh_localisation");
+            ToTable("langs", "mh_localization");
             this.ApplyIBaseConfiguration(nameof(Lang));
 
             Property(en => en.LangCode).HasColumnName("lang_code");
@@ -41,7 +41,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
     {
         public void Configure(EntityTypeBuilder<Lang> builder)
         {
-            builder.ApplyIBaseConfiguration(nameof(Lang), "langs", "mh_localisation");
+            builder.ApplyIBaseConfiguration(nameof(Lang), "langs", "mh_localization");
 
             builder.Property(en => en.LangCode).HasColumnName("lang_code");
             builder.Property(en => en.Name).HasColumnName("name");
