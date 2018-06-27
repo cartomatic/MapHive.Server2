@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MapHive.Core.DAL;
 #if NETFULL
 using System.Data.Entity;
 #endif
@@ -14,6 +14,42 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel
 {
+    public static partial class OrganizationCrudExtensions
+    {
+        /// <summary>
+        /// Creates and organisation account, register a user as an owner and registers the specified apps to be linked to it too
+        /// </summary>
+        /// <param name="org"></param>
+        /// <param name="dbCtx"></param>
+        /// <param name="owner"></param>
+        /// <param name="appsToLink"></param>
+        /// <returns></returns>
+        public static async Task<Organization> Create(this Organization org, DbContext dbCtx, MapHiveUser owner, IEnumerable<string> appsToLink)
+        {
+            //first create the org
+            await org.CreateAsync(dbCtx);
+
+            //take care of assigning the owner role to a user
+            await org.AddOwner(dbCtx, owner);
+
+            //finaly grab the apps that should be registered for the org and link them
+            var mhDb = (MapHiveDbContext)dbCtx;
+
+            var apps = await mhDb.Applications.Where(app => appsToLink.Contains(app.ShortName))
+                .OrderBy(app => app.ShortName)
+                .ToListAsync();
+
+            foreach (var app in apps)
+            {
+                org.AddLink(app);
+            }
+
+            await org.UpdateAsync(dbCtx, org.Uuid);
+
+            return org;
+        }
+    }
+
     public partial class Organization
     {
         protected internal override async Task<T> CreateAsync<T>(DbContext dbCtx)
@@ -32,6 +68,21 @@ namespace MapHive.Core.DataModel
 
             //and update the org
             await org.UpdateAsync(dbCtx);
+
+            //NOTE:
+            //org db creation now moved to a separate procedure. This way it is created explicitly when needed
+            //this way each api can create org dbs totally independently from maphive meta db, server, db server, etc.
+
+            ////once org is created, create its database
+            //var orgDb = OrganizationDatabase.CreateInstanceWithDefaultCredentials();
+            //orgDb.OrganizationId = org.Uuid;
+            //orgDb.DbName = $"org_{org.Uuid.ToString().Replace("-", "")}";
+
+            //await orgDb.Create(dbCtx);
+
+
+            ////create the physical db
+            //orgDb.CreateOrUpdateDatabase();
 
             return (T)(Base)org;
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MapHive.Core.DataModel
 {
-    public partial class Application
+    public partial class Application : ILicenseOptions, INamed
     {
         /// <summary>
         /// Short name - used in the url part to indicate an active app (in host mode)
@@ -76,6 +76,12 @@ namespace MapHive.Core.DataModel
         public Guid? ProviderId { get; set; }
 
 
+        /// <summary>
+        /// Application's license options with default values
+        /// </summary>
+        public LicenseOptions LicenseOptions { get; set; }
+
+
         //TODO
         //comments
         //tags
@@ -88,7 +94,7 @@ namespace MapHive.Core.DataModel
         //payment periods - free, per use, day, x days, week, month, year
         //starts / expires dates, many price options
         //trial periods - same as payent period
-        
+
         //payments should be logged independently per organization(user), so it is possible to review what a user have paid for.
 
         //there should be an option to grant access to app / apps based on some sort of a subscription. maybe there should be some sort of payments API

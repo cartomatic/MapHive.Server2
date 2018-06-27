@@ -51,7 +51,7 @@ namespace MapHive.Core.DataModel
         /// <param name="start"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public async Task<Tuple<IEnumerable<TChild>, int>> GetOrganizationAssets<TChild>(DbContext dbCtx, string sort = null, string filter = null,
+        public async Task<Tuple<IEnumerable<TChild>, int>> GetOrganizationAssetsAsync<TChild>(DbContext dbCtx, string sort = null, string filter = null,
             int start = 0,
             int limit = 25)
             where TChild : Base
@@ -92,7 +92,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public async Task<TChild> GetOrganizationAsset<TChild>(DbContext dbCtx, Guid uuid)
+        public async Task<TChild> GetOrganizationAssetAsync<TChild>(DbContext dbCtx, Guid uuid)
             where TChild : Base
         {
             var orgObjIds = await GetOrganizationObjectIdsAsync<TChild>(dbCtx);
@@ -110,7 +110,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="child"></param>
         /// <returns></returns>
-        public async Task<bool> IsOrganizationAsset<TChild>(DbContext dbCtx, TChild child)
+        public async Task<bool> IsOrganizationAssetAsync<TChild>(DbContext dbCtx, TChild child)
             where TChild : Base
         {
             return (await this.GetChildLinkAsync(dbCtx, child)) != null;
@@ -122,7 +122,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="childId"></param>
         /// <returns></returns>
-        public async Task<bool> IsOrganizationAsset(DbContext dbCtx, Guid childId)
+        public async Task<bool> IsOrganizationAssetAsync(DbContext dbCtx, Guid childId)
         {
             return (await this.GetChildLinkAsync(dbCtx, childId)) != null;
         }

@@ -79,5 +79,59 @@ namespace MapHive.Core.DataModel
         /// </summary>
         public SerializableDictionaryOfString BillingExtraInfo { get; set; }
 
+
+        /// <summary>
+        /// Object contains properties and methods (connect, create) for organization database
+        /// </summary>
+        public virtual List<OrganizationDatabase> Databases { get; set; }
+
+        /// <summary>
+        /// dbs in an encrypted form, so the data can be transferred safely over the internet
+        /// </summary>
+        public string EncryptedDatabases { get; set; }
+
+        /// <summary>
+        /// Applications assigned to organization
+        /// </summary>
+        /// <remarks>
+        /// This property is used as a placeholder for data and for linked data retrieval; it will not always be populated so do not rely on its existence
+        /// </remarks>
+        public virtual List<Application> Applications { get; set; }
+
+        /// <summary>
+        /// Users assigned to organization
+        /// </summary>
+        /// <remarks>
+        /// This property is used as a placeholder for data and for linked data retrieval; it will not always be populated so do not rely on its existence
+        /// </remarks>
+        public virtual List<MapHiveUser> Users { get; set; }
+
+        /// <summary>
+        /// Roles assigned to organization
+        /// </summary>
+        /// <remarks>
+        /// This property is used as a placeholder for data and for linked data retrieval; it will not always be populated so do not rely on its existence
+        /// </remarks>
+        public virtual List<Role> Roles { get; set; }
+
+
+        /// <summary>
+        /// Owners of an organisation; see Organisation GetOwnersAsync for details
+        /// </summary>
+        /// <remarks>
+        /// This property is used as a placeholder for data and for linked data retrieval; it will not always be populated so do not rely on its existence
+        /// </remarks>
+        public virtual List<MapHiveUser> Owners { get; set; }
+
+        /// <summary>
+        /// Admins of an organisation; see Organisation GetAdminsAsync for details
+        /// </summary>
+        /// <remarks>
+        /// This property is used as a placeholder for data and for linked data retrieval; it will not always be populated so do not rely on its existence
+        /// </remarks>
+        public virtual List<MapHiveUser> Admins { get; set; }
+
+
+        public OrganizationLicenseOptions LicenseOptions { get; set; }
     }
 }
