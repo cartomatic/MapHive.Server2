@@ -15,17 +15,23 @@ using Microsoft.EntityFrameworkCore;
 namespace MapHive.Core.DAL
 {
     /// <summary>
-    /// Context used for empty db creation
+    /// Context used for org db creation
     /// </summary>
-    public class EmptyDbContext : BaseDbContext
+    public class OrganizationDbContext : BaseDbContext
     {
-        public EmptyDbContext() : base()
+        public OrganizationDbContext() : base()
         {
         }
 
-        public EmptyDbContext(DbConnection dbConnection, bool contextOwnsConnection)
+        public OrganizationDbContext(DbConnection dbConnection, bool contextOwnsConnection)
             : base(dbConnection, contextOwnsConnection)
         {
+#if NETFULL
+            Database.SetInitializer<OrganizationDbContext>(null);
+#endif
+#if NETSTANDARD
+            Database.EnsureCreated();
+#endif
         }
     }
 }

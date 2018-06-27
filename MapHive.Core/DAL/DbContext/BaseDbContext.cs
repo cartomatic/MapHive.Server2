@@ -21,11 +21,9 @@ namespace MapHive.Core.DAL
     /// <summary>
     /// Customised DbContext that should be used for the IBase models. Takes care of automated creator / editor nad create / modify dates information application
     /// </summary>
-    public class BaseDbContext : DbContext
+    public abstract class BaseDbContext : DbContext
     {
-
-
-        public BaseDbContext()
+        protected BaseDbContext()
             //Note:
             //need a paramless constructor that passes a non empty conn string or conn string name to DbContext
             //Obviously using such a db context will make it throw, so this is not a constructor one would use.
@@ -35,13 +33,11 @@ namespace MapHive.Core.DAL
         }
 
 #if NETFULL
-        public BaseDbContext(string connStringName) : base(connStringName)
+        protected BaseDbContext(string connStringName) : base(connStringName)
         {
-            Database.SetInitializer<EmptyDbContext>(null);
         }
 
-        public BaseDbContext(DbConnection conn, bool contextOwnsConnection) : base(conn, contextOwnsConnection) {
-            Database.SetInitializer<EmptyDbContext>(null);
+        protected BaseDbContext(DbConnection conn, bool contextOwnsConnection) : base(conn, contextOwnsConnection) {
         }
 #endif
 
@@ -49,16 +45,14 @@ namespace MapHive.Core.DAL
 
 #if NETSTANDARD
 
-        public BaseDbContext(string connStringName)
-            : this(GetDbContextOptions(connStringName: connStringName))
+        protected BaseDbContext(string connStringName)
+            : base(GetDbContextOptions(connStringName: connStringName))
         {
-            Database.EnsureCreated();
         }
 
-        public BaseDbContext(DbConnection conn, bool contextOwnsConnection) :
-            this(GetDbContextOptions(conn: conn, contextOwnsConnection: contextOwnsConnection))
+        protected BaseDbContext(DbConnection conn, bool contextOwnsConnection) :
+            base(GetDbContextOptions(conn: conn, contextOwnsConnection: contextOwnsConnection))
         {
-            Database.EnsureCreated();
         }
 
         static DbContextOptions<DbContext> GetDbContextOptions(string connStringName = null, bool contextOwnsConnection = true, DbConnection conn = null)
@@ -73,13 +67,6 @@ namespace MapHive.Core.DAL
             //optionsBuilder.UseNpgsql(Configuration.GetConnectionString("ElasticSearchLiveUpdate"));
 
             return optionsBuilder.Options;
-        }
-
-        
-
-        public BaseDbContext(DbContextOptions<DbContext> options) : base(options)
-        {
-            
         }
 
 #endif

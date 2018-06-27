@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net452;net462</TargetFrameworks>
-    <Version>1.0.0-dev0028</Version>
+    <Version>1.0.0-dev0054</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
 aimed at working with pgsql initially</Description>
@@ -52,6 +52,16 @@ aimed at working with pgsql initially</Description>
 
     <PackageReference Include="Microsoft.Build.Framework" Version="15.7.179" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.7.179" />
+
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions">
+      <Version>2.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json">
+      <Version>2.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="system.configuration.configurationmanager">
+      <Version>4.4.1</Version>
+    </PackageReference>
   </ItemGroup>
 
   <!--NET 4.5.2 refs, compilation flags & build opts-->
@@ -62,6 +72,10 @@ aimed at working with pgsql initially</Description>
     <PackageReference Include="EntityFramework" Version="6.2.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.5" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.5" />
+
+    <Reference Include="System.Configuration">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Configuration.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <!--NET 4.6.2 refs, compilation flags & build opts-->
@@ -80,6 +94,10 @@ aimed at working with pgsql initially</Description>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational">
       <Version>2.1.1</Version>
     </PackageReference>
+
+    <Reference Include="System.Configuration">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Configuration.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

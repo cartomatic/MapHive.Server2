@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MapHive.Core.DataModel.Validation;
 
-namespace MapHive.Core.DAL.Migrations.Ef.MapHiveMetaConfiguration
+namespace MapHive.Core.DAL.Migrations.Ef.OrganizationDbCxtMigrations
 {
 #if NETFULL
     using System;
@@ -10,20 +10,19 @@ namespace MapHive.Core.DAL.Migrations.Ef.MapHiveMetaConfiguration
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    public sealed class Configuration : DbMigrationsConfiguration<MapHiveDbContext>
+    public sealed class Configuration : DbMigrationsConfiguration<OrganizationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "MapHive.Core.DAL.DbContext.MapHiveDbContext";
-            MigrationsDirectory = @"DAL\Migrations\Ef\MapHiveMetaConfiguration";
+            ContextKey = "MapHive.Core.DAL.OrganizationDbContext";
+            MigrationsDirectory = @"DAL\Migrations\Ef\OrganizationDbCxtMigrations";
         }
 
-        protected override void Seed(MapHiveDbContext context)
+        protected override void Seed(OrganizationDbContext context)
         {
             Cartomatic.Utils.Identity.ImpersonateGhostUser();
 
-            
         }
     }
 #endif

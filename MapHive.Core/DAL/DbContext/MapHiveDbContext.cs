@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DAL
 {
-    public class MapHiveDbContext : BaseDbContext, ILinksDbContext, IMapHiveAppsDbContext, ILocalizedDbContext, IMapHiveUsersDbContext<MapHiveUser>
+    public class MapHiveDbContext : ApplicationDbContext, ILinksDbContext, IMapHiveAppsDbContext, ILocalizedDbContext, IMapHiveUsersDbContext<MapHiveUser>
     {
         public MapHiveDbContext()
             : this("MapHiveMeta") //use a default conn str name; useful when passing ctx as a generic param that is then instantiated 
@@ -33,7 +33,7 @@ namespace MapHive.Core.DAL
             : base (conn, contextOwnsConnection)
         {
 #if NETFULL
-            Database.SetInitializer<EmptyDbContext>(null);
+            Database.SetInitializer<MapHiveDbContext>(null);
 #endif
 #if NETSTANDARD
             Database.EnsureCreated();
@@ -45,14 +45,12 @@ namespace MapHive.Core.DAL
         public DbSet<MapHiveUser> Users { get; set; }
 
         public DbSet<Organization> Organizations { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        
         public DbSet<Team> Teams { get; set; }
 
         //tokens
         public DbSet<Token> Tokens { get; set; }
 
-        //ILinksDbContext
-        public DbSet<Link> Links { get; set; }
 
         //ILocalizedDbContext
         public DbSet<LocalizationClass> LocalizationClasses { get; set; }
@@ -71,14 +69,10 @@ namespace MapHive.Core.DAL
             modelBuilder.Configurations.Add(new ApplicationConfiguration());
             modelBuilder.Configurations.Add(new MapHiveUserConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
-            modelBuilder.Configurations.Add(new RoleConfiguration());
             modelBuilder.Configurations.Add(new TeamConfiguration());
 
             //tokens
             modelBuilder.Configurations.Add(new TokenConfiguration());
-
-            //links
-            modelBuilder.Configurations.Add(new LinkConfiguration());
 
             //Ilocalised type configs
             modelBuilder.Configurations.Add(new LocalizationClassConfiguration());
@@ -98,14 +92,10 @@ namespace MapHive.Core.DAL
             modelBuilder.ApplyConfiguration(new ApplicationConfiguration());
             modelBuilder.ApplyConfiguration(new MapHiveUserConfiguration());
             modelBuilder.ApplyConfiguration(new OrganizationConfiguration());
-            modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new TeamConfiguration());
 
             //token
             modelBuilder.ApplyConfiguration(new TokenConfiguration());
-
-            //links
-            modelBuilder.ApplyConfiguration(new LinkConfiguration());
 
             //Ilocalised type configs
             modelBuilder.ApplyConfiguration(new LocalizationClassConfiguration());

@@ -35,7 +35,16 @@ namespace MapHive.Core.DAL
         protected ApplicationDbContext(DbConnection dbConnection, bool contextOwnsConnection)
             : base(dbConnection, contextOwnsConnection)
         {
+#if NETFULL
+            Database.SetInitializer<ApplicationDbContext>(null);
+#endif
+#if NETSTANDARD
+            Database.EnsureCreated();
+#endif
         }
+
+
+
 
         //so we can seed the object types and the db uuids become less cryptic
         public DbSet<ObjectType> ObjectTypes { get; set; }
@@ -47,6 +56,7 @@ namespace MapHive.Core.DAL
         public DbSet<Role> Roles { get; set; }
 
         //public DbSet<Privilege> Privileges { get; set; }
+
 
 #if NETFULL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -71,6 +81,7 @@ namespace MapHive.Core.DAL
             modelBuilder.ApplyConfiguration(new ObjectTypeConfiguration());
             modelBuilder.ApplyConfiguration(new LinkConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+
             //modelBuilder.ApplyConfiguration(new PrivilegeConfiguration());
         }
 #endif
