@@ -17,7 +17,7 @@ namespace MapHive.Core.DataModel
         public string Slug { get; set; }
 
         /// <summary>
-        /// Organisation display name
+        /// Organization display name
         /// </summary>
         public string DisplayName { get; set; }
         

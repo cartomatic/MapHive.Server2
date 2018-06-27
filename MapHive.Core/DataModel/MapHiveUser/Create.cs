@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 namespace MapHive.Core.DataModel
 {
     /// <summary>
-    /// creates a maphive user and his organisation if required (org is created by default)
+    /// creates a maphive user and his organization if required (org is created by default)
     /// </summary>
     public partial class MapHiveUser
     {

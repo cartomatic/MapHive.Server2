@@ -17,7 +17,7 @@ namespace MapHive.Core.DataModel
     public partial class MapHiveUser
     {
         /// <summary>
-        /// destroys a maphive user object and the user's organisation if any
+        /// destroys a maphive user object and the user's organization if any
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TAccount"></typeparam>

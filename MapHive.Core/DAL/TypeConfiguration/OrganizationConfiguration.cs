@@ -20,9 +20,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace MapHive.Core.DAL.TypeConfiguration
 {
 #if NETFULL
-    public class OrganisationConfiguration : EntityTypeConfiguration<Organization>
+    public class OrganizationConfiguration : EntityTypeConfiguration<Organization>
     {
-        public OrganisationConfiguration()
+        public OrganizationConfiguration()
         {
             ToTable("organizations", "mh_meta");
             this.ApplyIBaseConfiguration(nameof(Organization));
@@ -49,7 +49,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
 #endif
 
 #if NETSTANDARD
-    public class OrganisationConfiguration : IEntityTypeConfiguration<Organization>
+    public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
     {
         public void Configure(EntityTypeBuilder<Organization> builder)
         {

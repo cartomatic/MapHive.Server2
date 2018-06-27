@@ -16,7 +16,7 @@ namespace MapHive.Core.DataModel
     
     public partial class Organization
     {
-        public enum OrganisationRole
+        public enum OrganizationRole
         {
             Owner,
             Admin,
@@ -61,19 +61,19 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public async Task<Role> CreateRoleAsync(DbContext dbCtx, OrganisationRole role)
+        public async Task<Role> CreateRoleAsync(DbContext dbCtx, OrganizationRole role)
         {
             var roleName = string.Empty;
             var roleIdentifier = string.Empty;
 
             switch (role)
             {
-                case OrganisationRole.Owner:
+                case OrganizationRole.Owner:
                     roleIdentifier = OrgRoleIdentifierOwner;
                     roleName = OrgRoleNameOwner;
                     break;
 
-                    case OrganisationRole.Admin:
+                    case OrganizationRole.Admin:
                     roleIdentifier = OrgRoleIdentifierAdmin;
                     roleName = OrgRoleNameAdmin;
                     break;
@@ -88,7 +88,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Creates a role object for an organisation and links to an org; does not save org changes!
+        /// Creates a role object for an organization and links to an org; does not save org changes!
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="roleName"></param>
@@ -99,7 +99,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Creates a role object for an organisation and links to an org; does not save org changes!
+        /// Creates a role object for an organization and links to an org; does not save org changes!
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="roleIdentifier"></param>
@@ -119,7 +119,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Gets organisation's owner role
+        /// Gets organization's owner role
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
@@ -129,7 +129,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Gets organisation's admin role
+        /// Gets organization's admin role
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
@@ -139,7 +139,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Gets organisation's member role
+        /// Gets organization's member role
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
@@ -149,22 +149,22 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Gets an organisation role
+        /// Gets an organization role
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public async Task<Role> GetOrgRoleAsync(DbContext dbCtx, OrganisationRole role)
+        public async Task<Role> GetOrgRoleAsync(DbContext dbCtx, OrganizationRole role)
         {
             switch (role)
             {
-                case OrganisationRole.Admin:
+                case OrganizationRole.Admin:
                     return await GetOrgAdminRoleAsync(dbCtx);
 
-                case OrganisationRole.Owner:
+                case OrganizationRole.Owner:
                     return await GetOrgOwnerRoleAsync(dbCtx);
 
-                case OrganisationRole.Member:
+                case OrganizationRole.Member:
                 default:
                     return await GetOrgMemberRoleAsync(dbCtx);
             }
@@ -192,7 +192,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Checks if user is an organisation owner (user has the org owner role assigned)
+        /// Checks if user is an organization owner (user has the org owner role assigned)
         /// </summary>
         /// <param name="dbctx"></param>
         /// <param name="user"></param>
@@ -203,7 +203,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Checks if a user is an organisation admin (user has the org admin role assigned)
+        /// Checks if a user is an organization admin (user has the org admin role assigned)
         /// </summary>
         /// <param name="dbctx"></param>
         /// <param name="user"></param>
@@ -218,14 +218,14 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
-        public OrganisationRole? GetOrgRoleFromRole(Role role)
+        public OrganizationRole? GetOrgRoleFromRole(Role role)
         {
             if (role.Identifier == OrgRoleIdentifierMember)
-                return OrganisationRole.Member;
+                return OrganizationRole.Member;
             if (role.Identifier == OrgRoleIdentifierAdmin)
-                return OrganisationRole.Admin;
+                return OrganizationRole.Admin;
             if (role.Identifier == OrgRoleIdentifierOwner)
-                return OrganisationRole.Owner;
+                return OrganizationRole.Owner;
             return null;
         }
 
@@ -234,13 +234,13 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public async Task<Dictionary<OrganisationRole, IEnumerable<Link>>> GetOrgRoles2UsersMap(DbContext dbCtx)
+        public async Task<Dictionary<OrganizationRole, IEnumerable<Link>>> GetOrgRoles2UsersMap(DbContext dbCtx)
         {
-            //need to obtain a user role within an organisation!
+            //need to obtain a user role within an organization!
             //so need the orgroles first, and then user ids linked to them
             var roles = await GetOrgRolesAsync(dbCtx);
 
-            var roles2users = new Dictionary<OrganisationRole, IEnumerable<Link>>();
+            var roles2users = new Dictionary<OrganizationRole, IEnumerable<Link>>();
 
             foreach (var role in roles)
             {
@@ -256,21 +256,21 @@ namespace MapHive.Core.DataModel
 
 
         /// <summary>
-        /// Works out a user role within an organisation
+        /// Works out a user role within an organization
         /// </summary>
         /// <param name="roles2users"></param>
         /// <returns></returns>
-        public OrganisationRole? GetUserOrgRole(Dictionary<OrganisationRole, IEnumerable<Link>> roles2users, Guid userId)
+        public OrganizationRole? GetUserOrgRole(Dictionary<OrganizationRole, IEnumerable<Link>> roles2users, Guid userId)
         {
             //Note: roles are linked to users not the other way round; it is a user that has a role
 
             //check owner firs
-            if(roles2users[OrganisationRole.Owner].Any(l => l.ParentUuid == userId))
-                return OrganisationRole.Owner;
-            if (roles2users[OrganisationRole.Admin].Any(l => l.ParentUuid == userId))
-                return OrganisationRole.Admin;
-            if (roles2users[OrganisationRole.Member].Any(l => l.ParentUuid == userId))
-                return OrganisationRole.Member;
+            if(roles2users[OrganizationRole.Owner].Any(l => l.ParentUuid == userId))
+                return OrganizationRole.Owner;
+            if (roles2users[OrganizationRole.Admin].Any(l => l.ParentUuid == userId))
+                return OrganizationRole.Admin;
+            if (roles2users[OrganizationRole.Member].Any(l => l.ParentUuid == userId))
+                return OrganizationRole.Member;
 
             return null;
         }

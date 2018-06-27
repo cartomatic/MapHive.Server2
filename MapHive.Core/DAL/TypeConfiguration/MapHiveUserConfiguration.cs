@@ -42,9 +42,9 @@ namespace MapHive.Core.DAL.TypeConfiguration
             Property(p => p.IsOrgUser).HasColumnName("is_org_user");
             Property(p => p.UserOrgId).HasColumnName("user_org_id");
             Property(p => p.VisibleInCatalogue).HasColumnName("visible_in_catalogue");
-            Property(p => p.ParentOrganisationId).HasColumnName("parent_org_id");
+            Property(p => p.ParentOrganizationId).HasColumnName("parent_org_id");
 
-            Ignore(p => p.OrganisationRole);
+            Ignore(p => p.OrganizationRole);
 
             Property(en => en.Slug)
                 .HasColumnAnnotation(
@@ -79,9 +79,9 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(p => p.IsOrgUser).HasColumnName("is_org_user");
             builder.Property(p => p.UserOrgId).HasColumnName("user_org_id");
             builder.Property(p => p.VisibleInCatalogue).HasColumnName("visible_in_catalogue");
-            builder.Property(p => p.ParentOrganisationId).HasColumnName("parent_org_id");
+            builder.Property(p => p.ParentOrganizationId).HasColumnName("parent_org_id");
 
-            builder.Ignore(p => p.OrganisationRole);
+            builder.Ignore(p => p.OrganizationRole);
 
             builder.HasIndex(t => t.Slug)
                 .HasName($"uq_slug_{nameof(MapHiveUser).ToLower()}")

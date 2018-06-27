@@ -18,7 +18,7 @@ namespace MapHive.Core.DataModel
     public partial class MapHiveUser
     {
         /// <summary>
-        /// creates an organisation for maphhive user and sets links as expected
+        /// creates an organization for maphhive user and sets links as expected
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
@@ -27,7 +27,7 @@ namespace MapHive.Core.DataModel
         {
             if (string.IsNullOrEmpty(Slug))
             {
-                throw new Exception("Cannot create a user organisation without a valid user slug.");
+                throw new Exception("Cannot create a user organization without a valid user slug.");
             }
 
             //Note: creating user org in 2 steps so the org slug validation does not complain
@@ -54,7 +54,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// updates user organisation
+        /// updates user organization
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="org"></param>
@@ -63,7 +63,7 @@ namespace MapHive.Core.DataModel
         {
             if (string.IsNullOrEmpty(Slug))
             {
-                throw new Exception("Cannot create a user organisation without a valid user slug.");
+                throw new Exception("Cannot create a user organization without a valid user slug.");
             }
 
             org.Slug = Slug;
@@ -72,7 +72,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// gets user's organisation - the org that is a counter part of user profile
+        /// gets user's organization - the org that is a counter part of user profile
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
@@ -86,7 +86,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Gets organisations a user has an access to. If user has an own org, then it is returned at the begining
+        /// Gets organizations a user has an access to. If user has an own org, then it is returned at the begining
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="userId"></param>
@@ -104,7 +104,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Gets organisations a user has an access to. If user has an own org, then it is returned at the begining
+        /// Gets organizations a user has an access to. If user has an own org, then it is returned at the begining
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>

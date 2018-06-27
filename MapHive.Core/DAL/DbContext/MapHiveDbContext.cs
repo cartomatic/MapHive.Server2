@@ -57,7 +57,7 @@ namespace MapHive.Core.DAL
             //type configs
             modelBuilder.Configurations.Add(new ApplicationConfiguration());
             modelBuilder.Configurations.Add(new MapHiveUserConfiguration());
-            modelBuilder.Configurations.Add(new OrganisationConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationConfiguration());
             modelBuilder.Configurations.Add(new RoleConfiguration());
             modelBuilder.Configurations.Add(new TeamConfiguration());
 
@@ -80,7 +80,7 @@ namespace MapHive.Core.DAL
             //type configs
             modelBuilder.ApplyConfiguration(new ApplicationConfiguration());
             modelBuilder.ApplyConfiguration(new MapHiveUserConfiguration());
-            modelBuilder.ApplyConfiguration(new OrganisationConfiguration());
+            modelBuilder.ApplyConfiguration(new OrganizationConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new TeamConfiguration());
 

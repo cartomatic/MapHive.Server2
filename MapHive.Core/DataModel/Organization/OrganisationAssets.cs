@@ -19,25 +19,25 @@ namespace MapHive.Core.DataModel
     public partial class Organization
     {
         /// <summary>
-        /// Gets links expressing organisation objects
+        /// Gets links expressing organization objects
         /// </summary>
         /// <typeparam name="TChild"></typeparam>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Link>> GetOrganisationLinksAsync<TChild>(DbContext dbCtx)
+        public async Task<IEnumerable<Link>> GetOrganizationLinksAsync<TChild>(DbContext dbCtx)
             where TChild : Base
         {
             return await this.GetChildLinksAsync<Organization, TChild>(dbCtx);
         }
 
         /// <summary>
-        /// gets a list of organisations object ids
+        /// gets a list of organizations object ids
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Guid>> GetOrganisationObjectIdsAsync<TChild>(DbContext dbCtx)
+        public async Task<IEnumerable<Guid>> GetOrganizationObjectIdsAsync<TChild>(DbContext dbCtx)
             where TChild : Base
         {
-            return (await GetOrganisationLinksAsync<TChild>(dbCtx)).Select(l => l.ChildUuid);
+            return (await GetOrganizationLinksAsync<TChild>(dbCtx)).Select(l => l.ChildUuid);
         }
 
 
@@ -51,13 +51,13 @@ namespace MapHive.Core.DataModel
         /// <param name="start"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public async Task<Tuple<IEnumerable<TChild>, int>> GetOrganisationAssets<TChild>(DbContext dbCtx, string sort = null, string filter = null,
+        public async Task<Tuple<IEnumerable<TChild>, int>> GetOrganizationAssets<TChild>(DbContext dbCtx, string sort = null, string filter = null,
             int start = 0,
             int limit = 25)
             where TChild : Base
         {
-            //first need to get objects for an organisation, and then add an extra filter with object guids
-            var orgObjIds = await GetOrganisationObjectIdsAsync<TChild>(dbCtx);
+            //first need to get objects for an organization, and then add an extra filter with object guids
+            var orgObjIds = await GetOrganizationObjectIdsAsync<TChild>(dbCtx);
 
             //do make sure there is something to read!
             if (!orgObjIds.Any())
@@ -86,16 +86,16 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Reads an organisation asset. Ensures the asset is actually linked to organisation before reading it
+        /// Reads an organization asset. Ensures the asset is actually linked to organization before reading it
         /// </summary>
         /// <typeparam name="TChild"></typeparam>
         /// <param name="dbCtx"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public async Task<TChild> GetOrganisationAsset<TChild>(DbContext dbCtx, Guid uuid)
+        public async Task<TChild> GetOrganizationAsset<TChild>(DbContext dbCtx, Guid uuid)
             where TChild : Base
         {
-            var orgObjIds = await GetOrganisationObjectIdsAsync<TChild>(dbCtx);
+            var orgObjIds = await GetOrganizationObjectIdsAsync<TChild>(dbCtx);
             if (!orgObjIds.Contains(uuid))
                 return null;
 
@@ -110,7 +110,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="child"></param>
         /// <returns></returns>
-        public async Task<bool> IsOrganisationAsset<TChild>(DbContext dbCtx, TChild child)
+        public async Task<bool> IsOrganizationAsset<TChild>(DbContext dbCtx, TChild child)
             where TChild : Base
         {
             return (await this.GetChildLinkAsync(dbCtx, child)) != null;
@@ -122,7 +122,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="childId"></param>
         /// <returns></returns>
-        public async Task<bool> IsOrganisationAsset(DbContext dbCtx, Guid childId)
+        public async Task<bool> IsOrganizationAsset(DbContext dbCtx, Guid childId)
         {
             return (await this.GetChildLinkAsync(dbCtx, childId)) != null;
         }

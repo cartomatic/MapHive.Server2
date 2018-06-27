@@ -49,7 +49,7 @@ namespace MapHive.Core.DataModel
 
         /// <summary>
         /// Whether or not an app is a default app;
-        /// a default app is only meaningful in the context of an organisation.
+        /// a default app is only meaningful in the context of an organization.
         /// This means a default app should be an app that provides some dashboard like functionality
         /// for a user.
         /// Only one appliation can be flagged as Default
@@ -58,7 +58,7 @@ namespace MapHive.Core.DataModel
 
 
         /// <summary>
-        /// Whether or not an app is a home app; Home app means this is an app loaded when there is no organisation context. A Home app would be like a main page - it should describe a project,
+        /// Whether or not an app is a home app; Home app means this is an app loaded when there is no organization context. A Home app would be like a main page - it should describe a project,
         /// perhaps give some videos, links and such.
         /// Only one application can be flagged as Home
         /// </summary>
@@ -89,7 +89,7 @@ namespace MapHive.Core.DataModel
         //starts / expires dates, many price options
         //trial periods - same as payent period
         
-        //payments should be logged independently per organisation(user), so it is possible to review what a user have paid for.
+        //payments should be logged independently per organization(user), so it is possible to review what a user have paid for.
 
         //there should be an option to grant access to app / apps based on some sort of a subscription. maybe there should be some sort of payments API
 

@@ -20,56 +20,56 @@ namespace MapHive.Core.DataModel
     public partial class Organization
     {
         /// <summary>
-        /// Gets a user that is associated with given organisation (org is the user's profile counterpart
+        /// Gets a user that is associated with given organization (org is the user's profile counterpart
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public async Task<MapHiveUser> GetOrganisationUserAsync(DbContext dbCtx)
+        public async Task<MapHiveUser> GetOrganizationUserAsync(DbContext dbCtx)
         {
             return await dbCtx.Set<MapHiveUser>().FirstOrDefaultAsync(u => u.UserOrgId == Uuid);
         }
 
         /// <summary>
-        /// Returns a list of organisation user identifiers
+        /// Returns a list of organization user identifiers
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Guid>> GetOrganisationUserIdsAsync(DbContext dbCtx)
+        public async Task<IEnumerable<Guid>> GetOrganizationUserIdsAsync(DbContext dbCtx)
         {
             return (await this.GetChildLinksAsync<Organization, MapHiveUser>(dbCtx)).Select(l=>l.ChildUuid);
         }
 
 
         /// <summary>
-        /// User application access credentials within an organisation
+        /// User application access credentials within an organization
         /// </summary>
         public class OrgUserAppAccessCredentials
         {
             /// <summary>
-            /// Organisation that the app access credentials are tested for
+            /// Organization that the app access credentials are tested for
             /// </summary>
             public Organization Organization { get; set; }
 
 
             /// <summary>
-            /// Application for which the access credentials are tested within an organisation
+            /// Application for which the access credentials are tested within an organization
             /// </summary>
             public Application Application { get; set; }
 
             /// <summary>
-            /// Whether or not user can use given application within an organisation
+            /// Whether or not user can use given application within an organization
             /// </summary>
             public bool CanUseApp { get; set; }
 
             /// <summary>
-            /// Whether or not user has application administration rights within an organisation
+            /// Whether or not user has application administration rights within an organization
             /// </summary>
             public bool IsAppAdmin { get; set; }
         }
 
 
         /// <summary>
-        /// Returns user application credentials within an organisation
+        /// Returns user application credentials within an organization
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="user"></param>
@@ -84,7 +84,7 @@ namespace MapHive.Core.DataModel
                 Application = app
             };
 
-            //check if organisation can access and application if not, then good bye
+            //check if organization can access and application if not, then good bye
             if (!await CanUseApp(dbCtx, app))
                 return output;
 
@@ -146,14 +146,14 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Adds a member to an organisation
+        /// Adds a member to an organization
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="user"></param>
         /// <param name="userAccountService"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public async Task AddOrganisationUser<TAccount>(DbContext dbCtx, MapHiveUser user, UserAccountService<TAccount> userAccountService, OrganisationRole role = OrganisationRole.Member)
+        public async Task AddOrganizationUser<TAccount>(DbContext dbCtx, MapHiveUser user, UserAccountService<TAccount> userAccountService, OrganizationRole role = OrganizationRole.Member)
             where TAccount : RelationalUserAccount
         {
             this.AddLink(user);
@@ -167,13 +167,13 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Changes a user role within the organisation
+        /// Changes a user role within the organization
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="user"></param>
         /// <param name="userAccountService"></param>
         /// <returns></returns>
-        public async Task ChangeOrganisationUserRole<TAccount>(DbContext dbCtx, MapHiveUser user, UserAccountService<TAccount> userAccountService)
+        public async Task ChangeOrganizationUserRole<TAccount>(DbContext dbCtx, MapHiveUser user, UserAccountService<TAccount> userAccountService)
             where TAccount : RelationalUserAccount
         {
             //this basically needs to remove all the org roles for a user and add the specified one
@@ -182,12 +182,12 @@ namespace MapHive.Core.DataModel
             var memberRole = await GetOrgMemberRoleAsync(dbCtx);
 
             var addRole = memberRole;
-            switch (user.OrganisationRole)
+            switch (user.OrganizationRole)
             {
-                case OrganisationRole.Admin:
+                case OrganizationRole.Admin:
                     addRole = adminRole;
                     break;
-                case OrganisationRole.Owner:
+                case OrganizationRole.Owner:
                     addRole = ownerRole;
                     break;
             }
@@ -196,7 +196,7 @@ namespace MapHive.Core.DataModel
             user.RemoveLink(adminRole);
             user.RemoveLink(memberRole);
 
-            if (user.OrganisationRole.HasValue)
+            if (user.OrganizationRole.HasValue)
             {
                 user.AddLink(addRole);
             }

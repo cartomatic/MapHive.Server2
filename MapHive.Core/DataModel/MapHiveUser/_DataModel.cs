@@ -57,31 +57,31 @@ namespace MapHive.Core.DataModel
         public Guid? ProfilePictureId { get; set; }
 
         /// <summary>
-        /// Whether or not user is an organisation user. Being an organisation user means user does not have its own organisation to work under and instead can only work in the context of other orgs he is linked to; this will usually be only one organisation, but technically a user can be linked to as many orgs as required
+        /// Whether or not user is an organization user. Being an organization user means user does not have its own organization to work under and instead can only work in the context of other orgs he is linked to; this will usually be only one organization, but technically a user can be linked to as many orgs as required
         /// </summary>
         public bool IsOrgUser { get; set; }
 
         /// <summary>
-        /// If a user is an organisation user, this property contains an identifier of an organisation he was created under.
+        /// If a user is an organization user, this property contains an identifier of an organization he was created under.
         /// </summary>
-        public Guid? ParentOrganisationId { get; set; }
+        public Guid? ParentOrganizationId { get; set; }
 
         /// <summary>
-        /// Whether or not a user should be visible in the users catalogue; By default, when a user is an OrgUser ('belongs' to an organisation) he is not visible in the catalogue
+        /// Whether or not a user should be visible in the users catalogue; By default, when a user is an OrgUser ('belongs' to an organization) he is not visible in the catalogue
         /// setting this property to true will cause the user will become findable in the catalogue.
         /// </summary>
         public bool VisibleInCatalogue { get; set; }
 
 
         /// <summary>
-        /// identifier of an organisation that is connected to user profile
+        /// identifier of an organization that is connected to user profile
         /// </summary>
         public Guid? UserOrgId { get; set; }
 
 
         /// <summary>
-        /// a role within an organisation. this property is not db mapped as its content depends on the orgsanisation context
+        /// a role within an organization. this property is not db mapped as its content depends on the orgsanisation context
         /// </summary>
-        public Organization.OrganisationRole? OrganisationRole { get; set; }
+        public Organization.OrganizationRole? OrganizationRole { get; set; }
     }
 }

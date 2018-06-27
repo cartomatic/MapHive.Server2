@@ -57,7 +57,7 @@ namespace MapHive.Core.DataModel.Validation
         public static IValidationError OrgOwnerDestroyError { get; } = new ValidationError
         {
             Code = "org_owner_destroy",
-            Message = "This user is an organisation owner and cannot be destroyed this way. You need to perform the op by destroying the organisation."
+            Message = "This user is an organization owner and cannot be destroyed this way. You need to perform the op by destroying the organization."
         };
     }
 }

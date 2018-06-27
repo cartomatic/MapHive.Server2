@@ -35,7 +35,7 @@ namespace MapHive.Core.DataModel
             if (app == null)
                 return false;
 
-            //if an ap is common then every organisation can access it
+            //if an ap is common then every organization can access it
             if (app.IsCommon)
                 return true;
 
@@ -44,7 +44,7 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Determines whether or not an organisation has an access to an application
+        /// Determines whether or not an organization has an access to an application
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="app"></param>
@@ -56,7 +56,7 @@ namespace MapHive.Core.DataModel
 
 
         /// <summary>
-        /// Reads applications that are visible to an organisation and can be linked to it - returns apps that require auth and apps that are non-public (specific to that very org)
+        /// Reads applications that are visible to an organization and can be linked to it - returns apps that require auth and apps that are non-public (specific to that very org)
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="sort"></param>
@@ -64,12 +64,12 @@ namespace MapHive.Core.DataModel
         /// <param name="start"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public async Task<Tuple<IEnumerable<Application>, int>> GetOrganisationLinkableApps(DbContext dbCtx, string sort = null, string filter = null,
+        public async Task<Tuple<IEnumerable<Application>, int>> GetOrganizationLinkableApps(DbContext dbCtx, string sort = null, string filter = null,
             int start = 0,
             int limit = 25)
         {
-            //first need to get objects for an organisation, and then add an extra filter with object guids
-            var orgObjIds = await GetOrganisationObjectIdsAsync<Application>(dbCtx);
+            //first need to get objects for an organization, and then add an extra filter with object guids
+            var orgObjIds = await GetOrganizationObjectIdsAsync<Application>(dbCtx);
 
             //do make sure there is something to read!
             var filters = filter.ExtJsJsonFiltersToReadFilters();
