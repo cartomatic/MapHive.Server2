@@ -17,7 +17,7 @@ namespace MapHive.Core.DAL
     /// <summary>
     /// Interface for a DbContext that provides access to localization data
     /// </summary>
-    public interface ILocalized
+    public interface ILocalizedDbContext
     {
         DbSet<LocalizationClass> LocalizationClasses { get; set; }
         DbSet<TranslationKey> TranslationKeys { get; set; }

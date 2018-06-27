@@ -23,10 +23,13 @@ namespace MapHive.Core.DataModel
         /// <typeparam name="TDbCtx"></typeparam>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public static async Task<IEnumerable<Lang>> GetSupportedLangsAsync<TDbCtx>(TDbCtx dbCtx)
-            where TDbCtx : DbContext, ILocalized
+        public static async Task<IEnumerable<Lang>> GetSupportedLangsAsync(DbContext dbCtx)
         {
-            return (SupportedLangs ?? (SupportedLangs = await dbCtx.Langs.ToListAsync()));
+            if (!(dbCtx is ILocalizedDbContext iLocalizedDbCtx))
+                return SupportedLangs;
+
+
+            return (SupportedLangs ?? (SupportedLangs = await iLocalizedDbCtx.Langs.ToListAsync()));
         }
     }
 }

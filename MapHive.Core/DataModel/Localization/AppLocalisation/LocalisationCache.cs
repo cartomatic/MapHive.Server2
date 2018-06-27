@@ -113,7 +113,7 @@ namespace MapHive.Core.DataModel
                 return LocalizationClassClassNamesCache[localizationClassIdentifier];
             }
 
-            var localisedDbCtx = (ILocalized)dbCtx;
+            var localisedDbCtx = (ILocalizedDbContext)dbCtx;
 
             var className =
                 (await localisedDbCtx.LocalizationClasses.FirstOrDefaultAsync(lc => lc.Uuid == localizationClassIdentifier))?
@@ -141,7 +141,7 @@ namespace MapHive.Core.DataModel
                 return LocalizationClassAppNamesCache[localizationClassIdentifier];
             }
 
-            var localisedDbCtx = (ILocalized)dbCtx;
+            var localisedDbCtx = (ILocalizedDbContext)dbCtx;
 
             var appName =
                 (await localisedDbCtx.LocalizationClasses.FirstOrDefaultAsync(lc => lc.Uuid == localizationClassIdentifier))?
@@ -170,7 +170,7 @@ namespace MapHive.Core.DataModel
                 return LocalizationClassFullClassNamesCache[localizationClassIdentifier];
             }
 
-            var localizedDbCtx = (ILocalized)dbCtx;
+            var localizedDbCtx = (ILocalizedDbContext)dbCtx;
             var localizationClass = await localizedDbCtx.LocalizationClasses.FirstOrDefaultAsync(
                 lc => lc.Uuid == localizationClassIdentifier);
             var fullClassName = $"{localizationClass?.ApplicationName}.{localizationClass?.ClassName}";

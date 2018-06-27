@@ -33,7 +33,7 @@ namespace MapHive.Core.DataModel
             InvalidateAppLocalizationsCache(await GetLocalizationClassAppNameAsync(dbCtx, uuid), await GetLocalizationClassClassNameAsync(dbCtx, uuid));
 
             //need to destroy all the translation keys too...
-            var localisedDbCtx = (ILocalized) dbCtx;
+            var localisedDbCtx = (ILocalizedDbContext) dbCtx;
             localisedDbCtx.TranslationKeys.RemoveRange(
                 localisedDbCtx.TranslationKeys.Where(tk => tk.LocalizationClassUuid == uuid));
 

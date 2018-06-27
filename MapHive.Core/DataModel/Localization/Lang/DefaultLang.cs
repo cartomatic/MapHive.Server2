@@ -25,26 +25,26 @@ namespace MapHive.Core.DataModel
         /// </summary>
         private static Lang DefaultLang { get; set; }
 
-        /// <summary>
-        /// Gets a default lang as configured in the db
-        /// </summary>
-        /// <typeparam name="TDbCtx"></typeparam>
-        /// <param name="dbCtx"></param>
-        /// <returns></returns>
-        public static async Task<Lang> GetDefaultLangAsync<TDbCtx>(TDbCtx dbCtx)
-            where TDbCtx : DbContext, ILocalized
-        {
-            return await GetDefaultLangAsync(dbCtx as DbContext);
-        }
+        ///// <summary>
+        ///// Gets a default lang as configured in the db
+        ///// </summary>
+        ///// <typeparam name="TDbCtx"></typeparam>
+        ///// <param name="dbCtx"></param>
+        ///// <returns></returns>
+        //public static async Task<Lang> GetDefaultLangAsync<TDbCtx>(TDbCtx dbCtx)
+        //    where TDbCtx : DbContext
+        //{
+        //    return await GetDefaultLangAsync(dbCtx as DbContext);
+        //}
 
         /// <summary>
         /// Gets a default lang
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        private static async Task<Lang> GetDefaultLangAsync(DbContext dbCtx)
+        public static async Task<Lang> GetDefaultLangAsync(DbContext dbCtx)
         {
-            var langDbCtx = dbCtx as ILocalized;
+            var langDbCtx = dbCtx as ILocalizedDbContext;
             return DefaultLang ?? (DefaultLang = await langDbCtx?.Langs.FirstOrDefaultAsync(l => l.IsDefault)) ?? (DefaultLang = await langDbCtx?.Langs.FirstOrDefaultAsync(l => l.LangCode == DefaultLangCode));
         }
 

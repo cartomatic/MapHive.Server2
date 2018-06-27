@@ -26,7 +26,7 @@ namespace MapHive.Core.DataModel
         /// <param name="appNames"></param>
         /// <returns></returns>
         public static async Task<Dictionary<string, Dictionary<string, Dictionary<string, string>>>> GetAppLocalizationsAsync<TDbCtx>(TDbCtx dbCtx, string langCode, params string[] appNames)
-            where TDbCtx : DbContext, ILocalized
+            where TDbCtx : DbContext, ILocalizedDbContext
         {
             return await GetAppLocalizationsAsync(dbCtx, new[] { langCode }, appNames);
         }
@@ -40,7 +40,7 @@ namespace MapHive.Core.DataModel
         /// <param name="appNames"></param>
         /// <returns></returns>
         public static async Task<Dictionary<string, Dictionary<string, Dictionary<string, string>>>> GetAppLocalizationsAsync<TDbCtx>(TDbCtx dbCtx, IEnumerable<string> langCodes, IEnumerable<string> appNames)
-            where TDbCtx : DbContext, ILocalized
+            where TDbCtx : DbContext, ILocalizedDbContext
         {
             var ret = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 

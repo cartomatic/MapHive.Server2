@@ -50,7 +50,7 @@ namespace MapHive.Core.DAL
         //ILinksDbContext
         public DbSet<Link> Links { get; set; }
 
-        //ILocalized
+        //ILocalizedDbContext
         //public DbSet<LocalizationClass> LocalizationClasses { get; set; }
         //public DbSet<TranslationKey> TranslationKeys { get; set; }
         //public DbSet<EmailTemplateLocalization> EmailTemplates { get; set; }

@@ -20,7 +20,7 @@ namespace MapHive.Core.DataModel
             bool? overwrite, IEnumerable<string> langsToImport)
         {
 
-            var localisedDbCtx = (ILocalized) dbCtx;
+            var localisedDbCtx = (ILocalizedDbContext) dbCtx;
             var appNames = new List<string>();
 
             foreach (var incomingLc in localizations)
