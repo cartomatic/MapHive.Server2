@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapHive.Server.Core.DataModel
+#if NETFULL
+using System.Data.Entity;
+#endif
+#if NETSTANDARD
+using Microsoft.EntityFrameworkCore;
+#endif
+
+namespace MapHive.Core.DataModel
 {
     public partial class Lang
     {
