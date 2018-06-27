@@ -50,10 +50,10 @@ namespace MapHive.Core.DAL
         //ILinksDbContext
         public DbSet<Link> Links { get; set; }
 
-        //ILocalised
-        //public DbSet<LocalisationClass> LocalisationClasses { get; set; }
+        //ILocalized
+        //public DbSet<LocalizationClass> LocalizationClasses { get; set; }
         //public DbSet<TranslationKey> TranslationKeys { get; set; }
-        //public DbSet<EmailTemplateLocalisation> EmailTemplates { get; set; }
+        //public DbSet<EmailTemplateLocalization> EmailTemplates { get; set; }
         //public DbSet<Lang> Langs { get; set; }
 
 #if NETFULL
@@ -71,8 +71,8 @@ namespace MapHive.Core.DAL
             modelBuilder.Configurations.Add(new LinkConfiguration());
 
             //Ilocalised type configs
-            //modelBuilder.Configurations.Add(new LocalisationClassConfiguration());
-            //modelBuilder.Configurations.Add(new EmailTemplateLocalisationConfiguration());
+            //modelBuilder.Configurations.Add(new LocalizationClassConfiguration());
+            //modelBuilder.Configurations.Add(new EmailTemplateLocalizationConfiguration());
             //modelBuilder.Configurations.Add(new LangConfiguration());
             //modelBuilder.Configurations.Add(new TranslationKeyConfiguration());
 
@@ -94,8 +94,8 @@ namespace MapHive.Core.DAL
             modelBuilder.ApplyConfiguration(new LinkConfiguration());
 
             //Ilocalised type configs
-            //modelBuilder.Configurations.Add(new LocalisationClassConfiguration());
-            //modelBuilder.Configurations.Add(new EmailTemplateLocalisationConfiguration());
+            //modelBuilder.Configurations.Add(new LocalizationClassConfiguration());
+            //modelBuilder.Configurations.Add(new EmailTemplateLocalizationConfiguration());
             //modelBuilder.Configurations.Add(new LangConfiguration());
             //modelBuilder.Configurations.Add(new TranslationKeyConfiguration());
         }

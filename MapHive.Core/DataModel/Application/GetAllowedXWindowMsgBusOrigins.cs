@@ -23,12 +23,17 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <returns></returns>
         public static async Task<IEnumerable<string>> GetAllowedXWindowMsgBusOriginsAsync<T>(T dbCtx)
-            where T: DbContext, IMapHiveAppsDbContext
+            where T: DbContext
         {
+            if (!(dbCtx is IMapHiveAppsDbContext iMapHiveAppsDbContext))
+            {
+                return new string[0];
+            }
+
             //get all the urls.
             //identifiers of apps requiring auth are returned always anyway, so revealing the other urls should not really cause too much trouble.
             //the apps should verify whether or not it is ok to use them in given ctx, so...
-            return GetAppUrls(await dbCtx.Applications.ToListAsync());
+            return GetAppUrls(await iMapHiveAppsDbContext.Applications.ToListAsync());
         }
 
         /// <summary>
