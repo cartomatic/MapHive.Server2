@@ -37,9 +37,12 @@ namespace MapHive.Core.DAL
 #if NETFULL
         public BaseDbContext(string connStringName) : base(connStringName)
         {
+            Database.SetInitializer<EmptyDbContext>(null);
         }
 
-        public BaseDbContext(DbConnection conn, bool contextOwnsConnection) : base(conn, contextOwnsConnection) { }
+        public BaseDbContext(DbConnection conn, bool contextOwnsConnection) : base(conn, contextOwnsConnection) {
+            Database.SetInitializer<EmptyDbContext>(null);
+        }
 #endif
 
 
@@ -49,12 +52,13 @@ namespace MapHive.Core.DAL
         public BaseDbContext(string connStringName)
             : this(GetDbContextOptions(connStringName: connStringName))
         {
-
+            Database.EnsureCreated();
         }
 
         public BaseDbContext(DbConnection conn, bool contextOwnsConnection) :
             this(GetDbContextOptions(conn: conn, contextOwnsConnection: contextOwnsConnection))
         {
+            Database.EnsureCreated();
         }
 
         static DbContextOptions<DbContext> GetDbContextOptions(string connStringName = null, bool contextOwnsConnection = true, DbConnection conn = null)

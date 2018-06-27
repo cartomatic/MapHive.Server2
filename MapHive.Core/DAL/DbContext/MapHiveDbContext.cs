@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL.TypeConfiguration;
+
 #if NETFULL
 using System.Data.Entity;
 #endif
@@ -31,6 +32,12 @@ namespace MapHive.Core.DAL
         public MapHiveDbContext(DbConnection conn, bool contextOwnsConnection) 
             : base (conn, contextOwnsConnection)
         {
+#if NETFULL
+            Database.SetInitializer<EmptyDbContext>(null);
+#endif
+#if NETSTANDARD
+            Database.EnsureCreated();
+#endif
         }
 
         public DbSet<Application> Applications { get; set; }
