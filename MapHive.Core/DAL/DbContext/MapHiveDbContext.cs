@@ -45,7 +45,8 @@ namespace MapHive.Core.DAL
         public DbSet<MapHiveUser> Users { get; set; }
 
         public DbSet<Organization> Organizations { get; set; }
-        
+        public DbSet<OrganizationDatabase> OrganizationDatabases { get; set; }
+
         public DbSet<Team> Teams { get; set; }
 
         //tokens
@@ -69,6 +70,7 @@ namespace MapHive.Core.DAL
             modelBuilder.Configurations.Add(new ApplicationConfiguration());
             modelBuilder.Configurations.Add(new MapHiveUserConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationDatabaseConfiguration());
             modelBuilder.Configurations.Add(new TeamConfiguration());
 
             //tokens
@@ -92,6 +94,7 @@ namespace MapHive.Core.DAL
             modelBuilder.ApplyConfiguration(new ApplicationConfiguration());
             modelBuilder.ApplyConfiguration(new MapHiveUserConfiguration());
             modelBuilder.ApplyConfiguration(new OrganizationConfiguration());
+            modelBuilder.ApplyConfiguration(new OrganizationDatabaseConfiguration());
             modelBuilder.ApplyConfiguration(new TeamConfiguration());
 
             //token
