@@ -33,7 +33,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(en => en.DataSourceProvider).HasColumnName("provider");
 
             builder.HasIndex(t => new { t.OrganizationId, t.Identifier }) //this should create a unique composite field idx!
-                .HasName($"uq_db_identifier")
+                .HasName($"uq_db_identifier_{nameof(OrganizationDatabase).ToLower()}")
                 .IsUnique();
         }
     }
