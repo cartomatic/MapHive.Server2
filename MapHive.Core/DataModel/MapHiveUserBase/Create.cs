@@ -103,7 +103,7 @@ namespace MapHive.Core.DataModel
 
             //user account exists in two places - mbr and mh databases. Therefore need to handle them both properly wrapped into transactions
 
-            DbContext mbrDbCtx = GetMembershipRebootDbCtx(userAccountService);
+            var mbrDbCtx =MapHive.MembershipReboot.MembershipRebootUtils.GetMembershipRebootDbCtx(userAccountService);
             System.Data.Common.DbTransaction mbrTrans = null;
 
             System.Data.Common.DbTransaction mhTrans = null;

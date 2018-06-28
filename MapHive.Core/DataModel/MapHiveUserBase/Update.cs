@@ -115,7 +115,7 @@ namespace MapHive.Core.DataModel
             }
 
 
-            DbContext mbrDbCtx = GetMembershipRebootDbCtx(userAccountService);
+            DbContext mbrDbCtx = MapHive.MembershipReboot.MembershipRebootUtils.GetMembershipRebootDbCtx(userAccountService);
             System.Data.Common.DbTransaction mbrTrans = null;
 
             System.Data.Common.DbTransaction mhTransaction = null;

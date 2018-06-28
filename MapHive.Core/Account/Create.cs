@@ -35,7 +35,7 @@ namespace MapHive.Core
                 {"Email", user.Email}
             };
 
-            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccount(dbCtx, user, input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
+            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user, input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
             user = accountCreateOutput.User;
 
 
