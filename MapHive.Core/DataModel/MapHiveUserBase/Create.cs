@@ -108,7 +108,7 @@ namespace MapHive.Core.DataModel
                 //so can next pass some data to the mh meta user object
                 this.Uuid = idUser.Id;
 
-                //mbr work done, so can create the user within the mh metadata db
+                //identity work done, so can create the user within the mh metadata db
                 output = await base.CreateAsync<T>(dbCtx);
 
 

@@ -90,7 +90,7 @@ namespace MapHive.Core.DataModel
                 throw new ArgumentException(string.Empty);
 
 
-            //in order to check if some mbr ops are needed need to compare the incoming data with the db equivalent
+            //in order to check if some identity ops are needed need to compare the incoming data with the db equivalent
             var currentStateOfUser = await ReadAsync<T>(dbCtx, uuid);
 
 
@@ -111,7 +111,7 @@ namespace MapHive.Core.DataModel
             try
             {
 
-                //check if mbr email related work is needed at all...
+                //check if identity email related work is needed at all...
                 if (updateEmail)
                 {
                     var emailChangeToken = await userManager.GenerateChangeEmailTokenAsync(idUser, Email);
@@ -150,7 +150,7 @@ namespace MapHive.Core.DataModel
                     IsAccountVerified = true;
                 }
 
-                //mbr work done, so can update the user within the mh metadata db
+                //identity work done, so can update the user within the mh metadata db
                 output = await base.UpdateAsync<T>(dbCtx, uuid);
             }
             catch (Exception ex)
