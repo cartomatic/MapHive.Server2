@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using MapHive.Cmd.Core;
 using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Cmd
@@ -9,10 +11,26 @@ namespace MapHive.Cmd
 
         static void Main(string[] args)
         {
-            
+            Task.WaitAll(
+                Task.Run(() => MainAsync(args))
+            );
+        }
+
+        static async Task MainAsync(string[] args)
+        {
+            var cmdWatcher = new Cartomatic.CmdPrompt.Core.CmdWatcher(new CommandHandler())
+            {
+                Prompt = "MapHive...Bzz...>",
+                PromptColor = ConsoleColor.DarkBlue
+            };
+
+            //setup if needed
 
 
-            Console.WriteLine("Hello World!");
+            await cmdWatcher.Init(false);
+
+
+            Console.ReadLine();
         }
     }
 }

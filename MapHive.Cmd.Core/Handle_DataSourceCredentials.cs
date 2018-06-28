@@ -28,6 +28,7 @@ namespace MapHive.Cmd.Core
             catch
             {
                 ConsoleEx.WriteLine("Default db credentials are not configured. Is this intentional?", ConsoleColor.DarkRed);
+                Console.WriteLine();
             }
         }
 

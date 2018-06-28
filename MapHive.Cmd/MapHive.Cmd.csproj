@@ -6,7 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cartomatic.CmdPrompt.Core" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MapHive.Cmd.Core\MapHive.Cmd.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -23,6 +23,7 @@ namespace MapHive.Cmd.Core
                 { "morg", "addmasterorg" }
             });
 
+            PrintHandlerInfo();
 
             //default db credentials
             SetDefaultDsc();
