@@ -7,7 +7,6 @@ using Cartomatic.CmdPrompt.Core;
 using MapHive.Core.DAL;
 using MapHive.Core.Data;
 using MapHive.Core.DataModel;
-using MapHive.MembershipReboot;
 
 namespace MapHive.Cmd.Core
 {

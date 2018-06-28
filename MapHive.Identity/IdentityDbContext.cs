@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Cartomatic.Utils.Data;
-using MapHive.Core.DAL;
+using Cartomatic.Utils.Ef;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +27,15 @@ namespace MapHive.Identity
         /// <param name="provider">db provider</param>
         public MapHiveIdentityDbContext(string connStrName, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.Npgsql)
             : base(DbContextFactory.GetDbContextOptions<MapHiveIdentityDbContext>(connStrName, isConnStr, provider))
+        {
+        }
+
+        /// <summary>
+        /// Creates new instance with the specified opts
+        /// </summary>
+        /// <param name="opts"></param>
+        public MapHiveIdentityDbContext(DbContextOptions opts)
+            : base(opts)
         {
         }
     }
