@@ -14,22 +14,24 @@ namespace MapHive.Core.DAL
 {
     public class MapHiveDbContext : ApplicationDbContext, ILinksDbContext, IMapHiveAppsDbContext, ILocalizedDbContext, IMapHiveUsersDbContext<MapHiveUser>
     {
+        /// <summary>
+        /// Creates instance with the default conn str name
+        /// </summary>
         public MapHiveDbContext()
-            : this("MapHiveMeta") //use a default conn str name; useful when passing ctx as a generic param that is then instantiated 
+            : this("MapHiveMetadata")
         {
         }
 
-        public MapHiveDbContext(string connStringName)
-            : base (connStringName)
+        /// <summary>
+        /// Creates instance with either a specified conn str name or an actual connection str
+        /// </summary>
+        /// <param name="connStrName"></param>
+        /// <param name="isConnStr"></param>
+        public MapHiveDbContext(string connStrName, bool isConnStr = false)
+            : base(DbContextFactory.GetDbContextOptions<MapHiveDbContext>(connStrName, isConnStr))
         {
         }
 
-        public MapHiveDbContext(DbConnection conn, bool contextOwnsConnection) 
-            : base (conn, contextOwnsConnection)
-        {
-            //Database.SetInitializer<MapHiveDbContext>(null);
-            Database.EnsureCreated();
-        }
 
         //common types
         public DbSet<Application> Applications { get; set; }

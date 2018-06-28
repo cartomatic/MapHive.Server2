@@ -37,10 +37,13 @@ namespace MapHive.Core.DataModel
             where TDbContext : DbContext, new()
         {
 
-            var conn = Cartomatic.Utils.Data.DbProviderFactories.GetFactory(DataSourceProvider.ToString()).CreateConnection();
-            conn.ConnectionString = GetConnectionString(superUser: superUser);
+            //full framework
+            //var conn = Cartomatic.Utils.Data.DbProviderFactories.GetFactory(DataSourceProvider.ToString()).CreateConnection();
+            //conn.ConnectionString = GetConnectionString(superUser: superUser);
 
-            return (TDbContext)Activator.CreateInstance(typeof(TDbContext), new object[] { conn, true });
+            var connStr = GetConnectionString(superUser: superUser);
+
+            return (TDbContext)Activator.CreateInstance(typeof(TDbContext), new object[] { connStr, true });
         }
     }
 }

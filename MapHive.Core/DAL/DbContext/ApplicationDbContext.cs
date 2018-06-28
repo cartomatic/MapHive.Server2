@@ -19,23 +19,10 @@ namespace MapHive.Core.DAL
     /// </summary>
     public abstract class ApplicationDbContext : BaseDbContext, ILinksDbContext
     {
-        protected ApplicationDbContext() : base()
+        /// <inheritdoc />
+        protected ApplicationDbContext(DbContextOptions opts) : base(opts)
         {
         }
-
-        protected ApplicationDbContext(string connStringName) : base(connStringName)
-        {
-        }
-
-        protected ApplicationDbContext(DbConnection dbConnection, bool contextOwnsConnection)
-            : base(dbConnection, contextOwnsConnection)
-        {
-            //Database.SetInitializer<ApplicationDbContext>(null);
-            Database.EnsureCreated();
-        }
-
-
-
 
         //so we can seed the object types and the db uuids become less cryptic
         public DbSet<ObjectType> ObjectTypes { get; set; }

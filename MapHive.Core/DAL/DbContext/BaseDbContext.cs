@@ -10,6 +10,7 @@ using MapHive.Core.DataModel;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace MapHive.Core.DAL
 {
@@ -18,39 +19,9 @@ namespace MapHive.Core.DAL
     /// </summary>
     public abstract class BaseDbContext : DbContext
     {
-        protected BaseDbContext()
-            //Note:
-            //need a paramless constructor that passes a non empty conn string or conn string name to DbContext
-            //Obviously using such a db context will make it throw, so this is not a constructor one would use.
-            //although providing a valid paramles ctor in a derived class (one that calls base("some_real_conn_str_name") will do.
-            : this("need_this_for_migrations!!!")
+        protected BaseDbContext(DbContextOptions opts) : base(opts)
         {
         }
-
-        protected BaseDbContext(string connStringName)
-            : base(GetDbContextOptions(connStringName: connStringName))
-        {
-        }
-
-        protected BaseDbContext(DbConnection conn, bool contextOwnsConnection) :
-            base(GetDbContextOptions(conn: conn, contextOwnsConnection: contextOwnsConnection))
-        {
-        }
-
-        static DbContextOptions<DbContext> GetDbContextOptions(string connStringName = null, bool contextOwnsConnection = true, DbConnection conn = null)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
-
-            //FIXME
-            throw new Exception("WHOAAAAAA, a bit more work to do on the db context for maphive server ZWEI!");
-
-            //TODO - how the hell 
-
-            //optionsBuilder.UseNpgsql(Configuration.GetConnectionString("ElasticSearchLiveUpdate"));
-
-            return optionsBuilder.Options;
-        }
-
 
         /// <summary>
         /// Updates some custom IBase related properties
