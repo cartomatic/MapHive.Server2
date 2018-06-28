@@ -28,17 +28,17 @@ namespace MapHive.Cmd.Core
             if (GetHelp(args))
             {
                 Console.WriteLine(
-                    $"'{cmd}' : sets up the webgis environment - webgis_meta, webgis_idsrv, webgis_mr; uses the configured db credentials to connect to the db server.");
+                    $"'{cmd}' : sets up the maphive environment - maphive2_meta, maphive2_idsrv, maphive2_mr; uses the configured db credentials to connect to the db server.");
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
-                Console.WriteLine("\t[full]; all the webgis databases should be created/ugraded");
-                Console.WriteLine("\t[xfull]; all the webgis databases should be dropped prior to being recreated");
-                Console.WriteLine("\t[mh]; webgis_meta should be created/ugraded");
-                Console.WriteLine("\t[mh]; webgis_mr (MembershipReboot) should be created/ugraded");
-                Console.WriteLine("\t[idsrv]; webgis_idsrv (IdentityServer) should be created/ugraded");
-                Console.WriteLine("\t[xwg]; webgis_meta should be dropped prior to being recreated");
-                Console.WriteLine("\t[xmr]; webgis_mr (MembershipReboot) should be dropped prior to being recreated");
-                Console.WriteLine("\t[xidsrv]; webgis_idsrv (IdentityServer) should be dropped prior to being recreated");
-                Console.WriteLine("\t[clean:bool]; when dropping wg db, org dbs should also be dropped; defaults to true;");
+                Console.WriteLine("\t[full]; all the maphive databases should be created/ugraded");
+                Console.WriteLine("\t[xfull]; all the maphive databases should be dropped prior to being recreated");
+                Console.WriteLine("\t[mh]; maphive2_meta should be created/ugraded");
+                Console.WriteLine("\t[mh]; maphive2_mr (MembershipReboot) should be created/ugraded");
+                Console.WriteLine("\t[idsrv]; maphive2_idsrv (IdentityServer) should be created/ugraded");
+                Console.WriteLine("\t[xmh]; maphive2_meta should be dropped prior to being recreated");
+                Console.WriteLine("\t[xmr]; maphive2_mr (MembershipReboot) should be dropped prior to being recreated");
+                Console.WriteLine("\t[xidsrv]; maphive2_idsrv (IdentityServer) should be dropped prior to being recreated");
+                Console.WriteLine("\t[clean:bool]; when dropping mh db, org dbs should also be dropped; defaults to true;");
 
                 Console.WriteLine($"example: {cmd} m mr idsrv xm xmr xidsrv");
                 Console.WriteLine();
@@ -76,7 +76,7 @@ namespace MapHive.Cmd.Core
             }
             if (xfull || ContainsParam("xidsrv", args))
             {
-                dbsToDrop.Add("webgis_idsrv");
+                dbsToDrop.Add("maphive2_idsrv");
             }
 
             var clean = !ContainsParam("clean", args) || ExtractParam<bool>("clean", args);
@@ -90,7 +90,7 @@ namespace MapHive.Cmd.Core
             }
             else
             {
-                if ((xfull || ContainsParam("xwg", args)) && clean)
+                if ((xfull || ContainsParam("xmh", args)) && clean)
                 {
                     
                     try
@@ -124,7 +124,7 @@ namespace MapHive.Cmd.Core
                 
                 SetupDatabases(dbsToDrop, migrationCtxs, confirmDrop);
 
-                ClearEfConnectionPoolsCache(full || ContainsParam("wg", args), full || ContainsParam("mr", args));
+                ClearEfConnectionPoolsCache(full || ContainsParam("mh", args), full || ContainsParam("mr", args));
             }
 
             Console.WriteLine();
@@ -205,17 +205,17 @@ namespace MapHive.Cmd.Core
         /// <summary>
         /// Resets the EF connection pools cache
         /// </summary>
-        /// <param name="wg"></param>
+        /// <param name="mh"></param>
         /// <param name="mbr"></param>
-        protected void ClearEfConnectionPoolsCache(bool wg = true, bool mbr = true)
+        protected void ClearEfConnectionPoolsCache(bool mh = true, bool mbr = true)
         {
             ConsoleEx.Write("Clearing EF connection pool cache... ", ConsoleColor.DarkYellow);
 
             //When exception will take place, EF will reaload internal cache
-            //this is because EF reuses a pooled connection - connection details are still the same - webgis meta or mbr, but the 
+            //this is because EF reuses a pooled connection - connection details are still the same - maphive meta or mbr, but the 
             //database itself has been wiped out and pgsql will refuse to connect to it!
 
-            if (wg)
+            if (mh)
             {
                 try
                 {
@@ -233,7 +233,7 @@ namespace MapHive.Cmd.Core
             {
                 try
                 {
-                    var userAccountService = CustomUserAccountService.GetInstance("WebGisMembershipReboot");
+                    var userAccountService = CustomUserAccountService.GetInstance("MapHiveMembershipReboot");
                     userAccountService.GetByEmail("some@email.com");
                 }
                 catch (Exception)

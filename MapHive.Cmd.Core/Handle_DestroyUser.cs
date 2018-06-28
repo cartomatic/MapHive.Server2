@@ -51,7 +51,7 @@ namespace MapHive.Cmd.Core
 
 
             //Note: db context uses a connection defined in app cfg. 
-            await DestroyUser<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"), CustomUserAccountService.GetInstance("WebGisMembershipReboot"));
+            await DestroyUser<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"), CustomUserAccountService.GetInstance("MapHiveMembershipReboot"));
             Console.WriteLine();
         }
 

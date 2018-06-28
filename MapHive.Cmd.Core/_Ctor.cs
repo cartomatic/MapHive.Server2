@@ -29,7 +29,7 @@ namespace MapHive.Cmd.Core
         }
 
         public CommandHandler()
-            : this("WebGIS CMD v1.0....")
+            : this("MapHive2 CMD v1.0....")
         {
             Cartomatic.Utils.Identity.ImpersonateGhostUser();
         }

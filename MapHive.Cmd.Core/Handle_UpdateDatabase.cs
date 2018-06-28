@@ -55,7 +55,7 @@ namespace MapHive.Cmd.Core
 
             SetupDatabases(null, migrationCtxs, false);
 
-            ClearEfConnectionPoolsCache(all || ContainsParam("wg", args), all || ContainsParam("mr", args));
+            ClearEfConnectionPoolsCache(all || ContainsParam("mh", args), all || ContainsParam("mr", args));
 
             Console.WriteLine();
         }

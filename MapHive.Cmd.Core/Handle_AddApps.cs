@@ -34,7 +34,7 @@ namespace MapHive.Cmd.Core
                 Console.WriteLine("\t[all; adds all apps]");
                 Console.WriteLine("\t[list; lists apps that can be added via this command]");
 
-                Console.WriteLine($"example: {cmd} a:hgis,wgadmin");
+                Console.WriteLine($"example: {cmd} a:hgis,hive");
                 Console.WriteLine();
 
                 return;

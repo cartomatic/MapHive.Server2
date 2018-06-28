@@ -104,7 +104,7 @@ namespace MapHive.Cmd.Core
             {
                 //destroy a previous account if any
                 await DestroyUser<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"), 
-                    CustomUserAccountService.GetInstance("WebGisMembershipReboot"));
+                    CustomUserAccountService.GetInstance("MapHiveMembershipReboot"));
 
                 IDictionary<string, object> op = null;
                 user.UserCreated += (sender, eventArgs) =>
@@ -113,15 +113,15 @@ namespace MapHive.Cmd.Core
                 };
 
                 await user.CreateAsync(new MapHiveDbContext("MapHiveMetadata"),
-                    CustomUserAccountService.GetInstance("WebGisMembershipReboot"));
+                    CustomUserAccountService.GetInstance("MapHiveMembershipReboot"));
 
                 //once user is created, need to perform an update in order to set it as valid
                 user.IsAccountVerified = true;
                 await user.UpdateAsync(new MapHiveDbContext("MapHiveMetadata"),
-                    CustomUserAccountService.GetInstance("WebGisMembershipReboot"), user.Uuid);
+                    CustomUserAccountService.GetInstance("MapHiveMembershipReboot"), user.Uuid);
 
                 //and also need to change the pass as the default procedure autogenerates a pass
-                CustomUserAccountService.GetInstance("WebGisMembershipReboot")
+                CustomUserAccountService.GetInstance("MapHiveMembershipReboot")
                     .ChangePassword(user.Uuid, (string) op["InitialPassword"], pass);
 
                 ConsoleEx.WriteOk($"User '{email}' with the following pass: '{pass}' has been created.");
