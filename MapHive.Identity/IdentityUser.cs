@@ -13,6 +13,9 @@ namespace MapHive.Identity
 {
     //Note: not only user, but more customizations, as they are required in order to hook into user manager...
     //not very elegant, but maybe will manage to make it better later... ;)
+    //more details:
+    //https://github.com/aspnet/Identity/issues/1082
+    //https://www.codepoc.io/blog/net-core/5291/create-aspnetcore-identity-users-using-console-application
 
     public class MapHiveIdentityUser : IdentityUser<Guid>
     {
