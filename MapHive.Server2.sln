@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Core", "MapHive.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartomatic.Utils", "..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj", "{A9F2E357-C89C-4C50-8603-BEA36E7657B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.MembershipReboot", "MapHive.MembershipReboot\MapHive.MembershipReboot.csproj", "{6506F966-F2B4-4133-9B03-EB572EE3A437}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Cmd", "MapHive.Cmd\MapHive.Cmd.csproj", "{4DB48136-9E84-44C6-810B-A888BFD0EE86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHive.Cmd", "MapHive.Cmd\MapHive.Cmd.csproj", "{4DB48136-9E84-44C6-810B-A888BFD0EE86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Cmd.Core", "MapHive.Cmd.Core\MapHive.Cmd.Core.csproj", "{8DD45970-CE70-4126-ACBF-0BFB94E9D142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHive.Cmd.Core", "MapHive.Cmd.Core\MapHive.Cmd.Core.csproj", "{8DD45970-CE70-4126-ACBF-0BFB94E9D142}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHive.Identity", "MapHive.Identity\MapHive.Identity.csproj", "{23628192-3E3F-4DD8-AA77-F6D0A9B89DCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +27,6 @@ Global
 		{A9F2E357-C89C-4C50-8603-BEA36E7657B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9F2E357-C89C-4C50-8603-BEA36E7657B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9F2E357-C89C-4C50-8603-BEA36E7657B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6506F966-F2B4-4133-9B03-EB572EE3A437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6506F966-F2B4-4133-9B03-EB572EE3A437}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6506F966-F2B4-4133-9B03-EB572EE3A437}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6506F966-F2B4-4133-9B03-EB572EE3A437}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4DB48136-9E84-44C6-810B-A888BFD0EE86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4DB48136-9E84-44C6-810B-A888BFD0EE86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DB48136-9E84-44C6-810B-A888BFD0EE86}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{8DD45970-CE70-4126-ACBF-0BFB94E9D142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DD45970-CE70-4126-ACBF-0BFB94E9D142}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DD45970-CE70-4126-ACBF-0BFB94E9D142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23628192-3E3F-4DD8-AA77-F6D0A9B89DCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23628192-3E3F-4DD8-AA77-F6D0A9B89DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23628192-3E3F-4DD8-AA77-F6D0A9B89DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23628192-3E3F-4DD8-AA77-F6D0A9B89DCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

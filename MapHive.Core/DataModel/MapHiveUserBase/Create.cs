@@ -4,8 +4,6 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BrockAllen.MembershipReboot;
-using BrockAllen.MembershipReboot.Relational;
 using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
 using Cartomatic.Utils.Email;

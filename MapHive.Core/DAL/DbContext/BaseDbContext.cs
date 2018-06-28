@@ -11,6 +11,7 @@ using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Core.DAL
 {
@@ -21,6 +22,23 @@ namespace MapHive.Core.DAL
     {
         protected BaseDbContext(DbContextOptions opts) : base(opts)
         {
+        }
+
+        private static IConfiguration Configuration { get; set; }
+
+        /// <summary>
+        /// Retrieves conn str from app configuration
+        /// </summary>
+        /// <param name="connStrName"></param>
+        /// <returns></returns>
+        protected string GetConfiguredConnectionString(string connStrName)
+        {
+            if (Configuration == null)
+            {
+                Configuration = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+            }
+
+            return Configuration?[connStrName];
         }
 
         /// <summary>

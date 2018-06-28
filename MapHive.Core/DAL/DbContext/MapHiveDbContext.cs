@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Data;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL.TypeConfiguration;
 
@@ -24,11 +25,13 @@ namespace MapHive.Core.DAL
 
         /// <summary>
         /// Creates instance with either a specified conn str name or an actual connection str
+        /// By default uses npgsql db provider
         /// </summary>
         /// <param name="connStrName"></param>
         /// <param name="isConnStr"></param>
-        public MapHiveDbContext(string connStrName, bool isConnStr = false)
-            : base(DbContextFactory.GetDbContextOptions<MapHiveDbContext>(connStrName, isConnStr))
+        /// <param name="provider">db provider</param>
+        public MapHiveDbContext(string connStrName, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.Npgsql)
+            : base(DbContextFactory.GetDbContextOptions<MapHiveDbContext>(connStrName, isConnStr, provider))
         {
         }
 
