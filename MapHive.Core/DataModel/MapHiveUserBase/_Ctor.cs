@@ -16,9 +16,5 @@ namespace MapHive.Core.DataModel
         {
             BaseObjectTypeIdentifierExtensions.RegisterTypeIdentifier(MethodInfo.GetCurrentMethod().DeclaringType, Guid.Parse("c34273e1-6f57-43fb-8460-44eb7bac0315"));
         }
-
-        private const string WrongCrudMethodErrorInfo =
-            "User CRUD ops require MembershipReboot userManager. Won't do without! Sorry... ";
-
     }
 }

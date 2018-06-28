@@ -12,59 +12,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel
 {
-    public static partial class MapHiveUserCrudExtensions
-    {
-        /// <summary>
-        /// Updates an object; returns an updated object or null if the object does not exist
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TIdentityUser"></typeparam>
-        /// <param name="obj"></param>
-        /// <param name="dbCtx"></param>
-        /// <param name="userManager"></param>
-        /// <param name="uuid"></param>
-        /// <returns></returns>
-        public static async Task<T> UpdateAsync<T, TIdentityUser>(this T obj, DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, Guid uuid)
-            where T : MapHiveUserBase
-            where TIdentityUser : IdentityUser<Guid>
-        {
-            return await obj.UpdateAsync<T, TIdentityUser>(dbCtx, userManager, uuid);
-        }
-
-        public static async Task<T> UpdateAsync<T, TIdentityUser>(this T obj, DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager)
-            where T : MapHiveUserBase
-            where TIdentityUser : IdentityUser<Guid>
-        {
-            return await obj.UpdateAsync<T, TIdentityUser>(dbCtx, userManager, obj.Uuid);
-        }
-    }
-
     public abstract partial class MapHiveUserBase
     {
         /// <summary>
-        /// Overrides the default Update method of Base and throws an exception. The default method cannot be used for a MapHive user object
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dbCtx"></param>
-        /// <param name="uuid"></param>
-        /// <returns></returns>
-        protected internal override Task<T> UpdateAsync<T>(DbContext dbCtx, Guid uuid)
-        {
-            throw new InvalidOperationException(WrongCrudMethodErrorInfo);
-        }
-
-        /// <summary>
         /// Updates an object; returns an updated object or null if the object does not exist
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TIdentityUser"></typeparam>
         /// <param name="dbCtx"></param>
-        /// <param name="userManager"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        protected internal virtual async Task<T> UpdateAsync<T, TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, Guid uuid)
-            where T : MapHiveUserBase
-            where TIdentityUser : IdentityUser<Guid>
+        protected internal override async Task<T> UpdateAsync<T>(DbContext dbCtx, Guid uuid)
         {
             T output;
 
@@ -80,10 +37,13 @@ namespace MapHive.Core.DataModel
             Email = Email.ToLower();
 
 
-            //Note: user account resides in two places - MembershipReboot and the MapHive metadata database.
-            //therefore need t manage it in tow places and obviously make sure the ops are properly wrapped into transactions
+            //grab user manager
+            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
 
-       
+
+            //Note: user account resides in two places - asp net identity storage and the MapHive metadata database.
+
+
             //first get the user as saved in the db
             var idUser = await userManager.FindByIdAsync(uuid.ToString());
             if (idUser == null)
@@ -91,7 +51,7 @@ namespace MapHive.Core.DataModel
 
 
             //in order to check if some identity ops are needed need to compare the incoming data with the db equivalent
-            var currentStateOfUser = await ReadAsync<T>(dbCtx, uuid);
+            var currentStateOfUser = await ReadAsync<T>(dbCtx, uuid) as MapHiveUserBase;
 
 
             //work out if email is being updated and make sure to throw if it is not possible!
@@ -181,7 +141,7 @@ namespace MapHive.Core.DataModel
             Email = Email.ToLower();
 
 
-            //Note: user account resides in two places - MembershipReboot and the MapHive metadata database.
+            //Note: user account resides in two places - Identity and the MapHive metadata database.
             //therefore need t manage it in tow places and obviously make sure the ops are properly wrapped into transactions
 
 

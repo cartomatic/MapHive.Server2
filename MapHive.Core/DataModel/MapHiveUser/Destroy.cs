@@ -14,12 +14,10 @@ namespace MapHive.Core.DataModel
         /// destroys a maphive user object and the user's organization if any
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TIdentityUser"></typeparam>
         /// <param name="dbCtx"></param>
-        /// <param name="userManager"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        protected internal override async Task<T> DestroyAsync<T, TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, Guid uuid)
+        protected internal override async Task<T> DestroyAsync<T>(DbContext dbCtx, Guid uuid)
         {
             if (!IsOrgUser)
             {
@@ -31,7 +29,7 @@ namespace MapHive.Core.DataModel
                 }
             }
 
-            return await base.DestroyAsync<T, TIdentityUser>(dbCtx, userManager, uuid);
+            return await base.DestroyAsync<T>(dbCtx, uuid);
         }
     }
 }

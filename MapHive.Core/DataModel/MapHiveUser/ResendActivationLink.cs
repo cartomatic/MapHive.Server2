@@ -16,12 +16,14 @@ namespace MapHive.Core.DataModel
     public partial class MapHiveUser
     {
         public async Task ResendActivationLinkAsync(DbContext dbCtx,
-            UserManager<IdentityUser<Guid>> userManager,
             IEmailAccount emailAccount = null,
             IEmailTemplate emailTemplate = null, string password = null)
         {
             if (Uuid == default(Guid))
                 throw new InvalidOperationException("You cannot resend an activation link - this user has not yet been created...");
+
+            //grab user manager
+            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
 
             //get the id-user user object
             var idUser = await userManager.FindByIdAsync(Uuid.ToString());

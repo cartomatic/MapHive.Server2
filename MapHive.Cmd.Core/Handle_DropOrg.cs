@@ -9,6 +9,7 @@ using Cartomatic.CmdPrompt.Core;
 using MapHive.Core.Data;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
+using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Cmd.Core
 {

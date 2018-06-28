@@ -7,7 +7,6 @@ using Cartomatic.CmdPrompt.Core;
 using MapHive.Core.Data;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
-using MapHive.MembershipReboot;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Cmd.Core
@@ -51,7 +50,7 @@ namespace MapHive.Cmd.Core
 
 
             //Note: db context uses a connection defined in app cfg. 
-            await DestroyUser<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"), CustomUserAccountService.GetInstance("MapHiveMembershipReboot"));
+            await DestroyUser<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"));
             Console.WriteLine();
         }
 
@@ -61,7 +60,7 @@ namespace MapHive.Cmd.Core
         /// <param name="email"></param>
         /// <param name="users"></param>
         /// <param name="mbrUserAccountService"></param>
-        protected virtual async Task DestroyUser<T>(string email, DbContext dbCtx, CustomUserAccountService mbrUserAccountService)
+        protected virtual async Task DestroyUser<T>(string email, DbContext dbCtx)
             where T : MapHive.Core.DataModel.MapHiveUser
         {
             try
@@ -82,11 +81,13 @@ namespace MapHive.Cmd.Core
                     destroyed = true;
                 }
 
-                var mbrUser = mbrUserAccountService.GetByEmail(email.ToLower());
-                if (mbrUser != null)
+                var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+
+                var idUser = await userManager.FindByEmailAsync(email.ToLower());
+                if (idUser != null)
                 {
-                    ConsoleEx.Write("Found mbr user. Removing... ", ConsoleColor.DarkRed);
-                    mbrUserAccountService.DeleteAccount(mbrUser.ID);
+                    ConsoleEx.Write("Found identity user. Removing... ", ConsoleColor.DarkRed);
+                    await userManager.DeleteAsync(idUser);
                     ConsoleEx.Write("Done! \n", ConsoleColor.DarkGreen);
 
                     destroyed = true;

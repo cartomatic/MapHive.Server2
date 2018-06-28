@@ -102,8 +102,7 @@ namespace MapHive.Cmd.Core
             try
             {
                 //destroy a previous account if any
-                await DestroyUser<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"), 
-                    CustomUserAccountService.GetInstance("MapHiveMembershipReboot"));
+                await DestroyUser<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"));
 
                 IDictionary<string, object> op = null;
                 user.UserCreated += (sender, eventArgs) =>
@@ -111,17 +110,16 @@ namespace MapHive.Cmd.Core
                     op = eventArgs.OperationFeedback;
                 };
 
-                await user.CreateAsync(new MapHiveDbContext("MapHiveMetadata"),
-                    CustomUserAccountService.GetInstance("MapHiveMembershipReboot"));
+                await user.CreateAsync(new MapHiveDbContext("MapHiveMetadata"));
 
                 //once user is created, need to perform an update in order to set it as valid
                 user.IsAccountVerified = true;
-                await user.UpdateAsync(new MapHiveDbContext("MapHiveMetadata"),
-                    CustomUserAccountService.GetInstance("MapHiveMembershipReboot"), user.Uuid);
+                await user.UpdateAsync(new MapHiveDbContext("MapHiveMetadata"), user.Uuid);
 
                 //and also need to change the pass as the default procedure autogenerates a pass
-                CustomUserAccountService.GetInstance("MapHiveMembershipReboot")
-                    .ChangePassword(user.Uuid, (string) op["InitialPassword"], pass);
+                var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+                var idUser = await userManager.FindByEmailAsync(email);
+                await userManager.ChangePasswordAsync(idUser, (string) op["InitialPassword"], pass);
 
                 ConsoleEx.WriteOk($"User '{email}' with the following pass: '{pass}' has been created.");
                 Console.WriteLine();

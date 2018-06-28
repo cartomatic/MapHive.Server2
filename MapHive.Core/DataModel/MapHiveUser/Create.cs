@@ -14,17 +14,17 @@ namespace MapHive.Core.DataModel
     /// </summary>
     public partial class MapHiveUser
     {
-        protected internal override async Task<T> CreateAsync<T, TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, IEmailAccount emailAccount = null,
+        protected internal override async Task<T> CreateAsync<T>(DbContext dbCtx, IEmailAccount emailAccount = null,
             IEmailTemplate emailTemplate = null)
         {
             EnsureSlug();
 
-            var user = await base.CreateAsync<T, TIdentityUser>(dbCtx, userManager, emailAccount, emailTemplate) as MapHiveUser;
+            var user = await base.CreateAsync<T>(dbCtx, emailAccount, emailTemplate) as MapHiveUser;
 
             //unless user is marked as an org user, create an org for him
             if (!user.IsOrgUser)
             {
-                await CreateUserOrganizationAsync<TIdentityUser>(dbCtx, userManager);
+                await CreateUserOrganizationAsync(dbCtx);
             }
 
             return (T)(Base)user;

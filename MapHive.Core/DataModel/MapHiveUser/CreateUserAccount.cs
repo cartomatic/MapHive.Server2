@@ -36,7 +36,6 @@ namespace MapHive.Core.DataModel
         /// <returns></returns>
         public static async Task<CreateUserAccountOutput> CreateUserAccountAsync(DbContext dbCtx,
             MapHiveUser user,
-            UserManager<IdentityUser<Guid>> userManager,
             IEmailAccount emailAccount = null,
             IEmailTemplate emailTemplate = null, string password = null)
         {
@@ -76,11 +75,14 @@ namespace MapHive.Core.DataModel
             };
 
             //create user without auto email send here - it's customised and sent via evt handler above 
-            var createdUser = await user.CreateAsync< MapHiveUser, IdentityUser<Guid>>(dbCtx, userManager);
+            var createdUser = await user.CreateAsync(dbCtx);
 
             //once user has been created adjust his pass if provided
             if (!string.IsNullOrEmpty(password))
             {
+                //grab user manager
+                var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+
                 var idUser = await userManager.FindByIdAsync(user.Uuid.ToString());
 
                 await userManager.ChangePasswordAsync(idUser, initialPass, password);

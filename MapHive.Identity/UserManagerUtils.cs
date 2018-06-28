@@ -60,7 +60,7 @@ namespace MapHive.Identity
         /// Returns a configured user manager
         /// </summary>
         /// <returns></returns>
-        public UserManager<MapHiveIdentityUser> GetUserManager()
+        public static UserManager<MapHiveIdentityUser> GetUserManager()
         {
             if (!Configured)
                 throw new InvalidOperationException($"In order to user {nameof(UserManagerUtils)} you need to call {nameof(UserManagerUtils)}.{nameof(UserManagerUtils.Configure)} first!");

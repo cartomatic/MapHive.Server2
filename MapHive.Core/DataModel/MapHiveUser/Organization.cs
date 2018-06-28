@@ -17,8 +17,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="userManager"></param>
         /// <returns></returns>
-        public async Task<Organization> CreateUserOrganizationAsync<TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager)
-            where TIdentityUser : IdentityUser<Guid>
+        public async Task<Organization> CreateUserOrganizationAsync(DbContext dbCtx)
         {
             if (string.IsNullOrEmpty(Slug))
             {
@@ -40,7 +39,7 @@ namespace MapHive.Core.DataModel
             org.AddLink(this);
             this.AddLink(await org.GetOrgOwnerRoleAsync(dbCtx));
 
-            await this.UpdateAsync<MapHiveUser, TIdentityUser>(dbCtx, userManager);
+            await this.UpdateAsync(dbCtx);
 
             //step 2 - update org slug; now the validation should not complain
             org.Slug = Slug;

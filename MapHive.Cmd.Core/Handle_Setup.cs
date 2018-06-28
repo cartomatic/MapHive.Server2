@@ -8,7 +8,6 @@ using Cartomatic.Utils.Data;
 using MapHive.Core.Data;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
-using MapHive.MembershipReboot;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Cmd.Core
@@ -233,8 +232,12 @@ namespace MapHive.Cmd.Core
             {
                 try
                 {
-                    var userAccountService = CustomUserAccountService.GetInstance("MapHiveMembershipReboot");
-                    userAccountService.GetByEmail("some@email.com");
+                    Task.WaitAll(Task.Factory.StartNew(async () =>
+                    {
+                        var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+                        await userManager.FindByEmailAsync("some@email.com");
+                    }));
+
                 }
                 catch (Exception)
                 {

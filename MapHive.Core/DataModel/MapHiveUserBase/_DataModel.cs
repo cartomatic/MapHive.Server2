@@ -14,12 +14,12 @@ namespace MapHive.Core.DataModel
         public string Email { get; set; }
 
         /// <summary>
-        /// MembershipReoot's equivalent of IsAccountClosed
+        /// Identity equivalent of a locked account
         /// </summary>
         public bool IsAccountClosed { get; set; }
 
         /// <summary>
-        /// MembershipReoot's equivalent of IsAccountVerified
+        /// Identity equivalent of email confirmed
         /// </summary>
         public bool IsAccountVerified { get; set; }
     }

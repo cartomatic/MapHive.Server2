@@ -14,18 +14,16 @@ namespace MapHive.Core.DataModel
         /// updates a maphive user and his org if required
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TIdentityUser"></typeparam>
         /// <param name="dbCtx"></param>
-        /// <param name="userManager"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        protected internal override async Task<T> UpdateAsync<T, TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, Guid uuid)
+        protected internal override async Task<T> UpdateAsync<T>(DbContext dbCtx, Guid uuid)
         {
             //before updating, get org!
             //this is because the slug may have changed and it is necessary to grab an org before the update as otherwise it would not be possible.
             var org = await GetUserOrganizationAsync(dbCtx);
             
-            var user = await base.UpdateAsync<T, TIdentityUser>(dbCtx, userManager, uuid) as MapHiveUser;
+            var user = await base.UpdateAsync<T>(dbCtx, uuid) as MapHiveUser;
 
             if (org != null && org.Slug != user.Slug)
             {

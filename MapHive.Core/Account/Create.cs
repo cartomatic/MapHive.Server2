@@ -18,8 +18,7 @@ namespace MapHive.Core
     {
         public static async Task<AccountCreateOutput> CreateAccount(
             MapHiveDbContext dbCtx,
-            AccountCreateInput input,
-            UserManager<IdentityUser<Guid>> userManager
+            AccountCreateInput input
         )
         {
             var user = new MapHive.Core.DataModel.MapHiveUser()
@@ -37,7 +36,7 @@ namespace MapHive.Core
                 {"Email", user.Email}
             };
 
-            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user, userManager, input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
+            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user, input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
             user = accountCreateOutput.User;
 
 

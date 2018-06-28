@@ -9,6 +9,7 @@ using Cartomatic.Utils.Ef;
 using Cartomatic.Utils.Email;
 using MapHive.Core.DataModel.Validation;
 using MapHive.Core.Events;
+using MapHive.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,27 +18,11 @@ namespace MapHive.Core.DataModel
 
     public static partial class MapHiveUserCrudExtensions
     {
-        /// <summary>
-        /// Creates an object; returns a created object or null if it was not possible to create it due to the fact a uuid is already reserved
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TIdentityUser"></typeparam>
-        /// <param name="obj"></param>
-        /// <param name="dbCtx"></param>
-        /// <param name="userManager"></param>
-        /// <returns></returns>
-        public static async Task<T> CreateAsync<T, TIdentityUser>(this T obj, DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager)
-            where T : MapHiveUserBase
-            where TIdentityUser : IdentityUser<Guid>
-        {
-            return await obj.CreateAsync<T, TIdentityUser>(dbCtx, userManager);
-        }
 
-        public static async Task<T> CreateAsync<T, TIdentityUser>(this T obj, DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, IEmailAccount emailAccount, IEmailTemplate emailTemplate)
+        public static async Task<T> CreateAsync<T>(this T obj, DbContext dbCtx, IEmailAccount emailAccount, IEmailTemplate emailTemplate)
             where T : MapHiveUserBase
-            where TIdentityUser : IdentityUser<Guid>
         {
-            return await obj.CreateAsync<T, TIdentityUser>(dbCtx, userManager, emailAccount, emailTemplate);
+            return await obj.CreateAsync(dbCtx, emailAccount, emailTemplate);
         }
     }
 
@@ -52,31 +37,18 @@ namespace MapHive.Core.DataModel
         [NonSerialized]
         public EventHandler<IOpFeedbackEventArgs> UserCreated;
 
+        
         /// <summary>
-        /// Overrides the default Create method of Base and throws an exception. The default method cannot be used for a MapHive user object
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dbCtx"></param>
-        /// <returns></returns>
-        protected internal override Task<T> CreateAsync<T>(DbContext dbCtx)
-        {
-            throw new InvalidOperationException(WrongCrudMethodErrorInfo);
-        }
-
-        /// <summary>
-        /// Creates a new user account in both MembershipReboot database and in the MapHive meta database;
+        /// Creates a new user account in both Identity database and in the MapHive meta database;
         /// sends out a confirmation email if email account and template are provided
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TIdentityUser"></typeparam>
-        /// <param name="userManager"></param>
         /// <param name="dbCtx"></param>
         /// <param name="emailAccount"></param>
         /// <param name="emailTemplate"></param>
         /// <returns></returns>
-        protected internal virtual async Task<T> CreateAsync<T, TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, IEmailAccount emailAccount = null, IEmailTemplate emailTemplate = null)
+        protected internal virtual async Task<T> CreateAsync<T>(DbContext dbCtx, IEmailAccount emailAccount = null, IEmailTemplate emailTemplate = null)
             where T : MapHiveUserBase
-            where TIdentityUser : IdentityUser<Guid>
         {
             T output;
 
@@ -85,6 +57,9 @@ namespace MapHive.Core.DataModel
 
             //make sure the email is ALWAYS lower case
             Email = Email.ToLower();
+
+            //grab user manager
+            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
 
             //check if the email is already used or not; throw validation feedback exception if so
             //Note - could do it in the mh meta, but both dbs must be in sync anyway
@@ -97,7 +72,7 @@ namespace MapHive.Core.DataModel
             try
             {
                 var rndPass = Cartomatic.Utils.Crypto.Generator.GenerateRandomString(10);
-                var idUser = new IdentityUser<Guid>
+                var idUser = new MapHiveIdentityUser
                 {
                     Id = Guid.NewGuid(),
                     UserName = Email.ToLower(),
