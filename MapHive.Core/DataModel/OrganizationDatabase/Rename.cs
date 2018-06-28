@@ -23,7 +23,7 @@ namespace MapHive.Core.DataModel
         /// <param name="mhDbCtx"></param>
         /// <param name="newName"></param>
         /// <returns></returns>
-        public async Task Rename(MapHiveDbContext mhDbCtx, string newName)
+        public async Task RenameAsync(MapHiveDbContext mhDbCtx, string newName)
         {
             //first cut the connection to the db if any
             DisconnectDatabase();

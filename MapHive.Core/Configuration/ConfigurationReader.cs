@@ -8,7 +8,7 @@ namespace MapHive.Core.Configuration
 {
     public class ConfigurationReader
     {
-        public static async Task<IDictionary<string, object>> Read(params IConfiguration[] configs)
+        public static async Task<IDictionary<string, object>> ReadAsync(params IConfiguration[] configs)
         {
             var output = new Dictionary<string, object>();
 
@@ -20,7 +20,7 @@ namespace MapHive.Core.Configuration
 
                 try
                 {
-                    foreach (var cfg in await config.Read())
+                    foreach (var cfg in await config.ReadAsync())
                     {
                         if (output.ContainsKey(cfg.Key))
                         {

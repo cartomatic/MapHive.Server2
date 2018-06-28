@@ -16,7 +16,7 @@ namespace MapHive.Core
     /// </summary>
     public partial class Account
     {
-        public static async Task<AccountCreateOutput> CreateAccount(
+        public static async Task<AccountCreateOutput> CreateAccountAsync(
             MapHiveDbContext dbCtx,
             AccountCreateInput input
         )
@@ -92,7 +92,7 @@ namespace MapHive.Core
 
 
             //create an org with owner and register the specified apps
-            await newOrg.Create(dbCtx, user, appIdentifiers);
+            await newOrg.CreateAsync(dbCtx, user, appIdentifiers);
             
             //TODO - with multiorg users, will need an org identifier for org users
             //TODO - org users are users that 'belong' to an org

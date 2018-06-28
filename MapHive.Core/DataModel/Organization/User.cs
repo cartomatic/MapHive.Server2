@@ -68,7 +68,7 @@ namespace MapHive.Core.DataModel
         /// <param name="user"></param>
         /// <param name="app"></param>
         /// <returns></returns>
-        public async Task<OrgUserAppAccessCredentials> GetUserAppAccessCredentials(DbContext dbCtx, MapHiveUser user,
+        public async Task<OrgUserAppAccessCredentials> GetUserAppAccessCredentialsAsync(DbContext dbCtx, MapHiveUser user,
             Application app)
         {
             var output = new OrgUserAppAccessCredentials
@@ -78,13 +78,13 @@ namespace MapHive.Core.DataModel
             };
 
             //check if organization can access and application if not, then good bye
-            if (!await CanUseApp(dbCtx, app))
+            if (!await CanUseAppAsync(dbCtx, app))
                 return output;
 
 
 
             //check if user is an org owner or org admin
-            output.IsAppAdmin = await IsOrgOwner(dbCtx, user) || await IsOrgAdmin(dbCtx, user);
+            output.IsAppAdmin = await IsOrgOwnerAsync(dbCtx, user) || await IsOrgAdminAsync(dbCtx, user);
             output.CanUseApp = output.IsAppAdmin;
 
 
@@ -145,7 +145,7 @@ namespace MapHive.Core.DataModel
         /// <param name="user"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public async Task AddOrganizationUser(DbContext dbCtx, MapHiveUser user, OrganizationRole role = OrganizationRole.Member)
+        public async Task AddOrganizationUserAsync(DbContext dbCtx, MapHiveUser user, OrganizationRole role = OrganizationRole.Member)
         {
             this.AddLink(user);
             await this.UpdateAsync(dbCtx);
@@ -163,7 +163,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task ChangeOrganizationUserRole(DbContext dbCtx, MapHiveUser user)
+        public async Task ChangeOrganizationUserRoleAsync(DbContext dbCtx, MapHiveUser user)
         {
             //this basically needs to remove all the org roles for a user and add the specified one
             var ownerRole = await GetOrgOwnerRoleAsync(dbCtx);

@@ -18,7 +18,7 @@ namespace MapHive.Core.Configuration
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public static async Task<Dictionary<string, object>> GetConfiguration(DbContext dbCtx)
+        public static async Task<Dictionary<string, object>> GetConfigurationAsync(DbContext dbCtx)
         {
             var cfg = new Dictionary<string, object>();
 
@@ -63,9 +63,9 @@ namespace MapHive.Core.Configuration
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public static async Task<string> GetConfigurationScript(DbContext dbCtx)
+        public static async Task<string> GetConfigurationScriptAsync(DbContext dbCtx)
         {
-            return GetConfigurationScript(await GetConfiguration(dbCtx));
+            return GetConfigurationScriptAsync(await GetConfigurationAsync(dbCtx));
         }
 
 
@@ -78,7 +78,7 @@ namespace MapHive.Core.Configuration
         /// <returns></returns>
         public static string GetConfigurationScriptFromException(Exception ex, string propertyName = "ConfigurationError")
         {
-            return GetConfigurationScript(new Dictionary<string, object>
+            return GetConfigurationScriptAsync(new Dictionary<string, object>
             {
                 { propertyName, ex.Message }
             });
@@ -90,7 +90,7 @@ namespace MapHive.Core.Configuration
         /// <param name="cfg"></param>
         /// <param name="camelCase">Whether or not the dictionary keys should be camelcased</param>
         /// <returns></returns>
-        public static string GetConfigurationScript(Dictionary<string, object> cfg, bool camelCase = true)
+        public static string GetConfigurationScriptAsync(Dictionary<string, object> cfg, bool camelCase = true)
         {
             //Note: need to output the camelised property names
 

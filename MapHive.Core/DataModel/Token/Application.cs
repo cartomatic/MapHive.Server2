@@ -25,7 +25,7 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public async Task<Application> GetApplication(MapHiveDbContext dbCtx)
+        public async Task<Application> GetApplicationAsync(MapHiveDbContext dbCtx)
         {
             return await dbCtx.Applications.FirstOrDefaultAsync(app => app.Uuid == ApplicationId);
         }

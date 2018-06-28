@@ -32,10 +32,10 @@ namespace MapHive.Cmd.Core
         protected async Task RegisterAppsRemoteAsync(params Application[] apps)
         {
             ////authenticate user
-            //await Authenticate();
+            //await AuthenticateAsync();
 
             ////and call a remote api...
-            //await ApiCall<Auth.AuthOutput>(ApiRegCfg["CoreEndPoint"] + "envconfig/registerapps",
+            //await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["CoreEndPoint"] + "envconfig/registerapps",
             //    Method.POST,
             //    data: apps
             //);
@@ -53,10 +53,10 @@ namespace MapHive.Cmd.Core
         protected async Task RegisterEmailTemplatesRemoteAsync(List<EmailTemplate> emailTemplates)
         {
             ////authenticate user
-            //await Authenticate();
+            //await AuthenticateAsync();
 
             ////and call a remote api...
-            //await ApiCall<Auth.AuthOutput>(ApiRegCfg["LocaleEndPoint"] + "envconfig/registeremailtemplates",
+            //await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["LocaleEndPoint"] + "envconfig/registeremailtemplates",
             //    Method.POST,
             //    data: emailTemplates
             //);
@@ -70,10 +70,10 @@ namespace MapHive.Cmd.Core
         protected async Task<bool> IsAppRegisteredRemoteAsync(string appShortName)
         {
             //authenticate user
-            await Authenticate();
+            await AuthenticateAsync();
 
             //and call a remote api...
-            return await ApiCall<bool>(ApiRegCfg["CoreEndPoint"] + "envconfig/appregistered",
+            return await ApiCallAsync<bool>(ApiRegCfg["CoreEndPoint"] + "envconfig/appregistered",
                 Method.GET,
                 queryParams: new Dictionary<string, string>
                 {
@@ -92,10 +92,10 @@ namespace MapHive.Cmd.Core
         protected async Task<Organization> GetOrgRemoteAsync(string orgName)
         {
             //authenticate user
-            await Authenticate();
+            await AuthenticateAsync();
 
             //and call a remote api...
-            return await ApiCall<Organization>(ApiRegCfg["CoreEndPoint"] + "envconfig/getorg",
+            return await ApiCallAsync<Organization>(ApiRegCfg["CoreEndPoint"] + "envconfig/getorg",
                     Method.GET,
                     queryParams: new Dictionary<string, string>
                     {
@@ -113,10 +113,10 @@ namespace MapHive.Cmd.Core
         protected async Task RegisterAppsWithMasterOrgRemoteAsync(Organization org, IEnumerable<Application> apps)
         {
             //authenticate user
-            await Authenticate();
+            await AuthenticateAsync();
 
             //just a put but with url params...
-            await ApiCall<object>(ApiRegCfg["CoreEndPoint"] + "envconfig/registerappstoorg",
+            await ApiCallAsync<object>(ApiRegCfg["CoreEndPoint"] + "envconfig/registerappstoorg",
                 Method.PUT,
                 queryParams: new Dictionary<string, string>
                 {
@@ -139,9 +139,9 @@ namespace MapHive.Cmd.Core
         protected async Task CreateOrgRemoteAsync(string orgName, string orgDescription, bool clean, bool morg, string email, string pass)
         {
             //authenticate user
-            await Authenticate();
+            await AuthenticateAsync();
 
-            await ApiCall<object>(ApiRegCfg["CoreEndPoint"] + "envconfig/createorg",
+            await ApiCallAsync<object>(ApiRegCfg["CoreEndPoint"] + "envconfig/createorg",
                 Method.POST,
                 queryParams: new Dictionary<string, string>
                 {
@@ -169,9 +169,9 @@ namespace MapHive.Cmd.Core
         protected async Task DropOrgRemoteAsync(Guid orgId)
         {
             //authenticate user
-            await Authenticate();
+            await AuthenticateAsync();
 
-            await ApiCall<object>(ApiRegCfg["CoreEndPoint"] + "envconfig/droporg",
+            await ApiCallAsync<object>(ApiRegCfg["CoreEndPoint"] + "envconfig/droporg",
                 Method.DELETE,
                 queryParams: new Dictionary<string, string>
                 {
@@ -196,9 +196,9 @@ namespace MapHive.Cmd.Core
                 throw new ArgumentException($"Not possible to recreate a master user '{email}' this way. sorry.");
             }
 
-            await Authenticate();
+            await AuthenticateAsync();
 
-            return await ApiCall<MapHiveUser>(ApiRegCfg["CoreEndPoint"] + "envconfig/createuser",
+            return await ApiCallAsync<MapHiveUser>(ApiRegCfg["CoreEndPoint"] + "envconfig/createuser",
                 Method.POST,
                 queryParams: new Dictionary<string, string>
                 {
@@ -218,10 +218,10 @@ namespace MapHive.Cmd.Core
         protected async Task RegisterTokensRemoteAsync(List<Token> tokens)
         {
             ////authenticate user
-            //await Authenticate();
+            //await AuthenticateAsync();
 
             ////and call a remote api...
-            //await ApiCall<Auth.AuthOutput>(ApiRegCfg["CoreEndPoint"] + "envconfig/registertokens",
+            //await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["CoreEndPoint"] + "envconfig/registertokens",
             //    Method.POST,
             //    data: tokens
             //);
@@ -249,13 +249,13 @@ namespace MapHive.Cmd.Core
         /// <param name="email"></param>
         /// <param name="pass"></param>
         /// <returns></returns>
-        private async Task Authenticate()
+        private async Task AuthenticateAsync()
         {
             //if (string.IsNullOrEmpty(AccessToken))
             //{
             //    ExtractConfig();
 
-            //    var auth = await ApiCall<Auth.AuthOutput>(ApiRegCfg["AuthEndPoint"] + "login",
+            //    var auth = await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["AuthEndPoint"] + "login",
             //        Method.GET,
             //        new Dictionary<string, string>
             //        {
@@ -277,7 +277,7 @@ namespace MapHive.Cmd.Core
         /// <param name="queryParams"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected internal virtual async Task<TOut> ApiCall<TOut>(string url, Method method = Method.GET, Dictionary<string, string> queryParams = null, object data = null)
+        protected internal virtual async Task<TOut> ApiCallAsync<TOut>(string url, Method method = Method.GET, Dictionary<string, string> queryParams = null, object data = null)
         {
             var client = new RestClient(url);
             var request = new RestRequest(method);

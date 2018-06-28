@@ -38,7 +38,7 @@ namespace MapHive.Cmd.Core
             var clean = !args.ContainsKey("clean") || ExtractParam<bool>("clean", args);
             var orgName = ExtractParam<string>("org", args);
 
-            await DropOrganization(orgName, clean);
+            await DropOrganizationAsync(orgName, clean);
 
             Console.WriteLine();
         }
@@ -50,7 +50,7 @@ namespace MapHive.Cmd.Core
         /// <param name="orgName"></param>
         /// <param name="clean"></param>
         /// <returns>Whether or not an org drop procedure has been performed</returns>
-        protected async Task<bool> DropOrganization(string orgName, bool clean)
+        protected async Task<bool> DropOrganizationAsync(string orgName, bool clean)
         {
             //if an organisation for a specified user exists, destroy it
             using (var dbCtx = new MapHiveDbContext())

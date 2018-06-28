@@ -11,7 +11,7 @@ namespace MapHive.Core.DataModel
 {
     public static partial class AppLocalization
     {
-        public static async Task SaveLocalizations(DbContext dbCtx, IEnumerable<LocalizationClass> localizations,
+        public static async Task SaveLocalizationsAsync(DbContext dbCtx, IEnumerable<LocalizationClass> localizations,
             bool? overwrite, IEnumerable<string> langsToImport)
         {
 

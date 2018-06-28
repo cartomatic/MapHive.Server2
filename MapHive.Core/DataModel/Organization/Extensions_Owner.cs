@@ -17,7 +17,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="u"></param>
         /// <returns></returns>
-        public static async Task AddOwner(this Organization org, DbContext dbCtx, MapHiveUser u)
+        public static async Task AddOwnerAsync(this Organization org, DbContext dbCtx, MapHiveUser u)
         {
             //first find the owner role - it should always be there as it is created on org create
             var ownerR = await org.GetOrgOwnerRoleAsync(dbCtx);
@@ -38,7 +38,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="u"></param>
         /// <returns></returns>
-        public static async Task RemoveOwner(this Organization org, DbContext dbCtx, MapHiveUser u)
+        public static async Task RemoveOwnerAsync(this Organization org, DbContext dbCtx, MapHiveUser u)
         {
             //first grab the owner role for the org
             var ownerR = await org.GetOrgOwnerRoleAsync(dbCtx);
@@ -73,7 +73,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public static async Task<bool> CheckIfUserIsOwner(this Organization org, DbContext dbCtx, Guid userId)
+        public static async Task<bool> CheckIfUserIsOwnerAsync(this Organization org, DbContext dbCtx, Guid userId)
         {
             var owners = await org.GetOwnersAsync(dbCtx);
             return owners.Any(o => o.Uuid == userId);

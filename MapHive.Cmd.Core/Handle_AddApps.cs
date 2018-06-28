@@ -59,7 +59,7 @@ namespace MapHive.Cmd.Core
                 appsToAdd = apps.Keys.ToArray();
             }
 
-            await RegisterApps(appsToAdd);
+            await RegisterAppsAsync(appsToAdd);
 
             Console.WriteLine();
         }
@@ -69,7 +69,7 @@ namespace MapHive.Cmd.Core
         /// </summary>
         /// <param name="appsToAdd"></param>
         /// <returns></returns>
-        protected async Task RegisterApps(string[] appsToAdd)
+        protected async Task RegisterAppsAsync(string[] appsToAdd)
         {
             var dbCtx = new MapHiveDbContext();
 

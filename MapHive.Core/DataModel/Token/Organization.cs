@@ -25,7 +25,7 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public async Task<Organization> GetOrganization(MapHiveDbContext dbCtx)
+        public async Task<Organization> GetOrganizationAsync(MapHiveDbContext dbCtx)
         {
             return await dbCtx.Organizations.FirstOrDefaultAsync(org => org.Uuid == OrganizationId);
         }

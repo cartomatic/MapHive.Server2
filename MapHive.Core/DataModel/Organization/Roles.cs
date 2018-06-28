@@ -181,7 +181,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbctx"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<bool> IsOrgMember(DbContext dbctx, MapHiveUser user)
+        public async Task<bool> IsOrgMemberAsync(DbContext dbctx, MapHiveUser user)
         {
             return await this.HasChildLinkAsync(dbctx, user);
         }
@@ -192,7 +192,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbctx"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<bool> IsOrgOwner(DbContext dbctx, MapHiveUser user)
+        public async Task<bool> IsOrgOwnerAsync(DbContext dbctx, MapHiveUser user)
         {
             return await user.HasChildLinkAsync(dbctx, await GetOrgOwnerRoleAsync(dbctx));
         }
@@ -203,7 +203,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbctx"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<bool> IsOrgAdmin(DbContext dbctx, MapHiveUser user)
+        public async Task<bool> IsOrgAdminAsync(DbContext dbctx, MapHiveUser user)
         {
             return await user.HasChildLinkAsync(dbctx, await GetOrgAdminRoleAsync(dbctx));
         }
@@ -229,7 +229,7 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public async Task<Dictionary<OrganizationRole, IEnumerable<Link>>> GetOrgRoles2UsersMap(DbContext dbCtx)
+        public async Task<Dictionary<OrganizationRole, IEnumerable<Link>>> GetOrgRoles2UsersMapAsync(DbContext dbCtx)
         {
             //need to obtain a user role within an organization!
             //so need the orgroles first, and then user ids linked to them

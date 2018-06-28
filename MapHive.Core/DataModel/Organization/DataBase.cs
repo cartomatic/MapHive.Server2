@@ -16,7 +16,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="identifier"></param>
         /// <returns></returns>
-        public async Task CreateDataBase(DbContext dbCtx, string identifier)
+        public async Task CreateDataBaseAsync(DbContext dbCtx, string identifier)
         {
             //once org is created, create its database
             var orgDb = OrganizationDatabase.CreateInstanceWithDefaultCredentials(Uuid, identifier);

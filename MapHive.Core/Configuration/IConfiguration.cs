@@ -12,6 +12,6 @@ namespace MapHive.Core.Configuration
         /// Reads configuration for a specified scenario;
         /// </summary>
         /// <returns></returns>
-        Task<IDictionary<string, object>> Read();
+        Task<IDictionary<string, object>> ReadAsync();
     }
 }

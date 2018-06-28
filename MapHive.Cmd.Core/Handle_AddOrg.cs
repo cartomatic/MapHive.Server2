@@ -52,9 +52,9 @@ namespace MapHive.Cmd.Core
             }
 
             //ensure the site admin app is present!!!
-            await RegisterApps(new[] {"masterofpuppets"});
+            await RegisterAppsAsync(new[] {"masterofpuppets"});
 
-            await CreateOrganisation(orgName, orgDescription, email, pass, new [] { "masterofpuppets" }, clean);
+            await CreateOrganisationAsync(orgName, orgDescription, email, pass, new [] { "masterofpuppets" }, clean);
 
             Console.WriteLine();
         }
@@ -69,18 +69,18 @@ namespace MapHive.Cmd.Core
         /// <param name="apps"></param>
         /// <param name="clean">whether or not existing org db should be dropped</param>
         /// <returns></returns>
-        protected async Task<bool> CreateOrganisation(string orgName, string orgDescription, string email, string pass, IEnumerable<string> apps, bool clean)
+        protected async Task<bool> CreateOrganisationAsync(string orgName, string orgDescription, string email, string pass, IEnumerable<string> apps, bool clean)
         {
             ConsoleEx.WriteLine($"Creating organisation with the following owner - user: '{email}' with the following pass: '{pass}'...", ConsoleColor.DarkYellow);
 
-            var dropOrg = await DropOrganization(orgName, clean);
+            var dropOrg = await DropOrganizationAsync(orgName, clean);
             if (!dropOrg)
             {
                 return false;
             }
 
             //add user
-            var user = await CreateUser(email, pass);
+            var user = await CreateUserAsync(email, pass);
 
             //and create an org
             ConsoleEx.Write("Creating organization database and stuff... ", ConsoleColor.DarkYellow);
@@ -103,7 +103,7 @@ namespace MapHive.Cmd.Core
                 };
 
                 //create an org with owner and register webrouter app; wr is the app's short name here. btw short name is enforced unique in the db
-                await newOrg.Create(dbCtx, user, apps);
+                await newOrg.CreateAsync(dbCtx, user, apps);
 
                 //This should be all for now. This way org creation is quick. App related db stuff should be handled by the app related services when they're
                 //accessed for the first time.

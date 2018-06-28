@@ -19,13 +19,13 @@ namespace MapHive.Core.DataModel
         /// <param name="owner"></param>
         /// <param name="appsToLink"></param>
         /// <returns></returns>
-        public static async Task<Organization> Create(this Organization org, DbContext dbCtx, MapHiveUser owner, IEnumerable<string> appsToLink)
+        public static async Task<Organization> CreateAsync(this Organization org, DbContext dbCtx, MapHiveUser owner, IEnumerable<string> appsToLink)
         {
             //first create the org
             await org.CreateAsync(dbCtx);
 
             //take care of assigning the owner role to a user
-            await org.AddOwner(dbCtx, owner);
+            await org.AddOwnerAsync(dbCtx, owner);
 
             //finaly grab the apps that should be registered for the org and link them
             var mhDb = (MapHiveDbContext)dbCtx;

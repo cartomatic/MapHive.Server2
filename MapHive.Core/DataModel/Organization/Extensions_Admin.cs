@@ -17,7 +17,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="u"></param>
         /// <returns></returns>
-        public static async Task AddAdmin(this Organization org, DbContext dbCtx, MapHiveUser u)
+        public static async Task AddAdminAsync(this Organization org, DbContext dbCtx, MapHiveUser u)
         {
             //first find the admin role - it should always be there as it is created on org create
             var adminR = await org.GetOrgAdminRoleAsync(dbCtx);
@@ -39,7 +39,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="u"></param>
         /// <returns></returns>
-        public static async Task RemoveAdmin(this Organization org, DbContext dbCtx, MapHiveUser u)
+        public static async Task RemoveAdminAsync(this Organization org, DbContext dbCtx, MapHiveUser u)
         {
             //first grab the admin role for the org
             var adminR = await org.GetOrgAdminRoleAsync(dbCtx);
@@ -74,7 +74,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public static async Task<bool> CheckIfUserIsAdmin(this Organization org, DbContext dbCtx, Guid userId)
+        public static async Task<bool> CheckIfUserIsAdminAsync(this Organization org, DbContext dbCtx, Guid userId)
         {
             var owners = await org.GetAdminsAsync(dbCtx);
             return owners.Any(o => o.Uuid == userId);

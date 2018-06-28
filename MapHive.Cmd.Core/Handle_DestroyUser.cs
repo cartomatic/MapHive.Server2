@@ -50,7 +50,7 @@ namespace MapHive.Cmd.Core
 
 
             //Note: db context uses a connection defined in app cfg. 
-            await DestroyUser<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"));
+            await DestroyUserAsync<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"));
             Console.WriteLine();
         }
 
@@ -60,7 +60,7 @@ namespace MapHive.Cmd.Core
         /// <param name="email"></param>
         /// <param name="users"></param>
         /// <param name="mbrUserAccountService"></param>
-        protected virtual async Task DestroyUser<T>(string email, DbContext dbCtx)
+        protected virtual async Task DestroyUserAsync<T>(string email, DbContext dbCtx)
             where T : MapHive.Core.DataModel.MapHiveUser
         {
             try

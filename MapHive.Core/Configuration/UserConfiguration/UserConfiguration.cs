@@ -78,7 +78,7 @@ Note: this description is only visible in DEBUG mode.";
         /// <param name="dbctx"></param>
         /// <param name="q"></param>
         /// <returns></returns>
-        public static async Task<UserConfiguration> Get<TDbCtx>(
+        public static async Task<UserConfiguration> GetAsync<TDbCtx>(
             TDbCtx dbctx, UserConfigurationQuery q
         )
             where TDbCtx : MapHiveDbContext, new()
@@ -120,7 +120,7 @@ Note: this description is only visible in DEBUG mode.";
                     var tmpOrgs = orgs?.ToList() ?? new List<Organization>();
 
                     //get an app token grants access too
-                    var tokenApp = await token.GetApplication(dbCtx);
+                    var tokenApp = await token.GetApplicationAsync(dbCtx);
                     if (tokenApp != null)
                     {
                         tokenOrg.Applications = new List<Application>
@@ -218,7 +218,7 @@ Note: this description is only visible in DEBUG mode.";
         /// 'Reads' configuration by simply testing for a presence of a user configuration retrieved automagically via UserConfigurationFilter attribute
         /// </summary>
         /// <returns></returns>
-        public async Task<IDictionary<string, object>> Read()
+        public async Task<IDictionary<string, object>> ReadAsync()
         {
             //so warnings dissapear from async method when not using await
             await Task.Delay(0);

@@ -61,7 +61,7 @@ namespace MapHive.Core.DataModel
                 if (
                     a.IsDefault || //always return the dashboard
                     (a.IsCommon && !a.RequiresAuth) || //and the public apps with no auth
-                    (org != null && (await org.GetUserAppAccessCredentials(dbCtx, user, a)).CanUseApp)
+                    (org != null && (await org.GetUserAppAccessCredentialsAsync(dbCtx, user, a)).CanUseApp)
                 )
                     outApps.Add(a);
             }

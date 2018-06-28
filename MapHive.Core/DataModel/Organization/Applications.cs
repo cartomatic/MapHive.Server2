@@ -23,7 +23,7 @@ namespace MapHive.Core.DataModel
         /// <param name="orgId"></param>
         /// <param name="appId"></param>
         /// <returns></returns>
-        public static async Task<bool> CanUseApp<T>(T dbCtx, Guid orgId, Guid appId)
+        public static async Task<bool> CanUseAppAsync<T>(T dbCtx, Guid orgId, Guid appId)
             where T : DbContext, IMapHiveAppsDbContext
         {
             var app = await dbCtx.Applications.FirstOrDefaultAsync(a => a.Uuid == appId);
@@ -44,7 +44,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="app"></param>
         /// <returns></returns>
-        public async Task<bool> CanUseApp(DbContext dbCtx, Application app)
+        public async Task<bool> CanUseAppAsync(DbContext dbCtx, Application app)
         {
             return app.IsCommon || await this.HasChildLinkAsync(dbCtx, app);
         }
@@ -59,7 +59,7 @@ namespace MapHive.Core.DataModel
         /// <param name="start"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public async Task<Tuple<IEnumerable<Application>, int>> GetOrganizationLinkableApps(DbContext dbCtx, string sort = null, string filter = null,
+        public async Task<Tuple<IEnumerable<Application>, int>> GetOrganizationLinkableAppsAsync(DbContext dbCtx, string sort = null, string filter = null,
             int start = 0,
             int limit = 25)
         {

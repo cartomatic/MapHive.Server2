@@ -17,7 +17,7 @@ namespace MapHive.Core.DataModel
         /// <param name="dbCtx"></param>
         /// <param name="app"></param>
         /// <returns></returns>
-        protected internal virtual async Task HandleFlags(DbContext dbCtx)
+        protected internal virtual async Task HandleFlagsAsync(DbContext dbCtx)
         {
             if (IsDefault)
             {

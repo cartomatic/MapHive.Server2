@@ -14,7 +14,7 @@ namespace MapHive.Core.DataModel
         {
             var app = await base.CreateAsync<T>(dbCtx);
 
-            await HandleFlags(dbCtx);
+            await HandleFlagsAsync(dbCtx);
 
             return app;
         }

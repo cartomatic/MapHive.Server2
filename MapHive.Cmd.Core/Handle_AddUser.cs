@@ -41,7 +41,7 @@ namespace MapHive.Cmd.Core
             ConsoleEx.WriteLine($"Creating user: '{email}' with the following pass: '{pass}'", ConsoleColor.DarkYellow);
 
 
-            await CreateUser(email, pass);
+            await CreateUserAsync(email, pass);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace MapHive.Cmd.Core
         /// <param name="email"></param>
         /// <param name="pass"></param>
         /// <returns></returns>
-        protected async Task<MapHiveUser> CreateUser(string email, string pass)
+        protected async Task<MapHiveUser> CreateUserAsync(string email, string pass)
         {
             //need a valid user to create a Core.Base object
             Cartomatic.Utils.Identity.ImpersonateGhostUser();
@@ -102,7 +102,7 @@ namespace MapHive.Cmd.Core
             try
             {
                 //destroy a previous account if any
-                await DestroyUser<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"));
+                await DestroyUserAsync<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"));
 
                 IDictionary<string, object> op = null;
                 user.UserCreated += (sender, eventArgs) =>
