@@ -58,6 +58,8 @@ namespace MapHive.Core.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.HasDefaultSchema("mh_meta");
 
             //commen types configs

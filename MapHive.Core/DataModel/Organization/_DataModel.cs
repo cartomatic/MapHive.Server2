@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils.JsonSerializableObjects;
+using Newtonsoft.Json;
 
 namespace MapHive.Core.DataModel
 {
@@ -79,6 +80,13 @@ namespace MapHive.Core.DataModel
         /// </summary>
         public SerializableDictionaryOfString BillingExtraInfo { get; set; }
 
+        [JsonIgnore]
+        public string BillingExtraInfoSerialized
+        {
+            get => BillingExtraInfo.Serialized;
+            set => BillingExtraInfo.Serialized = value;
+        }
+
 
         /// <summary>
         /// Object contains properties and methods (connect, create) for organization database
@@ -133,5 +141,12 @@ namespace MapHive.Core.DataModel
 
 
         public OrganizationLicenseOptions LicenseOptions { get; set; }
+
+        [JsonIgnore]
+        public string LicenseOptionsSerialized
+        {
+            get => LicenseOptions.Serialized;
+            set => LicenseOptions.Serialized = value;
+        }
     }
 }

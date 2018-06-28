@@ -26,7 +26,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(en => en.ChildTypeUuid).HasColumnName("child_type_uuid");
             builder.Property(en => en.SortOrder).HasColumnName("sort_order");
 
-            builder.Property(p => p.LinkData.Serialized).HasColumnName("link_json_data");
+            builder.Ignore(p => p.LinkData);
+            builder.Property(p => p.LinkDataSerialized).HasColumnName("link_data");
 
 
             builder.HasIndex(t => t.ParentUuid)

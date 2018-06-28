@@ -54,6 +54,13 @@ namespace MapHive.Core.DataModel
         /// </summary>
         public LinkData LinkData { get; set; } = new LinkData();
 
+        [JsonIgnore]
+        public string LinkDataSerialized
+        {
+            get => LinkData.Serialized;
+            set => LinkData.Serialized = value;
+        }
+
         /// <inheritdoc />
         /// <summary>
         /// LinkData setter; used so can set data into a collection of specific type, while still maintaining an interface input

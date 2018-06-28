@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace MapHive.Core.DataModel
 {
@@ -80,6 +81,13 @@ namespace MapHive.Core.DataModel
         /// Application's license options with default values
         /// </summary>
         public LicenseOptions LicenseOptions { get; set; }
+
+        [JsonIgnore]
+        public string LicenseOptionsSerialized
+        {
+            get => LicenseOptions.Serialized;
+            set => LicenseOptions.Serialized = value;
+        }
 
 
         //TODO

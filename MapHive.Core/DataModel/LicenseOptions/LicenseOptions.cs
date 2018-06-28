@@ -22,13 +22,13 @@ namespace MapHive.Core.DataModel
 
         /// <summary>
         /// This property is used so EF can nicely read/write and persist the data without a messy setup
-        /// The TypeConfiguration setup should look like this: Property(p => p.LinkData.Serialised).HasColumnName("some_column_name");
+        /// The TypeConfiguration setup should look like this: Property(p => p.LinkData.Serialized).HasColumnName("some_column_name");
         /// </summary>
         /// <remarks>
         /// Idea ported from MapHive's LinkData / Translations
         /// </remarks>
         [JsonIgnore]
-        public string Serialised
+        public string Serialized
         {
             get
             {

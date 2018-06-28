@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils.JsonSerializableObjects;
+using Newtonsoft.Json;
 
 namespace MapHive.Core.DataModel
 {
@@ -37,6 +38,13 @@ namespace MapHive.Core.DataModel
         /// Referrers that are granted access via this token
         /// </summary>
         public SerializableListOfString Referrers { get; set; }
+
+        [JsonIgnore]
+        public string ReferrersSerialized
+        {
+            get => Referrers.Serialized;
+            set => Referrers.Serialized = value;
+        }
 
         //Note:
         //perhaps we should also assume excluded referrers for scenarios of token misusage

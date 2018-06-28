@@ -24,7 +24,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
             //Stuff below would be true if the class derived from ILocalizationConfiguration; this does not seem to work though...
             //Note: Translations dobe via ILocalizationConfiguration
-            builder.Property(p => p.Translations.Serialized).HasColumnName("translations");
+            builder.Ignore(p => p.Translations);
+            builder.Property(p => p.TranslationsSerialized).HasColumnName("translations");
 
             builder.HasIndex(t => t.ApplicationName)
                 .HasName($"uq_slug_{nameof(Application).ToLower()}")

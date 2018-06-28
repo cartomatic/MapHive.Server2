@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace MapHive.Core.DataModel
 {
@@ -38,6 +39,13 @@ namespace MapHive.Core.DataModel
         /// Template translations
         /// </summary>
         public EmailTranslations Translations { get; set; }
+
+        [JsonIgnore]
+        public string TranslationsSerialized
+        {
+            get => Translations.Serialized;
+            set => Translations.Serialized = value;
+        }
 
         /// <summary>
         /// explicit interface implementation

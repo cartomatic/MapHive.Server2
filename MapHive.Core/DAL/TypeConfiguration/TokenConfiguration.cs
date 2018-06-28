@@ -22,7 +22,10 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(en => en.ApplicationId).HasColumnName("application_id");
             builder.Property(en => en.Name).HasColumnName("name");
             builder.Property(en => en.Description).HasColumnName("description");
-            builder.Property(en => en.Referrers.Serialized).HasColumnName("referrers");
+
+            builder.Ignore(en => en.Referrers);
+            builder.Property(en => en.ReferrersSerialized).HasColumnName("referrers");
+
             builder.Property(en => en.CanIgnoreReferrer).HasColumnName("can_ignore_referrer");
             builder.Property(en => en.IsMaster).HasColumnName("is_master");
         }

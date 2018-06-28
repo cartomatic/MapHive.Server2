@@ -31,6 +31,9 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(en => en.IsHive).HasColumnName("is_hive");
             builder.Property(en => en.ProviderId).HasColumnName("provider_id");
 
+            builder.Ignore(en => en.LicenseOptions);
+            builder.Property(en => en.LicenseOptionsSerialized).HasColumnName("license_options");
+
             builder.HasIndex(t => t.ShortName)
                 .HasName($"uq_slug_{nameof(Application).ToLower()}")
                 .IsUnique();

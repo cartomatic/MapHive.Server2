@@ -29,7 +29,21 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(p => p.ProfilePictureId).HasColumnName("profile_picture_id");
             builder.Property(p => p.BillingEmail).HasColumnName("billing_email");
             builder.Property(p => p.BillingAddress).HasColumnName("billing_address");
-            builder.Property(p => p.BillingExtraInfo.Serialized).HasColumnName("billing_extra_info");
+
+            builder.Ignore(p => p.BillingExtraInfo);
+            builder.Property(p => p.BillingExtraInfoSerialized).HasColumnName("billing_extra_info");
+
+            builder.Ignore(p => p.LicenseOptions);
+            builder.Property(p => p.LicenseOptionsSerialized).HasColumnName("license_options");
+
+            builder.Ignore(p => p.Admins);
+            builder.Ignore(p => p.Owners);
+            builder.Ignore(p => p.Roles);
+            builder.Ignore(p => p.Users);
+            builder.Ignore(p => p.Applications);
+            builder.Ignore(p => p.Databases);
+            builder.Ignore(p => p.EncryptedDatabases);
+
 
             builder.HasIndex(t => t.Slug)
                 .HasName($"uq_slug_{nameof(Organization).ToLower()}")
