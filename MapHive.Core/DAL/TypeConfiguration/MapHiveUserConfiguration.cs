@@ -15,12 +15,13 @@ namespace MapHive.Core.DAL.TypeConfiguration
     {
         public void Configure(EntityTypeBuilder<MapHiveUser> builder)
         {
-            builder.ApplyIBaseConfiguration(nameof(MapHiveUser), "uaers", "mh_meta");
+            builder.ApplyIBaseConfiguration(nameof(MapHiveUser), "users", "mh_meta");
 
             builder.ApplyMapHiveUserBaseConfiguration();
 
             builder.Property(p => p.Forename).HasColumnName("forename");
             builder.Property(p => p.Surname).HasColumnName("surname");
+            builder.Property(p => p.ContactPhone).HasColumnName("contact_phone");
             builder.Property(p => p.Slug).HasColumnName("slug");
             builder.Property(p => p.Bio).HasColumnName("bio");
             builder.Property(p => p.Company).HasColumnName("company");
