@@ -11,17 +11,16 @@ using Cartomatic.Utils.Email;
 using MapHive.Core.DataModel.Validation;
 using MapHive.Core.Events;
 using MapHive.MembershipReboot;
+
 #if NETFULL
 using System.Data.Entity;
 #endif
 #if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
 #endif
+
 namespace MapHive.Core.DataModel
 {
-    /// <summary>
-    /// creates a maphive user and his organization if required (org is created by default)
-    /// </summary>
     public partial class MapHiveUser
     {
         public class CreateUserAccountOutput
