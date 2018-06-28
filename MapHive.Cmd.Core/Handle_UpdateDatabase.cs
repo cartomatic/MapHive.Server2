@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
 using MapHive.Core.Data;
 using MapHive.Core.DAL;
+using MapHive.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Cmd.Core
@@ -35,27 +36,27 @@ namespace MapHive.Cmd.Core
                 return;
             }
 
-            var migrationCtxs = new Dictionary<DbContext, string>();
+            var ctxsToMigrate = new Dictionary<string, Type>();
 
             var all = ContainsParam("all", args);
 
             if (all || ContainsParam("mh", args))
             {
-                migrationCtxs[new MapHiveDbContext()] = "maphive2_metadata";
+                ctxsToMigrate["maphive2_metadata"] = typeof(MapHiveDbContext);
             }
-            if (all || ContainsParam("mr", args))
+            if (all || ContainsParam("id", args))
             {
-                //FIXME - having problems with mbr in core. will need to switch to asp core identity!
+                ctxsToMigrate["maphive2_identity"] = typeof(MapHiveIdentityDbContext);
             }
             if (all || ContainsParam("idsrv", args))
             {
-               //TODO
-               //FIXME - no idsrv 4 implementation yet!
+                //TODO
+                //ctxsToMigrate["maphive2_idsrv"] = typeof(MapHiveIdentityServerDbContext);
             }
 
-            SetupDatabases(null, migrationCtxs, false);
+            SetupDatabases(null, ctxsToMigrate, false);
 
-            ClearEfConnectionPoolsCache(all || ContainsParam("mh", args), all || ContainsParam("mr", args));
+            ClearEfConnectionPoolsCache(all || ContainsParam("mh", args), all || ContainsParam("id", args));
 
             Console.WriteLine();
         }

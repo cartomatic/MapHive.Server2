@@ -27,15 +27,15 @@ namespace MapHive.Cmd.Core
             if (GetHelp(args))
             {
                 Console.WriteLine(
-                    $"'{cmd}' : sets up the maphive environment - maphive2_meta, maphive2_idsrv, maphive2_mr; uses the configured db credentials to connect to the db server.");
+                    $"'{cmd}' : sets up the maphive environment - maphive2_meta, maphive2_idsrv, maphive2_identity; uses the configured db credentials to connect to the db server.");
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
                 Console.WriteLine("\t[full]; all the maphive databases should be created/ugraded");
                 Console.WriteLine("\t[xfull]; all the maphive databases should be dropped prior to being recreated");
                 Console.WriteLine("\t[mh]; maphive2_meta should be created/ugraded");
-                Console.WriteLine("\t[mh]; maphive2_mr (MembershipReboot) should be created/ugraded");
+                Console.WriteLine("\t[id]; maphive2_identity (ASPNET Identity) should be created/ugraded");
                 Console.WriteLine("\t[idsrv]; maphive2_idsrv (IdentityServer) should be created/ugraded");
                 Console.WriteLine("\t[xmh]; maphive2_meta should be dropped prior to being recreated");
-                Console.WriteLine("\t[xmr]; maphive2_mr (MembershipReboot) should be dropped prior to being recreated");
+                Console.WriteLine("\t[xid]; maphive2_mr (ASPNET Identity) should be dropped prior to being recreated");
                 Console.WriteLine("\t[xidsrv]; maphive2_idsrv (IdentityServer) should be dropped prior to being recreated");
                 Console.WriteLine("\t[clean:bool]; when dropping mh db, org dbs should also be dropped; defaults to true;");
 
@@ -46,32 +46,31 @@ namespace MapHive.Cmd.Core
             }
 
             var dbsToDrop = new List<string>();
-            var migrationCtxs = new Dictionary<DbContext, string>();
+            var ctxsToMmigrate = new Dictionary<string, Type>();
 
             var full = ContainsParam("full", args);
             var xfull = ContainsParam("xfull", args);
 
             if (full || ContainsParam("mh", args))
             {
-                migrationCtxs[new MapHiveDbContext()] = "maphive2_meta";
+                ctxsToMmigrate["maphive2_meta"] = typeof(MapHiveDbContext);
             }
             if (xfull || ContainsParam("xmh", args))
             {
                 dbsToDrop.Add("maphive2_meta");
             }
-            if (full || ContainsParam("mr", args))
+            if (full || ContainsParam("id", args))
             {
-                //FIXME...
-                //GOT A PROBLEM HERE...
-                //migrationCtxs[new MapHive.MembershipReboot.CustomDbContext("")] = "maphive2_mr";
+                ctxsToMmigrate["maphive2_identity"] = typeof(MapHive.Identity.MapHiveIdentityDbContext);
             }
-            if (xfull || ContainsParam("xmr", args))
+            if (xfull || ContainsParam("xid", args))
             {
-                dbsToDrop.Add("maphive2_mr");
+                dbsToDrop.Add("maphive2_identity");
             }
             if (full || ContainsParam("maphive2_idsrv", args))
             {
                 //TODO - no new idsrv implementation yet!
+                //migrationCtxs["maphive2_idsrv"] = typeof(MapHive.IdentityServer.MapHiveIdentityServerDbContext);
             }
             if (xfull || ContainsParam("xidsrv", args))
             {
@@ -81,7 +80,7 @@ namespace MapHive.Cmd.Core
             var clean = !ContainsParam("clean", args) || ExtractParam<bool>("clean", args);
 
 
-            if (dbsToDrop.Count == 0 && migrationCtxs.Count == 0)
+            if (dbsToDrop.Count == 0 && ctxsToMmigrate.Count == 0)
             {
                 ConsoleEx.WriteLine(
                     "Looks like i have nothing to do... Type 'setup help' for more details on how to use this command.",
@@ -94,8 +93,12 @@ namespace MapHive.Cmd.Core
                     
                     try
                     {
+                        //FIXME
+                        //this will use the default dsc. perhaps should make it dynamic, huh...
+                        //currently can create a db remotely, but will not obtain proper data of it...
                         //get all the orgs
-                        var dbCtx = new MapHiveDbContext();
+                        var dbCtx = new MapHiveDbContext(); 
+
                         var orgs = await dbCtx.Organizations.ToListAsync();
 
                         if (orgs.Count > 0)
@@ -121,9 +124,9 @@ namespace MapHive.Cmd.Core
                 //check if the default confirmDrop should be waved off
                 var confirmDrop = !ContainsParam("suppressDropConfirmation", args);
                 
-                SetupDatabases(dbsToDrop, migrationCtxs, confirmDrop);
+                SetupDatabases(dbsToDrop, ctxsToMmigrate, confirmDrop);
 
-                ClearEfConnectionPoolsCache(full || ContainsParam("mh", args), full || ContainsParam("mr", args));
+                ClearEfConnectionPoolsCache(full || ContainsParam("mh", args), full || ContainsParam("id", args));
             }
 
             Console.WriteLine();
@@ -134,7 +137,7 @@ namespace MapHive.Cmd.Core
         /// </summary>
         /// <param name="dbsToDrop"></param>
         /// <param name="migrationCtxs"></param>
-        protected void SetupDatabases(List<string> dbsToDrop, Dictionary<DbContext, string> migrationCtxs, bool confirmDrop = true)
+        protected void SetupDatabases(List<string> dbsToDrop, Dictionary<string, Type> ctxsToMmigrate, bool confirmDrop = true)
         {
             //got here, so need to drop the dbs first in order to recreate them later
             if (dbsToDrop?.Count > 0)
@@ -151,15 +154,15 @@ namespace MapHive.Cmd.Core
             }
 
 
-            if (migrationCtxs?.Count > 0)
+            if (ctxsToMmigrate?.Count > 0)
             {
                 try
                 {
-                    foreach (var migrationCfg in migrationCtxs.Keys)
+                    foreach (var dbName in ctxsToMmigrate.Keys)
                     {
                         var dbc = new DataSourceCredentials
                         {
-                            DbName = migrationCtxs[migrationCfg],
+                            DbName = dbName,
                             ServerHost = Dsc.ServerHost,
                             ServerPort = Dsc.ServerPort,
                             UserName = Dsc.UserName,
@@ -169,25 +172,21 @@ namespace MapHive.Cmd.Core
 
                         try
                         {
-                            ConsoleEx.Write($"Updating db: {migrationCfg}... ", ConsoleColor.DarkYellow);
+                            ConsoleEx.Write($"Updating db: {dbName}... ", ConsoleColor.DarkYellow);
 
-                            migrationCfg.Database.EnsureCreated();
-                            migrationCfg.Database.Migrate();
+                            //context will be scoped to credentials defined as default for the cmd
+                            var dbCtx = (DbContext)Activator.CreateInstance(ctxsToMmigrate[dbName], new object[] { dbc.GetConnectionString(), true, dbc.DataSourceProvider });
 
-                            ////TODO - make the provider name somewhat more dynamic...
-                            //migrationCfg.TargetDatabase = new DbConnectionInfo(dbc.GetConnectionString(), "Npgsql");
+                            dbCtx.Database.EnsureCreated();
 
-                            //var migrator = new DbMigrator(migrationCfg);
-
-
-                            //migrator.Update();
-
+                            //this will fail!!!
+                            dbCtx.Database.Migrate();
 
                             ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                         }
                         catch (Exception ex)
                         {
-                            ConsoleEx.WriteErr($"OOOPS... Failed to create/update database: {migrationCfg}");
+                            ConsoleEx.WriteErr($"OOOPS... Failed to create/update database: {dbName}");
                             HandleException(ex, true);
                             throw;
                         }
