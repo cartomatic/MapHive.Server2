@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 namespace MapHive.Identity
 {
     //Note: not only user, but more customizations, as they are required in order to hook into user manager...
+    //not very elegant, but maybe will manage to make it better later... ;)
 
     public class MapHiveIdentityUser : IdentityUser<Guid>
     {
