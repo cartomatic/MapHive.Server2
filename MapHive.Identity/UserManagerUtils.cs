@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MapHive.Identity
@@ -29,6 +30,14 @@ namespace MapHive.Identity
                     );
                 });
 
+            services.AddScoped<UserStore<MapHiveIdentityUser, MapHiveIdentityRole, MapHiveIdentityDbContext, Guid, MapHiveIdentityUserClaim, MapHiveIdentityUserRole, MapHiveIdentityUserLogin, MapHiveIdentityUserToken, MapHiveIdentityRoleClaim>, MapHiveIdentityUserStore>();
+            services.AddScoped<UserManager<MapHiveIdentityUser>, MapHiveIdentityUserManager>();
+            services.AddScoped<RoleManager<MapHiveIdentityRole>, MapHiveIdentityRoleManager>();
+            services.AddScoped<SignInManager<MapHiveIdentityUser>, MapHiveIdentitySignInManager>();
+            services.AddScoped<RoleStore<MapHiveIdentityRole, MapHiveIdentityDbContext, Guid, MapHiveIdentityUserRole, MapHiveIdentityRoleClaim>, MapHiveIdentityRoleStore>();
+            //services.AddScoped<IEmailSender, AuthMessageSender>();
+            //services.AddScoped<ISmsSender, AuthMessageSender>();
+
             // Authentification
             services.AddIdentity<MapHiveIdentityUser, IdentityRole>(opt =>
                 {
@@ -41,16 +50,30 @@ namespace MapHive.Identity
                     opt.Password.RequiredLength = 6;
                     opt.User.RequireUniqueEmail = true;
                 })
-                .AddEntityFrameworkStores<MapHiveIdentityDbContext>()
+                .AddUserStore<MapHiveIdentityUserStore>()
+                .AddUserManager<MapHiveIdentityUserManager>()
+                .AddRoleStore<MapHiveIdentityRoleStore>()
+                //.AddRoleManager<MapHiveIdentityRoleManager>()
+                .AddSignInManager<MapHiveIdentitySignInManager>()
+                
+                // You **cannot** use .AddEntityFrameworkStores() when you customize everything
+                //more here: https://github.com/aspnet/Identity/issues/1082
+                //.AddEntityFrameworkStores<MapHiveIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<IUserManagerService, UserManagerService>();
+
+            //services.AddScoped<IUserManagerService, UserManagerService>();
 
             // Build the IoC from the service collection
             var provider = services.BuildServiceProvider();
 
-            var userManagerService = provider.GetService<UserManagerService>();
+            //this does not seem to work
+            //var userManagerService = provider.GetService<UserManagerService>();
+            //_userManager = userManagerService.GetUserManager();
 
+            //but this does...
+            var userManagerService = (IUserManagerService)Microsoft.Extensions.DependencyInjection.ActivatorUtilities.CreateInstance(provider,
+                typeof(UserManagerService));
             _userManager = userManagerService.GetUserManager();
 
             Configured = true;

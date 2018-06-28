@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Identity
 {
-    public class MapHiveIdentityDbContext : IdentityDbContext
+    public class MapHiveIdentityDbContext : IdentityDbContext<MapHiveIdentityUser, MapHiveIdentityRole, Guid>
     {
         /// <summary>
         /// Creates instance with the default conn str name
