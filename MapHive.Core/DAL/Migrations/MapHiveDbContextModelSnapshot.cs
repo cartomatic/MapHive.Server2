@@ -102,7 +102,7 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.HasIndex("ShortName")
                         .IsUnique()
-                        .HasName("uq_slug_application");
+                        .HasName("uq_short_name_application");
 
                     b.ToTable("applications","mh_meta");
                 });
@@ -150,14 +150,14 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.HasIndex("ApplicationName")
                         .IsUnique()
-                        .HasName("uq_slug_application");
+                        .HasName("uq_app_name_emailtemplatelocalization");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_emailtemplatelocalization");
 
                     b.HasIndex("ApplicationName", "Identifier")
                         .IsUnique()
-                        .HasName("uq_localization_class_translation_key");
+                        .HasName("uq_app_name_translation_identifier_emailtemplatelocalization");
 
                     b.ToTable("email_templates","mh_localization");
                 });
@@ -243,7 +243,7 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.HasIndex("ParentUuid")
                         .IsUnique()
-                        .HasName("idx_parent_link");
+                        .HasName("idx_parent_uuid_link");
 
                     b.ToTable("links","mh_meta");
                 });
@@ -285,7 +285,7 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.HasIndex("ApplicationName", "ClassName")
                         .IsUnique()
-                        .HasName("uq_localization_class_translation_key");
+                        .HasName("uq_app_name_class_name_localizationclass");
 
                     b.ToTable("localization_classes","mh_localization");
                 });
@@ -510,7 +510,7 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.HasIndex("OrganizationId", "Identifier")
                         .IsUnique()
-                        .HasName("uq_db_identifier_organizationdatabase");
+                        .HasName("uq_org_uuid_identifier_organizationdatabase");
 
                     b.ToTable("organization_databases","mh_meta");
                 });
@@ -675,7 +675,7 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.HasIndex("LocalizationClassUuid", "Key")
                         .IsUnique()
-                        .HasName("uq_localization_class_translation_key");
+                        .HasName("uq_localization_class_translation_key_translationkey");
 
                     b.ToTable("translation_keys","mh_localization");
                 });

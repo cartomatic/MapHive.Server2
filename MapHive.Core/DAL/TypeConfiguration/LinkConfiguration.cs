@@ -31,7 +31,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
 
             builder.HasIndex(t => t.ParentUuid)
-                .HasName($"idx_parent_{nameof(Link).ToLower()}")
+                .HasName($"idx_parent_uuid_{nameof(Link).ToLower()}")
                 .IsUnique();
 
             builder.HasIndex(t => t.ChildUuid)

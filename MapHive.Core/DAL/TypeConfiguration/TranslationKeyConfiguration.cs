@@ -28,7 +28,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
 
             builder.HasIndex(t => new { t.LocalizationClassUuid, t.Key}) //this should create a unique composite field idx!
-                .HasName($"uq_localization_class_translation_key")
+                .HasName($"uq_localization_class_translation_key_{nameof(TranslationKey).ToLower()}")
                 .IsUnique();
         }
     }

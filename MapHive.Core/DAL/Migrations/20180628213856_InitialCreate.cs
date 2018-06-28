@@ -315,7 +315,7 @@ namespace MapHive.Core.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "uq_slug_application",
+                name: "uq_app_name_emailtemplatelocalization",
                 schema: "mh_localization",
                 table: "email_templates",
                 column: "application_name",
@@ -328,7 +328,7 @@ namespace MapHive.Core.DAL.Migrations
                 column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
-                name: "uq_localization_class_translation_key",
+                name: "uq_app_name_translation_identifier_emailtemplatelocalization",
                 schema: "mh_localization",
                 table: "email_templates",
                 columns: new[] { "application_name", "identifier" },
@@ -347,7 +347,7 @@ namespace MapHive.Core.DAL.Migrations
                 column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
-                name: "uq_localization_class_translation_key",
+                name: "uq_app_name_class_name_localizationclass",
                 schema: "mh_localization",
                 table: "localization_classes",
                 columns: new[] { "application_name", "class_name" },
@@ -360,7 +360,7 @@ namespace MapHive.Core.DAL.Migrations
                 column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
-                name: "uq_localization_class_translation_key",
+                name: "uq_localization_class_translation_key_translationkey",
                 schema: "mh_localization",
                 table: "translation_keys",
                 columns: new[] { "localization_class_uuid", "key" },
@@ -373,7 +373,7 @@ namespace MapHive.Core.DAL.Migrations
                 column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
-                name: "uq_slug_application",
+                name: "uq_short_name_application",
                 schema: "mh_meta",
                 table: "applications",
                 column: "short_name",
@@ -401,7 +401,7 @@ namespace MapHive.Core.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_parent_link",
+                name: "idx_parent_uuid_link",
                 schema: "mh_meta",
                 table: "links",
                 column: "parent_uuid",
@@ -421,7 +421,7 @@ namespace MapHive.Core.DAL.Migrations
                 column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
-                name: "uq_db_identifier_organizationdatabase",
+                name: "uq_org_uuid_identifier_organizationdatabase",
                 schema: "mh_meta",
                 table: "organization_databases",
                 columns: new[] { "organization_id", "identifier" },

@@ -35,7 +35,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(en => en.LicenseOptionsSerialized).HasColumnName("license_options");
 
             builder.HasIndex(t => t.ShortName)
-                .HasName($"uq_slug_{nameof(Application).ToLower()}")
+                .HasName($"uq_short_name_{nameof(Application).ToLower()}")
                 .IsUnique();
         }
     }
