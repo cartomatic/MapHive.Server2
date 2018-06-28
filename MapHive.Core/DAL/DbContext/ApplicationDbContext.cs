@@ -10,12 +10,7 @@ using MapHive.Core.DAL;
 using MapHive.Core.DAL.TypeConfigs;
 using MapHive.Core.DAL.TypeConfiguration;
 
-#if NETFULL
-using System.Data.Entity;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DAL
 {
@@ -35,12 +30,8 @@ namespace MapHive.Core.DAL
         protected ApplicationDbContext(DbConnection dbConnection, bool contextOwnsConnection)
             : base(dbConnection, contextOwnsConnection)
         {
-#if NETFULL
-            Database.SetInitializer<ApplicationDbContext>(null);
-#endif
-#if NETSTANDARD
+            //Database.SetInitializer<ApplicationDbContext>(null);
             Database.EnsureCreated();
-#endif
         }
 
 
@@ -58,21 +49,6 @@ namespace MapHive.Core.DAL
         //public DbSet<Privilege> Privileges { get; set; }
 
 
-#if NETFULL
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Configurations.Add(new ObjectTypeConfiguration());
-            modelBuilder.Configurations.Add(new LinkConfiguration());
-            modelBuilder.Configurations.Add(new RoleConfiguration());
-
-            //modelBuilder.Configurations.Add(new PrivilegeConfiguration());
-
-            base.OnModelCreating(modelBuilder);
-        }
-
-#endif
-
-#if NETSTANDARD
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("mh_meta");
@@ -84,6 +60,5 @@ namespace MapHive.Core.DAL
 
             //modelBuilder.ApplyConfiguration(new PrivilegeConfiguration());
         }
-#endif
     }
 }

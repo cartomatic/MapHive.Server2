@@ -6,54 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using MapHive.Core.DataModel;
 
-#if NETFULL
-using System.Data.Entity.ModelConfiguration;
-using System.Data.Entity.Infrastructure.Annotations;
-#endif
-
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-#endif
 
 namespace MapHive.Core.DAL.TypeConfiguration
 {
 
     public static partial class EntityTypeConfigurationExtensions
     {
-#if NETFULL
-        /// <summary>
-        /// Takes care of setting up type configuration specific to the IBase model
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="entityName">Name of the entity. used for automated index naming</param>
-        /// <returns></returns>
-        public static EntityTypeConfiguration<T> ApplyIBaseConfiguration<T>(this EntityTypeConfiguration<T> entity, string entityName) where T : class, IBase
-        {
-            entity.HasKey(t => t.Uuid);
-
-            entity.Property(en => en.Uuid).HasColumnName("uuid");
-            entity.Property(en => en.CreatedBy).HasColumnName("created_by");
-            entity.Property(en => en.LastModifiedBy).HasColumnName("last_modified_by");
-            entity.Property(en => en.CreateDateUtc).HasColumnName("create_date_utc");
-            entity.Property(en => en.ModifyDateUtc).HasColumnName("modify_date_utc");
-            entity.Property(en => en.EndDateUtc).HasColumnName("end_date_utc");
-
-            entity.Ignore(p => p.TypeUuid);
-            entity.Ignore(p => p.Links);
-            entity.Ignore(p => p.LinkData);
-
-            entity.Property(en => en.CreateDateUtc)
-                .HasColumnAnnotation(
-                    "Index",
-                    new IndexAnnotation(new IndexAttribute($"idx_create_date_{entityName.ToLower()}")));
-
-            return entity;
-        }
-#endif
-
-#if NETSTANDARD
         /// <summary>
         /// Takes care of setting up type configuration specific to the IBase model
         /// </summary>
@@ -83,7 +43,6 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.HasIndex(p => p.CreateDateUtc)
                 .HasName($"idx_create_date_{entityName.ToLower()}");
         }
-#endif
 
     }
 

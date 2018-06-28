@@ -10,15 +10,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Npgsql;
 
-#if NETFULL
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
-#endif
-
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DataModel
 {
@@ -31,37 +23,27 @@ namespace MapHive.Core.DataModel
             public bool Updated { get; set; }
         }
 
-#if NETFULL
-        /// <summary>
-        /// Method create database using migration configuration or update if database exist
-        /// </summary>
-        public CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase(DbMigrationsConfiguration configuration = null)
-        {
-            //if no specific cfg provided, do use the 'blank' organisation cfg.
-            if (configuration == null)
-                configuration = new DAL.Migrations.Ef.OrganizationDbCxtMigrations.Configuration();
-
-            configuration.TargetDatabase = new DbConnectionInfo(GetConnectionString(), DataSourceProvider.ToString());
-
-            var migrator = new DbMigrator(configuration);
-
-            //if there are any pending migratgions, it means the db needs some attentions. therefore a line below should update it. 
-            //otherwise, an update will not take place.
-            var output = new CreateOrUpdateDatabaseOutput
-            {
-                Created = !migrator.GetDatabaseMigrations().Any() && migrator.GetLocalMigrations().Any(),
-                Updated = migrator.GetPendingMigrations().Any()
-            };
-
-            migrator.Update();
-
-            return output;
-        }
-#endif
-
-#if NETSTANDARD
         public CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase()
         {
+            //net full approach
+            //if no specific cfg provided, do use the 'blank' organisation cfg.
+            //if (configuration == null)
+            //    configuration = new DAL.Migrations.Ef.OrganizationDbCxtMigrations.Configuration();
+
+            //configuration.TargetDatabase = new DbConnectionInfo(GetConnectionString(), DataSourceProvider.ToString());
+
+            //var migrator = new DbMigrator(configuration);
+
+            ////if there are any pending migratgions, it means the db needs some attentions. therefore a line below should update it. 
+            ////otherwise, an update will not take place.
+            //var output = new CreateOrUpdateDatabaseOutput
+            //{
+            //    Created = !migrator.GetDatabaseMigrations().Any() && migrator.GetLocalMigrations().Any(),
+            //    Updated = migrator.GetPendingMigrations().Any()
+            //};
+
+            //migrator.Update();
+
             var ctx = GetDbContext();
 
             var output = new CreateOrUpdateDatabaseOutput
@@ -76,7 +58,6 @@ namespace MapHive.Core.DataModel
 
             return output;
         }
-#endif
 
     }
 }

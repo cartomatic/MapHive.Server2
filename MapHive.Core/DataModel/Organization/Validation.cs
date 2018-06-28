@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MapHive.Core.DataModel.Validation;
 
-#if NETFULL
-using System.Data.Entity;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 
 namespace MapHive.Core.DataModel

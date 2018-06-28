@@ -7,12 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using static MapHive.Core.DataModel.AppLocalization;
 
-#if NETFULL
-using System.Data.Entity;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DataModel
 {

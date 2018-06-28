@@ -11,14 +11,7 @@ using MapHive.Core.DAL;
 using Newtonsoft.Json;
 using Npgsql;
 
-#if NETFULL
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DataModel
 {
@@ -40,9 +33,11 @@ namespace MapHive.Core.DataModel
             {
                 conn.Open();
 
-                var cmd = new NpgsqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = $"ALTER DATABASE {DbName} RENAME TO {newName}";
+                var cmd = new NpgsqlCommand
+                {
+                    Connection = conn,
+                    CommandText = $"ALTER DATABASE {DbName} RENAME TO {newName}"
+                };
 
                 cmd.ExecuteNonQuery();
 

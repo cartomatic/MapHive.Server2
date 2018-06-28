@@ -7,48 +7,11 @@ using System.Threading.Tasks;
 
 using MapHive.Core.DataModel;
 
-#if NETFULL
-using System.Data.Entity.ModelConfiguration;
-using System.Data.Entity.Infrastructure.Annotations;
-#endif
-
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-#endif
 
 namespace MapHive.Core.DAL.TypeConfiguration
 {
-#if NETFULL
-    public class OrganizationConfiguration : EntityTypeConfiguration<Organization>
-    {
-        public OrganizationConfiguration()
-        {
-            ToTable("organizations", "mh_meta");
-            this.ApplyIBaseConfiguration(nameof(Organization));
-
-            Property(p => p.Slug).HasColumnName("slug");
-            Property(p => p.DisplayName).HasColumnName("display_name");
-            Property(p => p.Description).HasColumnName("description");
-            Property(p => p.Location).HasColumnName("location");
-            Property(p => p.Url).HasColumnName("url");
-            Property(p => p.Email).HasColumnName("email");
-            Property(p => p.GravatarEmail).HasColumnName("gravatar_email");
-            Ignore(p => p.ProfilePicture);
-            Property(p => p.ProfilePictureId).HasColumnName("profile_picture_id");
-            Property(p => p.BillingEmail).HasColumnName("billing_email");
-            Property(p => p.BillingAddress).HasColumnName("billing_address");
-            Property(p => p.BillingExtraInfo.Serialized).HasColumnName("billing_extra_info");
-
-            Property(en => en.Slug)
-                .HasColumnAnnotation(
-                    "Index",
-                    new IndexAnnotation(new IndexAttribute($"idx_slug_{nameof(Organization).ToLower()}") { IsUnique = true }));
-        }
-    }
-#endif
-
-#if NETSTANDARD
     public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
     {
         public void Configure(EntityTypeBuilder<Organization> builder)
@@ -73,5 +36,4 @@ namespace MapHive.Core.DAL.TypeConfiguration
                 .IsUnique();
         }
     }
-#endif
 }

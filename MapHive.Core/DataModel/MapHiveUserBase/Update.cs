@@ -10,12 +10,7 @@ using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel.Validation;
 
-#if NETFULL
-using System.Data.Entity;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DataModel
 {
@@ -129,21 +124,11 @@ namespace MapHive.Core.DataModel
             {
                 //open the connections as otherwise will not be able to begin transaction
 
-#if NETFULL
-                await clonedMbrDbCtx.Database.Connection.OpenAsync();
-                await clonedMhDbCtx.Database.Connection.OpenAsync();
-
-                mbrTrans = clonedMbrDbCtx.Database.Connection.BeginTransaction();
-                mhTransaction = clonedMhDbCtx.Database.Connection.BeginTransaction();
-#endif
-
-#if NETSTANDARD
                 await clonedMbrDbCtx.Database.GetDbConnection().OpenAsync();
                 await clonedMhDbCtx.Database.GetDbConnection().OpenAsync();
 
                 mbrTrans = clonedMbrDbCtx.Database.GetDbConnection().BeginTransaction();
                 mhTransaction = clonedMhDbCtx.Database.GetDbConnection().BeginTransaction();
-#endif
 
                 //begin the transaction and set the transaction object back on the db context so it uses it
                 //do so for both contexts - mbr and mh
@@ -205,15 +190,8 @@ namespace MapHive.Core.DataModel
             finally
             {
                 //try to close the connections as they were opened manually and therefore may not have been closed!
-#if NETFULL
-                clonedMhDbCtx.Database.Connection.CloseConnection(dispose: true);
-                clonedMbrDbCtx.Database.Connection.CloseConnection(dispose: true);
-#endif
-
-#if NETSTANDARD
                 clonedMhDbCtx.Database.GetDbConnection().CloseConnection(dispose: true);
                 clonedMbrDbCtx.Database.GetDbConnection().CloseConnection(dispose: true);
-#endif
 
                 mbrTrans?.Dispose();
                 mhTransaction?.Dispose();

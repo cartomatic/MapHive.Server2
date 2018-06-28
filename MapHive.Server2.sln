@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Core", "MapHive.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartomatic.Utils", "..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj", "{A9F2E357-C89C-4C50-8603-BEA36E7657B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHive.MembershipReboot", "MapHive.MembershipReboot\MapHive.MembershipReboot.csproj", "{878B4D5F-1216-4443-B64D-A9BA38D175D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.MembershipReboot", "MapHive.MembershipReboot\MapHive.MembershipReboot.csproj", "{6506F966-F2B4-4133-9B03-EB572EE3A437}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{A9F2E357-C89C-4C50-8603-BEA36E7657B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9F2E357-C89C-4C50-8603-BEA36E7657B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9F2E357-C89C-4C50-8603-BEA36E7657B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{878B4D5F-1216-4443-B64D-A9BA38D175D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{878B4D5F-1216-4443-B64D-A9BA38D175D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{878B4D5F-1216-4443-B64D-A9BA38D175D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{878B4D5F-1216-4443-B64D-A9BA38D175D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6506F966-F2B4-4133-9B03-EB572EE3A437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6506F966-F2B4-4133-9B03-EB572EE3A437}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6506F966-F2B4-4133-9B03-EB572EE3A437}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6506F966-F2B4-4133-9B03-EB572EE3A437}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

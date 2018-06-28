@@ -8,12 +8,7 @@ using System.Threading.Tasks;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL.TypeConfiguration;
 
-#if NETFULL
-using System.Data.Entity;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DAL
 {
@@ -32,12 +27,8 @@ namespace MapHive.Core.DAL
         public MapHiveDbContext(DbConnection conn, bool contextOwnsConnection) 
             : base (conn, contextOwnsConnection)
         {
-#if NETFULL
-            Database.SetInitializer<MapHiveDbContext>(null);
-#endif
-#if NETSTANDARD
+            //Database.SetInitializer<MapHiveDbContext>(null);
             Database.EnsureCreated();
-#endif
         }
 
         //common types
@@ -59,33 +50,6 @@ namespace MapHive.Core.DAL
         public DbSet<EmailTemplateLocalization> EmailTemplates { get; set; }
         public DbSet<Lang> Langs { get; set; }
 
-
-
-#if NETFULL
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.HasDefaultSchema("mh_meta");
-
-            //commen types configs
-            modelBuilder.Configurations.Add(new ApplicationConfiguration());
-            modelBuilder.Configurations.Add(new MapHiveUserConfiguration());
-            modelBuilder.Configurations.Add(new OrganizationConfiguration());
-            modelBuilder.Configurations.Add(new OrganizationDatabaseConfiguration());
-            modelBuilder.Configurations.Add(new TeamConfiguration());
-
-            //tokens
-            modelBuilder.Configurations.Add(new TokenConfiguration());
-
-            //Ilocalised type configs
-            modelBuilder.Configurations.Add(new LocalizationClassConfiguration());
-            modelBuilder.Configurations.Add(new EmailTemplateLocalizationConfiguration());
-            modelBuilder.Configurations.Add(new LangConfiguration());
-            modelBuilder.Configurations.Add(new TranslationKeyConfiguration());
-
-        }
-#endif
-
-#if NETSTANDARD
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("mh_meta");
@@ -106,7 +70,6 @@ namespace MapHive.Core.DAL
             modelBuilder.ApplyConfiguration(new LangConfiguration());
             modelBuilder.ApplyConfiguration(new TranslationKeyConfiguration());
         }
-#endif
     }
 
 

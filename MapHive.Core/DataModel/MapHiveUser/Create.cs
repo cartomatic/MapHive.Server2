@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 using BrockAllen.MembershipReboot;
 using Cartomatic.Utils.Email;
 
-#if NETFULL
-using System.Data.Entity;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DataModel
 {

@@ -2,8 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net452;net462</TargetFrameworks>
-    <Version>1.0.0-dev0078</Version>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Version>1.0.0-dev0081</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
 aimed at working with pgsql initially</Description>
@@ -21,15 +21,7 @@ aimed at working with pgsql initially</Description>
     <PackageReference Include="restsharp" Version="106.3.1" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
-  </ItemGroup>
 
-
-  <!--.NET standard 2.0 refs, compilation flags & build opts-->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
-    <DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.EntityFrameworkCore">
       <Version>2.1.1</Version>
     </PackageReference>
@@ -58,49 +50,10 @@ aimed at working with pgsql initially</Description>
     </PackageReference>
   </ItemGroup>
 
-  <!--NET 4.5.2 refs, compilation flags & build opts-->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net452'">
-    <DefineConstants>NET452;NETFULL</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net452' ">
-    <PackageReference Include="EntityFramework" Version="6.2.0" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.5" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.5" />
-
-    <Reference Include="System.Configuration">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Configuration.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <!--NET 4.6.2 refs, compilation flags & build opts-->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
-    <DefineConstants>NET462;NETFULL</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462' ">
-    <PackageReference Include="EntityFramework" Version="6.2.0" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.6" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.6" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>2.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational">
-      <Version>2.1.1</Version>
-    </PackageReference>
-
-    <Reference Include="System.Configuration">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Configuration.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
+ 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
     <ProjectReference Include="..\MapHive.MembershipReboot\MapHive.MembershipReboot.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DAL\Migrations\EfCore\" />
   </ItemGroup>
 
 </Project>

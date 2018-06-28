@@ -8,13 +8,8 @@ using System.Threading.Tasks;
 using MapHive.Core.DataModel;
 
 
-#if NETFULL
-using System.Data.Entity;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-#endif
 
 namespace MapHive.Core.DAL
 {
@@ -31,19 +26,6 @@ namespace MapHive.Core.DAL
             : this("need_this_for_migrations!!!")
         {
         }
-
-#if NETFULL
-        protected BaseDbContext(string connStringName) : base(connStringName)
-        {
-        }
-
-        protected BaseDbContext(DbConnection conn, bool contextOwnsConnection) : base(conn, contextOwnsConnection) {
-        }
-#endif
-
-
-
-#if NETSTANDARD
 
         protected BaseDbContext(string connStringName)
             : base(GetDbContextOptions(connStringName: connStringName))
@@ -68,8 +50,6 @@ namespace MapHive.Core.DAL
 
             return optionsBuilder.Options;
         }
-
-#endif
 
 
         /// <summary>

@@ -5,12 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#if NETFULL
-using System.Data.Entity;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DAL
 {
@@ -26,12 +21,8 @@ namespace MapHive.Core.DAL
         public OrganizationDbContext(DbConnection dbConnection, bool contextOwnsConnection)
             : base(dbConnection, contextOwnsConnection)
         {
-#if NETFULL
-            Database.SetInitializer<OrganizationDbContext>(null);
-#endif
-#if NETSTANDARD
+            //Database.SetInitializer<OrganizationDbContext>(null);
             Database.EnsureCreated();
-#endif
         }
     }
 }

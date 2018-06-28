@@ -6,13 +6,7 @@ using System.Threading.Tasks;
 using MapHive.Core.DAL;
 using Npgsql;
 
-#if NETFULL
-using System. Data.Entity;
-#endif
-
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DataModel
 {
@@ -57,14 +51,7 @@ namespace MapHive.Core.DataModel
                 {
                     //OK, for the time being we work with PgSQL only...
                     //It will blow up though if we decide to support other datasources too....
-#if NETFULL
-                    var conn = dbCtx.Database.Connection as NpgsqlConnection;
-#endif
-
-#if NETSTANDARD
-                    var conn = dbCtx.Database.GetDbConnection() as NpgsqlConnection;
-#endif
-                    if (conn == null)
+                    if (!(dbCtx.Database.GetDbConnection() is NpgsqlConnection conn))
                         throw new InvalidOperationException("Uhuh, looks like not a PgSQL conn is used by the Db context...");
 
                     //Only destroy dbs that are created on this server...

@@ -8,13 +8,7 @@ using System.Threading.Tasks;
 using MapHive.Core.Data;
 using MapHive.Core.DataModel;
 
-#if NETFULL
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DAL
 {
@@ -76,11 +70,9 @@ namespace MapHive.Core.DAL
             {
                 if (VerifyObjectType(type, filter))
                 {
-#if NETFULL
-                    context.ObjectTypes.AddOrUpdate(new ObjectType { Name = type.ToString(), Uuid = ObjectTypeExtensions.GetTypeUuid(type) });  
-#endif
-#if NETSTANDARD
-                    if(!context.ObjectTypes.Any(o=>o.Uuid == ObjectTypeExtensions.GetTypeUuid(type)))
+                    //context.ObjectTypes.AddOrUpdate(new ObjectType { Name = type.ToString(), Uuid = ObjectTypeExtensions.GetTypeUuid(type) });  
+
+                    if (!context.ObjectTypes.Any(o=>o.Uuid == ObjectTypeExtensions.GetTypeUuid(type)))
                     {
                         context.ObjectTypes.Add(new ObjectType
                         {
@@ -88,7 +80,6 @@ namespace MapHive.Core.DAL
                             Uuid = ObjectTypeExtensions.GetTypeUuid(type)
                         });
                     }
-#endif
                 }
                 
             }

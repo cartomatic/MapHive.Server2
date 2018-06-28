@@ -8,12 +8,7 @@ using System.Threading.Tasks;
 using Cartomatic.Utils.Filtering;
 using Cartomatic.Utils.Sorting;
 
-#if NETFULL
-using System.Data.Entity;
-#endif
-#if NETSTANDARD
 using Microsoft.EntityFrameworkCore;
-#endif
 
 namespace MapHive.Core.DataModel
 {

@@ -25,17 +25,12 @@ namespace MapHive.Core.DataModel
             OrganizationDatabase defaultDb = null;
             try
             {
-                string netStdCfg = null;
-
-#if NETSTANDARD
                 var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
-                netStdCfg = cfg?["OrganizationsDatabase"];
-#endif
 
                 defaultDb =
                     JsonConvert.DeserializeObject<OrganizationDatabase>(
                         ConfigurationManager.AppSettings["OrganizationsDatabase"]
-                        ?? netStdCfg
+                        ?? cfg?["OrganizationsDatabase"]
                     );
 
                 defaultDb.OrganizationId = orgId;
