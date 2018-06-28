@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
 using Cartomatic.Utils.Data;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace MapHive.Cmd.Core
@@ -21,9 +22,19 @@ namespace MapHive.Cmd.Core
         {
             try
             {
-                Dsc =
-                    JsonConvert.DeserializeObject<DataSourceCredentials>(
-                        ConfigurationManager.AppSettings["DefaultDbCredentials"]);
+                var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+
+                var dsc = new DataSourceCredentials();
+                cfg.GetSection("Dsc").Bind(dsc);
+
+                //if could not read, this should be default
+                if(dsc.DataSourceProvider == DataSourceProvider.Unknown)
+                    throw new Exception();
+
+                Dsc = dsc;
+
+
+                PrintDbc();
             }
             catch
             {
