@@ -9,7 +9,7 @@ using Cartomatic.Utils.Ef;
 using Cartomatic.Utils.Email;
 using MapHive.Core.DataModel.Validation;
 using MapHive.Core.Events;
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel
@@ -21,23 +21,23 @@ namespace MapHive.Core.DataModel
         /// Creates an object; returns a created object or null if it was not possible to create it due to the fact a uuid is already reserved
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TAccount"></typeparam>
+        /// <typeparam name="TIdentityUser"></typeparam>
         /// <param name="obj"></param>
         /// <param name="dbCtx"></param>
-        /// <param name="userAccountService"></param>
+        /// <param name="userManager"></param>
         /// <returns></returns>
-        public static async Task<T> CreateAsync<T, TAccount>(this T obj, DbContext dbCtx, UserAccountService<TAccount> userAccountService)
+        public static async Task<T> CreateAsync<T, TIdentityUser>(this T obj, DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager)
             where T : MapHiveUserBase
-            where TAccount : RelationalUserAccount
+            where TIdentityUser : IdentityUser<Guid>
         {
-            return await obj.CreateAsync<T, TAccount>(dbCtx, userAccountService);
+            return await obj.CreateAsync<T, TIdentityUser>(dbCtx, userManager);
         }
 
-        public static async Task<T> CreateAsync<T, TAccount>(this T obj, DbContext dbCtx, UserAccountService<TAccount> userAccountService, IEmailAccount emailAccount, IEmailTemplate emailTemplate)
+        public static async Task<T> CreateAsync<T, TIdentityUser>(this T obj, DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, IEmailAccount emailAccount, IEmailTemplate emailTemplate)
             where T : MapHiveUserBase
-            where TAccount : RelationalUserAccount
+            where TIdentityUser : IdentityUser<Guid>
         {
-            return await obj.CreateAsync<T, TAccount>(dbCtx, userAccountService, emailAccount, emailTemplate);
+            return await obj.CreateAsync<T, TIdentityUser>(dbCtx, userManager, emailAccount, emailTemplate);
         }
     }
 
@@ -68,15 +68,15 @@ namespace MapHive.Core.DataModel
         /// sends out a confirmation email if email account and template are provided
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TAccount"></typeparam>
-        /// <param name="userAccountService"></param>
+        /// <typeparam name="TIdentityUser"></typeparam>
+        /// <param name="userManager"></param>
         /// <param name="dbCtx"></param>
         /// <param name="emailAccount"></param>
         /// <param name="emailTemplate"></param>
         /// <returns></returns>
-        protected internal virtual async Task<T> CreateAsync<T, TAccount>(DbContext dbCtx, UserAccountService<TAccount> userAccountService, IEmailAccount emailAccount = null, IEmailTemplate emailTemplate = null)
+        protected internal virtual async Task<T> CreateAsync<T, TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, IEmailAccount emailAccount = null, IEmailTemplate emailTemplate = null)
             where T : MapHiveUserBase
-            where TAccount : RelationalUserAccount
+            where TIdentityUser : IdentityUser<Guid>
         {
             T output;
 
@@ -88,65 +88,34 @@ namespace MapHive.Core.DataModel
 
             //check if the email is already used or not; throw validation feedback exception if so
             //Note - could do it in the mh meta, but both dbs must be in sync anyway
-            var emailInUse = userAccountService.GetByEmail(Email) != null;
+            var emailInUse = await userManager.FindByEmailAsync(Email) != null;
             if (emailInUse)
             {
                 throw Validation.Utils.GenerateValidationFailedException(nameof(Email), ValidationErrors.EmailInUse);
             }
 
-            //user account exists in two places - mbr and mh databases. Therefore need to handle them both properly wrapped into transactions
-
-            var mbrDbCtx = MapHive.MembershipReboot.MembershipRebootUtils.GetMembershipRebootDbCtx(userAccountService);
-            System.Data.Common.DbTransaction mbrTrans = null;
-
-            System.Data.Common.DbTransaction mhTrans = null;
-
-
-            //since this method wraps the op on 2 dbs into transactions, it must handle connections manually and take care of closing it aftwerwards
-            //it is therefore required to clone contexts with independent conns so the base contexts can be reused
-            var clonedMhDbCtx = dbCtx.Clone(contextOwnsConnection: false);
-            var clonedMbrDbCtx = mbrDbCtx.Clone(false);
-
             try
             {
-                //open the connections as otherwise will not be able to begin transaction
-                await clonedMbrDbCtx.Database.GetDbConnection().OpenAsync();
-                await clonedMhDbCtx.Database.GetDbConnection().OpenAsync();
-                mbrTrans = clonedMbrDbCtx.Database.GetDbConnection().BeginTransaction();
-                mhTrans = clonedMhDbCtx.Database.GetDbConnection().BeginTransaction();
-
-                //begin the transaction and set the transaction object back on the db context so it uses it
-
-                clonedMbrDbCtx.Database.UseTransaction(mbrTrans);
-                clonedMhDbCtx.Database.UseTransaction(mhTrans);
-
-
-                //first create a membership reboot account
-                //wire up evt too, to intercept what mbr is trying to say...
-                AccountCreatedEvent<TAccount> e = null;
-
-                userAccountService.Configuration.AddEventHandler(new MembershipRebootEventHandlers.AccountCreatedEventHandler<TAccount>(
-                    (evt) =>
-                    {
-                        e = evt;
-                    }));
-                var newMbrAccount = userAccountService.CreateAccount(this.Email, Cartomatic.Utils.Crypto.Generator.GenerateRandomString(10), this.Email);
+                var rndPass = Cartomatic.Utils.Crypto.Generator.GenerateRandomString(10);
+                var idUser = new IdentityUser<Guid>
+                {
+                    Id = Guid.NewGuid(),
+                    UserName = Email.ToLower(),
+                    Email = Email.ToLower()
+                };
+                var result = await userManager.CreateAsync(idUser, rndPass);
 
                 //so can next pass some data to the mh meta user object
-                this.Uuid = newMbrAccount.ID;
+                this.Uuid = idUser.Id;
 
                 //mbr work done, so can create the user within the mh metadata db
-                output = await base.CreateAsync<T>(clonedMhDbCtx);
-
-                //looks like we're good to go, so can commit
-                mbrTrans.Commit();
-                mhTrans.Commit();
+                output = await base.CreateAsync<T>(dbCtx);
 
 
                 var opFeedback = new Dictionary<string, object>
                 {
-                    {nameof(e.InitialPassword), e.InitialPassword},
-                    {nameof(e.VerificationKey), e.VerificationKey}
+                    {"InitialPassword", rndPass},
+                    {"VerificationKey", await userManager.GenerateEmailConfirmationTokenAsync(idUser)}
                 };
 
                 //if email related objects have been provided, send the account created email
@@ -168,19 +137,7 @@ namespace MapHive.Core.DataModel
             }
             catch (Exception ex)
             {
-                mbrTrans?.Rollback();
-                mhTrans?.Rollback();
-
                 throw Validation.Utils.GenerateValidationFailedException(ex);
-            }
-            finally
-            {
-                //try to close the connections as they were opened manually and therefore may not have been closed!
-                clonedMhDbCtx.Database.GetDbConnection().CloseConnection(dispose: true);
-                clonedMbrDbCtx.Database.GetDbConnection().CloseConnection(dispose: true);
-
-                mbrTrans?.Dispose();
-                mhTrans?.Dispose();
             }
 
             return output;

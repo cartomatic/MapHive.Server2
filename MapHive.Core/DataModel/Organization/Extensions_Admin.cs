@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MapHive.Core.DAL;
-using MapHive.MembershipReboot;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel
@@ -25,7 +24,7 @@ namespace MapHive.Core.DataModel
 
             //and next link it to a user
             u.AddLink(adminR);
-            await u.UpdateAsync(dbCtx,  MembershipRebootUtils.GetUserAccountService(MembershipRebootUtils.GetMembershipRebootDbctx()), u.Uuid);
+            await u.UpdateWithNoIdentityChangesAsync<MapHiveUser>(dbCtx);
 
             //and also add a user to an org - this will not change anything if a user is already linked
             org.AddLink(u);

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BrockAllen.MembershipReboot;
-using BrockAllen.MembershipReboot.Relational;
 using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
 using Cartomatic.Utils.Email;
@@ -47,19 +45,19 @@ namespace MapHive.Core.DataModel
 
 
 //            //need user account service to properly create a MBR user
-//            var userAccountService =
-//                MembershipRebootUtils.GetUserAccountService(MembershipRebootUtils.GetMembershipRebootDbctx());
+//            var userManager =
+//                MembershipRebootUtils.GetuserManager(MembershipRebootUtils.GetMembershipRebootDbctx());
 
 //            //wire up an evt listener - this is the way mbr talks
 //            AccountCreatedEvent<CustomUserAccount> e = null;
-//            userAccountService.Configuration.AddEventHandler(
+//            userManager.Configuration.AddEventHandler(
 //                new MembershipAccountCreatedEvent<CustomUserAccount>(evt => e = evt));
 
 //            //rrnd email - after all need to avoid scenarios when two folks try the same resend activation procedure at once
 //            var rndEmail = $"{DateTime.Now.Ticks}@somedomain.com";
 
 //            //finally a new rnd user, so we can get a properly recreated verification key and a new pass...
-//            var newMbrAccount = userAccountService.CreateAccount(rndEmail, Cartomatic.Utils.Crypto.Generator.GenerateRandomString(10), rndEmail);
+//            var newMbrAccount = userManager.CreateAccount(rndEmail, Cartomatic.Utils.Crypto.Generator.GenerateRandomString(10), rndEmail);
 
 //            //update the account in question with 
 //            //mbrUser.VerificationKey = newMbrAccount.VerificationKey;

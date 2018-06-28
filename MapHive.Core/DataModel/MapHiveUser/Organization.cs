@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BrockAllen.MembershipReboot;
-using BrockAllen.MembershipReboot.Relational;
 using MapHive.Core.DAL;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel
@@ -16,9 +15,10 @@ namespace MapHive.Core.DataModel
         /// creates an organization for maphhive user and sets links as expected
         /// </summary>
         /// <param name="dbCtx"></param>
+        /// <param name="userManager"></param>
         /// <returns></returns>
-        public async Task<Organization> CreateUserOrganizationAsync<TAccount>(DbContext dbCtx, UserAccountService<TAccount> userAccountService)
-            where TAccount : RelationalUserAccount
+        public async Task<Organization> CreateUserOrganizationAsync<TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager)
+            where TIdentityUser : IdentityUser<Guid>
         {
             if (string.IsNullOrEmpty(Slug))
             {
@@ -39,7 +39,8 @@ namespace MapHive.Core.DataModel
             UserOrgId = org.Uuid;
             org.AddLink(this);
             this.AddLink(await org.GetOrgOwnerRoleAsync(dbCtx));
-            await this.UpdateAsync(dbCtx, userAccountService);
+
+            await this.UpdateAsync<MapHiveUser, TIdentityUser>(dbCtx, userManager);
 
             //step 2 - update org slug; now the validation should not complain
             org.Slug = Slug;

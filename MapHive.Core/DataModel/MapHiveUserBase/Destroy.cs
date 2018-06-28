@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BrockAllen.MembershipReboot;
-using BrockAllen.MembershipReboot.Relational;
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel
@@ -16,24 +14,24 @@ namespace MapHive.Core.DataModel
         /// Destroys an object; returns destroyed object or null in a case it has not been found
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TAccount"></typeparam>
+        /// <typeparam name="TIdentityUser"></typeparam>
         /// <param name="obj"></param>
         /// <param name="dbCtx"></param>
-        /// <param name="userAccountService"></param>
+        /// <param name="userManager"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public static async Task<T> DestroyAsync<T, TAccount>(this T obj, DbContext dbCtx, UserAccountService<TAccount> userAccountService, Guid uuid)
+        public static async Task<T> DestroyAsync<T, TIdentityUser>(this T obj, DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, Guid uuid)
             where T : MapHiveUserBase
-            where TAccount : RelationalUserAccount
+            where TIdentityUser : IdentityUser<Guid>
         {
-            return await obj.DestroyAsync<T, TAccount>(dbCtx, userAccountService, uuid);
+            return await obj.DestroyAsync<T, TIdentityUser>(dbCtx, userManager, uuid);
         }
 
-        public static async Task<T> DestroyAsync<T, TAccount>(this T obj, DbContext dbCtx, UserAccountService<TAccount> userAccountService)
+        public static async Task<T> DestroyAsync<T, TIdentityUser>(this T obj, DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager)
             where T : MapHiveUserBase
-            where TAccount : RelationalUserAccount
+            where TIdentityUser : IdentityUser<Guid>
         {
-            return await obj.DestroyAsync<T, TAccount>(dbCtx, userAccountService, obj.Uuid);
+            return await obj.DestroyAsync<T, TIdentityUser>(dbCtx, userManager, obj.Uuid);
         }
 
     }
@@ -56,14 +54,14 @@ namespace MapHive.Core.DataModel
         /// Destroys an object; returns destroyed object or null in a case it has not been found
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TAccount"></typeparam>
+        /// <typeparam name="TIdentityUser"></typeparam>
         /// <param name="uuid"></param>
         /// <param name="dbCtx"></param>
-        /// <param name="userAccountService"></param>
+        /// <param name="userManager"></param>
         /// <returns></returns>
-        protected internal virtual async Task<T> DestroyAsync<T, TAccount>(DbContext dbCtx, UserAccountService<TAccount> userAccountService, Guid uuid)
+        protected internal virtual async Task<T> DestroyAsync<T, TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, Guid uuid)
             where T : MapHiveUserBase
-            where TAccount : RelationalUserAccount
+            where TIdentityUser : IdentityUser<Guid>
         {
 
             //get a user
@@ -78,7 +76,7 @@ namespace MapHive.Core.DataModel
             user.IsAccountClosed = true;
 
             //and simply update it
-            return await user.UpdateAsync<T, TAccount>(dbCtx, userAccountService, uuid);
+            return await user.UpdateAsync<T, TIdentityUser>(dbCtx, userManager, uuid);
         }
     }
 }

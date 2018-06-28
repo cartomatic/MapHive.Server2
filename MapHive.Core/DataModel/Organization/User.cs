@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BrockAllen.MembershipReboot;
-using BrockAllen.MembershipReboot.Relational;
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -145,11 +143,11 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="user"></param>
-        /// <param name="userAccountService"></param>
+        /// <param name="userManager"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public async Task AddOrganizationUser<TAccount>(DbContext dbCtx, MapHiveUser user, UserAccountService<TAccount> userAccountService, OrganizationRole role = OrganizationRole.Member)
-            where TAccount : RelationalUserAccount
+        public async Task AddOrganizationUser<TIdentityUser>(DbContext dbCtx, MapHiveUser user, UserManager<IdentityUser<Guid>> userManager, OrganizationRole role = OrganizationRole.Member)
+            where TIdentityUser : IdentityUser<Guid>
         {
             this.AddLink(user);
             await this.UpdateAsync(dbCtx);
@@ -158,7 +156,7 @@ namespace MapHive.Core.DataModel
             var memberRole = await this.GetOrgRoleAsync(dbCtx, role);
 
             user.AddLink(memberRole);
-            await user.UpdateAsync(dbCtx, userAccountService);
+            await user.UpdateAsync<MapHiveUser, TIdentityUser>(dbCtx, userManager);
         }
 
         /// <summary>
@@ -166,10 +164,10 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="user"></param>
-        /// <param name="userAccountService"></param>
+        /// <param name="userManager"></param>
         /// <returns></returns>
-        public async Task ChangeOrganizationUserRole<TAccount>(DbContext dbCtx, MapHiveUser user, UserAccountService<TAccount> userAccountService)
-            where TAccount : RelationalUserAccount
+        public async Task ChangeOrganizationUserRole<TIdentityUser>(DbContext dbCtx, MapHiveUser user, UserManager<IdentityUser<Guid>> userManager)
+            where TIdentityUser : IdentityUser<Guid>
         {
             //this basically needs to remove all the org roles for a user and add the specified one
             var ownerRole = await GetOrgOwnerRoleAsync(dbCtx);
@@ -196,7 +194,7 @@ namespace MapHive.Core.DataModel
                 user.AddLink(addRole);
             }
 
-            await user.UpdateAsync(dbCtx, userAccountService);
+            await user.UpdateAsync<MapHiveUser, TIdentityUser>(dbCtx, userManager);
         }
     }
 }

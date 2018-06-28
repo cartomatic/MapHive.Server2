@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BrockAllen.MembershipReboot;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel
@@ -14,12 +14,12 @@ namespace MapHive.Core.DataModel
         /// destroys a maphive user object and the user's organization if any
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TAccount"></typeparam>
+        /// <typeparam name="TIdentityUser"></typeparam>
         /// <param name="dbCtx"></param>
-        /// <param name="userAccountService"></param>
+        /// <param name="userManager"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        protected internal override async Task<T> DestroyAsync<T, TAccount>(DbContext dbCtx, UserAccountService<TAccount> userAccountService, Guid uuid)
+        protected internal override async Task<T> DestroyAsync<T, TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, Guid uuid)
         {
             if (!IsOrgUser)
             {
@@ -31,7 +31,7 @@ namespace MapHive.Core.DataModel
                 }
             }
 
-            return await base.DestroyAsync<T, TAccount>(dbCtx, userAccountService, uuid);
+            return await base.DestroyAsync<T, TIdentityUser>(dbCtx, userManager, uuid);
         }
     }
 }

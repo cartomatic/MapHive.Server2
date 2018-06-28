@@ -9,31 +9,31 @@ namespace MapHive.Core.Events
     //FIXME - MBR
     //public class MembershipRebootEventHandlers
     //{
-    //    public class AccountCreatedEventHandler<TAccount> : IEventHandler<AccountCreatedEvent<TAccount>>
+    //    public class AccountCreatedEventHandler<TIdentityUser> : IEventHandler<AccountCreatedEvent<TIdentityUser>>
     //    {
-    //        private readonly Action<AccountCreatedEvent<TAccount>> _a;
+    //        private readonly Action<AccountCreatedEvent<TIdentityUser>> _a;
 
-    //        public AccountCreatedEventHandler(Action<AccountCreatedEvent<TAccount>> a)
+    //        public AccountCreatedEventHandler(Action<AccountCreatedEvent<TIdentityUser>> a)
     //        {
     //            _a = a;
     //        }
 
-    //        public void Handle(AccountCreatedEvent<TAccount> evt)
+    //        public void Handle(AccountCreatedEvent<TIdentityUser> evt)
     //        {
     //            _a?.Invoke(evt);
     //        }
     //    }
 
-    //    public class PasswordResetRequestedEventHandler<TAccount> : IEventHandler<PasswordResetRequestedEvent<TAccount>>
+    //    public class PasswordResetRequestedEventHandler<TIdentityUser> : IEventHandler<PasswordResetRequestedEvent<TIdentityUser>>
     //    {
-    //        private readonly Action<PasswordResetRequestedEvent<TAccount>> _a;
+    //        private readonly Action<PasswordResetRequestedEvent<TIdentityUser>> _a;
 
-    //        public PasswordResetRequestedEventHandler(Action<PasswordResetRequestedEvent<TAccount>> a)
+    //        public PasswordResetRequestedEventHandler(Action<PasswordResetRequestedEvent<TIdentityUser>> a)
     //        {
     //            _a = a;
     //        }
 
-    //        public void Handle(PasswordResetRequestedEvent<TAccount> evt)
+    //        public void Handle(PasswordResetRequestedEvent<TIdentityUser> evt)
     //        {
     //            _a?.Invoke(evt);
     //        }
@@ -42,17 +42,17 @@ namespace MapHive.Core.Events
     //    /// <summary>
     //    /// A generic evt handler - used to preview what events are actually fired by the userservice; debugging use mainly.
     //    /// </summary>
-    //    /// <typeparam name="TAccount"></typeparam>
-    //    public class UserAccountEventHandler<TAccount> : IEventHandler<UserAccountEvent<TAccount>>
+    //    /// <typeparam name="TIdentityUser"></typeparam>
+    //    public class UserAccountEventHandler<TIdentityUser> : IEventHandler<UserAccountEvent<TIdentityUser>>
     //    {
-    //        private readonly Action<UserAccountEvent<TAccount>> _a;
+    //        private readonly Action<UserAccountEvent<TIdentityUser>> _a;
 
-    //        public UserAccountEventHandler(Action<UserAccountEvent<TAccount>> a)
+    //        public UserAccountEventHandler(Action<UserAccountEvent<TIdentityUser>> a)
     //        {
     //            _a = a;
     //        }
 
-    //        public void Handle(UserAccountEvent<TAccount> evt)
+    //        public void Handle(UserAccountEvent<TIdentityUser> evt)
     //        {
     //            _a?.Invoke(evt);
     //        }

@@ -4,12 +4,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BrockAllen.MembershipReboot;
-using BrockAllen.MembershipReboot.Relational;
 using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel.Validation;
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel
@@ -20,24 +18,24 @@ namespace MapHive.Core.DataModel
         /// Updates an object; returns an updated object or null if the object does not exist
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TAccount"></typeparam>
+        /// <typeparam name="TIdentityUser"></typeparam>
         /// <param name="obj"></param>
         /// <param name="dbCtx"></param>
-        /// <param name="userAccountService"></param>
+        /// <param name="userManager"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public static async Task<T> UpdateAsync<T, TAccount>(this T obj, DbContext dbCtx, UserAccountService<TAccount> userAccountService, Guid uuid)
+        public static async Task<T> UpdateAsync<T, TIdentityUser>(this T obj, DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, Guid uuid)
             where T : MapHiveUserBase
-            where TAccount : RelationalUserAccount
+            where TIdentityUser : IdentityUser<Guid>
         {
-            return await obj.UpdateAsync<T, TAccount>(dbCtx, userAccountService, uuid);
+            return await obj.UpdateAsync<T, TIdentityUser>(dbCtx, userManager, uuid);
         }
 
-        public static async Task<T> UpdateAsync<T, TAccount>(this T obj, DbContext dbCtx, UserAccountService<TAccount> userAccountService)
+        public static async Task<T> UpdateAsync<T, TIdentityUser>(this T obj, DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager)
             where T : MapHiveUserBase
-            where TAccount : RelationalUserAccount
+            where TIdentityUser : IdentityUser<Guid>
         {
-            return await obj.UpdateAsync<T, TAccount>(dbCtx, userAccountService, obj.Uuid);
+            return await obj.UpdateAsync<T, TIdentityUser>(dbCtx, userManager, obj.Uuid);
         }
     }
 
@@ -59,14 +57,14 @@ namespace MapHive.Core.DataModel
         /// Updates an object; returns an updated object or null if the object does not exist
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TAccount"></typeparam>
+        /// <typeparam name="TIdentityUser"></typeparam>
         /// <param name="dbCtx"></param>
-        /// <param name="userAccountService"></param>
+        /// <param name="userManager"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        protected internal virtual async Task<T> UpdateAsync<T, TAccount>(DbContext dbCtx, UserAccountService<TAccount> userAccountService, Guid uuid)
+        protected internal virtual async Task<T> UpdateAsync<T, TIdentityUser>(DbContext dbCtx, UserManager<IdentityUser<Guid>> userManager, Guid uuid)
             where T : MapHiveUserBase
-            where TAccount : RelationalUserAccount
+            where TIdentityUser : IdentityUser<Guid>
         {
             T output;
 
@@ -87,8 +85,8 @@ namespace MapHive.Core.DataModel
 
        
             //first get the user as saved in the db
-            var mbrUser = userAccountService.GetByID(uuid);
-            if (mbrUser == null)
+            var idUser = await userManager.FindByIdAsync(uuid.ToString());
+            if (idUser == null)
                 throw new ArgumentException(string.Empty);
 
 
@@ -101,8 +99,8 @@ namespace MapHive.Core.DataModel
             if (currentStateOfUser.Email != Email)
             {
                 //looks like email is about to be changed, so need to check if it is possible to proceed
-                var mbrUserWithSameEmail = userAccountService.GetByEmail(Email);
-                if (mbrUserWithSameEmail != null && mbrUserWithSameEmail.ID != uuid)
+                var idUserWithSameEmail = await userManager.FindByEmailAsync(Email);
+                if (idUserWithSameEmail != null && idUserWithSameEmail.Id != uuid)
                     throw Validation.Utils.GenerateValidationFailedException(nameof(Email), ValidationErrors.EmailInUse);
 
                 //looks like we're good to go.
@@ -110,38 +108,17 @@ namespace MapHive.Core.DataModel
             }
 
 
-            DbContext mbrDbCtx = MapHive.MembershipReboot.MembershipRebootUtils.GetMembershipRebootDbCtx(userAccountService);
-            System.Data.Common.DbTransaction mbrTrans = null;
-
-            System.Data.Common.DbTransaction mhTransaction = null;
-
-            //since this method wraps the op on 2 dbs into transactions, it must handle connections manually and take care of closing it aftwerwards
-            //it is therefore required to clone contexts with independent conns so the base contexts can be reused
-            var clonedMhDbCtx = dbCtx.Clone(contextOwnsConnection: false);
-            var clonedMbrDbCtx = mbrDbCtx.Clone(false);
-
             try
             {
-                //open the connections as otherwise will not be able to begin transaction
-
-                await clonedMbrDbCtx.Database.GetDbConnection().OpenAsync();
-                await clonedMhDbCtx.Database.GetDbConnection().OpenAsync();
-
-                mbrTrans = clonedMbrDbCtx.Database.GetDbConnection().BeginTransaction();
-                mhTransaction = clonedMhDbCtx.Database.GetDbConnection().BeginTransaction();
-
-                //begin the transaction and set the transaction object back on the db context so it uses it
-                //do so for both contexts - mbr and mh
-
-                clonedMbrDbCtx.Database.UseTransaction(mbrTrans);
-                clonedMhDbCtx.Database.UseTransaction(mhTransaction);
 
                 //check if mbr email related work is needed at all...
                 if (updateEmail)
                 {
-                    //Note:
-                    //since the change comes from the user edit, can assume this is an authorised operation...
-                    userAccountService.SetConfirmedEmail(uuid, Email);
+                    var emailChangeToken = await userManager.GenerateChangeEmailTokenAsync(idUser, Email);
+                    await userManager.ChangeEmailAsync(idUser, Email, emailChangeToken);
+
+                    var confirmEmailToken = await userManager.GenerateEmailConfirmationTokenAsync(idUser);
+                    await userManager.ConfirmEmailAsync(idUser, confirmEmailToken);
                 }
 
                 //also check the IsAccountClosed, as this may be modified via update too, not only via Destroy
@@ -150,20 +127,21 @@ namespace MapHive.Core.DataModel
                 {
                     if (IsAccountClosed)
                     {
-                        userAccountService.CloseAccount(uuid);
+                        await userManager.SetLockoutEnabledAsync(idUser, true);
                     }
                     else
                     {
-                        userAccountService.ReopenAccount(uuid);
+                        await userManager.SetLockoutEnabledAsync(idUser, false);
                     }
                 }
 
                 //check the account verification status
-                if (!mbrUser.IsAccountVerified)
+                if (!await userManager.IsEmailConfirmedAsync(idUser))
                 {
                     if (IsAccountVerified)
                     {
-                        userAccountService.SetConfirmedEmail(uuid, Email);
+                        var confirmEmailToken = await userManager.GenerateEmailConfirmationTokenAsync(idUser);
+                        await userManager.ConfirmEmailAsync(idUser, confirmEmailToken);
                     }
                 }
                 else
@@ -173,29 +151,49 @@ namespace MapHive.Core.DataModel
                 }
 
                 //mbr work done, so can update the user within the mh metadata db
-                output = await base.UpdateAsync<T>(clonedMhDbCtx, uuid);
-
-
-                //looks like we're good to go, so can commit
-                mbrTrans.Commit();
-                mhTransaction.Commit();
+                output = await base.UpdateAsync<T>(dbCtx, uuid);
             }
             catch (Exception ex)
             {
-                mbrTrans?.Rollback();
-                mhTransaction?.Rollback();
-
                 throw Validation.Utils.GenerateValidationFailedException(ex);
             }
-            finally
-            {
-                //try to close the connections as they were opened manually and therefore may not have been closed!
-                clonedMhDbCtx.Database.GetDbConnection().CloseConnection(dispose: true);
-                clonedMbrDbCtx.Database.GetDbConnection().CloseConnection(dispose: true);
 
-                mbrTrans?.Dispose();
-                mhTransaction?.Dispose();
-            }
+            return output;
+        }
+
+        /// <summary>
+        /// Updates a user without changing the identity critical data - it's pretty much the email MUST stau intact
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <param name="uuid"></param>
+        /// <returns></returns>
+        protected internal virtual async Task<T> UpdateWithNoIdentityChangesAsync<T>(DbContext dbCtx)
+            where T : MapHiveUserBase
+        {
+            T output;
+
+            //need to validate the model first
+            await ValidateAsync(dbCtx);
+
+
+            //make sure the email is ALWAYS lower case
+            Email = Email.ToLower();
+
+
+            //Note: user account resides in two places - MembershipReboot and the MapHive metadata database.
+            //therefore need t manage it in tow places and obviously make sure the ops are properly wrapped into transactions
+
+
+            //first get the user as saved in the db
+            var currentUser = await ReadAsync<T>(dbCtx, Uuid);
+            if (currentUser == null)
+                throw new ArgumentException("No such user");
+
+            //make sure to maintain the email, the rest is as came here
+            Email = currentUser.Email;
+
+            output = await base.UpdateAsync<T>(dbCtx, Uuid);
 
             return output;
         }

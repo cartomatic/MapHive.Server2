@@ -18,7 +18,7 @@ namespace MapHive.Core.DataModel
         }
 
         private const string WrongCrudMethodErrorInfo =
-            "User CRUD ops require MembershipReboot UserAccountService. Won't do without! Sorry... ";
+            "User CRUD ops require MembershipReboot userManager. Won't do without! Sorry... ";
 
     }
 }

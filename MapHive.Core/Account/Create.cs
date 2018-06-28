@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils.JsonSerializableObjects;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core
 {
@@ -17,7 +18,8 @@ namespace MapHive.Core
     {
         public static async Task<AccountCreateOutput> CreateAccount(
             MapHiveDbContext dbCtx,
-            AccountCreateInput input
+            AccountCreateInput input,
+            UserManager<IdentityUser<Guid>> userManager
         )
         {
             var user = new MapHive.Core.DataModel.MapHiveUser()
@@ -35,7 +37,7 @@ namespace MapHive.Core
                 {"Email", user.Email}
             };
 
-            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user, input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
+            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user, userManager, input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
             user = accountCreateOutput.User;
 
 
