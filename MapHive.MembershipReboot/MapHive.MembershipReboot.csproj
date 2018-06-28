@@ -1,21 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net452;net462</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BrockAllen.MembershipReboot" Version="9.0.0" />
     <PackageReference Include="BrockAllen.MembershipReboot.Ef" Version="9.0.0" />
     <PackageReference Include="newtonsoft.json" Version="11.0.2" />
-  </ItemGroup>
 
-  <!--.NET standard 2.0 refs, compilation flags & build opts-->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
-    <DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.EntityFrameworkCore">
       <Version>2.1.1</Version>
     </PackageReference>
@@ -32,38 +25,6 @@
     <PackageReference Include="system.configuration.configurationmanager">
       <Version>4.4.1</Version>
     </PackageReference>
-  </ItemGroup>
-
-  <!--NET 4.5.2 refs, compilation flags & build opts-->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net452'">
-    <DefineConstants>NET452;NETFULL</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net452' ">
-    <PackageReference Include="EntityFramework" Version="6.2.0" />
-
-    <Reference Include="System.Configuration">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Configuration.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <!--NET 4.6.2 refs, compilation flags & build opts-->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
-    <DefineConstants>NET462;NETFULL</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462' ">
-    <PackageReference Include="EntityFramework" Version="6.2.0" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>2.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational">
-      <Version>2.1.1</Version>
-    </PackageReference>
-
-    <Reference Include="System.Configuration">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Configuration.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>

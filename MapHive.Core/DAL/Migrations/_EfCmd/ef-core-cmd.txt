@@ -1,3 +1,3 @@
-﻿Add-Migration -StartupProject MapHive.Cmd -Project MapHive.Core -OutputDir "DAL\Migrations\EfCore" -Context MapHive.Core.DAL.MapHiveDbContext
+﻿Add-Migration -StartupProject MapHive.Cmd -Project MapHive.Core -OutputDir "DAL\Migrations" -Context MapHive.Core.DAL.MapHiveDbContext
 
 Update-Database -StartupProject MapHive.Cmd -Project MapHive.Core -Context MapHive.Core.DAL.MapHiveDbContext

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cartomatic.CmdPrompt.Core" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
+    <ProjectReference Include="..\MapHive.Core\MapHive.Core.csproj" />
+    <ProjectReference Include="..\MapHive.MembershipReboot\MapHive.MembershipReboot.csproj" />
+  </ItemGroup>
+
+</Project>
