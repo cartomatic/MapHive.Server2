@@ -31,14 +31,14 @@ namespace MapHive.Cmd.Core
         /// <returns></returns>
         protected async Task RegisterAppsRemoteAsync(params Application[] apps)
         {
-            ////authenticate user
-            //await AuthenticateAsync();
+            //authenticate user
+            await AuthenticateAsync();
 
-            ////and call a remote api...
-            //await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["CoreEndPoint"] + "envconfig/registerapps",
-            //    Method.POST,
-            //    data: apps
-            //);
+            //and call a remote api...
+            await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["CoreEndPoint"] + "envconfig/registerapps",
+                Method.POST,
+                data: apps
+            );
         }
         protected async Task RegisterAppsRemoteAsync(List<Application> apps)
         {
@@ -52,14 +52,14 @@ namespace MapHive.Cmd.Core
         /// <returns></returns>
         protected async Task RegisterEmailTemplatesRemoteAsync(List<EmailTemplate> emailTemplates)
         {
-            ////authenticate user
-            //await AuthenticateAsync();
+            //authenticate user
+            await AuthenticateAsync();
 
-            ////and call a remote api...
-            //await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["LocaleEndPoint"] + "envconfig/registeremailtemplates",
-            //    Method.POST,
-            //    data: emailTemplates
-            //);
+            //and call a remote api...
+            await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["LocaleEndPoint"] + "envconfig/registeremailtemplates",
+                Method.POST,
+                data: emailTemplates
+            );
         }
 
         /// <summary>
@@ -218,14 +218,14 @@ namespace MapHive.Cmd.Core
         /// <returns></returns>
         protected async Task RegisterTokensRemoteAsync(List<Token> tokens)
         {
-            ////authenticate user
-            //await AuthenticateAsync();
+            //authenticate user
+            await AuthenticateAsync();
 
-            ////and call a remote api...
-            //await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["CoreEndPoint"] + "envconfig/registertokens",
-            //    Method.POST,
-            //    data: tokens
-            //);
+            //and call a remote api...
+            await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["CoreEndPoint"] + "envconfig/registertokens",
+                Method.POST,
+                data: tokens
+            );
         }
 
 
@@ -252,20 +252,20 @@ namespace MapHive.Cmd.Core
         /// <returns></returns>
         private async Task AuthenticateAsync()
         {
-            //if (string.IsNullOrEmpty(AccessToken))
-            //{
-            //    ExtractConfig();
+            if (string.IsNullOrEmpty(AccessToken))
+            {
+                ExtractConfig();
 
-            //    var auth = await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["AuthEndPoint"] + "login",
-            //        Method.GET,
-            //        new Dictionary<string, string>
-            //        {
-            //            {"email", ApiRegCfg["User"]},
-            //            {"pass", ApiRegCfg["Password"]}
-            //        });
+                var auth = await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["AuthEndPoint"] + "login",
+                    Method.GET,
+                    new Dictionary<string, string>
+                    {
+                        {"email", ApiRegCfg["User"]},
+                        {"pass", ApiRegCfg["Password"]}
+                    });
 
-            //    AccessToken = auth.AccessToken;
-            //}
+                AccessToken = auth.AccessToken;
+            }
         }
         
 
@@ -312,7 +312,9 @@ namespace MapHive.Cmd.Core
 
             var output = default(TOut);
 
-            var debugUrl = client.BuildUri(request); 
+#if DEBUG
+            var debugUrl = client.BuildUri(request);
+#endif
 
             var resp = await client.ExecuteTaskAsync(request);
             if (resp.StatusCode == HttpStatusCode.OK)
