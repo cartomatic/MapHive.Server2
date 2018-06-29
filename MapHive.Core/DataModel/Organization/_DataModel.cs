@@ -12,7 +12,8 @@ namespace MapHive.Core.DataModel
     {
         /// <summary>
         /// used as the org identifier. this must be unique within the system.
-        /// When an org is created for a user its name will be the same as the user slug.
+        /// When an org is created for a user (in a batch account creation process) its name will be based on the user slug with an '-org' suffix;
+        /// It is possible to change the org slug to an arbitrary value provided it is unique within the system
         /// No spaces are allowed and chars must be allowed in the url
         /// </summary>
         public string Slug { get; set; }

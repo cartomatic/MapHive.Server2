@@ -22,7 +22,7 @@ namespace MapHive.Cmd.Core
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
                 Console.WriteLine("\t[e:email]");
                 Console.WriteLine("\t[p:pass]");
-                Console.WriteLine("\t[s:slug] user's slug");
+                Console.WriteLine("\t[s:slug] user's slug; if not provided will be worked out from email");
                 Console.WriteLine();
                 Console.WriteLine($"example: {cmd} e:someone@maphive.net p:test");
                 return;
@@ -37,16 +37,18 @@ namespace MapHive.Cmd.Core
                 ConsoleEx.WriteErr("User name and pass cannot be empty!");
             }
 
-            ConsoleEx.WriteLine($"Creating user: '{email}' with the following pass: '{pass}'; slug: {slug}", ConsoleColor.DarkYellow);
-
-            //need a valid user to create a Core.Base object
-            Cartomatic.Utils.Identity.ImpersonateGhostUser();
-
             var user = new MapHiveUser
             {
                 Email = email,
                 Slug = slug
             };
+
+            ConsoleEx.WriteLine($"Creating user: '{email}' with the following pass: '{pass}'; slug: {user.GetSlug()}", ConsoleColor.DarkYellow);
+
+            //need a valid user to create a Core.Base object
+            Cartomatic.Utils.Identity.ImpersonateGhostUser();
+
+            
 
 
             //Note: db context uses a connection defined in app cfg. 
@@ -100,8 +102,7 @@ namespace MapHive.Cmd.Core
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
                 Console.WriteLine("\t[e:email]");
                 Console.WriteLine("\t[p:pass]");
-                Console.WriteLine("\t[s:slug] user's slug");
-                Console.WriteLine("\t[o:{presence}] whether or not user is an org user");
+                Console.WriteLine("\t[s:slug] user's slug; if not provided will be based on email");
                 Console.WriteLine();
                 Console.WriteLine($"example: {cmd} e:someone@maphive.net p:test");
                 return;
@@ -110,16 +111,20 @@ namespace MapHive.Cmd.Core
             var email = ExtractParam("e", args);
             var pass = ExtractParam("p", args);
             var slug = ExtractParam("s", args);
-            var isOrgUser = ContainsParam("o", args);
 
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(pass))
             {
                 ConsoleEx.WriteErr("User name and pass cannot be empty!");
             }
 
+            var tempUser = new MapHiveUser
+            {
+                Email = email,
+                Slug = slug
+            };
 
-            ConsoleEx.Write($"Creating user: '{email}' with the following pass: '{pass}'; user is org user: {isOrgUser}; slug: {slug}", ConsoleColor.DarkYellow);
-            await CreateUserRemoteAsync(email, pass, true);
+            ConsoleEx.Write($"Creating user: '{email}' with the following pass: '{pass}'; slug: {tempUser.GetSlug()}", ConsoleColor.DarkYellow);
+            await CreateUserRemoteAsync(email, pass, slug, true);
             ConsoleEx.Write("Done !" + Environment.NewLine, ConsoleColor.DarkGreen);
         }
 

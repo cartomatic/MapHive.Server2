@@ -187,7 +187,7 @@ namespace MapHive.Cmd.Core
         /// <param name="pass"></param>
         /// <param name="destroy"></param>
         /// <returns></returns>
-        protected async Task<MapHiveUser> CreateUserRemoteAsync(string email, string pass, bool destroy)
+        protected async Task<MapHiveUser> CreateUserRemoteAsync(string email, string pass, string slug, bool destroy)
         {
             ExtractConfig();
 
@@ -204,6 +204,7 @@ namespace MapHive.Cmd.Core
                 {
                     { "email", email },
                     { "pass", pass },
+                    { "slug", slug },
                     { "destroy", destroy.ToString() }
                 }
             );

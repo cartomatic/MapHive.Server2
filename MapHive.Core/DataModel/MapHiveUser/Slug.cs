@@ -8,19 +8,26 @@ namespace MapHive.Core.DataModel
 {
     public partial class MapHiveUser
     {
+        public string GetSlug()
+        {
+            EnsureSlug();
+            return Slug;
+        }
+
         /// <summary>
         /// makes sure the slug is present and valid
         /// </summary>
         protected void EnsureSlug()
         {
-            if (!IsOrgUser && string.IsNullOrEmpty(Slug))
-            {
-                //assume the email is valid and just use it with @ replaced with -
-                //this pretty much should ensure uniqueness as the emails must be unique anyway
-                Slug = Email.Replace("@", "-").Replace(".", "-");
-            }
-        }
+            //Note:
+            //all users have slugs now, not only org users.
+            //There is no point in using slugs only for some users
 
-        //todo - validate slug. it can only have a subset of chars, basically [A-Za-z0-9]
+            //use email for a slug - it must be unique
+            if (string.IsNullOrEmpty(Slug))
+                Slug = Email;
+
+            Slug = Utils.Slug.SanitizeSlug(Slug);
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
 using MapHive.Core.Data;
 using MapHive.Core.DataModel;
+using MapHive.Core.DataModel.Validation;
 using MapHive.Core.DAL;
 
 namespace MapHive.Cmd.Core
@@ -90,7 +91,7 @@ namespace MapHive.Cmd.Core
             {
                 DisplayName = orgName,
                 Description = orgDescription,
-                Slug = $"{user.Slug}-org"
+                Slug = MapHive.Core.Utils.Slug.GetOrgSlug(orgName, user.Slug)
             };
 
             //create an org with owner and register apps

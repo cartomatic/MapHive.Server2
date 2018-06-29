@@ -16,6 +16,12 @@ namespace MapHive.Core
     /// </summary>
     public partial class Account
     {
+        /// <summary>
+        /// Creates an org owner account - creates a user profile, an organization for a user, ties all the bits and pieces together
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static async Task<AccountCreateOutput> CreateAccountAsync(
             MapHiveDbContext dbCtx,
             AccountCreateInput input
@@ -54,6 +60,7 @@ namespace MapHive.Core
             {
                 DisplayName = orgNameDesc,
                 Description = orgNameDesc,
+                Slug = Utils.Slug.GetOrgSlug(orgNameDesc, user.Slug),
 
                 //push to extra billing info?
                 BillingExtraInfo = new SerializableDictionaryOfString
@@ -93,9 +100,11 @@ namespace MapHive.Core
 
             //create an org with owner and register the specified apps
             await newOrg.CreateAsync(dbCtx, user, appIdentifiers);
-            
-            //TODO - with multiorg users, will need an org identifier for org users
-            //TODO - org users are users that 'belong' to an org
+
+            //wire up user with his 'parent org'
+            //this is so it is clear a user has his own org
+            user.UserOrgId = newOrg.Uuid;
+            await user.UpdateAsync(dbCtx);
 
             return new AccountCreateOutput
             {

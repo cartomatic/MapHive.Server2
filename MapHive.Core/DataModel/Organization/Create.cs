@@ -49,6 +49,12 @@ namespace MapHive.Core.DataModel
     {
         protected internal override async Task<T> CreateAsync<T>(DbContext dbCtx)
         {
+            //make sure uuid is present as it is a fallback option for slug!
+            if (Uuid == default(Guid))
+                Uuid = Guid.NewGuid();
+
+            EnsureSlug();
+
             var org = await base.CreateAsync<T>(dbCtx) as Organization;
 
             //once an org is present need to create the default roles and link them with an org

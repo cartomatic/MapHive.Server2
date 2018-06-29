@@ -15,7 +15,7 @@ namespace MapHive.Core.DataModel
         public string ContactPhone { get; set; }
 
         /// <summary>
-        /// used only when user is an independent user. Slug name becomes an org slug. This way it is possible to maintain understandable urls when working in a context of a user/org
+        /// used only when user is an independent user. Slug name becomes an org slug with an '-org' suffix. This way it is possible to maintain understandable urls when working in a context of a user/org
         /// </summary>
         public string Slug { get; set; }
 
