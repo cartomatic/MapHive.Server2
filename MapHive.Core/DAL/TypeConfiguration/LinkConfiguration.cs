@@ -31,20 +31,16 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
 
             builder.HasIndex(t => t.ParentUuid)
-                .HasName($"idx_parent_uuid_{nameof(Link).ToLower()}")
-                .IsUnique();
+                .HasName($"idx_parent_uuid_{nameof(Link).ToLower()}");
 
             builder.HasIndex(t => t.ChildUuid)
-                .HasName($"idx_child_uuid_{nameof(Link).ToLower()}")
-                .IsUnique();
+                .HasName($"idx_child_uuid_{nameof(Link).ToLower()}");
 
             builder.HasIndex(t => t.ParentTypeUuid)
-                .HasName($"idx_parent_type_uuid_{nameof(Link).ToLower()}")
-                .IsUnique();
+                .HasName($"idx_parent_type_uuid_{nameof(Link).ToLower()}");
 
             builder.HasIndex(t => t.ChildTypeUuid)
-                .HasName($"idx_child_type_uuid_{nameof(Link).ToLower()}")
-                .IsUnique();
+                .HasName($"idx_child_type_uuid_{nameof(Link).ToLower()}");
         }
     }
 }

@@ -20,7 +20,7 @@ namespace MapHive.Cmd.Core
         /// Handles setting up the MapHive environment - maphive meta db, idsrv db and membership reboot db
         /// </summary>
         /// <param name="args"></param>
-        protected virtual async Task Handle_SetUp(IDictionary<string, string> args)
+        protected virtual async Task Handle_SetUpDb(IDictionary<string, string> args)
         {
             var cmd = GetCallerName();
 
@@ -177,9 +177,7 @@ namespace MapHive.Cmd.Core
                             //context will be scoped to credentials defined as default for the cmd
                             var dbCtx = (DbContext)Activator.CreateInstance(ctxsToMmigrate[dbName], new object[] { dbc.GetConnectionString(), true, dbc.DataSourceProvider });
 
-                            dbCtx.Database.EnsureCreated();
-
-                            //this will fail!!!
+                            //this will create db if it dies not exist and apply all the pending migrations
                             dbCtx.Database.Migrate();
 
                             ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);

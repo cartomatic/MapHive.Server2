@@ -8,6 +8,7 @@ using Cartomatic.Utils.Data;
 using MapHive.Core.Data;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Cmd.Core
@@ -81,8 +82,17 @@ namespace MapHive.Cmd.Core
                 {
                     ConsoleEx.Write($"Registering {app} app... ", ConsoleColor.DarkYellow);
 
-                    if(!await dbCtx.Applications.AnyAsync(a=>a.Uuid == apps[app].Uuid))
-                        dbCtx.Applications.Add(apps[app]);
+                    if (!await dbCtx.Applications.AnyAsync(a => a.Uuid == apps[app].Uuid))
+                    {
+                        try
+                        {
+                            dbCtx.Applications.Add(apps[app]);
+                        }
+                        catch (Exception ex)
+                        {
+                            bool stop = true;
+                        }
+                    }
 
                     ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                 }

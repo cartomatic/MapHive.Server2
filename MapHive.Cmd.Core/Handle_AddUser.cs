@@ -22,26 +22,67 @@ namespace MapHive.Cmd.Core
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
                 Console.WriteLine("\t[e:email]");
                 Console.WriteLine("\t[p:pass]");
+                Console.WriteLine("\t[s:slug] user's slug");
                 Console.WriteLine();
-                Console.WriteLine($"example: {cmd} e:queen@maphive.net p:test");
+                Console.WriteLine($"example: {cmd} e:someone@maphive.net p:test");
                 return;
             }
 
             var email = ExtractParam("e", args);
             var pass = ExtractParam("p", args);
+            var slug = ExtractParam("s", args);
 
-
-            //use the default account if email and pass not provided
-            if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(pass))
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(pass))
             {
-                email = "queen@maphive.net";
-                pass = "test";
+                ConsoleEx.WriteErr("User name and pass cannot be empty!");
             }
 
-            ConsoleEx.WriteLine($"Creating user: '{email}' with the following pass: '{pass}'", ConsoleColor.DarkYellow);
+            ConsoleEx.WriteLine($"Creating user: '{email}' with the following pass: '{pass}'; slug: {slug}", ConsoleColor.DarkYellow);
+
+            //need a valid user to create a Core.Base object
+            Cartomatic.Utils.Identity.ImpersonateGhostUser();
+
+            var user = new MapHiveUser
+            {
+                Email = email,
+                Slug = slug
+            };
 
 
-            await CreateUserAsync(email, pass);
+            //Note: db context uses a connection defined in app cfg. 
+            //TODO - make it somewhat dynamic!          
+            try
+            {
+                //destroy a previous account if any
+                await DestroyUserAsync<MapHiveUser>(email, new MapHiveDbContext("MapHiveMeta"));
+
+                IDictionary<string, object> op = null;
+                user.UserCreated += (sender, eventArgs) =>
+                {
+                    op = eventArgs.OperationFeedback;
+                };
+
+                await user.CreateAsync(new MapHiveDbContext("MapHiveMeta"));
+
+                //once user is created, need to perform an update in order to set it as valid
+                user.IsAccountVerified = true;
+                await user.UpdateAsync(new MapHiveDbContext("MapHiveMeta"));
+
+                //and also need to change the pass as the default procedure autogenerates a pass
+                var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+                var idUser = await userManager.FindByEmailAsync(email);
+                await userManager.ChangePasswordAsync(idUser, (string)op["InitialPassword"], pass);
+                
+
+                ConsoleEx.WriteOk($"User '{email}' with the following pass: '{pass}' has been created.");
+                Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+                return;
+            }
+
         }
 
         /// <summary>
@@ -59,30 +100,32 @@ namespace MapHive.Cmd.Core
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
                 Console.WriteLine("\t[e:email]");
                 Console.WriteLine("\t[p:pass]");
+                Console.WriteLine("\t[s:slug] user's slug");
+                Console.WriteLine("\t[o:{presence}] whether or not user is an org user");
                 Console.WriteLine();
-                Console.WriteLine($"example: {cmd} e:queen@maphive.net p:test");
+                Console.WriteLine($"example: {cmd} e:someone@maphive.net p:test");
                 return;
             }
 
             var email = ExtractParam("e", args);
             var pass = ExtractParam("p", args);
+            var slug = ExtractParam("s", args);
+            var isOrgUser = ContainsParam("o", args);
 
-
-            //use the default account if email and pass not provided
-            if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(pass))
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(pass))
             {
-                email = "queen@maphive.net";
-                pass = "test";
+                ConsoleEx.WriteErr("User name and pass cannot be empty!");
             }
 
-            ConsoleEx.Write($"Creating user: '{email}' with the following pass: '{pass}'... ", ConsoleColor.DarkYellow);
+
+            ConsoleEx.Write($"Creating user: '{email}' with the following pass: '{pass}'; user is org user: {isOrgUser}; slug: {slug}", ConsoleColor.DarkYellow);
             await CreateUserRemoteAsync(email, pass, true);
             ConsoleEx.Write("Done !" + Environment.NewLine, ConsoleColor.DarkGreen);
         }
 
 
         /// <summary>
-        /// Creates a web gis user account
+        /// Creates a maphive user account
         /// </summary>
         /// <param name="email"></param>
         /// <param name="pass"></param>
@@ -112,14 +155,15 @@ namespace MapHive.Cmd.Core
 
                 await user.CreateAsync(new MapHiveDbContext("MapHiveMetadata"));
 
-                //once user is created, need to perform an update in order to set it as valid
-                user.IsAccountVerified = true;
-                await user.UpdateAsync(new MapHiveDbContext("MapHiveMetadata"), user.Uuid);
-
+                
                 //and also need to change the pass as the default procedure autogenerates a pass
                 var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
                 var idUser = await userManager.FindByEmailAsync(email);
                 await userManager.ChangePasswordAsync(idUser, (string) op["InitialPassword"], pass);
+
+                //once user is created, need to perform an update in order to set it as valid
+                user.IsAccountVerified = true;
+                await user.UpdateAsync(new MapHiveDbContext("MapHiveMetadata"), user.Uuid);
 
                 ConsoleEx.WriteOk($"User '{email}' with the following pass: '{pass}' has been created.");
                 Console.WriteLine();

@@ -57,8 +57,14 @@ namespace MapHive.Core.DataModel
         [JsonIgnore]
         public string LinkDataSerialized
         {
-            get => LinkData.Serialized;
-            set => LinkData.Serialized = value;
+            get => LinkData?.Serialized;
+            set
+            {
+                if (LinkData != null)
+                {
+                    LinkData.Serialized = value;
+                }
+            }
         }
 
         /// <inheritdoc />

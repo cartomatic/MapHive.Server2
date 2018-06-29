@@ -53,7 +53,7 @@ namespace MapHive.Core.DataModel
                 var validationFailedException = new ValidationFailedException();
                 validationFailedException.ValidationErrors.Add(new ValidationError
                 {
-                    Message = "Organization slug already taken.",
+                    Message = $"Organization slug already taken: {Slug}",
                     Code = "slug_taken",
                     PropertyName = nameof(Slug)
                 });

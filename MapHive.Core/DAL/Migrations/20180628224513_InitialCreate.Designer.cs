@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MapHive.Core.DAL.Migrations
 {
     [DbContext(typeof(MapHiveDbContext))]
-    [Migration("20180628213856_InitialCreate")]
+    [Migration("20180628224513_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,8 +151,7 @@ namespace MapHive.Core.DAL.Migrations
                     b.HasKey("Uuid");
 
                     b.HasIndex("ApplicationName")
-                        .IsUnique()
-                        .HasName("uq_app_name_emailtemplatelocalization");
+                        .HasName("idx_app_name_emailtemplatelocalization");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_emailtemplatelocalization");
@@ -232,19 +231,15 @@ namespace MapHive.Core.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ChildTypeUuid")
-                        .IsUnique()
                         .HasName("idx_child_type_uuid_link");
 
                     b.HasIndex("ChildUuid")
-                        .IsUnique()
                         .HasName("idx_child_uuid_link");
 
                     b.HasIndex("ParentTypeUuid")
-                        .IsUnique()
                         .HasName("idx_parent_type_uuid_link");
 
                     b.HasIndex("ParentUuid")
-                        .IsUnique()
                         .HasName("idx_parent_uuid_link");
 
                     b.ToTable("links","mh_meta");

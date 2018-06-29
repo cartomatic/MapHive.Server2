@@ -15,19 +15,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel
 {
-
-    public static partial class MapHiveUserCrudExtensions
-    {
-
-        public static async Task<T> CreateAsync<T>(this T obj, DbContext dbCtx, IEmailAccount emailAccount, IEmailTemplate emailTemplate)
-            where T : MapHiveUserBase
-        {
-            return await obj.CreateAsync(dbCtx, emailAccount, emailTemplate);
-        }
-    }
-
     public abstract partial class MapHiveUserBase
     {
+        /// <inheritdoc />
+        protected internal override async Task<T> CreateAsync<T>(DbContext dbCtx)
+        {
+            return await CreateAsync<T>(dbCtx, null, null);
+        }
+
         /// <summary>
         /// Fired when user creation completes successfully
         /// </summary>
@@ -47,8 +42,8 @@ namespace MapHive.Core.DataModel
         /// <param name="emailAccount"></param>
         /// <param name="emailTemplate"></param>
         /// <returns></returns>
-        protected internal virtual async Task<T> CreateAsync<T>(DbContext dbCtx, IEmailAccount emailAccount = null, IEmailTemplate emailTemplate = null)
-            where T : MapHiveUserBase
+        protected internal virtual async Task<T> CreateAsync<T>(DbContext dbCtx, IEmailAccount emailAccount, IEmailTemplate emailTemplate)
+            where T : Base
         {
             T output;
 

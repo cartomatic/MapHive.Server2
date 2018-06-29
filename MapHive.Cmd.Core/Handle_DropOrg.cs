@@ -57,6 +57,7 @@ namespace MapHive.Cmd.Core
             {
                 var org = await dbCtx.Organizations.Where(x => x.DisplayName == orgName).FirstOrDefaultAsync();
 
+
                 if (org != null)
                 {
                     //to drop db need to connect to a proper db (org can be somewhere out there...), so need to save the current dsc
@@ -70,13 +71,13 @@ namespace MapHive.Cmd.Core
                         return false;
 
                     //clean the org rec in the metadata
-                    ConsoleEx.Write("Dropping organisation with its db... ", ConsoleColor.DarkYellow);
+                    ConsoleEx.Write($"Dropping organisation '{org.DisplayName}' ({org.Slug}) with its db... ", ConsoleColor.DarkYellow);
 
                     await org.DestroyAsync(dbCtx, clean);
 
                     ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                    Console.WriteLine();
                 }
-
             }
             return true;
         }

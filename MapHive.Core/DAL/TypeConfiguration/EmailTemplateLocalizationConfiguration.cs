@@ -27,9 +27,9 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Ignore(p => p.Translations);
             builder.Property(p => p.TranslationsSerialized).HasColumnName("translations");
 
+
             builder.HasIndex(t => t.ApplicationName)
-                .HasName($"uq_app_name_{nameof(EmailTemplateLocalization).ToLower()}")
-                .IsUnique();
+                .HasName($"idx_app_name_{nameof(EmailTemplateLocalization).ToLower()}");
 
             builder.HasIndex(t => new { t.ApplicationName, t.Identifier }) //this should create a unique composite field idx!
                 .HasName($"uq_app_name_translation_identifier_{nameof(EmailTemplateLocalization).ToLower()}")

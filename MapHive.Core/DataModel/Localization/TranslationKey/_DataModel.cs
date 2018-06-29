@@ -28,8 +28,14 @@ namespace MapHive.Core.DataModel
         [JsonIgnore]
         public string TranslationsSerialized
         {
-            get => Translations.Serialized;
-            set => Translations.Serialized = value;
+            get => Translations?.Serialized;
+            set
+            {
+                if (Translations != null)
+                {
+                    Translations.Serialized = value;
+                }
+            }
         }
 
         ITranslations ILocalization.Translations

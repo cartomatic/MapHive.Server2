@@ -15,9 +15,9 @@ namespace MapHive.Core.DataModel
         {
             if (!IsOrgUser && string.IsNullOrEmpty(Slug))
             {
-                //assume the email is valid and just use it with @ replaced with _
+                //assume the email is valid and just use it with @ replaced with -
                 //this pretty much should ensure uniqueness as the emails must be unique anyway
-                Slug = Email.Replace("@", "_");
+                Slug = Email.Replace("@", "-").Replace(".", "-");
             }
         }
 

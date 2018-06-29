@@ -20,10 +20,7 @@ namespace MapHive.Core.DataModel
         [JsonIgnore]
         public string Serialized
         {
-            get
-            {
-                return JsonConvert.SerializeObject(this, Formatting.None, JsonSerializerSettings);
-            }
+            get => JsonConvert.SerializeObject(this, Formatting.None, JsonSerializerSettings);
 
             set
             {

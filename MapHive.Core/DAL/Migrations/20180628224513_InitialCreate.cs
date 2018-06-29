@@ -315,11 +315,10 @@ namespace MapHive.Core.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "uq_app_name_emailtemplatelocalization",
+                name: "idx_app_name_emailtemplatelocalization",
                 schema: "mh_localization",
                 table: "email_templates",
-                column: "application_name",
-                unique: true);
+                column: "application_name");
 
             migrationBuilder.CreateIndex(
                 name: "idx_create_date_emailtemplatelocalization",
@@ -383,29 +382,25 @@ namespace MapHive.Core.DAL.Migrations
                 name: "idx_child_type_uuid_link",
                 schema: "mh_meta",
                 table: "links",
-                column: "child_type_uuid",
-                unique: true);
+                column: "child_type_uuid");
 
             migrationBuilder.CreateIndex(
                 name: "idx_child_uuid_link",
                 schema: "mh_meta",
                 table: "links",
-                column: "child_uuid",
-                unique: true);
+                column: "child_uuid");
 
             migrationBuilder.CreateIndex(
                 name: "idx_parent_type_uuid_link",
                 schema: "mh_meta",
                 table: "links",
-                column: "parent_type_uuid",
-                unique: true);
+                column: "parent_type_uuid");
 
             migrationBuilder.CreateIndex(
                 name: "idx_parent_uuid_link",
                 schema: "mh_meta",
                 table: "links",
-                column: "parent_uuid",
-                unique: true);
+                column: "parent_uuid");
 
             migrationBuilder.CreateIndex(
                 name: "uq_name_objecttype",

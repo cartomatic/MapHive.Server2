@@ -85,8 +85,14 @@ namespace MapHive.Core.DataModel
         [JsonIgnore]
         public string LicenseOptionsSerialized
         {
-            get => LicenseOptions.Serialized;
-            set => LicenseOptions.Serialized = value;
+            get => LicenseOptions?.Serialized;
+            set
+            {
+                if (LicenseOptions != null)
+                {
+                    LicenseOptions.Serialized = value;
+                }
+            }
         }
 
 

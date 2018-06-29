@@ -19,11 +19,9 @@ namespace MapHive.Cmd.Core
             }
 
             //special treatment for validation exceptions; they may pop put when working with Base objects
-            if (ex is ValidationFailedException)
+            if (ex is ValidationFailedException e1)
             {
-                var e = (ValidationFailedException)ex;
-
-                foreach (var validationError in e.ValidationErrors)
+                foreach (var validationError in e1.ValidationErrors)
                 {
 
                     ConsoleEx.WriteLine(validationError.Message, ConsoleColor.DarkRed);

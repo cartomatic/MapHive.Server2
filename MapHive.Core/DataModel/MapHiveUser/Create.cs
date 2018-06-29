@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace MapHive.Core.DataModel
 {
     /// <summary>
-    /// creates a maphive user and his organization if required (org is created by default)
+    /// creates a maphive user
     /// </summary>
     public partial class MapHiveUser
     {
@@ -20,12 +20,6 @@ namespace MapHive.Core.DataModel
             EnsureSlug();
 
             var user = await base.CreateAsync<T>(dbCtx, emailAccount, emailTemplate) as MapHiveUser;
-
-            //unless user is marked as an org user, create an org for him
-            if (!user.IsOrgUser)
-            {
-                await CreateUserOrganizationAsync(dbCtx);
-            }
 
             return (T)(Base)user;
         }

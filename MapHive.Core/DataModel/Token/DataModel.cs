@@ -42,8 +42,14 @@ namespace MapHive.Core.DataModel
         [JsonIgnore]
         public string ReferrersSerialized
         {
-            get => Referrers.Serialized;
-            set => Referrers.Serialized = value;
+            get => Referrers?.Serialized;
+            set
+            {
+                if (Referrers != null)
+                {
+                    Referrers.Serialized = value;
+                }
+            }
         }
 
         //Note:
