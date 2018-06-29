@@ -25,7 +25,8 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
-        /// Creates a user acount, sends out email, modifies pass if a custom pass is provided
+        /// Creates a user acount, sends out email, modifies pass if a custom pass is provided;
+        /// this is a simple wrapper over the standard user.CreateAsync that adds an option to provide a specific password
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
