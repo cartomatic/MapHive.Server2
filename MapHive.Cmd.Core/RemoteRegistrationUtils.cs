@@ -120,7 +120,7 @@ namespace MapHive.Cmd.Core
                 Method.PUT,
                 queryParams: new Dictionary<string, string>
                 {
-                    { "orgName", org.DisplayName },
+                    { "orgSlug", org.DisplayName },
                     { "appShortNames", string.Join(",", apps.Select(a=>a.ShortName)) }
                 }
             );
@@ -136,7 +136,7 @@ namespace MapHive.Cmd.Core
         /// <param name="email"></param>
         /// <param name="pass"></param>
         /// <returns></returns>
-        protected async Task CreateOrgRemoteAsync(string orgName, string orgDescription, bool clean, bool morg, string email, string pass)
+        protected async Task CreateOrgRemoteAsync(string orgName, string orgDescription, string orgSlug, bool clean, bool morg, string email, string pass)
         {
             //authenticate user
             await AuthenticateAsync();
@@ -147,6 +147,7 @@ namespace MapHive.Cmd.Core
                 {
                     { "orgName", orgName },
                     { "orgDescription", orgDescription },
+                    { "orgSlug", orgSlug },
                     { "clean", clean.ToString() },
                     { "morg", morg.ToString() },
                     { "email", email },
