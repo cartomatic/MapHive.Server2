@@ -21,11 +21,12 @@ namespace MapHive.Core.Utils
 
             //firs chars repalcement
             slug = slug
+                .ToLowerInvariant()
                 .Replace("@", "-")
                 .Replace(".", "-");
 
             //this is for org slugs based on org names
-            var tokens = slug.Split(' ').Select(str => !string.IsNullOrEmpty(str));
+            var tokens = slug.Split(' ').Where(str => !string.IsNullOrEmpty(str));
 
             slug = string.Join("-", tokens);
 
