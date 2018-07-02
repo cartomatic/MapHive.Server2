@@ -11,9 +11,6 @@ namespace MapHive.Cmd
 
         static void Main(string[] args)
         {
-            MapHive.Identity.UserManagerUtils.Configure("MapHiveIdentity");
-            var test = MapHive.Identity.UserManagerUtils.GetUserManager();
-
             Task.WaitAll(
                 Task.Run(() => MainAsync(args))
             );
