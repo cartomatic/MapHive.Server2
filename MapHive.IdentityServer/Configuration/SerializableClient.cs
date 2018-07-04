@@ -9,74 +9,109 @@ using IdentityServer4.Models;
 namespace MapHive.IdentityServer.Configuration
 {
     /// <summary>
-    /// SerializableClient hides base interface type properties of Client with their implementation, so can deserialize object
+    /// Exposes some properties that seem to be configurable most often.
+    /// based on http://docs.identityserver.io/en/release/topics/clients.html#defining-clients
+    /// and https://github.com/cartomatic/MapHive.Identity/blob/master/IdentityServer/Configuration/SerialisableClient.cs
     /// </summary>
-    public class SerializableClient : Client
+    public class SerializableClient
     {
         /// <summary>
-        /// Specifies which external IdPs can be used with this client (if list is empty
-        /// all IdPs are allowed). Defaults to empty.
+        /// Unique ID of the client
         /// </summary>
-        public new List<string> IdentityProviderRestrictions { get; set; }
+        public string ClientId { get; set; }
 
         /// <summary>
-        /// Allows settings claims for the client (will be included in the access token).
+        /// Client display name(used for logging and consent screen)
         /// </summary>
-        public new List<Claim> Claims { get; set; }
+        public string ClientName { get; set; }
 
         /// <summary>
-        /// Specifies the api scopes that the client is allowed to request. If empty, the
-        /// client can't access any scope
+        /// URI to further information about client(used on consent screen)
         /// </summary>
-        public new List<string> AllowedScopes { get; set; }
+        public string ClientUri { get; set; }
 
         /// <summary>
-        /// Gets or sets the custom properties for the client.
+        /// URI to client logo(used on consent screen)
         /// </summary>
-        public new Dictionary<string, string> Properties { get; set; }
+        public string LogoUri { get; set; }
 
         /// <summary>
         /// Client secrets - only relevant for flows that require a secret
         /// </summary>
-        public new List<Secret> ClientSecrets { get; set; }
+        public List<Secret> ClientSecrets { get; set; }
 
         /// <summary>
-        /// Gets or sets the allowed CORS origins for JavaScript clients.
+        /// Specifies the api scopes that the client is allowed to request.If empty, the client can't access any scope
         /// </summary>
-        public new List<string> AllowedCorsOrigins { get; set; }
+        public List<string> AllowedScopes { get; set; }
 
         /// <summary>
-        /// Specifies the allowed grant types (legal combinations of AuthorizationCode, Implicit,
-        /// Hybrid, ResourceOwner, ClientCredentials).
+        /// Specifies the allowed grant types(legal combinations of AuthorizationCode, Implicit, Hybrid, ResourceOwner, ClientCredentials)
         /// </summary>
-        public new List<string> AllowedGrantTypes { get; set; }
+        public List<string> AllowedGrantTypes { get; set; }
+
+        /// <summary>
+        /// Controls whether access tokens are transmitted via the browser for this client
+        /// (defaults to false). This can prevent accidental leakage of access tokens when
+        /// multiple response types are allowed.
+        /// </summary>
+        public bool AllowAccessTokensViaBrowser { get; set; }
 
         /// <summary>
         /// Specifies allowed URIs to return tokens or authorization codes to
         /// </summary>
-        public new List<string> RedirectUris { get; set; }
+        public List<string> RedirectUris { get; set; }
 
         /// <summary>
         /// Specifies allowed URIs to redirect to after logout
         /// </summary>
-        public new List<string> PostLogoutRedirectUris { get; set; }
+        public List<string> PostLogoutRedirectUris { get; set; }
+
+        /// <summary>
+        /// Gets or sets the allowed CORS origins for JavaScript clients.
+        /// </summary>
+        public List<string> AllowedCorsOrigins { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether[allow offline access]. Defaults to false.
+        /// </summary>
+        public bool AllowOfflineAccess { get; set; }
+
+        /// <summary>
+        /// Specifies whether the access token is a reference token or a self contained JWT token (defaults to Jwt).
+        /// </summary>
+        public AccessTokenType AccessTokenType { get; set; }
+
+        /// <summary>
+        /// Lifetime of access token in seconds(defaults to 3600 seconds / 1 hour)
+        /// </summary>
+        public int AccessTokenLifetime { get; set; }
+
+        /// <summary>
+        /// Specifies if client is enabled(defaults to true)
+        /// </summary>
+        public bool Enabled { get; set; }
 
         public Client ToClient()
         {
-            var client = this.CopyPublicPropertiesToNew<Client>();
-
-            //hidden properties need to be copied explicitly as dto utils will not matche them on type!
-            client.IdentityProviderRestrictions = IdentityProviderRestrictions;
-            client.Claims = Claims;
-            client.AllowedScopes = AllowedScopes;
-            client.Properties = Properties;
-            client.ClientSecrets = ClientSecrets.Select(cs => new Secret(cs.Value.Sha256(), cs.Description, cs.Expiration)).ToList();
-            client.AllowedCorsOrigins = AllowedCorsOrigins;
-            client.AllowedGrantTypes = AllowedGrantTypes;
-            client.RedirectUris = RedirectUris;
-            client.PostLogoutRedirectUris = PostLogoutRedirectUris;
-
-            return client;
+            return new Client
+            {
+                ClientId = ClientId,
+                ClientName = ClientName,
+                ClientUri = ClientUri,
+                LogoUri = LogoUri,
+                ClientSecrets = ClientSecrets.Select(cs => new Secret(cs.Value.Sha256(), cs.Description, cs.Expiration)).ToList(),
+                AllowedScopes = AllowedScopes,
+                AllowedGrantTypes = AllowedGrantTypes,
+                AllowAccessTokensViaBrowser = AllowAccessTokensViaBrowser,
+                RedirectUris = RedirectUris,
+                PostLogoutRedirectUris = PostLogoutRedirectUris,
+                AllowedCorsOrigins = AllowedCorsOrigins,
+                AllowOfflineAccess = AllowOfflineAccess,
+                AccessTokenType = AccessTokenType,
+                AccessTokenLifetime = AccessTokenLifetime,
+                Enabled = Enabled
+            };
         }
     }
 }
