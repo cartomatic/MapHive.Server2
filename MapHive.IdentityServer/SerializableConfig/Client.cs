@@ -6,14 +6,15 @@ using System.Security.Claims;
 using Cartomatic.Utils.Dto;
 using IdentityServer4.Models;
 
-namespace MapHive.IdentityServer.Configuration
+namespace MapHive.IdentityServer.SerializableConfig
 {
     /// <summary>
     /// Exposes some properties that seem to be configurable most often.
+    /// Client is a complex obkect with stuff such as Claims, hence not inheriting from the original object but rather providing a facade
     /// based on http://docs.identityserver.io/en/release/topics/clients.html#defining-clients
     /// and https://github.com/cartomatic/MapHive.Identity/blob/master/IdentityServer/Configuration/SerialisableClient.cs
     /// </summary>
-    public class SerializableClient
+    public class Client
     {
         /// <summary>
         /// Unique ID of the client
@@ -92,15 +93,15 @@ namespace MapHive.IdentityServer.Configuration
         /// </summary>
         public bool Enabled { get; set; }
 
-        public Client ToClient()
+        public IdentityServer4.Models.Client ToClient()
         {
-            return new Client
+            return new IdentityServer4.Models.Client
             {
                 ClientId = ClientId,
                 ClientName = ClientName,
                 ClientUri = ClientUri,
                 LogoUri = LogoUri,
-                ClientSecrets = ClientSecrets.Select(cs => new Secret(cs.Value.Sha256(), cs.Description, cs.Expiration)).ToList(),
+                ClientSecrets = ClientSecrets.Select(cs => new IdentityServer4.Models.Secret(cs.Value.Sha256(), cs.Description, cs.Expiration)).ToList(),
                 AllowedScopes = AllowedScopes,
                 AllowedGrantTypes = AllowedGrantTypes,
                 AllowAccessTokensViaBrowser = AllowAccessTokensViaBrowser,

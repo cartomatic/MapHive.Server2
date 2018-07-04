@@ -16,6 +16,9 @@ namespace MapHive.IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddIdentityServer()
+                .AddInMemoryClients(Configuration.GetApiClients())
+                .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
+                .AddInMemoryApiResources(Configuration.GetApiResources())
                 .AddDeveloperSigningCredential();
         }
 

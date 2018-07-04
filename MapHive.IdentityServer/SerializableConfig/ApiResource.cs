@@ -5,20 +5,17 @@ using System.Threading.Tasks;
 using Cartomatic.Utils.Dto;
 using IdentityServer4.Models;
 
-namespace MapHive.IdentityServer.Configuration
+namespace MapHive.IdentityServer.SerializableConfig
 {
     /// <summary>
     /// SerializableApiResource hides base interface type properties of ApiResource with their implementation, so can deserialize object
     /// </summary>
-    public class SerializableApiResource : ApiResource
+    public class ApiResource : IdentityServer4.Models.ApiResource
     {
-        //public bool Enabled {get; set; }
-        //public string Name { get; set; }
-        //public string DisplayName { get; set; }
-        //public string Description { get; set; }
-
         /// <summary>
-        /// List of accociated user claims that should be included when this resource is requested.
+        /// List of accociated user claims that should be included when this resource is requested: include the following using claims
+        /// in access token (in addition to subject id)
+        /// See JwtClaimTypes for details
         /// </summary>
         public new List<string> UserClaims { get; set; }
 
@@ -31,11 +28,11 @@ namespace MapHive.IdentityServer.Configuration
         /// <summary>
         /// An API must have at least one scope. Each scope can have different settings.
         /// </summary>
-        public new List<SerializableScope> Scopes { get; set; }
+        public new List<Scope> Scopes { get; set; }
 
-        public ApiResource ToApiResource()
+        public IdentityServer4.Models.ApiResource ToApiResource()
         {
-            var apiResource = this.CopyPublicPropertiesToNew<ApiResource>();
+            var apiResource = this.CopyPublicPropertiesToNew<IdentityServer4.Models.ApiResource>();
 
             //hidden properties need to be copied explicitly as dto utils will not matche them on type!
             apiResource.UserClaims = UserClaims;

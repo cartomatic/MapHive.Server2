@@ -8,7 +8,7 @@ using System.Web;
 using Cartomatic.Utils;
 using Microsoft.Extensions.Configuration;
 
-namespace MapHive.IdentityServer.Configuration
+namespace MapHive.IdentityServer.Cryptography
 {
     public class Certificate
     {
