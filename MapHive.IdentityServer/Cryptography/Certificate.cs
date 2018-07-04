@@ -27,7 +27,7 @@ namespace MapHive.IdentityServer.Cryptography
                 var appCfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
 
                 cfg = new CertificateConfig();
-                appCfg.GetSection("Dsc").Bind(cfg);
+                appCfg.GetSection("CertificateConfig").Bind(cfg);
             }
 
             if(cfg == null)
