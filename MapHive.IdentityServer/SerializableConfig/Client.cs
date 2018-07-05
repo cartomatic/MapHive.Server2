@@ -48,6 +48,7 @@ namespace MapHive.IdentityServer.SerializableConfig
 
         /// <summary>
         /// Specifies the allowed grant types(legal combinations of AuthorizationCode, Implicit, Hybrid, ResourceOwner, ClientCredentials)
+        /// Implicit = "implicit", Hybrid = "hybrid", AuthorizationCode = "authorization_code", ClientCredentials = "client_credentials", ResourceOwnerPassword = "password"
         /// </summary>
         public List<string> AllowedGrantTypes { get; set; }
 

@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Cmd", "MapHive.Cmd\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Cmd.Core", "MapHive.Cmd.Core\MapHive.Cmd.Core.csproj", "{8DD45970-CE70-4126-ACBF-0BFB94E9D142}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Identity", "MapHive.Identity\MapHive.Identity.csproj", "{23628192-3E3F-4DD8-AA77-F6D0A9B89DCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.IdentityServer", "MapHive.IdentityServer\MapHive.IdentityServer.csproj", "{243C35EB-D5C8-4FBE-A520-E530566E1231}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHive.IdentityServer", "MapHive.IdentityServer\MapHive.IdentityServer.csproj", "{243C35EB-D5C8-4FBE-A520-E530566E1231}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Identity", "MapHive.Identity\MapHive.Identity.csproj", "{05C2840E-768F-4B37-9AC8-6D561AB6C6FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHive.IdentityServer.Test", "MapHive.IdentityServer.Test\MapHive.IdentityServer.Test.csproj", "{FB84FA17-3E2E-4391-A722-19649927F1C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +39,18 @@ Global
 		{8DD45970-CE70-4126-ACBF-0BFB94E9D142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DD45970-CE70-4126-ACBF-0BFB94E9D142}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DD45970-CE70-4126-ACBF-0BFB94E9D142}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23628192-3E3F-4DD8-AA77-F6D0A9B89DCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23628192-3E3F-4DD8-AA77-F6D0A9B89DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23628192-3E3F-4DD8-AA77-F6D0A9B89DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23628192-3E3F-4DD8-AA77-F6D0A9B89DCC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{243C35EB-D5C8-4FBE-A520-E530566E1231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{243C35EB-D5C8-4FBE-A520-E530566E1231}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{243C35EB-D5C8-4FBE-A520-E530566E1231}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{243C35EB-D5C8-4FBE-A520-E530566E1231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05C2840E-768F-4B37-9AC8-6D561AB6C6FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05C2840E-768F-4B37-9AC8-6D561AB6C6FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05C2840E-768F-4B37-9AC8-6D561AB6C6FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05C2840E-768F-4B37-9AC8-6D561AB6C6FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB84FA17-3E2E-4391-A722-19649927F1C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB84FA17-3E2E-4391-A722-19649927F1C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB84FA17-3E2E-4391-A722-19649927F1C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB84FA17-3E2E-4391-A722-19649927F1C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

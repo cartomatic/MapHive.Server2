@@ -42,8 +42,11 @@ namespace MapHive.IdentityServer
         /// <returns></returns>
         public static IEnumerable<ApiResource> GetApiResources()
         {
-            var apiResources = new List<ApiResource>();
-            GetConfig().GetSection("ApiResources").Bind(apiResources);
+            var apiResources = 
+                GetConfig().GetSection("ApiResources")
+                    .Get<List<SerializableConfig.ApiResource>>()
+                    .Select(rs=>rs.ToApiResource())
+                    .ToList();
 
             return apiResources;
         }
@@ -54,8 +57,10 @@ namespace MapHive.IdentityServer
         /// <returns></returns>
         public static IEnumerable<Client> GetApiClients()
         {
-            var clients = new List<Client>();
-            GetConfig().GetSection("Clients").Bind(clients);
+            var clients = GetConfig().GetSection("Clients")
+                .Get<List<SerializableConfig.Client>>()
+                .Select(c=>c.ToClient())
+                .ToList();
 
             return clients;
         }
