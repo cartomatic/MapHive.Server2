@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace MapHive.Core
@@ -44,20 +45,13 @@ namespace MapHive.Core
             /// Extracts IdSrvTokenClientOpts from app settings via using the specified key; vakue of this key should be a json serialised IdSrvTokenClientOpts object
             /// </summary>
             /// <param name="cfgKey"></param>
-            /// <param name="silent">Whether or not the constructor should throw if unable to deserialise opts object</param>
-            public IdSrvTokenClientOpts(string cfgKey, bool silent = true)
+            public IdSrvTokenClientOpts(string cfgKey)
             {
-                IdSrvTokenClientOpts idSrvTokenClientOpts = null;
-                try
-                {
-                    idSrvTokenClientOpts =
-                        JsonConvert.DeserializeObject<IdSrvTokenClientOpts>(ConfigurationManager.AppSettings[cfgKey]);
-                }
-                catch (Exception ex)
-                {
-                    if (!silent)
-                        throw;
-                }
+                var idSrvTokenClientOpts = new IdSrvTokenClientOpts();
+                var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+
+                cfg.GetSection(cfgKey).Bind(idSrvTokenClientOpts);
+                
 
                 Authority = idSrvTokenClientOpts?.Authority;
                 ClientId = idSrvTokenClientOpts?.ClientId;
@@ -81,11 +75,10 @@ namespace MapHive.Core
             /// Expects the IdSrvTokenClient configuration to be available via app settings under a "IdSrvTokenClientOpts" key; value of this key should be 
             /// a json serialised IdSrvTokenClientOpts object
             /// </summary>
-            /// <param name="silent"></param>
             /// <returns></returns>
             public static IdSrvTokenClientOpts InitDefault(bool silent = true)
             {
-                return new IdSrvTokenClientOpts("IdSrvTokenClientOpts", silent);
+                return new IdSrvTokenClientOpts("IdSrvTokenClientOpts");
             }
         }
     }
