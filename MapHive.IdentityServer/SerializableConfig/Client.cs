@@ -93,6 +93,11 @@ namespace MapHive.IdentityServer.SerializableConfig
         /// </summary>
         public bool Enabled { get; set; }
 
+        /// <summary>
+        /// Specifies whether a consent screen is required(defaults to true)
+        /// </summary>
+        public bool RequireConsent { get; set; }
+
         public IdentityServer4.Models.Client ToClient()
         {
             return new IdentityServer4.Models.Client
@@ -111,7 +116,8 @@ namespace MapHive.IdentityServer.SerializableConfig
                 AllowOfflineAccess = AllowOfflineAccess,
                 AccessTokenType = AccessTokenType,
                 AccessTokenLifetime = AccessTokenLifetime,
-                Enabled = Enabled
+                Enabled = Enabled,
+                RequireConsent = RequireConsent
             };
         }
     }
