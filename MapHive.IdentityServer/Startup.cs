@@ -25,7 +25,7 @@ namespace MapHive.IdentityServer
                     //this should configure the user manager stuff properly...
                     options.ConfigureProvider(
                         DataSourceProvider.Npgsql,
-                        Cartomatic.Utils.Ef.DbContextFactory.GetConnStr("MapHiveIdentity", true) //retrieve connection by key from configured conn strings
+                        Cartomatic.Utils.Ef.DbContextFactory.GetConnStr("MapHiveIdentity", false) //retrieve connection by key from configured conn strings
                     );
                 });
 

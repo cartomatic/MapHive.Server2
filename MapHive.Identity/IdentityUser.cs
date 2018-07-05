@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -77,7 +78,11 @@ namespace MapHive.Identity
     public class MapHiveIdentitySignInManager : SignInManager<MapHiveIdentityUser>
     {
         /// <inheritdoc />
-        public MapHiveIdentitySignInManager(UserManager<MapHiveIdentityUser> userManager, IHttpContextAccessor contextAccessor, IUserClaimsPrincipalFactory<MapHiveIdentityUser> claimsFactory, IOptions<IdentityOptions> optionsAccessor, ILogger<SignInManager<MapHiveIdentityUser>> logger, IAuthenticationSchemeProvider schemes) : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes)
+        public MapHiveIdentitySignInManager(UserManager<MapHiveIdentityUser> userManager,
+            IHttpContextAccessor contextAccessor, IUserClaimsPrincipalFactory<MapHiveIdentityUser> claimsFactory,
+            IOptions<IdentityOptions> optionsAccessor, ILogger<SignInManager<MapHiveIdentityUser>> logger,
+            IAuthenticationSchemeProvider schemes) : base(userManager, contextAccessor, claimsFactory, optionsAccessor,
+            logger, schemes)
         {
         }
     }
