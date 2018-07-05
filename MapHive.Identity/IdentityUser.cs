@@ -55,7 +55,8 @@ namespace MapHive.Identity
         }
     }
 
-    public class MapHiveIdentityRoleStore : RoleStore<MapHiveIdentityRole, MapHiveIdentityDbContext, Guid, MapHiveIdentityUserRole, MapHiveIdentityRoleClaim> {
+    public class MapHiveIdentityRoleStore : RoleStore<MapHiveIdentityRole, MapHiveIdentityDbContext, Guid, MapHiveIdentityUserRole, MapHiveIdentityRoleClaim>
+    {
         /// <inheritdoc />
         public MapHiveIdentityRoleStore(MapHiveIdentityDbContext context, IdentityErrorDescriber describer = null) : base(context, describer)
         {
