@@ -25,7 +25,7 @@ namespace MapHive.Cmd
             };
 
             //setup if needed
-
+            MapHive.Identity.UserManagerUtils.Configure("MapHiveIdentity");
 
             await cmdWatcher.Init(false);
 

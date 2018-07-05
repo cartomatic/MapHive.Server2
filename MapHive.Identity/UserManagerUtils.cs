@@ -13,6 +13,7 @@ namespace MapHive.Identity
     public class UserManagerUtils
     {
         private static UserManager<MapHiveIdentityUser> _userManager;
+        private static SignInManager<MapHiveIdentityUser> _signInManager;
 
         private static bool Configured { get; set; }
 
@@ -49,6 +50,11 @@ namespace MapHive.Identity
                 typeof(UserManagerService));
             _userManager = userManagerService.GetUserManager();
 
+            var signInManagerService = (ISignInManagerService)Microsoft.Extensions.DependencyInjection.ActivatorUtilities.CreateInstance(provider,
+                typeof(SignInManagerService));
+
+            _signInManager = signInManagerService.GetSignInManager();
+
             Configured = true;
         }
 
@@ -62,6 +68,14 @@ namespace MapHive.Identity
                 throw new InvalidOperationException($"In order to user {nameof(UserManagerUtils)} you need to call {nameof(UserManagerUtils)}.{nameof(UserManagerUtils.Configure)} first!");
 
             return _userManager;
+        }
+
+        public static SignInManager<MapHiveIdentityUser> GetSignInManager()
+        {
+            if (!Configured)
+                throw new InvalidOperationException($"In order to user {nameof(UserManagerUtils)} you need to call {nameof(UserManagerUtils)}.{nameof(UserManagerUtils.Configure)} first!");
+
+            return _signInManager;
         }
 
         private interface IUserManagerService
@@ -84,6 +98,29 @@ namespace MapHive.Identity
             public UserManager<MapHiveIdentityUser> GetUserManager()
             {
                 return _userManager;
+            }
+        }
+
+        private interface ISignInManagerService
+        {
+            SignInManager<MapHiveIdentityUser> GetSignInManager();
+        }
+
+        /// <summary>
+        /// SignIn manager service - so can use dependancy injection to obtain it! :)
+        /// </summary>
+        private class SignInManagerService : ISignInManagerService
+        {
+            private readonly SignInManager<MapHiveIdentityUser> _signInManager;
+
+            public SignInManagerService(SignInManager<MapHiveIdentityUser> signInManager)
+            {
+                this._signInManager = signInManager;
+            }
+
+            public SignInManager<MapHiveIdentityUser> GetSignInManager()
+            {
+                return _signInManager;
             }
         }
     }

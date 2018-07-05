@@ -14,10 +14,10 @@ namespace MapHive.Identity
         {
             var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
 
-            opts.Password = cfg.GetSection("IdentityOptions:PasswordOptions").Get<PasswordOptions>();
-            opts.SignIn = cfg.GetSection("IdentityOptions:SignInOptions").Get<SignInOptions>();
-            opts.User = cfg.GetSection("IdentityOptions:UserOptions").Get<UserOptions>();
-            opts.Lockout = cfg.GetSection("IdentityOptions:LockoutOptions").Get<LockoutOptions>();
+            opts.Password = cfg.GetSection("IdentityOptions:PasswordOptions").Get<PasswordOptions>() ?? new PasswordOptions();
+            opts.SignIn = cfg.GetSection("IdentityOptions:SignInOptions").Get<SignInOptions>() ?? new SignInOptions();
+            opts.User = cfg.GetSection("IdentityOptions:UserOptions").Get<UserOptions>() ?? new UserOptions();
+            opts.Lockout = cfg.GetSection("IdentityOptions:LockoutOptions").Get<LockoutOptions>() ?? new LockoutOptions();
 
             return opts;
         }
