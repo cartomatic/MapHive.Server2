@@ -29,37 +29,10 @@ namespace MapHive.Identity
                         Cartomatic.Utils.Ef.DbContextFactory.GetConnStr(connStrName, isConnStr)
                     );
                 });
-
-            services.AddScoped<UserStore<MapHiveIdentityUser, MapHiveIdentityRole, MapHiveIdentityDbContext, Guid, MapHiveIdentityUserClaim, MapHiveIdentityUserRole, MapHiveIdentityUserLogin, MapHiveIdentityUserToken, MapHiveIdentityRoleClaim>, MapHiveIdentityUserStore>();
-            services.AddScoped<UserManager<MapHiveIdentityUser>, MapHiveIdentityUserManager>();
-            services.AddScoped<RoleManager<MapHiveIdentityRole>, MapHiveIdentityRoleManager>();
-            services.AddScoped<SignInManager<MapHiveIdentityUser>, MapHiveIdentitySignInManager>();
-            services.AddScoped<RoleStore<MapHiveIdentityRole, MapHiveIdentityDbContext, Guid, MapHiveIdentityUserRole, MapHiveIdentityRoleClaim>, MapHiveIdentityRoleStore>();
-            //services.AddScoped<IEmailSender, AuthMessageSender>();
-            //services.AddScoped<ISmsSender, AuthMessageSender>();
-
+            //identity scopes
+            services.ConfigureIdentityScopedServices();
             // Authentification
-            services.AddIdentity<MapHiveIdentityUser, IdentityRole>(opt =>
-                {
-                    //TODO - make setup customisable!!!
-                    // Configure identity options
-                    opt.Password.RequireDigit = false;
-                    opt.Password.RequireLowercase = false;
-                    opt.Password.RequireUppercase = false;
-                    opt.Password.RequireNonAlphanumeric = false;
-                    opt.Password.RequiredLength = 6;
-                    opt.User.RequireUniqueEmail = true;
-                })
-                .AddUserStore<MapHiveIdentityUserStore>()
-                .AddUserManager<MapHiveIdentityUserManager>()
-                .AddRoleStore<MapHiveIdentityRoleStore>()
-                //.AddRoleManager<MapHiveIdentityRoleManager>()
-                .AddSignInManager<MapHiveIdentitySignInManager>()
-                
-                // You **cannot** use .AddEntityFrameworkStores() when you customize everything
-                //more here: https://github.com/aspnet/Identity/issues/1082
-                //.AddEntityFrameworkStores<MapHiveIdentityDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity();
 
 
             //services.AddScoped<IUserManagerService, UserManagerService>();
