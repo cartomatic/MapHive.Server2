@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
+using MapHive.Identity.DAL;
+using MapHive.Identity.DataModel;
+
 namespace MapHive.Identity
 {
     public class UserManagerUtils

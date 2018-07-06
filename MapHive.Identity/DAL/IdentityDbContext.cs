@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
+using MapHive.Identity.DataModel;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.Identity
+namespace MapHive.Identity.DAL
 {
     //public class MapHiveIdentityDbContext : IdentityDbContext<MapHiveIdentityUser, MapHiveIdentityRole, Guid>
     //need a full declaration in order to make use of it by idsrv!

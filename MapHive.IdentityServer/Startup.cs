@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Cartomatic.Utils.Ef;
+using MapHive.Identity.DataModel;
+using MapHive.Identity.DAL;
 using MapHive.IdentityServer.DAL;
 using Microsoft.AspNetCore.Identity;
 

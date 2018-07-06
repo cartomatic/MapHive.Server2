@@ -10,6 +10,7 @@ using Cartomatic.Utils.Email;
 using MapHive.Core.DataModel.Validation;
 using MapHive.Core.Events;
 using MapHive.Identity;
+using MapHive.Identity.DataModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

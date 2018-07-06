@@ -1,1 +1,0 @@
-﻿dotnet ef migrations add --project MapHive.Identity --startup-project MapHive.Cmd --context MapHive.Identity.MapHiveIdentityDbContext --output-dir "Migrations"

@@ -63,7 +63,7 @@ namespace MapHive.Cmd.Core
             }
             if (full || ContainsParam("id", args))
             {
-                ctxsToMigrate["maphive2_identity"] = new List<Type> { typeof(MapHive.Identity.MapHiveIdentityDbContext)};
+                ctxsToMigrate["maphive2_identity"] = new List<Type> { typeof(MapHive.Identity.DAL.MapHiveIdentityDbContext)};
             }
             if (xfull || ContainsParam("xid", args))
             {

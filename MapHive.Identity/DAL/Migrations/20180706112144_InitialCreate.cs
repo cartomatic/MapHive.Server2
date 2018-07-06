@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace MapHive.Identity.Migrations
+namespace MapHive.Identity.DAL.Migrations
 {
     public partial class InitialCreate : Migration
     {

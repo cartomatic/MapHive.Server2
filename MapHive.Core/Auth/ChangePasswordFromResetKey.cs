@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MapHive.Identity;
+using MapHive.Identity.DataModel;
 
 namespace MapHive.Core
 {
