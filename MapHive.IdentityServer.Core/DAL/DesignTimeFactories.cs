@@ -16,10 +16,7 @@ namespace MapHive.IdentityServer.DAL
         /// <returns> An instance of <typeparamref name="TContext" />. </returns>
         public MapHiveIdSrvPersistedGrantDbContext CreateDbContext(string[] args)
         {
-            return new MapHiveIdSrvPersistedGrantDbContext(
-                ((DbContextOptionsBuilder<PersistedGrantDbContext>)new DbContextOptionsBuilder<PersistedGrantDbContext>().ConfigureIdSrvDbProvider()).Options,
-                new OperationalStoreOptions().ConfigureOperationalStoreOptions()               
-            );
+            return Cartomatic.Utils.Ef.DbContextFactory.CreateDbContext<MapHiveIdSrvPersistedGrantDbContext>();
         }
     }
 
@@ -30,10 +27,7 @@ namespace MapHive.IdentityServer.DAL
         /// <returns> An instance of <typeparamref name="TContext" />. </returns>
         public MapHiveIdSrvConfigurationDbContext CreateDbContext(string[] args)
         {
-            return new MapHiveIdSrvConfigurationDbContext(
-                ((DbContextOptionsBuilder<ConfigurationDbContext>)new DbContextOptionsBuilder<ConfigurationDbContext>().ConfigureIdSrvDbProvider()).Options,
-                new ConfigurationStoreOptions().ConfigureConfiguratonStoreOptions()
-            );
+            return Cartomatic.Utils.Ef.DbContextFactory.CreateDbContext<MapHiveIdSrvConfigurationDbContext>();
         }
     }
 }

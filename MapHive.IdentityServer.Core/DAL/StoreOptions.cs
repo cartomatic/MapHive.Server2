@@ -10,12 +10,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.IdentityServer.DAL
 {
-    public static class StoreOptionsExtensions
+    public static class StoreOptions
     {
+        public const string DefaultConnStrName = "MapHiveIdSrv";
+        public const bool DefaultIsConnStr = false;
+        public const DataSourceProvider DefaultDataSourceProvider = DataSourceProvider.Npgsql;
+
+
         public static OperationalStoreOptions ConfigureOperationalStoreOptions(this OperationalStoreOptions opts)
         {
             opts.ConfigureDbContext = builder =>
-                builder.ConfigureIdSrvDbProvider();
+                builder.ConfigureIdSrvDbProvider(DefaultConnStrName, DefaultIsConnStr, DefaultDataSourceProvider);
 
             // this enables automatic token cleanup. this is optional.
             opts.EnableTokenCleanup = true;
@@ -31,7 +36,7 @@ namespace MapHive.IdentityServer.DAL
         public static ConfigurationStoreOptions ConfigureConfiguratonStoreOptions(this ConfigurationStoreOptions opts)
         {
             opts.ConfigureDbContext = builder =>
-                builder.ConfigureIdSrvDbProvider();
+                builder.ConfigureIdSrvDbProvider(DefaultConnStrName, DefaultIsConnStr, DefaultDataSourceProvider);
 
             opts.DefaultSchema = "configuration";
 
@@ -40,13 +45,12 @@ namespace MapHive.IdentityServer.DAL
             return opts;
         }
 
-
         public static DbContextOptionsBuilder ConfigureIdSrvDbProvider(
-            this DbContextOptionsBuilder builder)
+            this DbContextOptionsBuilder builder, string connStrName, bool isConnStr, DataSourceProvider provider)
         {
             builder.ConfigureProvider(
-                DataSourceProvider.Npgsql,
-                Cartomatic.Utils.Ef.DbContextFactory.GetConnStr("MapHiveIdSrv", false)
+                provider,
+                Cartomatic.Utils.Ef.DbContextFactory.GetConnStr(connStrName, isConnStr)
             );
 
             return builder;

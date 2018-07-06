@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
 using Cartomatic.Utils.Data;
+using Cartomatic.Utils.Ef;
 using MapHive.Core.Data;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
@@ -181,9 +183,24 @@ namespace MapHive.Cmd.Core
                             //context will be scoped to credentials defined as default for the cmd
                             foreach (var type in ctxsToMmigrate[dbName])
                             {
+                                
+
+                                if (!typeof(IProvideDbContextFactory).GetTypeInfo().IsAssignableFrom(type.Ge‌​tTypeInfo()))
+                                {
+                                    ConsoleEx.WriteLine($"{type.FullName} does not implement {nameof(IProvideDbContextFactory)} and therefore will be skipped", ConsoleColor.DarkMagenta);
+                                    continue;
+                                }
+
                                 ConsoleEx.Write($"Running migration on: {type.FullName}... ", ConsoleColor.DarkYellow);
 
-                                var dbCtx = (DbContext)Activator.CreateInstance(type, new object[] { dbc.GetConnectionString(), true, dbc.DataSourceProvider });
+                                //cannot rely on specific constructors in db contexts!
+                                //var dbCtx = (DbContext)Activator.CreateInstance(type, new object[] { dbc.GetConnectionString(), true, dbc.DataSourceProvider });
+                                //
+                                //instead need to use some hocus pocus and only serve contexts that implement IProvideDbContextFactory
+                                var dbCtxFacade = (IProvideDbContextFactory)Cartomatic.Utils.Ef.DbContextFactory.CreateDbContextFacade(type);
+
+                                var dbCtx = dbCtxFacade.ProduceDbContextInstance(dbc.GetConnectionString(), true, dbc.DataSourceProvider);
+                                
                                 //this will create db if it dies not exist and apply all the pending migrations
                                 dbCtx.Database.Migrate();
 
