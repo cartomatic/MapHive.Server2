@@ -31,7 +31,7 @@ namespace MapHive.IdentityServer.Cryptography
             }
 
             if(cfg == null)
-                throw new InvalidOperationException("Certificate confoguration object missing.");
+                throw new InvalidOperationException("Certificate configuration object missing.");
 
 
             switch (cfg.StorageType)
