@@ -36,7 +36,7 @@ namespace MapHive.Identity
         /// Creates new instance with the specified opts
         /// </summary>
         /// <param name="opts"></param>
-        public MapHiveIdentityDbContext(DbContextOptions opts)
+        public MapHiveIdentityDbContext(DbContextOptions<MapHiveIdentityDbContext> opts)
             : base(opts)
         {
         }

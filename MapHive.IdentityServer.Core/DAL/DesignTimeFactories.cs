@@ -17,7 +17,7 @@ namespace MapHive.IdentityServer.DAL
         public MapHiveIdSrvPersistedGrantDbContext CreateDbContext(string[] args)
         {
             return new MapHiveIdSrvPersistedGrantDbContext(
-                ((DbContextOptionsBuilder<PersistedGrantDbContext>)new DbContextOptionsBuilder<PersistedGrantDbContext>().ConfigureProvider()).Options,
+                ((DbContextOptionsBuilder<PersistedGrantDbContext>)new DbContextOptionsBuilder<PersistedGrantDbContext>().ConfigureIdSrvDbProvider()).Options,
                 new OperationalStoreOptions().ConfigureOperationalStoreOptions()               
             );
         }
@@ -31,7 +31,7 @@ namespace MapHive.IdentityServer.DAL
         public MapHiveIdSrvConfigurationDbContext CreateDbContext(string[] args)
         {
             return new MapHiveIdSrvConfigurationDbContext(
-                ((DbContextOptionsBuilder<ConfigurationDbContext>)new DbContextOptionsBuilder<ConfigurationDbContext>().ConfigureProvider()).Options,
+                ((DbContextOptionsBuilder<ConfigurationDbContext>)new DbContextOptionsBuilder<ConfigurationDbContext>().ConfigureIdSrvDbProvider()).Options,
                 new ConfigurationStoreOptions().ConfigureConfiguratonStoreOptions()
             );
         }
