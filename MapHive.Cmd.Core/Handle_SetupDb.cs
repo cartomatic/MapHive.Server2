@@ -46,14 +46,14 @@ namespace MapHive.Cmd.Core
             }
 
             var dbsToDrop = new List<string>();
-            var ctxsToMmigrate = new Dictionary<string, Type>();
+            var ctxsToMigrate = new Dictionary<string, List<Type>>();
 
             var full = ContainsParam("full", args);
             var xfull = ContainsParam("xfull", args);
 
             if (full || ContainsParam("mh", args))
             {
-                ctxsToMmigrate["maphive2_meta"] = typeof(MapHiveDbContext);
+                ctxsToMigrate["maphive2_meta"] = new List<Type> {typeof(MapHiveDbContext)};
             }
             if (xfull || ContainsParam("xmh", args))
             {
@@ -61,7 +61,7 @@ namespace MapHive.Cmd.Core
             }
             if (full || ContainsParam("id", args))
             {
-                ctxsToMmigrate["maphive2_identity"] = typeof(MapHive.Identity.MapHiveIdentityDbContext);
+                ctxsToMigrate["maphive2_identity"] = new List<Type> { typeof(MapHive.Identity.MapHiveIdentityDbContext)};
             }
             if (xfull || ContainsParam("xid", args))
             {
@@ -69,8 +69,12 @@ namespace MapHive.Cmd.Core
             }
             if (full || ContainsParam("maphive2_idsrv", args))
             {
-                //TODO - no new idsrv implementation yet!
-                //migrationCtxs["maphive2_idsrv"] = typeof(MapHive.IdentityServer.MapHiveIdentityServerDbContext);
+
+                ctxsToMigrate["maphive2_idsrv"] = new List<Type>
+                {
+                    typeof(MapHive.IdentityServer.DAL.MapHiveIdSrvPersistedGrantDbContext),
+                    typeof(MapHive.IdentityServer.DAL.MapHiveIdSrvConfigurationDbContext)
+                };
             }
             if (xfull || ContainsParam("xidsrv", args))
             {
@@ -80,7 +84,7 @@ namespace MapHive.Cmd.Core
             var clean = !ContainsParam("clean", args) || ExtractParam<bool>("clean", args);
 
 
-            if (dbsToDrop.Count == 0 && ctxsToMmigrate.Count == 0)
+            if (dbsToDrop.Count == 0 && ctxsToMigrate.Count == 0)
             {
                 ConsoleEx.WriteLine(
                     "Looks like i have nothing to do... Type 'setup help' for more details on how to use this command.",
@@ -124,7 +128,7 @@ namespace MapHive.Cmd.Core
                 //check if the default confirmDrop should be waved off
                 var confirmDrop = !ContainsParam("suppressDropConfirmation", args);
                 
-                SetupDatabases(dbsToDrop, ctxsToMmigrate, confirmDrop);
+                SetupDatabases(dbsToDrop, ctxsToMigrate, confirmDrop);
 
                 ClearEfConnectionPoolsCache(full || ContainsParam("mh", args), full || ContainsParam("id", args));
             }
@@ -137,7 +141,7 @@ namespace MapHive.Cmd.Core
         /// </summary>
         /// <param name="dbsToDrop"></param>
         /// <param name="migrationCtxs"></param>
-        protected void SetupDatabases(List<string> dbsToDrop, Dictionary<string, Type> ctxsToMmigrate, bool confirmDrop = true)
+        protected void SetupDatabases(List<string> dbsToDrop, Dictionary<string, List<Type>> ctxsToMmigrate, bool confirmDrop = true)
         {
             //got here, so need to drop the dbs first in order to recreate them later
             if (dbsToDrop?.Count > 0)
@@ -172,13 +176,19 @@ namespace MapHive.Cmd.Core
 
                         try
                         {
-                            ConsoleEx.Write($"Updating db: {dbName}... ", ConsoleColor.DarkYellow);
+                            ConsoleEx.WriteLine($"Updating db: {dbName}... ", ConsoleColor.DarkYellow);
 
                             //context will be scoped to credentials defined as default for the cmd
-                            var dbCtx = (DbContext)Activator.CreateInstance(ctxsToMmigrate[dbName], new object[] { dbc.GetConnectionString(), true, dbc.DataSourceProvider });
+                            foreach (var type in ctxsToMmigrate[dbName])
+                            {
+                                ConsoleEx.Write($"Running migration on: {type.FullName}... ", ConsoleColor.DarkYellow);
 
-                            //this will create db if it dies not exist and apply all the pending migrations
-                            dbCtx.Database.Migrate();
+                                var dbCtx = (DbContext)Activator.CreateInstance(type, new object[] { dbc.GetConnectionString(), true, dbc.DataSourceProvider });
+                                //this will create db if it dies not exist and apply all the pending migrations
+                                dbCtx.Database.Migrate();
+
+                                ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                            }
 
                             ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                         }

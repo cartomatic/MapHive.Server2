@@ -36,22 +36,25 @@ namespace MapHive.Cmd.Core
                 return;
             }
 
-            var ctxsToMigrate = new Dictionary<string, Type>();
+            var ctxsToMigrate = new Dictionary<string, List<Type>>();
 
             var all = ContainsParam("all", args);
 
             if (all || ContainsParam("mh", args))
             {
-                ctxsToMigrate["maphive2_metadata"] = typeof(MapHiveDbContext);
+                ctxsToMigrate["maphive2_meta"] = new List<Type> { typeof(MapHiveDbContext) };
             }
             if (all || ContainsParam("id", args))
             {
-                ctxsToMigrate["maphive2_identity"] = typeof(MapHiveIdentityDbContext);
+                ctxsToMigrate["maphive2_identity"] = new List<Type> { typeof(MapHive.Identity.MapHiveIdentityDbContext) };
             }
             if (all || ContainsParam("idsrv", args))
             {
-                //TODO
-                //ctxsToMigrate["maphive2_idsrv"] = typeof(MapHiveIdentityServerDbContext);
+                ctxsToMigrate["maphive2_idsrv"] = new List<Type>
+                {
+                    typeof(MapHive.IdentityServer.DAL.MapHiveIdSrvPersistedGrantDbContext),
+                    typeof(MapHive.IdentityServer.DAL.MapHiveIdSrvConfigurationDbContext)
+                };
             }
 
             SetupDatabases(null, ctxsToMigrate, false);
