@@ -59,5 +59,11 @@ namespace MapHive.Core.DataModel.Validation
             Code = "org_owner_destroy",
             Message = "This user is an organization owner and cannot be destroyed this way. You need to perform the op by destroying the organization."
         };
+
+        public static IValidationError NoPermission { get; } = new ValidationError
+        {
+            Code = "no_permission",
+            Message = "No permissions to perform a requested operation."
+        };
     }
 }

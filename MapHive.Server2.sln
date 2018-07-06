@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Identity", "MapHive
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.IdentityServer.Test", "MapHive.IdentityServer.Test\MapHive.IdentityServer.Test.csproj", "{FB84FA17-3E2E-4391-A722-19649927F1C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHive.IdentityServer.Core", "MapHive.IdentityServer.Core\MapHive.IdentityServer.Core.csproj", "{76F59138-3E9A-40FD-BA1F-5A310D30DBC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.IdentityServer.Core", "MapHive.IdentityServer.Core\MapHive.IdentityServer.Core.csproj", "{76F59138-3E9A-40FD-BA1F-5A310D30DBC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHive.API.Core", "MapHive.API.Core\MapHive.API.Core.csproj", "{2A7E248D-AB31-4323-9A1D-78F25B520085}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{76F59138-3E9A-40FD-BA1F-5A310D30DBC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76F59138-3E9A-40FD-BA1F-5A310D30DBC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76F59138-3E9A-40FD-BA1F-5A310D30DBC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A7E248D-AB31-4323-9A1D-78F25B520085}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A7E248D-AB31-4323-9A1D-78F25B520085}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A7E248D-AB31-4323-9A1D-78F25B520085}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A7E248D-AB31-4323-9A1D-78F25B520085}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
