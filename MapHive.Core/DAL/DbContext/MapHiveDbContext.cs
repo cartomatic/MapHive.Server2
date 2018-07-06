@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DAL
 {
-    public class MapHiveDbContext : ApplicationDbContext, ILinksDbContext, IMapHiveAppsDbContext, ILocalizedDbContext, IMapHiveUsersDbContext<MapHiveUser>
+    public class MapHiveDbContext : ApplicationDbContext, ILinksDbContext, IMapHiveAppsDbContext, ILocalizedDbContext, IMapHiveUsersDbContext<MapHiveUser>, IProvideDbContextFactory
     {
         /// <summary>
         /// Creates instance with the default conn str name
@@ -34,6 +34,17 @@ namespace MapHive.Core.DAL
         public MapHiveDbContext(string connStrName, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.Npgsql)
             : base(DbContextFactory.GetDbContextOptions<MapHiveDbContext>(connStrName, isConnStr, provider))
         {
+        }
+
+        public DbContext ProduceDbContextInstance(string connStrName = null, bool isConnStr = false,
+            DataSourceProvider provider = DataSourceProvider.EfInMemory)
+        {
+            return new MapHiveDbContext(connStrName, isConnStr, provider);
+        }
+
+        public DbContext ProduceDefaultDbContextInstance()
+        {
+            return new MapHiveDbContext();
         }
 
 
@@ -79,6 +90,4 @@ namespace MapHive.Core.DAL
             modelBuilder.ApplyConfiguration(new TranslationKeyConfiguration());
         }
     }
-
-
 }

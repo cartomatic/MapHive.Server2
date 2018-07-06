@@ -14,7 +14,7 @@ namespace MapHive.Core.DAL
     /// <summary>
     /// Context used for org db creation
     /// </summary>
-    public class OrganizationDbContext : BaseDbContext
+    public class OrganizationDbContext : BaseDbContext, IProvideDbContextFactory
     {
 
         /// <summary>
@@ -35,6 +35,18 @@ namespace MapHive.Core.DAL
         public OrganizationDbContext(string connStrName, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.Npgsql)
             : base (DbContextFactory.GetDbContextOptions<OrganizationDbContext>(connStrName, isConnStr, provider))
         {
+        }
+
+        public DbContext ProduceDbContextInstance(string connStrName = null, bool isConnStr = false,
+            DataSourceProvider provider = DataSourceProvider.EfInMemory)
+        {
+            return new OrganizationDbContext(connStrName, isConnStr, provider);
+        }
+
+        public DbContext ProduceDefaultDbContextInstance()
+        {
+            //this will throw deeper of course!!!
+            return new OrganizationDbContext();
         }
     }
 }

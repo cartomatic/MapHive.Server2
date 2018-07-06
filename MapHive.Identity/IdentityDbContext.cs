@@ -10,7 +10,7 @@ namespace MapHive.Identity
 {
     //public class MapHiveIdentityDbContext : IdentityDbContext<MapHiveIdentityUser, MapHiveIdentityRole, Guid>
     //need a full declaration in order to make use of it by idsrv!
-    public class MapHiveIdentityDbContext : IdentityDbContext<MapHiveIdentityUser, MapHiveIdentityRole, Guid, MapHiveIdentityUserClaim, MapHiveIdentityUserRole, MapHiveIdentityUserLogin, MapHiveIdentityRoleClaim, MapHiveIdentityUserToken>
+    public class MapHiveIdentityDbContext : IdentityDbContext<MapHiveIdentityUser, MapHiveIdentityRole, Guid, MapHiveIdentityUserClaim, MapHiveIdentityUserRole, MapHiveIdentityUserLogin, MapHiveIdentityRoleClaim, MapHiveIdentityUserToken>, IProvideDbContextFactory
     {
         /// <summary>
         /// Creates instance with the default conn str name
@@ -39,6 +39,17 @@ namespace MapHive.Identity
         public MapHiveIdentityDbContext(DbContextOptions<MapHiveIdentityDbContext> opts)
             : base(opts)
         {
+        }
+
+        public DbContext ProduceDbContextInstance(string connStrName = null, bool isConnStr = false,
+            DataSourceProvider provider = DataSourceProvider.EfInMemory)
+        {
+            return new MapHiveIdentityDbContext(connStrName, isConnStr, provider);
+        }
+
+        public DbContext ProduceDefaultDbContextInstance()
+        {
+            return new MapHiveIdentityDbContext();
         }
     }
 }

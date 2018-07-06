@@ -178,7 +178,7 @@ namespace MapHive.Cmd.Core
 
                         try
                         {
-                            ConsoleEx.WriteLine($"Updating db: {dbName}... ", ConsoleColor.DarkYellow);
+                            ConsoleEx.WriteLine($"Updating db: {dbName}... ", ConsoleColor.DarkGray);
 
                             //context will be scoped to credentials defined as default for the cmd
                             foreach (var type in ctxsToMmigrate[dbName])
@@ -208,6 +208,7 @@ namespace MapHive.Cmd.Core
                             }
 
                             ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                            Console.WriteLine();
                         }
                         catch (Exception ex)
                         {
