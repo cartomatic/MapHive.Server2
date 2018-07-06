@@ -14,6 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MapHive.Cmd.Core\MapHive.Cmd.Core.csproj" />
+    <ProjectReference Include="..\MapHive.IdentityServer\MapHive.IdentityServer.csproj" />
+    <ProjectReference Include="..\MapHive.Identity\MapHive.Identity.csproj" />
   </ItemGroup>
 
   <ItemGroup>

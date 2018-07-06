@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Cartomatic.Utils.Ef;
+using MapHive.IdentityServer.DAL;
 using Microsoft.AspNetCore.Identity;
 
 namespace MapHive.IdentityServer
@@ -39,8 +40,17 @@ namespace MapHive.IdentityServer
                 .AddInMemoryClients(Configuration.GetApiClients())
                 .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
                 .AddInMemoryApiResources(Configuration.GetApiResources())
-                
-                .AddInMemoryPersistedGrants()
+
+                // this adds the config data from DB (clients, resources)
+                //.AddConfigurationStore(options =>
+                //    options.ConfigureConfiguratonStoreOptions()
+                //)
+
+                //.AddInMemoryPersistedGrants()
+                // this adds the operational data from DB (codes, tokens, consents)
+                .AddOperationalStore(options => 
+                    options.ConfigureOperationalStoreOptions()
+                )
                 .AddAspNetIdentity<MapHiveIdentityUser>()
                 ;
         }
