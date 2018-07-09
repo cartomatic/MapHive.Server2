@@ -8,9 +8,9 @@ using MapHive.API.Core.UserConfiguration;
 using Microsoft.AspNetCore.Http;
 
 
-namespace MapHive.API.Core
+namespace MapHive.API.Core.ApiControllers
 {
-    public abstract partial class BaseApiController
+    public abstract partial class BaseController
     {
         /// <summary>
         /// Returns obtained user configuration

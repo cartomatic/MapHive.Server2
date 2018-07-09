@@ -7,9 +7,9 @@ using System.Web;
 using MapHive.Core.Configuration;
 using Microsoft.AspNetCore.Http;
 
-namespace MapHive.API.Core
+namespace MapHive.API.Core.ApiControllers
 {
-    public abstract partial class BaseApiController
+    public abstract partial class BaseController
     {
         /// <summary>
         /// Extracts a source header off a request. Source header is used by the MH env to pass a full request source including hash, because hash is never sent to the client

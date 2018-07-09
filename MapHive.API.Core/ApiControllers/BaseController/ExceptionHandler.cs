@@ -8,9 +8,9 @@ using System.Web.Http;
 using MapHive.Core.DataModel.Validation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MapHive.API.Core
+namespace MapHive.API.Core.ApiControllers
 {
-    public abstract partial class BaseApiController
+    public abstract partial class BaseController
     {
         /// <summary>
         /// Handles exception using a customised handler

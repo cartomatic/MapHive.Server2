@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core.Controllers
+namespace MapHive.API.Core.ApiControllers
 {
-    interface IDbCtxApiController
+    interface IDbCtxController
     {
         /// <summary>
         /// returns a default db context for a controller

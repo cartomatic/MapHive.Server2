@@ -11,9 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using RestSharp;
 
-namespace MapHive.API.Core
+namespace MapHive.API.Core.ApiControllers
 {
-    public abstract partial class BaseApiController
+    public abstract partial class BaseController
     {
         /// <summary>
         /// api call output - encapsulates the actual api output and the response itself for further investigation in a case it's required

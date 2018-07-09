@@ -8,9 +8,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapHive.API.Core
+namespace MapHive.API.Core.ApiControllers
 {
-    public abstract partial class BaseApiController
+    public abstract partial class BaseController
     {
         /// <summary>
         /// Outputs a file as byte arr content response msg and deletes it afterwarads

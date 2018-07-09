@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MapHive.API.Core;
-using MapHive.API.Core.Controllers;
+using MapHive.API.Core.ApiControllers;
 using MapHive.API.Core.Extensions;
 using MapHive.API.Core.UserConfiguration;
 using MapHive.Core.DataModel;
@@ -96,7 +96,7 @@ namespace MapHive.API.Core
             if (_dbMigrator != null && !_nonOrgCtxMigrated)
             {
                 //try to grab the context...
-                var ctrl = (IDbCtxApiController)actionContext.Controller;
+                var ctrl = (IDbCtxController)actionContext.Controller;
                 if (ctrl != null)
                 {
                     EnsureUserImpersonation(actionContext);

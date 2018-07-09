@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Cartomatic.Utils.Email;
 using MapHive.Core.DAL;
 
-namespace MapHive.API.Core
+namespace MapHive.API.Core.ApiControllers
 {
-    public abstract partial class BaseApiController
+    public abstract partial class BaseController
     {
         /// <summary>
         /// Extracts an email template and a configured email account based on the email identifier. Since application name is not provided it only matches email identifiers for templates that do not have the app name set. Tries to work out the lang to extract the translation for email dynamically

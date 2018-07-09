@@ -5,6 +5,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Cache;
+using MapHive.API.Core.ApiControllers;
 using MapHive.API.Core.Authorize;
 using MapHive.API.Core.Extensions;
 using MapHive.Core.Configuration;
@@ -126,7 +127,7 @@ namespace MapHive.API.Core.UserConfiguration
 
             //cached does not exist or has expired, so basically need to perform a call to the core api to obtain the user cfg
             var userCfg =
-                await (actionContext.Controller as BaseApiController)
+                await (actionContext.Controller as BaseController)
                     .CoreApiCall<MapHive.Core.Configuration.UserConfiguration>(
                         "configuration/user",
                         queryParams: new Dictionary<string, object>

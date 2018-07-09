@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 
-namespace MapHive.API.Core
+namespace MapHive.API.Core.ApiControllers
 {
-    public abstract partial class BaseApiController
+    public abstract partial class BaseController
     {
         /// <summary>
         /// Calls a core API
