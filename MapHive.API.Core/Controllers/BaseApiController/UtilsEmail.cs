@@ -41,7 +41,7 @@ namespace MapHive.API.Core
                     { "emailIdentifier" , emailIdentifier},
                     { "appName" , appName},
                     {
-                        "langCode" , string.IsNullOrEmpty(langCode) ? GetRequestLangCode() : langCode
+                        "langCode" , string.IsNullOrEmpty(langCode) ? GetRequestLangCode(Context) : langCode
                     }
                 }
             );
