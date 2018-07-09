@@ -24,11 +24,11 @@ namespace MapHive.Core.DataModel
         /// <param name="db"></param>
         /// <param name="propertySpecifiers"></param>
         /// <returns></returns>
-        public static async Task<T> MaterialiseLinksAsAttachedAsync<T>(this T obj, DbContext db,
+        public static async Task<T> MaterializeLinksAsAttachedAsync<T>(this T obj, DbContext db,
             params Expression<Func<T, IEnumerable<Base>>>[] propertySpecifiers)
             where T : Base
         {
-            return await obj.MaterialiseLinksAsync(db, propertySpecifiers, false);
+            return await obj.MaterializeLinksAsync(db, propertySpecifiers, false);
         }
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace MapHive.Core.DataModel
         /// <param name="db"></param>
         /// <param name="propertySpecifiers"></param>
         /// <returns></returns>
-        public static async Task<T> MaterialiseLinksAsDetachedAsync<T>(this T obj, DbContext db,
+        public static async Task<T> MaterializeLinksAsDetachedAsync<T>(this T obj, DbContext db,
             params Expression<Func<T, IEnumerable<Base>>>[] propertySpecifiers)
             where T : Base
         {
-            return await obj.MaterialiseLinksAsync(db, propertySpecifiers, true);
+            return await obj.MaterializeLinksAsync(db, propertySpecifiers, true);
         }
 
         /// <summary>
@@ -55,13 +55,13 @@ namespace MapHive.Core.DataModel
         /// <param name="detached">Whether or not the loaded objects should be deatched from db context or not</param>
         /// <param name="propertySpecifiers"></param>
         /// <returns></returns>
-        private static async Task<T> MaterialiseLinksAsync<T>(this T obj, DbContext db,
+        private static async Task<T> MaterializeLinksAsync<T>(this T obj, DbContext db,
             IEnumerable<Expression<Func<T, IEnumerable<Base>>>> propertySpecifiers, bool detached)
             where T : Base
         {
             var list = propertySpecifiers.Select(p => p.GetPropertyMemberInfoFromExpression()).ToList();
 
-            await obj.MaterialiseLinksAsync(db, list, detached);
+            await obj.MaterializeLinksAsync(db, list, detached);
 
             return obj;
         }
@@ -147,7 +147,7 @@ namespace MapHive.Core.DataModel
         /// <param name="props">IEnumerable Of T where T : Base properties to load the links into</param>
         /// <param name="detached">Whether or not the loaded objects should be deatched from db context or not</param>
         /// <returns></returns>
-        private static async Task<T> MaterialiseLinksAsync<T>(this T obj, DbContext db, IEnumerable<MemberInfo> props,
+        private static async Task<T> MaterializeLinksAsync<T>(this T obj, DbContext db, IEnumerable<MemberInfo> props,
             bool detached = true)
             where T : Base
         {

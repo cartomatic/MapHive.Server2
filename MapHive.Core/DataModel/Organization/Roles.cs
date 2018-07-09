@@ -176,6 +176,17 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
+        /// Determines if a user with given id is an org member
+        /// </summary>
+        /// <param name="dbctx"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<bool> IsOrgMemberAsync(DbContext dbctx, Guid userId)
+        {
+            return await this.IsOrgMemberAsync(dbctx, new MapHiveUser {Uuid = userId});
+        }
+
+        /// <summary>
         /// Determines if a user is an org member (is assigned to an org)
         /// </summary>
         /// <param name="dbctx"></param>
@@ -187,6 +198,17 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
+        /// Checks if user with given id is an organization owner (user has the org owner role assigned)
+        /// </summary>
+        /// <param name="dbctx"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<bool> IsOrgOwnerAsync(DbContext dbctx, Guid userId)
+        {
+            return await this.IsOrgOwnerAsync(dbctx, new MapHiveUser { Uuid = userId });
+        }
+
+        /// <summary>
         /// Checks if user is an organization owner (user has the org owner role assigned)
         /// </summary>
         /// <param name="dbctx"></param>
@@ -195,6 +217,17 @@ namespace MapHive.Core.DataModel
         public async Task<bool> IsOrgOwnerAsync(DbContext dbctx, MapHiveUser user)
         {
             return await user.HasChildLinkAsync(dbctx, await GetOrgOwnerRoleAsync(dbctx));
+        }
+
+        /// <summary>
+        /// Checks if a user with given id is an organization admin (user has the org admin role assigned)
+        /// </summary>
+        /// <param name="dbctx"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<bool> IsOrgAdminAsync(DbContext dbctx, Guid userId)
+        {
+            return await this.IsOrgAdminAsync(dbctx, new MapHiveUser { Uuid = userId });
         }
 
         /// <summary>
