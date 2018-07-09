@@ -11,7 +11,7 @@ namespace MapHive.API.Core
     /// </summary>
     public static class CommonSettings
     {
-        private static Dictionary<string, object> _data = new Dictionary<string, object>();
+        private static readonly Dictionary<string, object> Data = new Dictionary<string, object>();
 
         /// <summary>
         /// gets a string setting
@@ -31,8 +31,8 @@ namespace MapHive.API.Core
         /// <returns></returns>
         public static T Get<T>(string key)
         {
-            if (_data.ContainsKey(key))
-                return (T) _data[key];
+            if (Data.ContainsKey(key))
+                return (T) Data[key];
 
             return default(T);
         }
@@ -44,7 +44,7 @@ namespace MapHive.API.Core
         /// <param name="obj"></param>
         public static void Set(string key, object obj)
         {
-            _data[key] = obj;
+            Data[key] = obj;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace MapHive.API.Core.Authorize
 
     public class TokenAuthorizeMiddleware
     {
-        public const string AuthScheme = "ApiToken";
+        public const string AuthScheme = "PickLock";
 
         protected static ICache<bool> Cache { get; private set; }
 
