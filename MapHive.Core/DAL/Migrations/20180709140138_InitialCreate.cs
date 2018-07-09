@@ -230,7 +230,8 @@ namespace MapHive.Core.DAL.Migrations
                     end_date_utc = table.Column<DateTime>(nullable: true),
                     identifier = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
-                    description = table.Column<string>(nullable: true)
+                    description = table.Column<string>(nullable: true),
+                    privileges = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

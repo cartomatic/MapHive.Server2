@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MapHive.Core.DAL.Migrations
 {
     [DbContext(typeof(MapHiveDbContext))]
-    [Migration("20180628224513_InitialCreate")]
+    [Migration("20180709140138_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -541,6 +541,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnName("name");
+
+                    b.Property<string>("PrivilegesSerialized")
+                        .HasColumnName("privileges");
 
                     b.HasKey("Uuid");
 

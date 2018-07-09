@@ -540,6 +540,9 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnName("name");
 
+                    b.Property<string>("PrivilegesSerialized")
+                        .HasColumnName("privileges");
+
                     b.HasKey("Uuid");
 
                     b.HasIndex("CreateDateUtc")
