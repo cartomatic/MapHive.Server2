@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     /// <summary>
     /// enforces some basic functionality for org controllers

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapHive.API.Core
+namespace MapHive.Api.Core
 {
     /// <summary>
     /// a simple static shareable settings container

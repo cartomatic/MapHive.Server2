@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 using System.Net.Http;
-using MapHive.API.Core.UserConfiguration;
+using MapHive.Api.Core.UserConfiguration;
 using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace MapHive.API.Core
+namespace MapHive.Api.Core
 {
     /// <summary>
     /// Action is run before every api request and gets databases data for organization

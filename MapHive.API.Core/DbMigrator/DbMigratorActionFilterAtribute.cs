@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using MapHive.API.Core;
-using MapHive.API.Core.ApiControllers;
-using MapHive.API.Core.Extensions;
-using MapHive.API.Core.UserConfiguration;
+using MapHive.Api.Core.ApiControllers;
+using MapHive.Api.Core.UserConfiguration;
+using MapHive.Api.Core;
+using MapHive.Api.Core.Extensions;
 using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using RestSharp.Extensions;
 
-namespace MapHive.API.Core
+namespace MapHive.Api.Core
 {
     /// <summary>
     /// Attribute responsible for triggering auto db migrations at the API level as opposed to the usual web client config retrieval db migration init scenario; 

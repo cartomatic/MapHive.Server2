@@ -7,7 +7,7 @@ using System.Web.Http;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     /// <summary>
     /// This is basic controller that pulls org dbs during a filter phase

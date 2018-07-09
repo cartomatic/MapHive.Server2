@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     /// <summary>
     /// Provides the base for the Web APIs, so generic utils can be easily shared

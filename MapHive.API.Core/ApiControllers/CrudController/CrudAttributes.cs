@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     /// <summary>
     /// Used to enforce Read privilege checkup for a resource

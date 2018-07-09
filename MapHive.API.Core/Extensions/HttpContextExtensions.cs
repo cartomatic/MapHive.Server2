@@ -5,7 +5,7 @@ using System.Text;
 using MapHive.Core.Configuration;
 using Microsoft.AspNetCore.Http;
 
-namespace MapHive.API.Core.Extensions
+namespace MapHive.Api.Core.Extensions
 {
     public static class HttpContextExtensions
     {

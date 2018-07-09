@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     public abstract partial class BaseController
     {

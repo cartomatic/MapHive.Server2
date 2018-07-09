@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using MapHive.API.Core.Authorize;
+using MapHive.Api.Core.Authorize;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace MapHive.API.Core
+namespace MapHive.Api.Core
 {
     /// <summary>
     /// Checks if token auth scheme has been used; if so extracts the token and verifies it agains the remote core api;

@@ -7,7 +7,7 @@ using System.Web;
 using MapHive.Core.Configuration;
 using Microsoft.AspNetCore.Http;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     public abstract partial class BaseController
     {

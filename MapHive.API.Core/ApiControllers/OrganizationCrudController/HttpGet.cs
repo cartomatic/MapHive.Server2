@@ -9,13 +9,13 @@ using Cartomatic.Utils.Ef;
 using Cartomatic.Utils.Filtering;
 using Cartomatic.Utils.Reflection;
 using Cartomatic.Utils.Sorting;
-using MapHive.API.Core.Extensions;
+using MapHive.Api.Core.Extensions;
 using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     public abstract partial class OrganizationCrudController<T, TDbContext> : CrudController<T, TDbContext>, IOrganizationApiController<TDbContext>
         where T : Base, new()

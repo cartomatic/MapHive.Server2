@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Cartomatic.Utils.Email;
 using MapHive.Core.DAL;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     public abstract partial class BaseController
     {

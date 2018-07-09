@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using MapHive.API.Core.UserConfiguration;
+using MapHive.Api.Core.UserConfiguration;
 using Microsoft.AspNetCore.Http;
 
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     public abstract partial class BaseController
     {

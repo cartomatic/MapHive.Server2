@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using MapHive.API.Core.UserConfiguration;
+using MapHive.Api.Core.UserConfiguration;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core
+namespace MapHive.Api.Core
 {
     public class ApiConfigurationSettings
     {

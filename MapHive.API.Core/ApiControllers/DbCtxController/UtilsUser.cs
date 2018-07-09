@@ -9,7 +9,7 @@ using MapHive.Core.DAL;
 using Microsoft.EntityFrameworkCore;
 using RestSharp;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     public abstract partial class DbCtxController<TDbContext>
     {

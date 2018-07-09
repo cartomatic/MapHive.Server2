@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using MapHive.Core.DataModel.Validation;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     public abstract partial class BaseController
     {

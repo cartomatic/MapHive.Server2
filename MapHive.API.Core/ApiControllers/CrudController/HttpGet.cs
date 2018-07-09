@@ -8,13 +8,13 @@ using System.Web.Http;
 using Cartomatic.Utils.Filtering;
 using Cartomatic.Utils.Reflection;
 using Cartomatic.Utils.Sorting;
-using MapHive.API.Core.Extensions;
+using MapHive.Api.Core.Extensions;
 using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     public abstract partial class CrudController<T, TDbCtx>
     {

@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Cartomatic.Utils.Cache;
-using MapHive.API.Core.Extensions;
+using MapHive.Api.Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using RestSharp;
 
-namespace MapHive.API.Core.Authorize
+namespace MapHive.Api.Core.Authorize
 {
     public static class TokenAuthorizeMiddlewareExtensions
     {

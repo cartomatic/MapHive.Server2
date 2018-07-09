@@ -8,7 +8,7 @@ using System.Web.Http;
 using MapHive.Core.DataModel.Validation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     public abstract partial class BaseController
     {

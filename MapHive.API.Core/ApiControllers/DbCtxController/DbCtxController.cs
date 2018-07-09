@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     /// <summary>
     /// Base controller with db ctx access

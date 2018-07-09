@@ -5,9 +5,9 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Cache;
-using MapHive.API.Core.ApiControllers;
-using MapHive.API.Core.Authorize;
-using MapHive.API.Core.Extensions;
+using MapHive.Api.Core.ApiControllers;
+using MapHive.Api.Core.Authorize;
+using MapHive.Api.Core.Extensions;
 using MapHive.Core.Configuration;
 using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace MapHive.API.Core.UserConfiguration
+namespace MapHive.Api.Core.UserConfiguration
 {
     public class UserConfigurationActionFilterAtribute : IAsyncActionFilter
     {
@@ -223,7 +223,7 @@ namespace MapHive.API.Core.UserConfiguration
         /// <returns></returns>
         private static string GetCommaDelimitedAppNames()
         {
-            return CommonSettings.Get(nameof(MapHive.API.Core.ApiConfigurationSettings.AppShortNames));
+            return CommonSettings.Get(nameof(ApiConfigurationSettings.AppShortNames));
         }
 
         /// <summary>

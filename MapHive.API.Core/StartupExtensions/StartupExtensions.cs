@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using MapHive.API.Core.Authorize;
-using MapHive.API.Core.UserConfiguration;
+using MapHive.Api.Core.UserConfiguration;
+using MapHive.Api.Core.Authorize;
 using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace MapHive.API.Core.StartupExtensions
+namespace MapHive.Api.Core.StartupExtensions
 {
     public static class StartupExtensions
     {
@@ -43,7 +43,7 @@ namespace MapHive.API.Core.StartupExtensions
                     //when auto migrators are specified wire them up via MapHive.API.Core.DbMigratorActionFilterAtribute
                     if (settings?.DbMigrator != null || settings?.OrganizationDbMigrator != null)
                     {
-                        opts.Filters.Add(new MapHive.API.Core.DbMigratorActionFilterAtribute(
+                        opts.Filters.Add(new DbMigratorActionFilterAtribute(
                                 settings?.OrganizationDbMigrator, settings?.DbMigrator
                             )
                         );

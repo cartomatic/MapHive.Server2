@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
-using MapHive.API.Core.ApiControllers;
+using MapHive.Api.Core.ApiControllers;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     /// <summary>
     /// Provides the base for the Web APIs that expose IBase like objects via RESTful like API

@@ -8,7 +8,7 @@ using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core.ApiControllers
+namespace MapHive.Api.Core.ApiControllers
 {
     /// <summary>
     /// Base API Organisation CRUD controller is used to to get the org specific db context when interacting with the api at an organisation level
