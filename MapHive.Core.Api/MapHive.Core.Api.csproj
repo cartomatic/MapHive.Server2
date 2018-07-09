@@ -4,12 +4,24 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.1\MapHive.Core.Api.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="_docfx\api\images\" />
+    <Folder Include="_docfx\articles\images\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
+    <ProjectReference Include="..\MapHive.API.Core\MapHive.Api.Core.csproj" />
+    <ProjectReference Include="..\MapHive.Core\MapHive.Core.csproj" />
   </ItemGroup>
 
 </Project>

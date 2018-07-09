@@ -91,7 +91,6 @@ namespace MapHive.Api.Core.StartupExtensions
                     c.CustomSchemaIds(x => x.FullName);
                 });
             }
-            
 
             services.AddCors();
         }

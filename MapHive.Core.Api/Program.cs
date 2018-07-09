@@ -14,11 +14,25 @@ namespace MapHive.Core.API
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            BuildWebHost(args).Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IWebHost BuildWebHost(string[] args) =>
+            new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureAppConfiguration(AddAppConfiguration)
+                .ConfigureLogging(
+                    (hostingContext, logging) => { })
+                .UseIISIntegration()
+                .UseDefaultServiceProvider((context, options) => { })
+                .UseStartup<Startup>()
+                .Build();
+
+        public static void AddAppConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder config)
+        {
+            config.AddJsonFile("appsettings.json", optional: true);
+            config.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true);
+        }
     }
 }
