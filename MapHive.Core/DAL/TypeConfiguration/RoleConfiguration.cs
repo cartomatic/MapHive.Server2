@@ -20,6 +20,9 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(en => en.Identifier).HasColumnName("identifier");
             builder.Property(en => en.Name).HasColumnName("name");
             builder.Property(en => en.Description).HasColumnName("description");
+
+            builder.Ignore(en => en.Privileges);
+            builder.Property(en => en.PrivilegesSerialized).HasColumnName("privileges");
         }
     }
 }

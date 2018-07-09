@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.JsonSerializableObjects;
+using Newtonsoft.Json;
 
 namespace MapHive.Core.DataModel
 {
@@ -29,8 +31,22 @@ namespace MapHive.Core.DataModel
         public string Description { get; set; }
 
 
-        //TODO - privs? Not yet sure though in what form. perhaps a serialisable dict of some sort
-        //TODO - or maybe privs will be linked. this would be a bit over the edgo though i think as privs are not likely to be reused.
+        /// <summary>
+        /// Privileges granted by this role
+        /// </summary>
+        public SerializableListOfPrivilege Privileges { get; set; }
 
+        [JsonIgnore]
+        public string PrivilegesSerialized
+        {
+            get => Privileges?.Serialized;
+            set
+            {
+                if (Privileges != null)
+                {
+                    Privileges.Serialized = value;
+                }
+            }
+        }
     }
 }
