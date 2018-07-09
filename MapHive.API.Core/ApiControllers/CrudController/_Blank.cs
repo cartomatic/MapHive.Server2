@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapHive.API.Core.Controllers
+namespace MapHive.API.Core.ApiControllers
 {
     public abstract partial class CrudController
     {

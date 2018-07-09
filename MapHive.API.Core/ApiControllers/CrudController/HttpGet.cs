@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core.Controllers
+namespace MapHive.API.Core.ApiControllers
 {
     public abstract partial class CrudController<T, TDbCtx>
     {

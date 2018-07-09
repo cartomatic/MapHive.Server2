@@ -13,7 +13,7 @@ using MapHive.API.Core.ApiControllers;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.API.Core.Controllers
+namespace MapHive.API.Core.ApiControllers
 {
     /// <summary>
     /// Provides the base for the Web APIs that expose IBase like objects via RESTful like API
