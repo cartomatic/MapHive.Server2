@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IdentityModel.Client;
+using MapHive.IdentityServer.SerializableConfig;
 
 namespace MapHive.Core
 {

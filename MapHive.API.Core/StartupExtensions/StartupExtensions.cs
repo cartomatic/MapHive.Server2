@@ -4,7 +4,9 @@ using System.IO;
 using System.Text;
 using MapHive.Api.Core.UserConfiguration;
 using MapHive.Api.Core.Authorize;
+using MapHive.Core;
 using MapHive.Core.DataModel;
+using MapHive.IdentityServer.SerializableConfig;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +31,8 @@ namespace MapHive.Api.Core.StartupExtensions
             services
                 .AddMvc(opts =>
                 {
+                    //mark all the controllers with authorize attribute!
+                    //in order to remove it one needs to explicitly revoke it via [AllowAnonymous]
                     opts.Filters.Add(settings?.AllowApiTokenAccess == true
                         ? typeof(TokenAuthorizeAttribute)
                         : typeof(AuthorizeAttribute)
@@ -64,10 +68,19 @@ namespace MapHive.Api.Core.StartupExtensions
 
                     //ensure dates are handled as ISO 8601
                     opts.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-
-                    
                 }
             );
+
+            var bearerCfg = IdSrvTokenBearerOpts.InitDefault();
+
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = bearerCfg.Authority;
+                    options.RequireHttpsMetadata = true;
+                    options.ApiName = bearerCfg.ApiName;
+                    options.ApiSecret = bearerCfg.ApiSecret;
+                });
 
             services.Configure<IISOptions>(opts =>
             {
@@ -145,6 +158,8 @@ namespace MapHive.Api.Core.StartupExtensions
                 .AllowAnyHeader()
                 .AllowCredentials());
 
+            //enforce auth
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
