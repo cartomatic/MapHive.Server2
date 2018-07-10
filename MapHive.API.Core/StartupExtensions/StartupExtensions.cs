@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Cartomatic.Utils;
 using MapHive.Api.Core.UserConfiguration;
 using MapHive.Api.Core.Authorize;
 using MapHive.Core;
@@ -31,12 +32,13 @@ namespace MapHive.Api.Core.StartupExtensions
             services
                 .AddMvc(opts =>
                 {
-                    //mark all the controllers with authorize attribute!
-                    //in order to remove it one needs to explicitly revoke it via [AllowAnonymous]
-                    opts.Filters.Add(settings?.AllowApiTokenAccess == true
-                        ? typeof(TokenAuthorizeAttribute)
-                        : typeof(AuthorizeAttribute)
-                    );
+                    //FIXME
+                    ////mark all the controllers with authorize attribute!
+                    ////in order to remove it one needs to explicitly revoke it via [AllowAnonymous]
+                    //opts.Filters.Add(settings?.AllowApiTokenAccess == true
+                    //    ? typeof(TokenAuthorizeAttribute)
+                    //    : typeof(AuthorizeAttribute)
+                    //);
 
                     //use a default or customised user cfg filter 
                     opts.Filters.Add(
@@ -79,7 +81,7 @@ namespace MapHive.Api.Core.StartupExtensions
                     options.Authority = bearerCfg.Authority;
                     options.RequireHttpsMetadata = true;
                     options.ApiName = bearerCfg.ApiName;
-                    options.ApiSecret = bearerCfg.ApiSecret;
+                    //options.ApiSecret = bearerCfg.ApiSecret;
                 });
 
             services.Configure<IISOptions>(opts =>
@@ -98,7 +100,11 @@ namespace MapHive.Api.Core.StartupExtensions
                         Title = settings?.ApiTitle ?? "unknown-api",
                         Version = settings.UseGitVersion ? Cartomatic.Utils.Git.GetRepoVersion() : settings.ApiVersion
                     });
-                    c.IncludeXmlComments(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, settings.XmlCommentsPath));
+                    c.IncludeXmlComments(
+                        settings.XmlCommentsPath.IsAbsolute()
+                            ? settings.XmlCommentsPath
+                            : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, settings.XmlCommentsPath)
+                    );
 
                     // UseFullTypeNameInSchemaIds replacement for .NET Core
                     c.CustomSchemaIds(x => x.FullName);

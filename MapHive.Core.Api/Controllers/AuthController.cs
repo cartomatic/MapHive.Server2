@@ -79,7 +79,7 @@ namespace MapHive.Server.API.Controllers
         }
 
         /// <summary>
-        /// Refreshes auth tokens - access token & refresh token
+        /// Refreshes auth tokens - access token and refresh token
         /// </summary>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
@@ -282,7 +282,7 @@ namespace MapHive.Server.API.Controllers
 
                 return Ok();
             }
-            catch (Exception ex)
+            catch //(Exception ex)
             {
                 //return HandleException(ex);
                 return Ok();

@@ -29,7 +29,7 @@ namespace MapHive.Core
             /// <summary>
             /// Access token expiration coordinated universal time (UTC)
             /// </summary>
-            public DateTime? AccessTOkenExpirationTimeUtc { get; set; }
+            public DateTime? AccessTokenExpirationTimeUtc { get; set; }
 
             public static AuthOutput FromTokenResponse(TokenResponse token)
             {
@@ -41,7 +41,9 @@ namespace MapHive.Core
                     Success = !token.IsError,
                     AccessToken = token.AccessToken,
                     RefreshToken = token.RefreshToken,
-                    AccessTOkenExpirationTimeUtc = DateTime.Now.AddSeconds(token.ExpiresIn).ToUniversalTime()
+                    AccessTokenExpirationTimeUtc = !token.IsError
+                        ? DateTime.Now.AddSeconds(token.ExpiresIn).ToUniversalTime()
+                        : (DateTime?) null
                 };
             }
         }
