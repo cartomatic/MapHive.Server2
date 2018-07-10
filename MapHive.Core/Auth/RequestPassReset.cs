@@ -27,7 +27,10 @@ namespace MapHive.Core
             var idUser = await userManager.FindByEmailAsync(email);
             if (idUser != null)
             {
-                passResetToken = await userManager.GeneratePasswordResetTokenAsync(idUser);
+                passResetToken = Auth.MergeIdWithToken(
+                    idUser.Id,
+                    await userManager.GeneratePasswordResetTokenAsync(idUser)
+                );
             }
 
             return new PassResetRequestOutput

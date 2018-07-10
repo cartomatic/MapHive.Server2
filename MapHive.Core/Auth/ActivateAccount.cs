@@ -9,6 +9,9 @@ namespace MapHive.Core
 {
     public partial class Auth
     {
+        /// <summary>
+        /// Account activation output
+        /// </summary>
         public class AccountActivationOutput
         {
             public bool Success { get; set; }
@@ -22,21 +25,55 @@ namespace MapHive.Core
             public string Email { get; set; }
         }
 
-        public static async Task<AccountActivationOutput> ActivateAccountAsync(string email, string emailConfirmationToken)
+        /// <summary>
+        /// Activates account 
+        /// </summary>
+        /// <param name="mergedToken">merged token - guid + token</param>
+        /// <returns></returns>
+        public static async Task<AccountActivationOutput> ActivateAccountAsync(string mergedToken)
+        {
+            return await ActivateAccountAsync(
+                ExtractIdFromMergedToken(mergedToken),
+                ExtractTokenFromMergedToken(mergedToken)
+            );
+        }
+        
+
+        /// <summary>
+        /// Activates user account
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="emailConfirmationToken"></param>
+        /// <returns></returns>
+        public static async Task<AccountActivationOutput> ActivateAccountAsync(Guid? userId, string emailConfirmationToken)
         {
             var output = new AccountActivationOutput();
 
+            if (!userId.HasValue)
+            {
+                output.UnknownUser = true;
+                return output;
+            }
+
             var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
-            var idUser = await userManager.FindByEmailAsync(email);
+
+            //extract user guid from token
+
+            var idUser = await userManager.FindByIdAsync(userId.ToString());
             if (idUser != null)
             {
                 await userManager.ConfirmEmailAsync(idUser, emailConfirmationToken);
+                output.Success = true;
+            }
+            else
+            {
+                output.UnknownUser = true;
             }
 
             //Note:
-            //perhaps token can expire???
+            //TODO perhaps token can expire as in v1???
 
-            output.Success = true;
+            
             return output;
         }
     }

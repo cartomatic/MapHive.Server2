@@ -37,7 +37,12 @@ namespace MapHive.Core.DataModel
             await userManager.ResetPasswordAsync(idUser, passResetToken, newRndPass);
 
             //generate new email confirmation token
-            var emailConformationToken = await userManager.GenerateEmailConfirmationTokenAsync(idUser);
+            var emailConfirmationToken = 
+                Auth.MergeIdWithToken(
+                    idUser.Id,
+                    await userManager.GenerateEmailConfirmationTokenAsync(idUser)
+                );
+                
 
             //send out the email
             if (emailTemplate != null && emailAccount != null)
@@ -46,7 +51,7 @@ namespace MapHive.Core.DataModel
                     emailAccount,
                     emailTemplate.Prepare(new Dictionary<string, object>
                     {
-                        {"VerificationKey", emailConformationToken},
+                        {"VerificationKey", emailConfirmationToken},
                         {"InitialPassword", newRndPass}
                     }),
                     Email

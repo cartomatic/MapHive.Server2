@@ -24,7 +24,7 @@ namespace MapHive.Core
             //grab a user first
             var user = await Base.ReadObjAsync<MapHiveUser>(context, userId, true);
 
-            //and use the user method - implemented ay user lvl even though applies to auth - need to send email
+            //and use the user method - implemented at user lvl even though applies to auth - need to send email
             await user.ResendActivationLinkAsync(context, emailAccount, emailTemplate);
         }
     }

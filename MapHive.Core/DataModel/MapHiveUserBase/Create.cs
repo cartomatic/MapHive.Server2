@@ -86,7 +86,13 @@ namespace MapHive.Core.DataModel
                 var opFeedback = new Dictionary<string, object>
                 {
                     {"InitialPassword", rndPass},
-                    {"VerificationKey", await userManager.GenerateEmailConfirmationTokenAsync(idUser)}
+                    {
+                        "VerificationKey",
+                        Auth.MergeIdWithToken(
+                            idUser.Id,
+                            await userManager.GenerateEmailConfirmationTokenAsync(idUser)
+                        )
+                    }
                 };
 
                 //if email related objects have been provided, send the account created email

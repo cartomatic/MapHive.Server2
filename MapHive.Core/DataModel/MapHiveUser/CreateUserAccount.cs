@@ -60,7 +60,12 @@ namespace MapHive.Core.DataModel
 
                 //output, so can use it in the m2m tests
                 output.InitialPassword = initialPass;
-                output.VerificationKey = (string)args.OperationFeedback["VerificationKey"];
+                output.VerificationKey =
+                    Auth.MergeIdWithToken(
+                        user.Uuid,
+                        (string) args.OperationFeedback["VerificationKey"]
+                    );
+                    
 
                 //prepare email if present
                 emailTemplate?.Prepare(args.OperationFeedback);

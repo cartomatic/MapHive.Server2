@@ -17,15 +17,54 @@ namespace MapHive.Core
             public string FailureReason { get; set; }
         }
 
-        public static async Task<ChangePasswordFromResetKeyOutput> ChangePasswordFromResetKeyAsync(Guid userId,
+        /// <summary>
+        /// changes pass from a reset key
+        /// </summary>
+        /// <param name="newPass"></param>
+        /// <param name="mergedToken"></param>
+        /// <returns></returns>
+        public static async Task<ChangePasswordFromResetKeyOutput> ChangePasswordFromResetKeyAsync(string newPass, string mergedToken)
+        {
+            return await ChangePasswordFromResetKeyAsync(
+                ExtractIdFromMergedToken(mergedToken),
+                newPass,
+                ExtractTokenFromMergedToken(mergedToken)
+            );
+        }
+
+        /// <summary>
+        /// changes password from a reset key
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="newPass"></param>
+        /// <param name="passResetToken"></param>
+        /// <returns></returns>
+        public static async Task<ChangePasswordFromResetKeyOutput> ChangePasswordFromResetKeyAsync(Guid? userId,
             string newPass, string passResetToken)
         {
+            if (!userId.HasValue)
+            {
+                return new ChangePasswordFromResetKeyOutput
+                {
+                    FailureReason = "unknown_user"
+                };
+            }
+
             var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+            
+
             var idUser = await userManager.FindByIdAsync(userId.ToString());
 
             return await ChangePasswordFromResetKeyAsync(idUser, newPass, passResetToken);
         }
 
+        /// <summary>
+        /// Changes pass from a areset key
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="newPass"></param>
+        /// <param name="passResetToken"></param>
+        /// <returns></returns>
         public static async Task<ChangePasswordFromResetKeyOutput> ChangePasswordFromResetKeyAsync(string email,
             string newPass, string passResetToken)
         {
@@ -35,6 +74,13 @@ namespace MapHive.Core
             return await ChangePasswordFromResetKeyAsync(idUser, newPass, passResetToken);
         }
 
+        /// <summary>
+        /// Changes pass from reset key
+        /// </summary>
+        /// <param name="idUser"></param>
+        /// <param name="newPass"></param>
+        /// <param name="passResetToken"></param>
+        /// <returns></returns>
         public static async Task<ChangePasswordFromResetKeyOutput> ChangePasswordFromResetKeyAsync(MapHiveIdentityUser idUser, string newPass, string passResetToken)
         {
             var output = new ChangePasswordFromResetKeyOutput();

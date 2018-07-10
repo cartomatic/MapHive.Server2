@@ -20,8 +20,7 @@ namespace MapHive.Core.Configuration
                 { "hosted", "hosted" },
                 { "suppressSplash", "suppress-splash" },
                 { "auth", "auth" },
-                { "verificationKey", "vk" },
-                { "initialPassword", "ip" }
+                { "verificationKey", "vk" }
             };
 
         /// <summary>
@@ -73,7 +72,7 @@ namespace MapHive.Core.Configuration
         /// Returns a hash used to activate a user account; Uses a '{InitialPassword}' token as the replacement token placeholder for the password
         /// </summary>
         public static string ActivateAccountLinkHash =>
-            $"#{AppHashProperties["auth"]}{HashPropertyValueDelimiter}activateaccount{HashPropertyDelimiter}{AppHashProperties["verificationKey"]}{HashPropertyValueDelimiter}{{VerificationKey}}{HashPropertyDelimiter}{AppHashProperties["initialPassword"]}{HashPropertyValueDelimiter}{{InitialPassword}}";
+            $"#{AppHashProperties["auth"]}{HashPropertyValueDelimiter}activateaccount{HashPropertyDelimiter}{AppHashProperties["verificationKey"]}{HashPropertyValueDelimiter}{{VerificationKey}}";
 
         /// <summary>
         /// Returns a hash used to trigger a reset pass finalisation procedure; uses a '{VerificationKey}' token as the verification token placeholder

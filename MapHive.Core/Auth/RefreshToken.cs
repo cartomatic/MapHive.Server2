@@ -3,11 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 
 namespace MapHive.Core
 {
     public partial class Auth
     {
-        //client.RequestRefreshTokenAsync() //this can be used to refresh a token it seems
+        /// <summary>
+        /// Refreshes auth tokens - access token + refresh token
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
+        public static async Task<AuthOutput> RefreshTokensAsync(string refreshToken)
+        {
+            return AuthOutput.FromTokenResponse(
+                await RequestRefreshTokenAsync(refreshToken)
+            );
+        }
+
+        /// <summary>
+        /// Refreshes auth tokens - auth token + refresh token
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
+        private static async Task<TokenResponse> RequestRefreshTokenAsync(string refreshToken)
+        {
+            var idSrvTokenClientOpts = IdSrvTokenClientOpts.InitDefault();
+
+            var tokenClient = new TokenClient(
+                $"{idSrvTokenClientOpts.Authority}/connect/token",
+                idSrvTokenClientOpts.ClientId,
+                idSrvTokenClientOpts.ClientSecret
+            );
+
+            try
+            {
+                return await tokenClient.RequestRefreshTokenAsync(refreshToken);
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
