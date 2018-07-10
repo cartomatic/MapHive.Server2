@@ -23,13 +23,22 @@ namespace MapHive.Api.Core.StartupExtensions
     {
         public static void ConfigurMapHiveApiServices(this IServiceCollection services, ApiConfigurationSettings settings)
         {
-
             services
                 .AddMvc(opts =>
                 {
+                    var authSchemes = new List<string>
+                    {
+                        "Bearer"
+                    };
+
+                    if (settings.AllowApiTokenAccess)
+                    {
+                        authSchemes.Add(MapHiveTokenAuthenticationHandler.Scheme);
+                    }
+
                     //by default enforce auth on all controllers!                    
                     var globalAuthorizePolicy = new AuthorizationPolicyBuilder()
-                        .AddAuthenticationSchemes("Bearer", MapHiveTokenAuthenticationHandler.Scheme)
+                        .AddAuthenticationSchemes(authSchemes.ToArray())
                         .RequireAuthenticatedUser()
                         .Build();
                     opts.Filters.Add(new AuthorizeFilter(globalAuthorizePolicy));
@@ -71,12 +80,7 @@ namespace MapHive.Api.Core.StartupExtensions
             var bearerCfg = IdSrvTokenBearerOpts.InitDefault();
 
 
-            //var authBuilder = services.AddAuthentication(
-            //    settings?.AllowApiTokenAccess == true
-            //        ? MapHiveTokenAuthenticationHandler.Scheme
-            //        : "Bearer"
-            //);
-
+            //by default do Bearer auth. it fallsback for token auth when required
             var authBuilder = services.AddAuthentication("Bearer");
 
             //always plug in idsrv auth!
