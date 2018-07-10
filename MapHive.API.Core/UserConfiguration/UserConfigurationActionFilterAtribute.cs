@@ -200,7 +200,7 @@ namespace MapHive.Api.Core.UserConfiguration
 
 
             var auth = actionContext.HttpContext.ExtractAuthHeader();
-            if (auth?.scheme == TokenAuthorizeMiddleware.AuthScheme)
+            if (auth?.scheme == MapHiveTokenAuthenticationHandler.Scheme)
                 Guid.TryParse(auth?.parameter, out token);
 
             return token == default(Guid) ? (Guid?)null : token;

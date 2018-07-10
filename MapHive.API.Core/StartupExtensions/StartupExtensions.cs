@@ -11,6 +11,7 @@ using MapHive.IdentityServer.SerializableConfig;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -32,13 +33,13 @@ namespace MapHive.Api.Core.StartupExtensions
             services
                 .AddMvc(opts =>
                 {
-                    //FIXME
-                    ////mark all the controllers with authorize attribute!
-                    ////in order to remove it one needs to explicitly revoke it via [AllowAnonymous]
-                    //opts.Filters.Add(settings?.AllowApiTokenAccess == true
-                    //    ? typeof(TokenAuthorizeAttribute)
-                    //    : typeof(AuthorizeAttribute)
-                    //);
+                    //by default enforce auth on all controllers!                    
+                    var globalAuthorizePolicy = new AuthorizationPolicyBuilder()
+                        .AddAuthenticationSchemes("Bearer", MapHiveTokenAuthenticationHandler.Scheme)
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    opts.Filters.Add(new AuthorizeFilter(globalAuthorizePolicy));
+
 
                     //use a default or customised user cfg filter 
                     opts.Filters.Add(
@@ -75,14 +76,36 @@ namespace MapHive.Api.Core.StartupExtensions
 
             var bearerCfg = IdSrvTokenBearerOpts.InitDefault();
 
-            services.AddAuthentication("Bearer")
-                .AddIdentityServerAuthentication(options =>
-                {
-                    options.Authority = bearerCfg.Authority;
-                    options.RequireHttpsMetadata = true;
-                    options.ApiName = bearerCfg.ApiName;
-                    //options.ApiSecret = bearerCfg.ApiSecret;
-                });
+
+            //var authBuilder = services.AddAuthentication(
+            //    settings?.AllowApiTokenAccess == true
+            //        ? MapHiveTokenAuthenticationHandler.Scheme
+            //        : "Bearer"
+            //);
+
+            var authBuilder = services.AddAuthentication("Bearer");
+
+            //always plug in idsrv auth!
+            authBuilder.AddIdentityServerAuthentication(options =>
+            {
+                options.Authority = bearerCfg.Authority;
+                options.RequireHttpsMetadata = false; //FIXME - should be true for production usage!
+                options.ApiName = bearerCfg.ApiName;
+                options.ApiSecret = bearerCfg.ApiSecret;
+            }); ;
+
+            //should investigate tokens???
+            if (settings?.AllowApiTokenAccess == true)
+            {
+                //services.Add<IAuthorizationHandler, MapHiveTokenAuthenticationHandler>();
+
+                authBuilder.AddScheme<MapHiveTokenAuthenticationOptions, MapHiveTokenAuthenticationHandler>(
+                    MapHiveTokenAuthenticationHandler.Scheme,
+                    opts => { }
+                );
+            }
+                
+            
 
             services.Configure<IISOptions>(opts =>
             {
@@ -166,6 +189,7 @@ namespace MapHive.Api.Core.StartupExtensions
 
             //enforce auth
             app.UseAuthentication();
+
 
             app.UseMvc(routes =>
             {

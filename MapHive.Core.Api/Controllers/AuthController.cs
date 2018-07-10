@@ -48,6 +48,8 @@ namespace MapHive.Server.API.Controllers
         [ProducesResponseType(200)]
         public async Task<IActionResult> LetMeOutOfHere()
         {
+            var test = Cartomatic.Utils.Identity.GetUserGuid();
+
             //extract access token off the request
             var accessToken = Request.Headers.Authorization.Parameter.Replace("Bearer ", "");
 

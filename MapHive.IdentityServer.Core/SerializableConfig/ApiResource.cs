@@ -35,7 +35,9 @@ namespace MapHive.IdentityServer.SerializableConfig
             var apiResource = this.CopyPublicPropertiesToNew<IdentityServer4.Models.ApiResource>();
 
             //hidden properties need to be copied explicitly as dto utils will not matche them on type!
-            apiResource.UserClaims = UserClaims;
+            if(UserClaims != null)
+                apiResource.UserClaims = UserClaims;
+
             apiResource.ApiSecrets = ApiSecrets.Select(cs => new Secret(cs.Value.Sha256(), cs.Description, cs.Expiration)).ToList();
             apiResource.Scopes = Scopes.Select(s=>s.ToScope()).ToList();
 

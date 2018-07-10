@@ -31,8 +31,6 @@ namespace MapHive.Api.Core.Authorize
 
     public class TokenAuthorizeMiddleware
     {
-        public const string AuthScheme = "PickLock";
-
         protected static ICache<bool> Cache { get; private set; }
 
         private readonly RequestDelegate _next;
@@ -56,7 +54,7 @@ namespace MapHive.Api.Core.Authorize
 
 
             //if token is present, extract and validate it
-            if (authHeader != null && authHeader?.scheme == AuthScheme)
+            if (authHeader != null && authHeader?.scheme == MapHiveTokenAuthenticationHandler.Scheme)
             {
                 var token = authHeader?.parameter;
                 if (string.IsNullOrWhiteSpace(token))
@@ -94,7 +92,11 @@ namespace MapHive.Api.Core.Authorize
         /// <returns></returns>
         protected async Task<bool> CheckIfTokenAuthorized(string token)
         {
-            var client = new RestClient(ConfigurationManager.AppSettings["CoreApiEndpoint"] + $"tokens/{token}/validation");
+            var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+
+            var uri = cfg["Endpoints:Core"] + $"tokens/{token}/validation";
+
+            var client = new RestClient(cfg["endpoints:core"] + $"tokens/{token}/validation");
             var request = new RestRequest(Method.GET);
             request.AddHeader("Content-Type", "application/json");
 
