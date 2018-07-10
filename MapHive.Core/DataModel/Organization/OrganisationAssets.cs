@@ -46,7 +46,7 @@ namespace MapHive.Core.DataModel
         /// <param name="start"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public async Task<Tuple<IEnumerable<TChild>, int>> GetOrganizationAssetsAsync<TChild>(DbContext dbCtx, string sort = null, string filter = null,
+        public async Task<(IEnumerable<TChild> assets, int count)?> GetOrganizationAssetsAsync<TChild>(DbContext dbCtx, string sort = null, string filter = null,
             int start = 0,
             int limit = 25)
             where TChild : Base
@@ -77,7 +77,7 @@ namespace MapHive.Core.DataModel
 
             var count = await objects.First().ReadCountAsync(dbCtx, filters);
 
-            return new Tuple<IEnumerable<TChild>, int>(objects, count);
+            return (objects, count);
         }
 
         /// <summary>

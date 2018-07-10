@@ -21,9 +21,9 @@ namespace MapHive.Core.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
+        [Route("{tokenid}/validation")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(object), 500)]
-        [Route("{tokenid}/validation")]
         public async Task<IActionResult> ValidateToken(Guid tokenid)
         {
             try
