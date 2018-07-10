@@ -4,19 +4,19 @@ using System.Threading.Tasks;
 using MapHive.Api.Core.ApiControllers;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace MapHive.Core.Api.Controllers
 {
     /// <summary>
-    /// Exposes Application APIs
+    /// LocalizationClass APIs
     /// </summary>
-    [Route("applications")]
-    public class ApplicationsController : CrudController<Application, MapHiveDbContext>
+    [Route("localizationclasses")]
+    public class LocalizationClassesController : CrudController<LocalizationClass, MapHiveDbContext>
     {
         /// <summary>
-        /// Gets a collection of Applications
+        /// Gets a collection of LocalizationClasses
         /// </summary>
         /// <param name="sort"></param>
         /// <param name="filter"></param>
@@ -25,7 +25,7 @@ namespace MapHive.Core.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        [ProducesResponseType(typeof(IEnumerable<Application>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<LocalizationClass>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
@@ -36,13 +36,13 @@ namespace MapHive.Core.Api.Controllers
         }
 
         /// <summary>
-        /// Gets an Application by id
+        /// Gets a LocalizationClass by id
         /// </summary>
         /// <param name="uuid"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("{uuid}")]
-        [ProducesResponseType(typeof(Application), 200)]
+        [ProducesResponseType(typeof(LocalizationClass), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
@@ -52,45 +52,45 @@ namespace MapHive.Core.Api.Controllers
         }
 
         /// <summary>
-        /// Updates an application
+        /// Updates a LocalizationClass
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         [HttpPut]
         [Route("{uuid}")]
-        [ProducesResponseType(typeof(Application), 200)]
+        [ProducesResponseType(typeof(LocalizationClass), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> PutAsync([FromBody] Application obj, [FromRoute] Guid uuid)
+        public async Task<IActionResult> PutAsync([FromBody] LocalizationClass obj, [FromRoute] Guid uuid)
         {
             return await base.PutAsync(obj, uuid);
         }
 
         /// <summary>
-        /// Creates a new Application
+        /// Creates a new LocalizationClass
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost]
         [Route("")]
-        [ProducesResponseType(typeof(Application), 200)]
+        [ProducesResponseType(typeof(LocalizationClass), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> PostAsync(Application obj)
+        public async Task<IActionResult> PostAsync(LocalizationClass obj)
         {
             return await base.PostAsync(obj);
         }
 
         /// <summary>
-        /// Deletes an application
+        /// Deletes a LocalizationClass
         /// </summary>
         /// <param name="uuid"></param>
         /// <returns></returns>
         [HttpDelete]
         [Route("{uuid}")]
-        [ProducesResponseType(typeof(Application), 200)]
+        [ProducesResponseType(typeof(LocalizationClass), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> DeleteAsync(Guid uuid)
@@ -98,48 +98,5 @@ namespace MapHive.Core.Api.Controllers
             return await base.DeleteAsync(uuid);
         }
 
-        /// <summary>
-        /// Gets a list of identifiers of apps that do require authentication (uuids, short names, urls) for the apps 
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("authidentifiers")]
-        [ProducesResponseType(typeof(IEnumerable<string>), 200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAppsWithAuthRequiredAsync()
-        {
-            try
-            {
-                return Ok(await Application.GetIdentifiersForAppsRequiringAuthAsync(_dbCtx));
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Gets x window origins for the xwindow msg bus
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("xwindoworigins")]
-        [ProducesResponseType(typeof(IEnumerable<string>), 200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        public async Task<IActionResult> GetXWindowOriginsAsync()
-        {
-            try
-            {
-                return Ok(await Application.GetAllowedXWindowMsgBusOriginsAsync(_dbCtx as MapHiveDbContext));
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex);
-            }
-        }
     }
 }
