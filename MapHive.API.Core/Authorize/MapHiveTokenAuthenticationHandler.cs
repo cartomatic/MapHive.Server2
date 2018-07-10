@@ -55,19 +55,12 @@ namespace MapHive.Api.Core.Authorize
                         Cartomatic.Utils.Identity.ImpersonateUserViaHttpContext(parsedToken);
                     }
 
-                    var claims = new[] { new Claim("sub", parsedToken.ToString()) };
-                    var identity = new ClaimsIdentity(claims, Scheme);
-                    var principal = new ClaimsPrincipal(identity);
-                    var ticket = new AuthenticationTicket(principal, Scheme);
-
-                    return AuthenticateResult.Success(ticket);
-
-                    //return AuthenticateResult.Success(
-                    //    new AuthenticationTicket(
-                    //        Cartomatic.Utils.Identity.GetBasicClaimsPrincipal(parsedToken),
-                    //        Scheme
-                    //    )
-                    //);
+                    return AuthenticateResult.Success(
+                        new AuthenticationTicket(
+                            Cartomatic.Utils.Identity.GetBasicClaimsPrincipal(parsedToken, Scheme),
+                            Scheme
+                        )
+                    );
                 }
                 else
                 {

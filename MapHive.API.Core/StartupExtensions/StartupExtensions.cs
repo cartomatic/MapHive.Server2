@@ -24,12 +24,6 @@ namespace MapHive.Api.Core.StartupExtensions
         public static void ConfigurMapHiveApiServices(this IServiceCollection services, ApiConfigurationSettings settings)
         {
 
-            //TODO - plug in idsrv!!!!
-
-
-            //FIXME - token authorize - injection!!!
-            //https://stackoverflow.com/questions/41972518/how-to-add-global-authorizefilter-or-authorizeattribute-in-asp-net-core
-
             services
                 .AddMvc(opts =>
                 {
