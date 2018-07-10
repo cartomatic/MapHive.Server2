@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Web.Http;
 using MapHive.Api.Core.ApiControllers;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
@@ -24,7 +25,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("{tokenid}/validation")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(object), 500)]
-        public async Task<IActionResult> ValidateToken(Guid tokenid)
+        public async Task<IActionResult> ValidateToken([FromRoute] Guid tokenid)
         {
             try
             {
