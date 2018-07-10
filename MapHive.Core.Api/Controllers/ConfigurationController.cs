@@ -26,7 +26,7 @@ namespace MapHive.Core.Api.Controllers
         [AllowAnonymous]
         [Route("webclient")]
         [ProducesResponseType(typeof(string), 200)]
-        public async Task<HttpResponseMessage> GetWebClientConfigurationScript()
+        public async Task<HttpResponseMessage> GetWebClientConfigurationScriptAsync()
         {
             string content = string.Empty;
             var statuscode = HttpStatusCode.OK;
@@ -64,7 +64,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(typeof(UserConfiguration), 200)]
         [ProducesResponseType(500)]
         [ApiExplorerSettings(IgnoreApi = true)] //make sure this api is not visible in docs!!! it's kinda private and while should be available it should not be freely used really
-        public async Task<IActionResult> GetUserConfiguration([FromUri] UserConfigurationQuery input)
+        public async Task<IActionResult> GetUserConfigurationAsync([FromUri] UserConfigurationQuery input)
         {
             try
             {

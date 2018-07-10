@@ -31,7 +31,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("letmein")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(Auth.AuthOutput), 200)]
-        public async Task<IActionResult> LetMeIn(
+        public async Task<IActionResult> LetMeInAsync(
             [FromQuery] string email,
             [FromQuery] string pass
             )
@@ -46,7 +46,7 @@ namespace MapHive.Core.Api.Controllers
         [HttpGet]
         [Route("letmeoutofhere")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> LetMeOutOfHere()
+        public async Task<IActionResult> LetMeOutOfHereAsync()
         {
             var test = Cartomatic.Utils.Identity.GetUserGuid();
 
@@ -67,7 +67,7 @@ namespace MapHive.Core.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(Auth.AuthOutput), 200)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> ValidateToken([FromQuery] string accessToken)
+        public async Task<IActionResult> ValidateTokenAsync([FromQuery] string accessToken)
         {
             var tokenValidationOutput = await Auth.ValidateTokenAsync(accessToken);
             if (tokenValidationOutput.Success)
@@ -89,7 +89,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("refresh")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(Auth.AuthOutput), 200)]
-        public async Task<IActionResult> RefreshTokens([FromQuery] string refreshToken)
+        public async Task<IActionResult> RefreshTokensAsync([FromQuery] string refreshToken)
         {
             return Ok(await Core.Auth.RefreshTokensAsync(refreshToken));
         }
@@ -117,7 +117,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(typeof(Auth.AccountActivationOutput), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(typeof(object), 500)]
-        public async Task<IActionResult> ActivateAccount([FromBody] AccountActivationInput activationInput, [FromRoute] string app = null)
+        public async Task<IActionResult> ActivateAccountAsync([FromBody] AccountActivationInput activationInput, [FromRoute] string app = null)
         {
             try
             {
@@ -190,7 +190,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(typeof(object), 500)]
-        public async Task<IActionResult> ResendActivationLink([FromRoute] Guid uuid, [FromRoute] string app = null)
+        public async Task<IActionResult> ResendActivationLinkAsync([FromRoute] Guid uuid, [FromRoute] string app = null)
         {
             try
             {
@@ -249,7 +249,7 @@ namespace MapHive.Core.Api.Controllers
         [HttpPut]
         [AllowAnonymous]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> PassResetRequest([FromBody] PassResetRequestInput input, [FromRoute] string app = null)
+        public async Task<IActionResult> PassResetRequestAsync([FromBody] PassResetRequestInput input, [FromRoute] string app = null)
         {
             //Note: basically this is a pass reset request, so NO need to inform a potential attacker about exceptions - always return ok!
 
@@ -317,7 +317,7 @@ namespace MapHive.Core.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(object), 500)]
-        public async Task<IActionResult> ChangePasswordFromResetKey([FromBody] PassResetInput input)
+        public async Task<IActionResult> ChangePasswordFromResetKeyAsync([FromBody] PassResetInput input)
         {
             //Note: basically this is a pass reset request, so NO need to inform a potential attacker about exceptions - always return ok!
 
@@ -362,7 +362,7 @@ namespace MapHive.Core.Api.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(object), 500)]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePassInput input)
+        public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePassInput input)
         {
             //Note: basically this is a pass reset request, so NO need to inform a potential attacker about exceptions - always return ok!
 

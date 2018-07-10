@@ -30,7 +30,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> Get([FromQuery] string sort = null, [FromQuery] string filter = null, [FromQuery] int start = 0,
+        public async Task<IActionResult> GetAsync([FromQuery] string sort = null, [FromQuery] string filter = null, [FromQuery] int start = 0,
             [FromQuery] int limit = 25)
         {
             return await base.GetAsync(sort, filter, start, limit);
@@ -47,7 +47,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> Get([FromRoute] Guid uuid)
+        public async Task<IActionResult> GetAsync([FromRoute] Guid uuid)
         {
             return await base.GetAsync(uuid);
         }
@@ -64,7 +64,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> Put([FromBody] MapHiveUser obj, [FromRoute] Guid uuid)
+        public async Task<IActionResult> PutAsync([FromBody] MapHiveUser obj, [FromRoute] Guid uuid)
         {
             return await base.PutAsync(obj, uuid);
         }
@@ -79,7 +79,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(typeof(MapHiveUser), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetOwnDetails()
+        public async Task<IActionResult> GetOwnDetailsAsync()
         {
             var uuid = Cartomatic.Utils.Identity.GetUserGuid();
 
@@ -111,7 +111,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(typeof(MapHiveUser), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> UpdateOwnDetails([FromBody] MapHiveUser obj, [FromRoute] Guid uuid)
+        public async Task<IActionResult> UpdateOwnDetailsAsync([FromBody] MapHiveUser obj, [FromRoute] Guid uuid)
         {
             var authUid = Cartomatic.Utils.Identity.GetUserGuid();
 
@@ -143,7 +143,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetUserOrgs()
+        public async Task<IActionResult> GetUserOrgsAsync()
         {
             var uuid = Cartomatic.Utils.Identity.GetUserGuid();
 
@@ -181,7 +181,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetUserApps()
+        public async Task<IActionResult> GetUserAppsAsync()
         {
             try
             {

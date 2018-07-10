@@ -28,7 +28,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("envadmin")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> IsEnvAdmin()
+        public async Task<IActionResult> IsEnvAdminAsync()
         {
             try
             {
@@ -50,7 +50,7 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(typeof(Organization), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetMasterOrg([FromQuery] string slug)
+        public async Task<IActionResult> GetMasterOrgAsync([FromQuery] string slug)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("registerapps")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> RegisterApps([FromBody] List<Application> apps)
+        public async Task<IActionResult> RegisterAppsAsync([FromBody] List<Application> apps)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("appregistered")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> IsAppRegistered([FromQuery] string appShortName)
+        public async Task<IActionResult> IsAppRegisteredAsync([FromQuery] string appShortName)
         {
             try
             {
@@ -155,7 +155,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("registerappstoorg")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> RegisterAppsToOrg([FromQuery]string orgSlug, [FromQuery]string appShortNames)
+        public async Task<IActionResult> RegisterAppsToOrgAsync([FromQuery]string orgSlug, [FromQuery]string appShortNames)
         {
             try
             {
@@ -204,7 +204,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("createorg")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> CreateOrg([FromQuery]string orgSlug, [FromQuery]string orgDescription, [FromQuery]bool clean, [FromQuery]bool morg, [FromQuery]string email, [FromQuery]string pass)
+        public async Task<IActionResult> CreateOrgAsync([FromQuery]string orgSlug, [FromQuery]string orgDescription, [FromQuery]bool clean, [FromQuery]bool morg, [FromQuery]string email, [FromQuery]string pass)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace MapHive.Core.Api.Controllers
                 }
 
                 //need a user first
-                var user = await CreateUserInternal(email, pass, true);
+                var user = await CreateUserInternalAsync(email, pass, true);
 
                 if (org == null || clean)
                 {
@@ -276,7 +276,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("droporg")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DropOrg([FromUri]Guid orgId)
+        public async Task<IActionResult> DropOrgAsync([FromUri]Guid orgId)
         {
             try
             {
@@ -380,7 +380,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("createuser")]
         [ProducesResponseType(typeof(MapHiveUser),200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> CreateUser([FromUri] string email, [FromUri] string pass, [FromUri]bool destroy)
+        public async Task<IActionResult> CreateUserAsync([FromUri] string email, [FromUri] string pass, [FromUri]bool destroy)
         {
             try
             {
@@ -391,7 +391,7 @@ namespace MapHive.Core.Api.Controllers
                 Cartomatic.Utils.Identity.ImpersonateGhostUserViaHttpContext();
                 Cartomatic.Utils.Identity.ImpersonateGhostUser();
 
-                return Ok(await CreateUserInternal(email, pass, destroy));
+                return Ok(await CreateUserInternalAsync(email, pass, destroy));
             }
             catch (Exception ex)
             {
@@ -406,7 +406,7 @@ namespace MapHive.Core.Api.Controllers
         /// <param name="pass"></param>
         /// <param name="destroy">Whether or not a user should be destroyed if exists. If false and user exists no user destroy/recreation happens</param>
         /// <returns></returns>
-        private async Task<MapHiveUser> CreateUserInternal(string email, string pass, bool destroy)
+        private async Task<MapHiveUser> CreateUserInternalAsync(string email, string pass, bool destroy)
         {
             //when creating org, need a user and if it exists, need to clean it up
             var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
@@ -456,7 +456,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("registertokens")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> RegisterTokens(List<Token> tokens)
+        public async Task<IActionResult> RegisterTokensAsync(List<Token> tokens)
         {
             try
             {
@@ -497,7 +497,7 @@ namespace MapHive.Core.Api.Controllers
         [Route("registeremailtemplates")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> RegisterEmailTemplates(List<MapHive.Core.DataModel.EmailTemplateLocalization> emailTemplates)
+        public async Task<IActionResult> RegisterEmailTemplatesAsync(List<MapHive.Core.DataModel.EmailTemplateLocalization> emailTemplates)
         {
             try
             {

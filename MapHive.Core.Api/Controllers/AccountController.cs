@@ -23,7 +23,7 @@ namespace MapHive.Core.Api.Controllers
         [HttpPost]
         [Route("create")]
         [ProducesResponseType(typeof(AccountCreateOutput), 200)]
-        public async Task<IActionResult> CreateAccount([FromBody] AccountCreateInput input)
+        public async Task<IActionResult> CreateAccountAsync([FromBody] AccountCreateInput input)
         {
             try
             {
