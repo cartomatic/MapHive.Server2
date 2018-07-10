@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapHive.Core.Data
+namespace MapHive.Core.DataModel
 {
     public partial class Token
     {

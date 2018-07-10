@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MapHive.Core.API
+namespace MapHive.Core.Api
 {
     public class Startup
     {

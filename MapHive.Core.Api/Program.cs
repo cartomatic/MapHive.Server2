@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace MapHive.Core.API
+namespace MapHive.Core.Api
 {
     public class Program
     {

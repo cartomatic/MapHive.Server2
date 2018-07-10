@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace MapHive.Server.API.Controllers
+namespace MapHive.Core.Api.Controllers
 {
     /// <summary>
     /// Auth APIs
