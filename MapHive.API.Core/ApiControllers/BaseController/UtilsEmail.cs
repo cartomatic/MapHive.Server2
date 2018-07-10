@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Email;
 using MapHive.Core.DAL;
+using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Api.Core.ApiControllers
 {
@@ -49,7 +50,8 @@ namespace MapHive.Api.Core.ApiControllers
             //silently read cfg
             try
             {
-                ea = EmailAccount.FromJson(ConfigurationManager.AppSettings["EmailSender"]);
+                var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+                ea = cfg.GetSection("ServiceEmail").Get<EmailAccount>();
             }
             catch
             {

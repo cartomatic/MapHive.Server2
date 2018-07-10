@@ -43,7 +43,7 @@ namespace MapHive.Api.Core.ApiControllers
                 foreach (var org in orgs)
                 {
                     await org.MaterializeLinksAsDetachedAsync(_db, o => o.Applications);
-                    if (org.Applications.Any(app => app.ShortName == "wgadmin"))
+                    if (org.Applications.Any(app => app.ShortName == "masterofpuppets"))
                     {
                         Cartomatic.Utils.Identity.ImpersonateUser(uuid.Value);
                         return true;
@@ -61,9 +61,11 @@ namespace MapHive.Api.Core.ApiControllers
         /// <returns></returns>
         protected async Task<bool> UserIsEnvAdminRemoteCheckAsync()
         {
+            var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+
             //call a remote api...
             return (await RestApiCall<bool>(
-                ConfigurationManager.AppSettings["CoreApiEndpoint"] + "envconfig/",
+                cfg["Endpoints:Core"] + "envconfig/",
                 "envadmin",
                 Method.GET,
 

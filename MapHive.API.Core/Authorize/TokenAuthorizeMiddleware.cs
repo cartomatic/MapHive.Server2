@@ -94,9 +94,7 @@ namespace MapHive.Api.Core.Authorize
         {
             var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
 
-            var uri = cfg["Endpoints:Core"] + $"tokens/{token}/validation";
-
-            var client = new RestClient(cfg["endpoints:core"] + $"tokens/{token}/validation");
+            var client = new RestClient(cfg["Endpoints:Core"] + $"tokens/{token}/validation");
             var request = new RestRequest(Method.GET);
             request.AddHeader("Content-Type", "application/json");
 

@@ -11,6 +11,7 @@ using Cartomatic.Utils.Data;
 using MapHive.Core;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using RestSharp;
@@ -234,6 +235,10 @@ namespace MapHive.Cmd.Core
         private Dictionary<string, string> ApiRegCfg { get; set; }
         protected void ExtractConfig()
         {
+            var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+
+            ApiRegCfg = cfg.GetSection("ApiRegistrationConfig").Get<Dictionary<string, string>>();
+
             ApiRegCfg = JsonConvert.DeserializeObject<Dictionary<string, string>>(ConfigurationManager.AppSettings["ApiRegistrationConfig"]);
         }
 
