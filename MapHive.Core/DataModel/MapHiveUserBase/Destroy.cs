@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,50 @@ namespace MapHive.Core.DataModel
 
             //and simply update it
             return await user.UpdateAsync<T>(dbCtx, uuid);
+        }
+
+        /// <summary>
+        /// Force destroys a user record in the system. Since the MapHive core api is meant to be used in a distributed world, it is up to the consumer
+        /// of this api to perform a necessary data cleanup. No relations will be deleted autmatically.
+        /// Also, do be careful when using this method - a user may be registered in many places. so it is better to just disable it instead of erasing.
+        /// Heck, you have been warned....
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <param name="uuid"></param>
+        /// <returns></returns>
+        public async Task<bool> ForceDestroyAsync<T>(DbContext dbCtx, Guid uuid)
+            where T : MapHiveUserBase
+        {
+
+            var destroyed = false;
+            //see if user exists and delete it if so
+            var users = dbCtx.Set<T>();
+
+            var user =
+                users.FirstOrDefault(u => u.Uuid == uuid);
+
+            if (user != null)
+            {
+                users.Remove(user);
+                await dbCtx.SaveChangesAsync();
+                destroyed = true;
+
+                //make sure to destroy user links in the dbctx
+                var dbRelations = (dbCtx as ILinksDbContext)?.Links;
+                dbRelations?.RemoveRange(dbRelations.Where(x => x.ParentUuid == user.Uuid || x.ChildUuid == user.Uuid));
+            }
+
+            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+            var idUser = await userManager.FindByIdAsync(uuid.ToString());
+            
+            if (idUser != null)
+            {
+                await userManager.DeleteAsync(idUser);
+                destroyed = true;
+            }
+
+            return destroyed;
         }
     }
 }

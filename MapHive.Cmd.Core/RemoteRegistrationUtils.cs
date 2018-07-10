@@ -14,7 +14,6 @@ using MapHive.Core.DAL;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using RestSharp;
-using Token = MapHive.Core.Data.Token;
 
 
 namespace MapHive.Cmd.Core

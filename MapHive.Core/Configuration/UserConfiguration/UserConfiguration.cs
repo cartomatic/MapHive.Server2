@@ -143,7 +143,7 @@ Note: this description is only visible in DEBUG mode.";
                         var tmpOrgs = orgs?.ToList() ?? new List<Organization>();
 
                         //apps
-                        explicitlyRequestedTokenOrg.Applications = (await explicitlyRequestedTokenOrg.GetOrganizationAssetsAsync<Application>(dbCtx)).Item1.ToList();
+                        explicitlyRequestedTokenOrg.Applications = (await explicitlyRequestedTokenOrg.GetOrganizationAssetsAsync<Application>(dbCtx))?.assets.ToList();
 
                         ////mods
                         //explicitlyRequestedTokenOrg.Modules = (await explicitlyRequestedTokenOrg.GetOrganizationAssetsAsync<Module>(dbCtx)).Item1.ToList();

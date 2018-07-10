@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
 using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
-using MapHive.Core.Data;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
 using Microsoft.EntityFrameworkCore;

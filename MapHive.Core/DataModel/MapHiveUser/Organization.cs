@@ -128,7 +128,7 @@ namespace MapHive.Core.DataModel
             foreach (var organization in organizations)
             {
                 //get the apps linked directly
-                organization.Applications = (await organization.GetOrganizationAssetsAsync<Application>((MapHiveDbContext)dbCtx)).Item1.ToList();
+                organization.Applications = (await organization.GetOrganizationAssetsAsync<Application>((MapHiveDbContext)dbCtx))?.assets.ToList();
 
                 if (appShortNames != null && appShortNames.Any())
                 {

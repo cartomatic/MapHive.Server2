@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MapHive.Core.Data;
+using MapHive.Core.DataModel;
 using MapHive.Core.DAL.TypeConfiguration;
 
 

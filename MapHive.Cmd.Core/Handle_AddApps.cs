@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
 using Cartomatic.Utils.Data;
-using MapHive.Core.Data;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;

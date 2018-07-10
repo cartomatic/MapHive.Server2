@@ -29,6 +29,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(en => en.IsDefault).HasColumnName("is_default");
             builder.Property(en => en.IsHome).HasColumnName("is_home");
             builder.Property(en => en.IsHive).HasColumnName("is_hive");
+            builder.Property(en => en.IsApi).HasColumnName("is_api");
             builder.Property(en => en.ProviderId).HasColumnName("provider_id");
 
             builder.Ignore(en => en.LicenseOptions);

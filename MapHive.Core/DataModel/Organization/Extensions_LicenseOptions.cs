@@ -22,7 +22,7 @@ namespace MapHive.Core.DataModel
             //FIXME - see TODO below; this will need to be optimised!
 
             //apps
-            org.LicenseOptions.Apply((await org.GetOrganizationAssetsAsync<Application>(dbCtx)).Item1);
+            org.LicenseOptions.Apply((await org.GetOrganizationAssetsAsync<Application>(dbCtx))?.assets);
 
         }
 

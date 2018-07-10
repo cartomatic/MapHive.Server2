@@ -71,6 +71,13 @@ namespace MapHive.Core.DataModel
         /// </summary>
         public bool IsHive { get; set; }
         
+
+        /// <summary>
+        /// Whether or not the application is an API application rather than an UI app
+        /// </summary>
+        public bool IsApi { get; set; }
+
+
         /// <summary>
         /// Identifier of the app provider. It is assumed that a provider will have its account and be able to register and publish the apps via its dashboard.
         /// </summary>
