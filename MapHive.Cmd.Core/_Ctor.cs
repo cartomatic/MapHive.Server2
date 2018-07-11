@@ -20,13 +20,20 @@ namespace MapHive.Cmd.Core
                 { "apps", "addapps" },
                 { "u", "adduser" },
                 { "ur", "adduserremote" },
-                { "morg", "addmasterorg" }
+                { "morg", "addmasterorg" },
+                { "e", "endpoints" },
+                { "ra", "remoteadmin" },
+
             });
 
             PrintHandlerInfo();
 
             //default db credentials
             SetDefaultDsc();
+
+            SetDefaultEndpoints();
+
+            SetDefaultRemoteAdmin();
         }
 
         public CommandHandler()

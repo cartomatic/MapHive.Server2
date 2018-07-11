@@ -35,7 +35,7 @@ namespace MapHive.Cmd.Core
             await AuthenticateAsync();
 
             //and call a remote api...
-            await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["CoreEndPoint"] + "envconfig/registerapps",
+            await ApiCallAsync<Auth.AuthOutput>(Endpoints["Core"] + "envconfig/registerapps",
                 Method.POST,
                 data: apps
             );
@@ -56,7 +56,7 @@ namespace MapHive.Cmd.Core
             await AuthenticateAsync();
 
             //and call a remote api...
-            await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["LocaleEndPoint"] + "envconfig/registeremailtemplates",
+            await ApiCallAsync<Auth.AuthOutput>(Endpoints["Localization"] + "envconfig/registeremailtemplates",
                 Method.POST,
                 data: emailTemplates
             );
@@ -73,7 +73,7 @@ namespace MapHive.Cmd.Core
             await AuthenticateAsync();
 
             //and call a remote api...
-            return await ApiCallAsync<bool>(ApiRegCfg["CoreEndPoint"] + "envconfig/appregistered",
+            return await ApiCallAsync<bool>(Endpoints["Core"] + "envconfig/appregistered",
                 Method.GET,
                 queryParams: new Dictionary<string, string>
                 {
@@ -95,7 +95,7 @@ namespace MapHive.Cmd.Core
             await AuthenticateAsync();
 
             //and call a remote api...
-            return await ApiCallAsync<Organization>(ApiRegCfg["CoreEndPoint"] + "envconfig/getorg",
+            return await ApiCallAsync<Organization>(Endpoints["Core"] + "envconfig/getorg",
                     Method.GET,
                     queryParams: new Dictionary<string, string>
                     {
@@ -116,7 +116,7 @@ namespace MapHive.Cmd.Core
             await AuthenticateAsync();
 
             //just a put but with url params...
-            await ApiCallAsync<object>(ApiRegCfg["CoreEndPoint"] + "envconfig/registerappstoorg",
+            await ApiCallAsync<object>(Endpoints["Core"] + "envconfig/registerappstoorg",
                 Method.PUT,
                 queryParams: new Dictionary<string, string>
                 {
@@ -141,7 +141,7 @@ namespace MapHive.Cmd.Core
             //authenticate user
             await AuthenticateAsync();
 
-            await ApiCallAsync<object>(ApiRegCfg["CoreEndPoint"] + "envconfig/createorg",
+            await ApiCallAsync<object>(Endpoints["Core"] + "envconfig/createorg",
                 Method.POST,
                 queryParams: new Dictionary<string, string>
                 {
@@ -156,7 +156,7 @@ namespace MapHive.Cmd.Core
             );
 
             //this drops a user and org, so need to reset auth!
-            if (ApiRegCfg["User"] == email)
+            if (RemoteAdmin["Email"] == email)
             {
                 ResetAuth();
             }
@@ -172,7 +172,7 @@ namespace MapHive.Cmd.Core
             //authenticate user
             await AuthenticateAsync();
 
-            await ApiCallAsync<object>(ApiRegCfg["CoreEndPoint"] + "envconfig/droporg",
+            await ApiCallAsync<object>(Endpoints["Core"] + "envconfig/droporg",
                 Method.DELETE,
                 queryParams: new Dictionary<string, string>
                 {
@@ -190,16 +190,14 @@ namespace MapHive.Cmd.Core
         /// <returns></returns>
         protected async Task<MapHiveUser> CreateUserRemoteAsync(string email, string pass, string slug, bool destroy)
         {
-            ExtractConfig();
-
-            if (ApiRegCfg["User"] == email)
+            if (RemoteAdmin["Email"] == email)
             {
                 throw new ArgumentException($"Not possible to recreate a master user '{email}' this way. sorry.");
             }
 
             await AuthenticateAsync();
 
-            return await ApiCallAsync<MapHiveUser>(ApiRegCfg["CoreEndPoint"] + "envconfig/createuser",
+            return await ApiCallAsync<MapHiveUser>(Endpoints["Core"] + "envconfig/createuser",
                 Method.POST,
                 queryParams: new Dictionary<string, string>
                 {
@@ -223,7 +221,7 @@ namespace MapHive.Cmd.Core
             await AuthenticateAsync();
 
             //and call a remote api...
-            await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["CoreEndPoint"] + "envconfig/registertokens",
+            await ApiCallAsync<Auth.AuthOutput>(Endpoints["Core"] + "envconfig/registertokens",
                 Method.POST,
                 data: tokens
             );
@@ -232,15 +230,7 @@ namespace MapHive.Cmd.Core
 
         //------------------------
 
-        private Dictionary<string, string> ApiRegCfg { get; set; }
-        protected void ExtractConfig()
-        {
-            var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
-
-            ApiRegCfg = cfg.GetSection("ApiRegistrationConfig").Get<Dictionary<string, string>>();
-
-            ApiRegCfg = JsonConvert.DeserializeObject<Dictionary<string, string>>(ConfigurationManager.AppSettings["ApiRegistrationConfig"]);
-        }
+        
 
         protected static string AccessToken { get; set; }
 
@@ -259,14 +249,12 @@ namespace MapHive.Cmd.Core
         {
             if (string.IsNullOrEmpty(AccessToken))
             {
-                ExtractConfig();
-
-                var auth = await ApiCallAsync<Auth.AuthOutput>(ApiRegCfg["AuthEndPoint"] + "login",
+                var auth = await ApiCallAsync<Auth.AuthOutput>(Endpoints["Auth"] + "login",
                     Method.GET,
                     new Dictionary<string, string>
                     {
-                        {"email", ApiRegCfg["User"]},
-                        {"pass", ApiRegCfg["Password"]}
+                        {"email", RemoteAdmin["Email"]},
+                        {"pass", RemoteAdmin["Password"]}
                     });
 
                 AccessToken = auth.AccessToken;
