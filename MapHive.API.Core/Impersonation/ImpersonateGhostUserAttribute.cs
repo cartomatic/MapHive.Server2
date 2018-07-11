@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace MapHive.Server.Core.API.Filters
+namespace MapHive.Api.Core.Filters
 {
 
     /// <summary>

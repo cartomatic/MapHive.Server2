@@ -8,7 +8,6 @@ using System.Web.Http;
 using MapHive.Api.Core.ApiControllers;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
-using MapHive.Server.Core.API;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MapHive.Core.Api.Controllers

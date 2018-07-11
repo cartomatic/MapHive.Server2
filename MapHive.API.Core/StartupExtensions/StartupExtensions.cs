@@ -5,6 +5,7 @@ using System.Text;
 using Cartomatic.Utils;
 using MapHive.Api.Core.UserConfiguration;
 using MapHive.Api.Core.Authorize;
+using MapHive.Api.Core.Filters;
 using MapHive.Core;
 using MapHive.Core.DataModel;
 using MapHive.IdentityServer.SerializableConfig;
@@ -43,6 +44,9 @@ namespace MapHive.Api.Core.StartupExtensions
                         .Build();
                     opts.Filters.Add(new AuthorizeFilter(globalAuthorizePolicy));
 
+                    //so can keep on using Cartomatic.Utils.Identity...
+                    //a bit not in line with aspnet core though, but these utils are used in many places and passing identity explicitly doesn't seem to be a viable option. at least at this stage...
+                    opts.Filters.Add(new OldSchoolUserImpersonationViaClaimsPrincipalAttribute());
 
                     //use a default or customised user cfg filter 
                     opts.Filters.Add(

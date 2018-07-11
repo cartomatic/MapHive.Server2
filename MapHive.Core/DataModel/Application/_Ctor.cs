@@ -13,5 +13,10 @@ namespace MapHive.Core.DataModel
         {
             BaseObjectTypeIdentifierExtensions.RegisterTypeIdentifier(MethodInfo.GetCurrentMethod().DeclaringType, Guid.Parse("a980c990-656f-47ca-8969-100853866d7b"));
         }
+
+        public Application()
+        {
+            LicenseOptions = new LicenseOptions();
+        }
     }
 }

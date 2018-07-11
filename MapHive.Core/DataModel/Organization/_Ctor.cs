@@ -18,6 +18,7 @@ namespace MapHive.Core.DataModel
         public Organization()
         {
             BillingExtraInfo = new SerializableDictionaryOfString();
+            LicenseOptions = new OrganizationLicenseOptions();
         }
     }
 }
