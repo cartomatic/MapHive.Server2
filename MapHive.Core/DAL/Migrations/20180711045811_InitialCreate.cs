@@ -119,6 +119,7 @@ namespace MapHive.Core.DAL.Migrations
                     is_default = table.Column<bool>(nullable: false),
                     is_home = table.Column<bool>(nullable: false),
                     is_hive = table.Column<bool>(nullable: false),
+                    is_api = table.Column<bool>(nullable: false),
                     provider_id = table.Column<Guid>(nullable: true),
                     license_options = table.Column<string>(nullable: true)
                 },

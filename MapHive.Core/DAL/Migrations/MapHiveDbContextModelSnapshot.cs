@@ -20,24 +20,6 @@ namespace MapHive.Core.DAL.Migrations
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("MapHive.Core.Data.ObjectType", b =>
-                {
-                    b.Property<Guid>("Uuid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
-
-                    b.Property<string>("Name")
-                        .HasColumnName("name");
-
-                    b.HasKey("Uuid");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasName("uq_name_objecttype");
-
-                    b.ToTable("object_types","mh_meta");
-                });
-
             modelBuilder.Entity("MapHive.Core.DataModel.Application", b =>
                 {
                     b.Property<Guid>("Uuid")
@@ -55,6 +37,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<DateTime?>("EndDateUtc")
                         .HasColumnName("end_date_utc");
+
+                    b.Property<bool>("IsApi")
+                        .HasColumnName("is_api");
 
                     b.Property<bool>("IsCommon")
                         .HasColumnName("is_common");
@@ -371,6 +356,24 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("uq_slug_maphiveuser");
 
                     b.ToTable("users","mh_meta");
+                });
+
+            modelBuilder.Entity("MapHive.Core.DataModel.ObjectType", b =>
+                {
+                    b.Property<Guid>("Uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("uuid");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("name");
+
+                    b.HasKey("Uuid");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasName("uq_name_objecttype");
+
+                    b.ToTable("object_types","mh_meta");
                 });
 
             modelBuilder.Entity("MapHive.Core.DataModel.Organization", b =>
