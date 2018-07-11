@@ -59,7 +59,7 @@ namespace MapHive.Core.DataModel
         /// <param name="start"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public async Task<Tuple<IEnumerable<Application>, int>> GetOrganizationLinkableAppsAsync(DbContext dbCtx, string sort = null, string filter = null,
+        public async Task<(IEnumerable<Application> applications, int count)?> GetOrganizationLinkableAppsAsync(DbContext dbCtx, string sort = null, string filter = null,
             int start = 0,
             int limit = 25)
         {
@@ -122,7 +122,7 @@ namespace MapHive.Core.DataModel
 
             var count = await apps.First().ReadCountAsync(dbCtx, filters);
 
-            return new Tuple<IEnumerable<Application>, int>(apps, count);
+            return (apps, count);
         }
     }
 }

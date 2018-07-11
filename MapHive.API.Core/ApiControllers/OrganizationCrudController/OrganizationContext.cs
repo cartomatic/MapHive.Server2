@@ -25,9 +25,11 @@ namespace MapHive.Api.Core.ApiControllers
         private TDbContext _organizationDb;
 
         /// <summary>
-        /// the default db identifier to be used by the controller
+        /// the default db identifier to be used by the controller; should be customized for derived apis. its purpose is to allow db load distribution if required.
+        /// each api looks up a db by key in the dbs property of an organization. when this is not found a default org db as configured in app settings is used; when found thoug
+        /// all the org db ops are performed against a specified db
         /// </summary>
-        protected string DbIdentifier { get; set; }
+        protected string DbIdentifier { get; set; } = "maphive_meta";
 
         /// <summary>
         /// Organization id from OrganizationContextActionFilterAttribute action filter
