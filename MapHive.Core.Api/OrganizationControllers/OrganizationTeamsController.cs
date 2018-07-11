@@ -37,7 +37,7 @@ namespace MapHive.Core.Api.Controllers
             //Note:
             //main mh env objects are kept in the maphive_meta db!
 
-            return await base.GetAsync(sort, filter, start, limit, _dbCtx);
+            return await base.GetAsync(sort, filter, start, limit, GetDefaultDbContext());
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace MapHive.Core.Api.Controllers
             //Note:
             //main mh env objects are kept in the maphive_meta db!
 
-            return await base.GetAsync(uuid, _dbCtx);
+            return await base.GetAsync(uuid, GetDefaultDbContext());
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace MapHive.Core.Api.Controllers
             //Note:
             //main mh env objects are kept in the maphive_meta db!
 
-            return await base.PutAsync(obj, uuid, _dbCtx);
+            return await base.PutAsync(obj, uuid, GetDefaultDbContext());
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace MapHive.Core.Api.Controllers
             //Note:
             //main mh env objects are kept in the maphive_meta db!
 
-            return await base.PostAsync(obj, _dbCtx);
+            return await base.PostAsync(obj, GetDefaultDbContext());
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace MapHive.Core.Api.Controllers
             //Note:
             //main mh env objects are kept in the maphive_meta db!
 
-            return await base.DeleteAsync(uuid, _dbCtx);
+            return await base.DeleteAsync(uuid, GetDefaultDbContext());
         }
 
 
@@ -140,11 +140,11 @@ namespace MapHive.Core.Api.Controllers
                 //main mh env objects are kept in the maphive_meta db!
 
                 //grab a team and its users
-                var team = await new Team().ReadAsync(_dbCtx, uuid);
+                var team = await new Team().ReadAsync(GetDefaultDbContext(), uuid);
                 if (team == null)
                     return NotFound();
 
-                var users = await team.GetChildrenAsync<Team, MapHiveUser>(_dbCtx);
+                var users = await team.GetChildrenAsync<Team, MapHiveUser>(GetDefaultDbContext());
                 if (users.Any())
                     return Ok(users);
 
@@ -175,15 +175,15 @@ namespace MapHive.Core.Api.Controllers
                 //main mh env objects are kept in the maphive_meta db!
 
                 //grab a team and its apps
-                var team = await new Team().ReadAsync(_dbCtx, uuid);
+                var team = await new Team().ReadAsync(GetDefaultDbContext(), uuid);
                 if (team == null)
                     return NotFound();
 
-                var apps = await team.GetChildrenAsync<Team, Application>(_dbCtx);
+                var apps = await team.GetChildrenAsync<Team, Application>(GetDefaultDbContext());
                 if (apps.Any())
                 {
                     //re-read the links now to obtain the extra links info!
-                    var appLinks = await team.GetChildLinksAsync<Team, Application>(_dbCtx);
+                    var appLinks = await team.GetChildLinksAsync<Team, Application>(GetDefaultDbContext());
 
                     foreach (var app in apps)
                     {

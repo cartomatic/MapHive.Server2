@@ -27,7 +27,7 @@ namespace MapHive.Api.Core.ApiControllers
             Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null)
         {
             return await RestApiCall<TOut>(
-                Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig()["CoreApiEndpoint"],
+                Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig()["Endpoints:Core"],
                 route,
                 method,
                 queryParams,

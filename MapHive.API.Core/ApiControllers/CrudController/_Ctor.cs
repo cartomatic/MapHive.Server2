@@ -20,7 +20,7 @@ namespace MapHive.Api.Core.ApiControllers
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TDbCtx">Context to be used for the basic CRUD ops; can always be substituted for particular method calls, as they usually have overloads that take in dbctx</typeparam>
-    public abstract partial class CrudController<T, TDbCtx> : BaseController
+    public abstract partial class CrudController<T, TDbCtx> : BaseController, IDbCtxController
         where T : Base
         where TDbCtx : DbContext, IProvideDbContextFactory, new()
     {
@@ -28,6 +28,21 @@ namespace MapHive.Api.Core.ApiControllers
         /// Database context to be used
         /// </summary>
         protected TDbCtx _dbCtx { get; private set; }
+
+        public TDbCtx GetDefaultDbContext()
+        {
+            return _dbCtx;
+        }
+
+        protected TDbCtx GetNewDefaultDbContext()
+        {
+            return new TDbCtx();
+        }
+
+        DbContext IDbCtxController.GetDefaultDbContext()
+        {
+            return GetDefaultDbContext();
+        }
 
         protected CrudController()
             : this("MapHiveMetadata")

@@ -43,9 +43,6 @@ namespace MapHive.Api.Core.Authorize
                 var token = authToken?.parameter ?? string.Empty;
                 var tokenIsAuthorized = (bool) Context.Items[token];
 
-                //FIXME - remove
-                tokenIsAuthorized = true;
-
                 if (tokenIsAuthorized)
                 {
                     //impersonate token!

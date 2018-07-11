@@ -80,6 +80,9 @@ namespace MapHive.Api.Core.UserConfiguration
                             StatusCode = (int)HttpStatusCode.Forbidden
                         }; 
                     }
+                    //after setting a non-null result must return as cannot call next() - it results in:
+                    //InvalidOperationException: If an IAsyncActionFilter provides a result value by setting the Result property of ActionExecutingContext to a non-null value, then it cannot call the next filter by invoking ActionExecutionDelegate
+                    return;
                 }
             }
 

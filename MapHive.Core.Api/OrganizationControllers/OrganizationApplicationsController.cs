@@ -40,7 +40,7 @@ namespace MapHive.Core.Api.Controllers
                 //Note:
                 //main mh env objects are kept in the maphive_meta db!
 
-                var apps = await OrganizationContext.GetOrganizationLinkableAppsAsync(_dbCtx, sort, filter, start, limit);
+                var apps = await OrganizationContext.GetOrganizationLinkableAppsAsync(GetDefaultDbContext(), sort, filter, start, limit);
 
                 if (apps != null)
                 {

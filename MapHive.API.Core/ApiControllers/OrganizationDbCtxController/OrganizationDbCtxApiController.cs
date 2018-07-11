@@ -14,7 +14,7 @@ namespace MapHive.Api.Core.ApiControllers
     /// </summary>
     /// <typeparam name="TDbContext">The default context to be used for the controller</typeparam>
     //[OrganizationContextActionFilter] - in the startup now so kicks in when required!
-    public abstract class OrganizationDbCtxController<TDbContext> : DbCtxController<TDbContext>, IOrganizationApiController<TDbContext>, IOrganizationDbCtxApiController
+    public abstract class OrganizationDbCtxController<TDbContext> : DbCtxController<TDbContext>, IOrganizationApiController<TDbContext>, IOrganizationDbCtxApiController, IDbCtxController
         where TDbContext : DbContext, new()
     {
         private TDbContext _organizationDb;
@@ -75,5 +75,6 @@ namespace MapHive.Api.Core.ApiControllers
         {
             return GetOrganizationDbContext(dbIdentifier);
         }
+
     }
 }
