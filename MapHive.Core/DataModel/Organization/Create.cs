@@ -71,13 +71,13 @@ namespace MapHive.Core.DataModel
             await org.UpdateAsync(dbCtx);
 
             //NOTE:
-            //org db creation now moved to a separate procedure. This way it is created explicitly when needed
+            //org db creation now moved to a separate procedure. This way it is created implicitly when needed
             //this way each api can create org dbs totally independently from maphive meta db, server, db server, etc.
 
             ////once org is created, create its database
             //var orgDb = OrganizationDatabase.CreateInstanceWithDefaultCredentials();
             //orgDb.OrganizationId = org.Uuid;
-            //orgDb.DbName = $"org_{org.Uuid.ToString().Replace("-", "")}";
+            //orgDb.DbName = $"org_{org.Uuid.ToString("N")}";
 
             //await orgDb.Create(dbCtx);
 

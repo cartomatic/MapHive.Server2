@@ -34,7 +34,10 @@ namespace MapHive.Core.Api.Controllers
         public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromQuery] string sort = null, [FromQuery] string filter = null, [FromQuery] int start = 0,
             [FromQuery] int limit = 25)
         {
-            return await base.GetAsync(sort, filter, start, limit);
+            //Note:
+            //main mh env objects are kept in the maphive_meta db!
+
+            return await base.GetAsync(sort, filter, start, limit, _dbCtx);
         }
 
         /// <summary>
@@ -51,7 +54,10 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromQuery] Guid uuid)
         {
-            return await base.GetAsync(uuid);
+            //Note:
+            //main mh env objects are kept in the maphive_meta db!
+
+            return await base.GetAsync(uuid, _dbCtx);
         }
 
         /// <summary>
@@ -69,7 +75,10 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> PutAsync([FromRoute] Guid organizationuuid, [FromBody] Team obj, [FromRoute] Guid uuid)
         {
-            return await base.PutAsync(obj, uuid);
+            //Note:
+            //main mh env objects are kept in the maphive_meta db!
+
+            return await base.PutAsync(obj, uuid, _dbCtx);
         }
 
         /// <summary>
@@ -85,7 +94,10 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> PostAsync([FromRoute] Guid organizationuuid, Team obj)
         {
-            return await base.PostAsync(obj);
+            //Note:
+            //main mh env objects are kept in the maphive_meta db!
+
+            return await base.PostAsync(obj, _dbCtx);
         }
 
         /// <summary>
@@ -101,7 +113,10 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid organizationuuid, Guid uuid)
         {
-            return await base.DeleteAsync(uuid);
+            //Note:
+            //main mh env objects are kept in the maphive_meta db!
+
+            return await base.DeleteAsync(uuid, _dbCtx);
         }
 
 
@@ -121,12 +136,15 @@ namespace MapHive.Core.Api.Controllers
         {
             try
             {
+                //Note:
+                //main mh env objects are kept in the maphive_meta db!
+
                 //grab a team and its users
-                var team = await new Team().ReadAsync(GetOrganizationDbContext(), uuid);
+                var team = await new Team().ReadAsync(_dbCtx, uuid);
                 if (team == null)
                     return NotFound();
 
-                var users = await team.GetChildrenAsync<Team, MapHiveUser>(GetOrganizationDbContext());
+                var users = await team.GetChildrenAsync<Team, MapHiveUser>(_dbCtx);
                 if (users.Any())
                     return Ok(users);
 
@@ -153,16 +171,19 @@ namespace MapHive.Core.Api.Controllers
         {
             try
             {
+                //Note:
+                //main mh env objects are kept in the maphive_meta db!
+
                 //grab a team and its apps
-                var team = await new Team().ReadAsync(GetOrganizationDbContext(), uuid);
+                var team = await new Team().ReadAsync(_dbCtx, uuid);
                 if (team == null)
                     return NotFound();
 
-                var apps = await team.GetChildrenAsync<Team, Application>(GetOrganizationDbContext());
+                var apps = await team.GetChildrenAsync<Team, Application>(_dbCtx);
                 if (apps.Any())
                 {
                     //re-read the links now to obtain the extra links info!
-                    var appLinks = await team.GetChildLinksAsync<Team, Application>(GetOrganizationDbContext());
+                    var appLinks = await team.GetChildLinksAsync<Team, Application>(_dbCtx);
 
                     foreach (var app in apps)
                     {

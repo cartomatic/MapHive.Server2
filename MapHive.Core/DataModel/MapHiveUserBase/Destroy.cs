@@ -36,6 +36,22 @@ namespace MapHive.Core.DataModel
             return await user.UpdateAsync<T>(dbCtx, uuid);
         }
 
+
+        /// <summary>
+        /// Force destroys a user record in the system. Since the MapHive core api is meant to be used in a distributed world, it is up to the consumer
+        /// of this api to perform a necessary data cleanup. No relations will be deleted autmatically.
+        /// Also, do be careful when using this method - a user may be registered in many places. so it is better to just disable it instead of erasing.
+        /// Heck, you have been warned....
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
+        public async Task<bool> ForceDestroyAsync<T>(DbContext dbCtx)
+            where T : MapHiveUserBase
+        {
+            return await ForceDestroyAsync<T>(dbCtx, Uuid);
+        }
+
         /// <summary>
         /// Force destroys a user record in the system. Since the MapHive core api is meant to be used in a distributed world, it is up to the consumer
         /// of this api to perform a necessary data cleanup. No relations will be deleted autmatically.

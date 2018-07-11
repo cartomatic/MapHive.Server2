@@ -36,11 +36,15 @@ namespace MapHive.Core.Api.Controllers
         {
             try
             {
-                var users = await OrganizationContext.GetOrganizationAssetsAsync<MapHiveUser>(_dbCtx, sort, filter, start, limit); //note: read from mh meta db!
+                //note:
+                //org users and org roles are read from mh meta db!
+                //This is where some env core objects are kept
+
+                var users = await OrganizationContext.GetOrganizationAssetsAsync<MapHiveUser>(_dbCtx, sort, filter, start, limit);
                 if (users == null)
                     return NotFound();
 
-                var roles2users = await OrganizationContext.GetOrgRoles2UsersMapAsync(GetOrganizationDbContext());
+                var roles2users = await OrganizationContext.GetOrgRoles2UsersMapAsync(_dbCtx);
 
                 foreach (var user in users?.assets)
                 {
@@ -66,12 +70,19 @@ namespace MapHive.Core.Api.Controllers
         [HttpGet]
         [Route("{uuid}")]
         [ProducesResponseType(typeof(MapHiveUser), 200)]
-        [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromQuery] Guid uuid)
         {
-            return await base.GetAsync(uuid);
+            //note:
+            //org users and org roles are read from mh meta db!
+            //This is where some env core objects are kept
+
+            //ensure user belongs to an org
+            if(await OrganizationContext.IsOrgMemberAsync(_dbCtx, uuid))
+                return await base.GetAsync(uuid, _dbCtx);
+
+            return NotFound();
         }
 
 
@@ -105,7 +116,10 @@ namespace MapHive.Core.Api.Controllers
 
                 var email = await GetEmailStuffAsync("user_created");
 
-                //note: user is created in mh meta db!
+                //note:
+                //org users and org roles are created against mh meta db!
+                //This is where some env core objects are kept
+
                 var createdUser = await MapHiveUser.CreateUserAccountAsync(_dbCtx, user, email.emailAccount, email.emailTemplate.Prepare(replacementData));
 
                 if (createdUser != null)
@@ -139,6 +153,10 @@ namespace MapHive.Core.Api.Controllers
         {
             try
             {
+                //note:
+                //org users and org roles are modified against mh meta db!
+                //This is where some env core objects are kept
+
                 await this.OrganizationContext.AddOrganizationUserAsync(_dbCtx, user);
                 return Ok();
             }
@@ -150,7 +168,7 @@ namespace MapHive.Core.Api.Controllers
 
 
         /// <summary>
-        /// Updates a user
+        /// Updates an organization user
         /// </summary>
         /// <param name="organizationuuid"></param>
         /// <param name="user"></param>
@@ -166,6 +184,14 @@ namespace MapHive.Core.Api.Controllers
         {
             try
             {
+                //note:
+                //org users and org roles are modified against mh meta db!
+                //This is where some env core objects are kept
+
+                //make sure user 'belongs' to an org
+                if (await OrganizationContext.IsOrgMemberAsync(_dbCtx, uuid))
+                    return BadRequest("Not an org user.");
+
                 var entity = await user.UpdateAsync(_dbCtx, uuid);
 
                 if (entity != null)
@@ -199,10 +225,18 @@ namespace MapHive.Core.Api.Controllers
         {
             try
             {
+                //note:
+                //org users and org roles are modified against mh meta db!
+                //This is where some env core objects are kept
+
                 //get a user an make sure he is not an org user!
                 var user = await Base.ReadObjAsync<MapHiveUser>(_dbCtx, uuid);
+
+                if (user == null)
+                    return BadRequest("No such user.");
+
                 if (
-                    user == null || (user.IsOrgUser && user.ParentOrganizationId == organizationuuid)
+                    (user.IsOrgUser && user.ParentOrganizationId == organizationuuid)
                     || user.UserOrgId == organizationuuid //also avoid removing own org of a user!
                 )
                     throw MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException(nameof(MapHiveUser), MapHive.Core.DataModel.Validation.ValidationErrors.OrgOwnerDestroyError);
@@ -221,5 +255,119 @@ namespace MapHive.Core.Api.Controllers
                 return HandleException(ex);
             }
         }
+
+
+        /// <summary>
+        /// Deletes an organization user;
+        /// this api performs a soft delete only - sets IsAccountClosed property to true, so user should not be able to authenticate anymore;
+        /// user record is still present in both maphive meta and aspnet identity databases
+        /// </summary>
+        /// <param name="organizationuuid"></param>
+        /// <param name="uuid"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("{uuid}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> DeleteAsync(Guid organizationuuid, Guid uuid)
+        {
+            try
+            {
+                //note:
+                //org users and org roles are modified against mh meta db!
+                //This is where some env core objects are kept
+
+                //make sure user 'belongs' to an org
+                if (await OrganizationContext.IsOrgMemberAsync(_dbCtx, uuid))
+                    return BadRequest("Not an org user.");
+
+                //make sure to prevent self deletes
+                if (uuid == Cartomatic.Utils.Identity.GetUserGuid())
+                    return BadRequest("Cannot remove self.");
+
+                var isOrgOwner = await OrganizationContext.IsOrgOwnerAsync(_dbCtx, uuid);
+
+                if (isOrgOwner)
+                    return BadRequest("Cannot remove org owner.");
+
+                var isOrgAdmin = await OrganizationContext.IsOrgAdminAsync(_dbCtx, uuid);
+
+                //only owners and admins should be able to delete users!
+                if (!(isOrgAdmin || isOrgOwner))
+                    return NotAllowed();
+
+                var user = await Base.ReadObjAsync<MapHiveUser>(_dbCtx, uuid);
+
+                if (user == null)
+                    return BadRequest("No such user.");
+
+                await user.DestroyAsync(_dbCtx);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Completely deletes an organization user;
+        /// mind this operation only cleans up links in the core api;
+        /// objects created by a user do not get deleted
+        /// </summary>
+        /// <param name="organizationuuid"></param>
+        /// <param name="uuid"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("{uuid}/usetheforceluke")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> ForceDeleteAsync(Guid organizationuuid, Guid uuid)
+        {
+            try
+            {
+                //note:
+                //org users and org roles are modified against mh meta db!
+                //This is where some env core objects are kept
+
+                //make sure user 'belongs' to an org
+                if (await OrganizationContext.IsOrgMemberAsync(_dbCtx, uuid))
+                    return BadRequest("Not an org user.");
+
+                //make sure to prevent self deletes
+                if (uuid == Cartomatic.Utils.Identity.GetUserGuid())
+                    return BadRequest("Cannot remove self.");
+
+                var isOrgOwner = await OrganizationContext.IsOrgOwnerAsync(_dbCtx, uuid);
+
+                if (isOrgOwner)
+                    return BadRequest("Cannot remove org owner.");
+
+                var isOrgAdmin = await OrganizationContext.IsOrgAdminAsync(_dbCtx, uuid);
+
+                //only owners and admins should be able to delete users!
+                if (!(isOrgAdmin || isOrgOwner))
+                    return NotAllowed();
+
+                var user = await Base.ReadObjAsync<MapHiveUser>(_dbCtx, uuid);
+
+                if (user == null)
+                    return BadRequest("No such user.");
+
+                await user.ForceDestroyAsync<MapHiveUser>(_dbCtx);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
     }
 }
