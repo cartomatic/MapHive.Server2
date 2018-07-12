@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Cartomatic.Utils;
 using MapHive.Api.Core.UserConfiguration;
@@ -11,8 +12,10 @@ using MapHive.Core.DataModel;
 using MapHive.IdentityServer.SerializableConfig;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -136,7 +139,11 @@ namespace MapHive.Api.Core.StartupExtensions
                 });
             }
 
-            services.AddCors();
+            //customize cors settings - example using cors policy
+            //services.AddCors(opts =>
+            //{
+            //    opts.AddPolicy("MapHiveCors", builder => builder.CustomizeCors());
+            //});
         }
 
         /// <summary>
@@ -181,13 +188,11 @@ namespace MapHive.Api.Core.StartupExtensions
                     );
                 });
             }
-                
-            //TODO - extract off API config
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
+
+            //customize cors
+            app.UseCors(builder => builder.CustomizeCors());
+            //example using a cors policy added in the service confi section
+            //app.UseCors("MapHiveCors");
 
             //enforce auth
             app.UseAuthentication();
@@ -200,6 +205,48 @@ namespace MapHive.Api.Core.StartupExtensions
                     template: "{controller}/{action}"
                 );
             });
+        }
+
+        public static CorsPolicyBuilder CustomizeCors(this CorsPolicyBuilder builder)
+        {
+            var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+
+            var origins = cfg.GetSection("CorsCfg:Origins").Get<string[]>() ?? new string[0];
+            var headers = cfg.GetSection("CorsCfg:Headers").Get<string[]>() ?? new string[0];
+            var methods = cfg.GetSection("CorsCfg:Methods").Get<string[]>() ?? new string[0];
+
+            //all origins allowed
+            if (origins.Any(o => o == "*"))
+            {
+                builder.AllowAnyOrigin();
+            }
+            else if(origins.Any())
+            {
+                if (origins.Any(o => o.IndexOf("*") > -1))
+                    builder.SetIsOriginAllowedToAllowWildcardSubdomains();
+
+                builder.WithOrigins(origins);
+            }
+
+            if (headers.Any(h => h == "*"))
+            {
+                builder.AllowAnyHeader();
+            }
+            else if (headers.Any())
+            {
+                builder.WithHeaders(headers);
+            }
+
+            if (methods.Any(m => m == "*"))
+            {
+                builder.AllowAnyMethod();
+            }
+            else if(methods.Any())
+            {
+                builder.WithMethods(methods);
+            }
+
+            return builder;
         }
     }
 }
