@@ -65,23 +65,33 @@ namespace MapHive.Core.Configuration
         /// <returns></returns>
         public static async Task<string> GetConfigurationScriptAsync(DbContext dbCtx)
         {
-            return GetConfigurationScriptAsync(await GetConfigurationAsync(dbCtx));
+            return GetConfigurationScript(await GetConfigurationAsync(dbCtx));
         }
-
 
 
         /// <summary>
         /// Gets a web client cfg script with an exception msg appended
         /// </summary>
-        /// <param name="propertyName">name of a property to hold the exception in the mhcfg object</param>
         /// <param name="ex"></param>
+        /// <param name="errMsgPropertyName"></param>
+        /// <param name="errStackTracePropertyName"></param>
         /// <returns></returns>
-        public static string GetConfigurationScriptFromException(Exception ex, string propertyName = "ConfigurationError")
+        public static string GetConfigurationScriptFromException(Exception ex, string errMsgPropertyName = "ConfigurationErrorMsg", string errStackTracePropertyName = "ConfigurationErrorStackTrace")
         {
-            return GetConfigurationScriptAsync(new Dictionary<string, object>
+            var errComment = "//uups, houston we have a problem...";
+
+            var errScriptContent = "//recompile with DEBUG flag to output detailed err msg";
+
+#if DEBUG
+            errScriptContent = GetConfigurationScript(new Dictionary<string, object>
             {
-                { propertyName, ex.Message }
+                { errMsgPropertyName, ex.Message },
+                { errStackTracePropertyName, ex.StackTrace }
             });
+#endif
+
+            return $@"{errComment}
+{errScriptContent}";
         }
 
         /// <summary>
@@ -90,7 +100,7 @@ namespace MapHive.Core.Configuration
         /// <param name="cfg"></param>
         /// <param name="camelCase">Whether or not the dictionary keys should be camelcased</param>
         /// <returns></returns>
-        public static string GetConfigurationScriptAsync(Dictionary<string, object> cfg, bool camelCase = true)
+        public static string GetConfigurationScript(Dictionary<string, object> cfg, bool camelCase = true)
         {
             //Note: need to output the camelised property names
 

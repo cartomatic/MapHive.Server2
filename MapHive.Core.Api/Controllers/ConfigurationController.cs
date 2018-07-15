@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using MapHive.Api.Core.ApiControllers;
+using MapHive.Api.Core.Result;
 using MapHive.Core.Configuration;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Authorization;
@@ -28,32 +29,22 @@ namespace MapHive.Core.Api.Controllers
         [ProducesResponseType(typeof(string), 200)]
         public async Task<IActionResult> GetWebClientConfigurationScriptAsync()
         {
-            string content = string.Empty;
-            var statuscode = HttpStatusCode.OK;
+            string scriptContent = string.Empty;
 
             try
             {
-                content = await MapHive.Core.Configuration.WebClientConfiguration
+                scriptContent = await MapHive.Core.Configuration.WebClientConfiguration
                     .GetConfigurationScriptAsync(GetDefaultDbContext());
                 
             }
             catch (Exception ex)
             {
-                content = "//err";
-
-#if DEBUG
-                content = MapHive.Core.Configuration.WebClientConfiguration
+                scriptContent = MapHive.Core.Configuration.WebClientConfiguration
                     .GetConfigurationScriptFromException(ex);
-#endif
             }
 
-            return Ok(content);
+            return new JavaScriptResult(scriptContent);
 
-            //return new HttpResponseMessage
-            //{
-            //    StatusCode = statuscode,
-            //    Content = new StringContent(content, Encoding.UTF8, "text/javascript")
-            //};
         }
 
         /// <summary>
