@@ -36,11 +36,11 @@ namespace MapHive.Api.Core.ApiControllers
 
             var localisedEmail = await RestApiCall<Cartomatic.Utils.Email.EmailTemplate>(
                 Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig()["LocalizationApiEndpoint"],
-                "emailtemplates",
+                "emailtemplatelocalizations/emailtemplate",
                 queryParams: new Dictionary<string, object>
                 {
                     { "emailIdentifier" , emailIdentifier},
-                    { "appName" , appName},
+                    { "appIdentifier" , appName},
                     {
                         "langCode" , string.IsNullOrEmpty(langCode) ? GetRequestLangCode(Context) : langCode
                     }

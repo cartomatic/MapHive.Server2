@@ -8,7 +8,10 @@ using System.Web.Http;
 using MapHive.Api.Core.ApiControllers;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
 
 namespace MapHive.Core.Api.Controllers
 {
@@ -99,6 +102,41 @@ namespace MapHive.Core.Api.Controllers
         public async Task<IActionResult> DeleteAsync(Guid uuid)
         {
             return await base.DeleteAsync(uuid);
+        }
+
+        /// <summary>
+        /// Gets app specific email template in given language;
+        /// when template for the language specified is not found it defaults to a template in a default enf language and if it is not defined a first template translation (if any!) is returned
+        /// </summary>
+        /// <param name="emailIdentifier"></param>
+        /// <param name="appIdentifier"></param>
+        /// <param name="langCode"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("emailtemplate")]
+        [ProducesResponseType(typeof(EmailTemplate), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetEmailTemplate([FromQuery] string emailIdentifier, [FromQuery] string appIdentifier, [FromQuery] string langCode)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(emailIdentifier))
+                    return BadRequest();
+
+                var et = await EmailTemplateLocalization.GetEmailTemplate(GetDefaultDbContext(), emailIdentifier, appIdentifier, langCode);
+                
+                if(et != null)
+                    return Ok(et);
+
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
         }
     }
 }

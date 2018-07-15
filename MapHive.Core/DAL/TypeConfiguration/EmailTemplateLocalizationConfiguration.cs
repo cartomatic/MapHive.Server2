@@ -16,7 +16,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             builder.ApplyIBaseConfiguration(nameof(EmailTemplateLocalization), "email_templates", "mh_localization");
 
-            builder.Property(en => en.ApplicationName).HasColumnName("application_name");
+            builder.Property(en => en.ApplicationIdentifier).HasColumnName("application_identifier");
             builder.Property(en => en.Name).HasColumnName("name");
             builder.Property(en => en.Description).HasColumnName("description");
             builder.Property(en => en.Identifier).HasColumnName("identifier");
@@ -28,10 +28,10 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(p => p.TranslationsSerialized).HasColumnName("translations");
 
 
-            builder.HasIndex(t => t.ApplicationName)
-                .HasName($"idx_app_name_{nameof(EmailTemplateLocalization).ToLower()}");
+            builder.HasIndex(t => t.ApplicationIdentifier)
+                .HasName($"idx_app_identifier_{nameof(EmailTemplateLocalization).ToLower()}");
 
-            builder.HasIndex(t => new { t.ApplicationName, t.Identifier }) //this should create a unique composite field idx!
+            builder.HasIndex(t => new { ApplicationName = t.ApplicationIdentifier, t.Identifier }) //this should create a unique composite field idx!
                 .HasName($"uq_app_name_translation_identifier_{nameof(EmailTemplateLocalization).ToLower()}")
                 .IsUnique();
         }
