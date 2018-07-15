@@ -26,7 +26,7 @@ namespace MapHive.Core.Api.Controllers
         [AllowAnonymous]
         [Route("webclient")]
         [ProducesResponseType(typeof(string), 200)]
-        public async Task<HttpResponseMessage> GetWebClientConfigurationScriptAsync()
+        public async Task<IActionResult> GetWebClientConfigurationScriptAsync()
         {
             string content = string.Empty;
             var statuscode = HttpStatusCode.OK;
@@ -47,11 +47,13 @@ namespace MapHive.Core.Api.Controllers
 #endif
             }
 
-            return new HttpResponseMessage
-            {
-                StatusCode = statuscode,
-                Content = new StringContent(content, Encoding.UTF8, "text/javascript")
-            };
+            return Ok(content);
+
+            //return new HttpResponseMessage
+            //{
+            //    StatusCode = statuscode,
+            //    Content = new StringContent(content, Encoding.UTF8, "text/javascript")
+            //};
         }
 
         /// <summary>

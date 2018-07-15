@@ -18,7 +18,7 @@ namespace MapHive.Core.Api.Controllers
     /// </summary>
     [Route("envconfig")]
     [ApiExplorerSettings(IgnoreApi = true)] //make sure this api is not visible in docs!!! it's kinda private and while should be available it should not be freely used really
-    public class EnvConfigController : DbCtxController<MapHiveDbContext>
+    public class EnvironmentConfigurationController : DbCtxController<MapHiveDbContext>
     {
         /// <summary>
         /// whether or not authorized user is an env admin
@@ -84,7 +84,7 @@ namespace MapHive.Core.Api.Controllers
         }
 
         /// <summary>
-        /// registers applications in the nevironment...
+        /// registers applications in the environment...
         /// </summary>
         /// <param name="apps"></param>
         /// <returns></returns>
@@ -246,10 +246,10 @@ namespace MapHive.Core.Api.Controllers
                         Description = orgDescription
                     };
 
-                    //create an org with owner; if morg, then register wgadmin
+                    //create an org with owner; if morg, then register masterofpuppets
                     var apps = new string[0];
                     if (morg)
-                        apps = new[] {"wgadmin"};
+                        apps = new[] {"masterofpuppets"};
 
                     await newOrg.CreateAsync(_db, user, apps);
                 }

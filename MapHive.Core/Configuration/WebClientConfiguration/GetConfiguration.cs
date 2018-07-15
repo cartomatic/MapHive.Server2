@@ -85,7 +85,7 @@ namespace MapHive.Core.Configuration
         }
 
         /// <summary>
-        /// Appends new data into a single mhapi cfg script, so can inject data to a mainf wgcfg script multiple times from multiple sources
+        /// Appends new data into a single mhapi cfg script, so can inject data to a main maphive configuration script multiple times from multiple sources
         /// </summary>
         /// <param name="cfg"></param>
         /// <param name="camelCase">Whether or not the dictionary keys should be camelcased</param>
