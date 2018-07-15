@@ -28,7 +28,8 @@ namespace MapHive.Cmd.Core
             if (GetHelp(args))
             {
                 Console.WriteLine(
-                    $"'{cmd}' : sets up the maphive environment - maphive2_meta, maphive2_idsrv, maphive2_identity; uses the configured db credentials to connect to the db server.");
+                    $"'{cmd}' : sets up the maphive environment databases - maphive2_meta, maphive2_idsrv, maphive2_identity; uses the configured db credentials to connect to the db server.");
+                Console.WriteLine("Most often used for keeping local dev dbs intact (maphive_meta_db) so generating migrations is possible; can update any db though as confogured via dsc.");
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
                 Console.WriteLine("\t[full]; all the maphive databases should be created/ugraded");
                 Console.WriteLine("\t[xfull]; all the maphive databases should be dropped prior to being recreated");

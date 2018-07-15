@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.CmdPrompt.Core;
 
 namespace MapHive.Cmd.Core
 {
@@ -12,19 +13,20 @@ namespace MapHive.Cmd.Core
             : base(handlerInfo)
         {
             //register some xtra commands
-            SetUpCommandMap(new Dictionary<string, string>
-            {
-                { "s", "setup" },
-                { "conn", "dsc" },
-                { "xuser", "destroyuser" },
-                { "apps", "addapps" },
-                { "u", "adduser" },
-                { "ur", "adduserremote" },
-                { "morg", "addmasterorg" },
-                { "e", "endpoints" },
-                { "ra", "remoteadmin" },
-
-            });
+            SetUpCommandMap(
+                new CommandMap()
+                    .AddAliases(nameof(Handle_SetUp), "s")
+                    .AddAliases(nameof(Handle_Dsc), "conn")
+                    .AddAliases(nameof(Handle_DestroyUser), "xuser", "xu")
+                    .AddAliases(nameof(Handle_AddApps), "apps")
+                    .AddAliases(nameof(Handle_AddUser), "u")
+                    .AddAliases(nameof(Handle_AddUserRemote), "ur")
+                    .AddAliases(nameof(Handle_AddMasterOrg), "morg")
+                    .AddAliases(nameof(Handle_Endpoints), "ep")
+                    .AddAliases(nameof(Handle_RemoteAdmin), "ra")
+                    .AddAliases(nameof(Handle_EmailTemplates), "et")
+                    .AddAliases(nameof(Handle_DefaultLangs), "dl")
+            );
 
             PrintHandlerInfo();
 
@@ -35,7 +37,7 @@ namespace MapHive.Cmd.Core
 
             SetDefaultRemoteAdmin();
         }
-
+        
         public CommandHandler()
             : this("MapHive2 CMD v1.0....")
         {

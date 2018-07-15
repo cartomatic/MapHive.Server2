@@ -38,6 +38,8 @@ namespace MapHive.Cmd.Core
             }
 
             await Handle_SetUpDb(args);
+            await Handle_DefaultLangs(args);
+            await Handle_EmailTemplates(args);
 
             //when ready add apps and a master user
             if (ContainsParam("full", args) || ContainsParam("mh", args))
