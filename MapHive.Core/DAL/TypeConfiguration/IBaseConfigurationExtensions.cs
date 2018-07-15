@@ -27,7 +27,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             builder.ToTable(name: tableName, schema: schema);
 
-            builder.HasKey(t => t.Uuid);
+            builder.HasKey(t => t.Uuid).HasName($"pk_{tableName}");
 
             builder.Property(en => en.Uuid).HasColumnName("uuid");
             builder.Property(en => en.CreatedBy).HasColumnName("created_by");

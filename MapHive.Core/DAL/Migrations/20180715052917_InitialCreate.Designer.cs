@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MapHive.Core.DAL.Migrations
 {
     [DbContext(typeof(MapHiveDbContext))]
-    [Migration("20180711045811_InitialCreate")]
+    [Migration("20180715052917_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,7 +82,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<bool>("UseSplashscreen")
                         .HasColumnName("use_splashscreen");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_applications");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_application");
@@ -100,8 +101,8 @@ namespace MapHive.Core.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("uuid");
 
-                    b.Property<string>("ApplicationName")
-                        .HasColumnName("application_name");
+                    b.Property<string>("ApplicationIdentifier")
+                        .HasColumnName("application_identifier");
 
                     b.Property<DateTime?>("CreateDateUtc")
                         .HasColumnName("create_date_utc");
@@ -133,15 +134,16 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("TranslationsSerialized")
                         .HasColumnName("translations");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_email_templates");
 
-                    b.HasIndex("ApplicationName")
-                        .HasName("idx_app_name_emailtemplatelocalization");
+                    b.HasIndex("ApplicationIdentifier")
+                        .HasName("idx_app_identifier_emailtemplatelocalization");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_emailtemplatelocalization");
 
-                    b.HasIndex("ApplicationName", "Identifier")
+                    b.HasIndex("ApplicationIdentifier", "Identifier")
                         .IsUnique()
                         .HasName("uq_app_name_translation_identifier_emailtemplatelocalization");
 
@@ -181,7 +183,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnName("name");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_langs");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_lang");
@@ -260,7 +263,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<DateTime?>("ModifyDateUtc")
                         .HasColumnName("modify_date_utc");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_localization_classes");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_localizationclass");
@@ -344,7 +348,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<bool>("VisibleInCatalogue")
                         .HasColumnName("visible_in_catalogue");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_users");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_maphiveuser");
@@ -435,7 +440,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("Url")
                         .HasColumnName("url");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_organizations");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_organization");
@@ -503,7 +509,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("UserName")
                         .HasColumnName("user_name");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_organization_databases");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_organizationdatabase");
@@ -548,7 +555,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("PrivilegesSerialized")
                         .HasColumnName("privileges");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_roles");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_role");
@@ -583,7 +591,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnName("name");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_teams");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_team");
@@ -633,7 +642,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("ReferrersSerialized")
                         .HasColumnName("referrers");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_tokens");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_token");
@@ -671,7 +681,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("TranslationsSerialized")
                         .HasColumnName("translations");
 
-                    b.HasKey("Uuid");
+                    b.HasKey("Uuid")
+                        .HasName("pk_translation_keys");
 
                     b.HasIndex("CreateDateUtc")
                         .HasName("idx_create_date_translationkey");

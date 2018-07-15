@@ -27,14 +27,14 @@ namespace MapHive.Core.DAL.Migrations
                     end_date_utc = table.Column<DateTime>(nullable: true),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
-                    application_name = table.Column<string>(nullable: true),
+                    application_identifier = table.Column<string>(nullable: true),
                     identifier = table.Column<string>(nullable: true),
                     is_body_html = table.Column<bool>(nullable: false),
                     translations = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_email_templates", x => x.uuid);
+                    table.PrimaryKey("pk_email_templates", x => x.uuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,7 +55,7 @@ namespace MapHive.Core.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_langs", x => x.uuid);
+                    table.PrimaryKey("pk_langs", x => x.uuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,7 +75,7 @@ namespace MapHive.Core.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_localization_classes", x => x.uuid);
+                    table.PrimaryKey("pk_localization_classes", x => x.uuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,7 +95,7 @@ namespace MapHive.Core.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_translation_keys", x => x.uuid);
+                    table.PrimaryKey("pk_translation_keys", x => x.uuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,7 +125,7 @@ namespace MapHive.Core.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_applications", x => x.uuid);
+                    table.PrimaryKey("pk_applications", x => x.uuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,7 +186,7 @@ namespace MapHive.Core.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_organization_databases", x => x.uuid);
+                    table.PrimaryKey("pk_organization_databases", x => x.uuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,7 +215,7 @@ namespace MapHive.Core.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_organizations", x => x.uuid);
+                    table.PrimaryKey("pk_organizations", x => x.uuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -236,7 +236,7 @@ namespace MapHive.Core.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_roles", x => x.uuid);
+                    table.PrimaryKey("pk_roles", x => x.uuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -255,7 +255,7 @@ namespace MapHive.Core.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_teams", x => x.uuid);
+                    table.PrimaryKey("pk_teams", x => x.uuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -279,7 +279,7 @@ namespace MapHive.Core.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tokens", x => x.uuid);
+                    table.PrimaryKey("pk_tokens", x => x.uuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -313,14 +313,14 @@ namespace MapHive.Core.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.uuid);
+                    table.PrimaryKey("pk_users", x => x.uuid);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "idx_app_name_emailtemplatelocalization",
+                name: "idx_app_identifier_emailtemplatelocalization",
                 schema: "mh_localization",
                 table: "email_templates",
-                column: "application_name");
+                column: "application_identifier");
 
             migrationBuilder.CreateIndex(
                 name: "idx_create_date_emailtemplatelocalization",
@@ -332,7 +332,7 @@ namespace MapHive.Core.DAL.Migrations
                 name: "uq_app_name_translation_identifier_emailtemplatelocalization",
                 schema: "mh_localization",
                 table: "email_templates",
-                columns: new[] { "application_name", "identifier" },
+                columns: new[] { "application_identifier", "identifier" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
