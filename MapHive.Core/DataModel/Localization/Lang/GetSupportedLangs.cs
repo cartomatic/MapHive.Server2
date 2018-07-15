@@ -26,5 +26,17 @@ namespace MapHive.Core.DataModel
 
             return (SupportedLangs ?? (SupportedLangs = await iLocalizedDbCtx.Langs.ToListAsync()));
         }
+
+        /// <summary>
+        /// Gets a list of supported lang codes
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
+        public static async Task<IEnumerable<string>> GetSupportedLangCodesAsync(DbContext dbCtx)
+        {
+            var langs = await GetSupportedLangsAsync(dbCtx);
+
+            return langs?.Select(l => l.LangCode) ?? new string[0];
+        }
     }
 }

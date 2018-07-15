@@ -41,7 +41,7 @@ namespace MapHive.Core.Configuration
             //lng related stuff
             //FIXME - move to localization module!
             cfg["DefaultLang"] = (await Lang.GetDefaultLangAsync(dbCtx))?.LangCode;
-            cfg["SupportedLangs"] = await Lang.GetSupportedLangsAsync(dbCtx);
+            cfg["SupportedLangs"] = await Lang.GetSupportedLangCodesAsync(dbCtx);
             cfg[nameof(LangParam)] = LangParam;
             cfg[nameof(HeaderLang)] = HeaderLang;
 
