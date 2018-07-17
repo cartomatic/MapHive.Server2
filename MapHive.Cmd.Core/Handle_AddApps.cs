@@ -166,6 +166,18 @@ namespace MapHive.Cmd.Core
                     }
                 },
                 {
+                    "hgis2",
+                    new Application
+                    {
+                        Uuid = Guid.Parse("27321a8a-aa7d-47fd-a539-761b248ef248"),
+                        ShortName = "hgis2",
+                        Name = "HGIS v2",
+                        Description = "Cartomatic\'s HGIS",
+                        Urls = "https://hgis.maphive.local/|https://hgis.maphive.net/",
+                        IsCommon = true
+                    }
+                },
+                {
                     "masterofpuppets",
                     new Application
                     {
