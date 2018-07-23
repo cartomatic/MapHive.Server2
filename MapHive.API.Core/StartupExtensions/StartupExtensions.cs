@@ -160,6 +160,11 @@ namespace MapHive.Api.Core.StartupExtensions
             //store api short name
             CommonSettings.Set(nameof(settings.AppShortNames), settings?.AppShortNames);
 
+            if (settings.UsesIdentityUserManagerUtils)
+            {
+                MapHive.Identity.UserManagerUtils.Configure("MapHiveIdentity");
+            }
+
 
             if (env.IsDevelopment())
             {

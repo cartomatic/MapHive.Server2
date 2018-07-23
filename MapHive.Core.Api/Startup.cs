@@ -22,7 +22,8 @@ namespace MapHive.Core.Api
             XmlCommentsPath = @"MapHive.Core.Api.xml",
             ApiTitle = "MapHive.Core.Api",
             UseGitVersion = true,
-            AllowApiTokenAccess = true
+            AllowApiTokenAccess = true,
+            UsesIdentityUserManagerUtils = true
         };
 
         /// <summary>
