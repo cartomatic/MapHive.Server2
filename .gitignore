@@ -14,6 +14,15 @@ MapHive.Core.Api/Properties/PublishProfiles/WebRelease.pubxml
 MapHive.Core.Api/appsettings.Production.json
 #################
 
+#MapHive.IdentityServer
+#################
+#ignore web deploy
+MapHive.IdentityServer/Properties/PublishProfiles/WebDebug.pubxml
+MapHive.IdentityServer/Properties/PublishProfiles/WebRelease.pubxml
+#ignore production config
+MapHive.IdentityServer/appsettings.Production.json
+#################
+
 
 _release/
 
