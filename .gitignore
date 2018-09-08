@@ -5,6 +5,18 @@
 #do not ignore web.config - after all this is gonna be a web app...
 #web.config
 
+#MapHive.Core.Api
+#################
+#ignore web deploy
+MapHive.Core.Api/Properties/PublishProfiles/WebDebug.pubxml
+MapHive.Core.Api/Properties/PublishProfiles/WebRelease.pubxml
+#ignore production config
+MapHive.Core.Api/appsettings.Production.json
+#################
+
+
+_release/
+
 #vsdocman
 *.vsdoc
 
@@ -177,7 +189,7 @@ publish/
 *.azurePubxml
 # TODO: Comment the next line if you want to checkin your web deploy settings 
 # but database connection strings (with potential passwords) will be unencrypted
-*.pubxml
+#*.pubxml
 *.publishproj
 
 # NuGet Packages
