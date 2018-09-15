@@ -3,12 +3,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>1.0.5-dev0011</Version>
+    <Version>1.0.0-dev0001</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
 aimed at working with pgsql initially</Description>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
+    <Copyright>cartomatic</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -51,7 +52,6 @@ aimed at working with pgsql initially</Description>
 
  
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
     <ProjectReference Include="..\MapHive.Core.IdentityServer\MapHive.Core.IdentityServer.csproj" />
     <ProjectReference Include="..\MapHive.Core.Identity\MapHive.Core.Identity.csproj" />
   </ItemGroup>

@@ -34,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
     <ProjectReference Include="..\MapHive.Core.Api\MapHive.Core.Api.csproj" />
     <ProjectReference Include="..\MapHive.Core\MapHive.Core.csproj" />
   </ItemGroup>

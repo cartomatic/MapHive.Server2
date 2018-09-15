@@ -1,19 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>MapHive.Core.Cmd</AssemblyName>
     <RootNamespace>MapHive.Core.Cmd</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0-dev0001</Version>
+    <Description>.net core cmd implementation of of MapHive.Core via MapHive.Core.Cmd</Description>
+    <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
+    <Copyright>cartomatic</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Cartomatic.CmdPrompt.Core" Version="1.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.1" />
+    <PackageReference Include="msbump" Version="2.3.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
     <ProjectReference Include="..\MapHive.Core.Identity\MapHive.Core.Identity.csproj" />
     <ProjectReference Include="..\MapHive.Core\MapHive.Core.csproj" />
   </ItemGroup>
