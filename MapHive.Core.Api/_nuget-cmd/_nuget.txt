@@ -1,0 +1,1 @@
+dotnet nuget push MapHive.Core.Api\bin\Release\MapHive.Core.Api.{version}.nupkg -k {key} -s https://api.nuget.org/v3/index.json

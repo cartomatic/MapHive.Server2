@@ -309,3 +309,8 @@ Thumbs.db
 
 # Folder config file
 Desktop.ini
+MapHive.Core.Api/_nuget-cmd/_nuget-with-key.txt
+MapHive.Core.Cmd/_nuget-cmd/_nuget-with-key.txt
+MapHive.Core.Identity/_nuget-cmd/_nuget-with-key.txt
+MapHive.Core.IdentityServer/_nuget-cmd/_nuget-with-key.txt
+MapHive.Core/_nuget-cmd/_nuget-with-key.txt

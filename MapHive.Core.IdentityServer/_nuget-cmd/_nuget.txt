@@ -1,0 +1,1 @@
+dotnet nuget push MapHive.Core.IdentityServer\bin\Release\MapHive.Core.IdentityServer.{version}.nupkg -k {key} -s https://api.nuget.org/v3/index.json
