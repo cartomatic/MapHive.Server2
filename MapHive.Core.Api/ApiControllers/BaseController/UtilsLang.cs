@@ -23,34 +23,46 @@ namespace MapHive.Core.Api.ApiControllers
             var request = context.Request;
 
             //first headers
-            var lng = request.Headers[WebClientConfiguration.HeaderLang];
+            var lng = request.Headers[WebClientConfiguration.HeaderLang].ToString();
 
             //url test
             if (string.IsNullOrEmpty(lng))
             {
                 lng = request.Query[WebClientConfiguration.LangParam];
             }
-           
-            //now it's the cookie time
+
+            //now it's the cookie time...
+            //Note: no point in reading cookies here really, as by default the api is accessed via CORS, hence the default mh cookie is not likely to be accessible.
+            //This is pretty much only going to be used if the client starts from the same endpoint as the api itself 
             if (string.IsNullOrEmpty(lng))
             {
-                //TODO!
-                //FIXME - need to check this, as not sure how the behavior changed in aspnetcore
-                var cookies = request.Cookies[WebClientConfiguration.MhCookie];
-                //lng = cookie //[WebClientConfiguration.LangParam];
+                request.Cookies.TryGetValue(WebClientConfiguration.MhCookie, out var mhCookieStr);
+                if (!string.IsNullOrEmpty(mhCookieStr))
+                {
+                    try
+                    {
+                        //assume the cooie to be json. if it does not deserialize to json, then it's a valid cookie
+                        var mhCookie =
+
+                            Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(mhCookieStr);
+
+                        if (mhCookie.ContainsKey(WebClientConfiguration.LangParam))
+                            lng = mhCookie[WebClientConfiguration.LangParam];
+                    }
+                    catch
+                    {
+                        //ignore
+                    }
+
+                }
             }
 
             //uhuh, no lang detected so far. inspect the request and the client langs
             if (string.IsNullOrEmpty(lng))
             {
                 //based on https://stackoverflow.com/questions/49381843/get-browser-language-in-aspnetcore2-0
-                //TODO - need to add middlewar in unified API setuper!!!
-
-                context.Features.Get<IRequestCultureFeature>();
-                //if (request.User. .UserLanguages?.Length > 0)
-                //{
-                //    lng = request.UserLanguages[0].Substring(0, 2).ToLower();
-                //}
+                var culture = context.Features.Get<IRequestCultureFeature>();
+                lng = culture?.RequestCulture?.UICulture?.TwoLetterISOLanguageName.ToLower();
             }
 
             return lng;

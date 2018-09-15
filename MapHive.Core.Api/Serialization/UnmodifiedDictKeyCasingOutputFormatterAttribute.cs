@@ -24,7 +24,7 @@ namespace MapHive.Core.Api.Serialization
 
             context.Result = new JsonResult(originResult.Value, new JsonSerializerSettings
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                ContractResolver = new CamelCaseExceptDictionaryKeysResolver()
             });
 
             await next();

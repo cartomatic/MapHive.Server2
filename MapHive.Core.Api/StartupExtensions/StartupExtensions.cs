@@ -202,6 +202,8 @@ namespace MapHive.Core.Api.StartupExtensions
             //enforce auth
             app.UseAuthentication();
 
+            //this should give us the ability to check the request lng in a case it has not been explicitly provided by a callee
+            app.UseRequestLocalization();
 
             app.UseMvc(routes =>
             {

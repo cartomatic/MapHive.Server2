@@ -249,6 +249,9 @@ namespace MapHive.Api.Core.Controllers
         {
             //Note: basically this is a pass reset request, so NO need to inform a potential attacker about exceptions - always return ok!
 
+            if (input == null)
+                return BadRequest();
+
             try
             {
                 var requestPassResetOutput = await Auth.RequestPassResetAsync(input.Email);
