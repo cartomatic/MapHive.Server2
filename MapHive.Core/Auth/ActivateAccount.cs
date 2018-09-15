@@ -55,7 +55,7 @@ namespace MapHive.Core
                 return output;
             }
 
-            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
 
             //extract user guid from token
 

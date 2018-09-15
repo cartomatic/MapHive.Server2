@@ -1,4 +1,0 @@
-﻿
-dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration --project MapHive.IdentityServer --startup-project MapHive.IdentityServer -c MapHiveIdSrvPersistedGrantDbContext -o DAL/Migrations/PersistedGrantDb
-
-dotnet ef migrations add InitialIdentityServerConfigurationDbMigration --project MapHive.IdentityServer --startup-project MapHive.IdentityServer -c MapHiveIdSrvConfigurationDbContext -o DAL/Migrations/ConfigurationDb

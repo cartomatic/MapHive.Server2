@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>1.0.5</Version>
+    <Version>1.0.5-dev0007</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
 aimed at working with pgsql initially</Description>
@@ -52,8 +52,8 @@ aimed at working with pgsql initially</Description>
  
   <ItemGroup>
     <ProjectReference Include="..\..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
-    <ProjectReference Include="..\MapHive.IdentityServer.Core\MapHive.IdentityServer.Core.csproj" />
-    <ProjectReference Include="..\MapHive.Identity\MapHive.Identity.csproj" />
+    <ProjectReference Include="..\MapHive.Core.IdentityServer\MapHive.Core.IdentityServer.csproj" />
+    <ProjectReference Include="..\MapHive.Core.Identity\MapHive.Core.Identity.csproj" />
   </ItemGroup>
 
 </Project>

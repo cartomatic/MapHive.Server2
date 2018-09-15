@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation.Validators;
 using IdentityModel.Client;
-using MapHive.IdentityServer.SerializableConfig;
+using MapHive.Core.IdentityServer.SerializableConfig;
 
 namespace MapHive.Core
 {

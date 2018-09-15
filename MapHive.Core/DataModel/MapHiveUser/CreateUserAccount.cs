@@ -87,7 +87,7 @@ namespace MapHive.Core.DataModel
             if (!string.IsNullOrEmpty(password))
             {
                 //grab user manager
-                var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+                var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
 
                 var idUser = await userManager.FindByIdAsync(user.Uuid.ToString());
 

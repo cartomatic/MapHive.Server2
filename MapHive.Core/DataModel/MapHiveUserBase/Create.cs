@@ -9,8 +9,8 @@ using Cartomatic.Utils.Ef;
 using Cartomatic.Utils.Email;
 using MapHive.Core.DataModel.Validation;
 using MapHive.Core.Events;
-using MapHive.Identity;
-using MapHive.Identity.DataModel;
+using MapHive.Core.Identity;
+using MapHive.Core.Identity.DataModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,7 +55,7 @@ namespace MapHive.Core.DataModel
             Email = Email.ToLower();
 
             //grab user manager
-            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
 
             //check if the email is already used or not; throw validation feedback exception if so
             //Note - could do it in the mh meta, but both dbs must be in sync anyway

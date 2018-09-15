@@ -39,7 +39,7 @@ namespace MapHive.Core
                 {
                     var userId = Cartomatic.Utils.Identity.GetUserGuid();;
 
-                    var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+                    var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
                     var idUser = await userManager.FindByIdAsync(userId.ToString());
 
                     if (idUser != null)

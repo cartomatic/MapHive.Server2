@@ -23,7 +23,7 @@ namespace MapHive.Core.DataModel
                 throw new InvalidOperationException("You cannot resend an activation link - this user has not yet been created...");
 
             //grab user manager
-            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
 
             //get the id-user user object
             var idUser = await userManager.FindByIdAsync(Uuid.ToString());

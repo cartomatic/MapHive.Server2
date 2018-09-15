@@ -1,5 +1,0 @@
-# exclude all the sh*t you don't need
-apiRules:
- 
-  - exclude:
-      uidRegex: ^RestSharp

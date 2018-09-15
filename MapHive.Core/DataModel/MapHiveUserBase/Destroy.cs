@@ -84,7 +84,7 @@ namespace MapHive.Core.DataModel
                 dbRelations?.RemoveRange(dbRelations.Where(x => x.ParentUuid == user.Uuid || x.ChildUuid == user.Uuid));
             }
 
-            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
             var idUser = await userManager.FindByIdAsync(uuid.ToString());
             
             if (idUser != null)

@@ -35,7 +35,7 @@ namespace MapHive.Core
 
             try
             {
-                var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+                var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
                 var idUser = await userManager.FindByIdAsync(userId.ToString());
 
                 if (idUser != null)

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MapHive.Identity;
-using MapHive.Identity.DataModel;
+using MapHive.Core.Identity;
+using MapHive.Core.Identity.DataModel;
 
 namespace MapHive.Core
 {
@@ -50,7 +50,7 @@ namespace MapHive.Core
                 };
             }
 
-            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
             
 
             var idUser = await userManager.FindByIdAsync(userId.ToString());
@@ -68,7 +68,7 @@ namespace MapHive.Core
         public static async Task<ChangePasswordFromResetKeyOutput> ChangePasswordFromResetKeyAsync(string email,
             string newPass, string passResetToken)
         {
-            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
             var idUser = await userManager.FindByEmailAsync(email);
 
             return await ChangePasswordFromResetKeyAsync(idUser, newPass, passResetToken);
@@ -86,7 +86,7 @@ namespace MapHive.Core
             var output = new ChangePasswordFromResetKeyOutput();
             try
             {
-                var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+                var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
 
                 if (idUser != null)
                 {

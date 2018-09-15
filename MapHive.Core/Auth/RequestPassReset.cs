@@ -23,7 +23,7 @@ namespace MapHive.Core
         {
             var passResetToken = string.Empty;
 
-            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
             var idUser = await userManager.FindByEmailAsync(email);
             if (idUser != null)
             {

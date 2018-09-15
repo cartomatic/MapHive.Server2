@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using MapHive.IdentityServer.SerializableConfig;
+using MapHive.Core.IdentityServer.SerializableConfig;
 using RestSharp;
 
 namespace MapHive.Core

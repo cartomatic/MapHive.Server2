@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MapHive.Cmd.Core\MapHive.Cmd.Core.csproj" />
+    <ProjectReference Include="..\MapHive.Core.Cmd\MapHive.Core.Cmd.csproj" />
   </ItemGroup>
 
   <ItemGroup>

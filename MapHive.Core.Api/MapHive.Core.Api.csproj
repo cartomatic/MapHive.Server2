@@ -1,41 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.1\MapHive.Core.Api.xml</DocumentationFile>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>MapHive.Core.Api</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.json" />
-    <Content Remove="appsettings.Production.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-    <Folder Include="_docfx\api\images\" />
-    <Folder Include="_docfx\articles\images\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="appsettings.Production.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.WebApiCompatShim" Version="2.1.1" />
+    <PackageReference Include="RestSharp" Version="106.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="system.valuetuple" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
-    <ProjectReference Include="..\MapHive.API.Core\MapHive.Api.Core.csproj" />
+    <ProjectReference Include="..\MapHive.Core.Identity\MapHive.Core.Identity.csproj" />
     <ProjectReference Include="..\MapHive.Core\MapHive.Core.csproj" />
   </ItemGroup>
 

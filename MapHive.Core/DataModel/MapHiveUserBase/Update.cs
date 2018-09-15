@@ -38,7 +38,7 @@ namespace MapHive.Core.DataModel
 
 
             //grab user manager
-            var userManager = MapHive.Identity.UserManagerUtils.GetUserManager();
+            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
 
 
             //Note: user account resides in two places - asp net identity storage and the MapHive metadata database.

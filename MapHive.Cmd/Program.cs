@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MapHive.Cmd.Core;
+using MapHive.Core.Cmd;
 using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Cmd
@@ -25,7 +25,7 @@ namespace MapHive.Cmd
             };
 
             //setup if needed
-            MapHive.Identity.UserManagerUtils.Configure("MapHiveIdentity");
+            MapHive.Core.Identity.UserManagerUtils.Configure("MapHiveIdentity");
 
             await cmdWatcher.Init(false);
 
