@@ -16,7 +16,7 @@ namespace MapHive.Core.Cmd
     public partial class CommandHandler
     {
         /// <summary>
-        /// Handles setting up the MapHive environment - maphive meta db, idsrv db and membership reboot db
+        /// Handles adding apps to mh env
         /// </summary>
         /// <param name="args"></param>
         protected virtual async Task Handle_AddApps(IDictionary<string, string> args)
