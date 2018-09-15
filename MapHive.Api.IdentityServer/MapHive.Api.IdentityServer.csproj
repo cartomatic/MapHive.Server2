@@ -13,13 +13,10 @@
     <PackageReference Include="IdentityServer4" Version="2.2.0" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.1.0" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.1" />
+    <PackageReference Include="MapHive.Core.Identity" Version="1.0.0" />
+    <PackageReference Include="MapHive.Core.IdentityServer" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MapHive.Core.IdentityServer\MapHive.Core.IdentityServer.csproj" />
-    <ProjectReference Include="..\MapHive.Core.Identity\MapHive.Core.Identity.csproj" />
   </ItemGroup>
 
   <ItemGroup>

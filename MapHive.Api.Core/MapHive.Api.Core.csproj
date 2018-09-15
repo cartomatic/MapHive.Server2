@@ -30,12 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MapHive.Core.Api" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MapHive.Core.Api\MapHive.Core.Api.csproj" />
-    <ProjectReference Include="..\MapHive.Core\MapHive.Core.csproj" />
   </ItemGroup>
 
 </Project>
