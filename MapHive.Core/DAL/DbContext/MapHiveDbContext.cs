@@ -69,11 +69,12 @@ namespace MapHive.Core.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
+            //important to set up schema prior to calling base, so base is aware of the desired schema
             modelBuilder.HasDefaultSchema("mh_meta");
 
-            //commen types configs
+            base.OnModelCreating(modelBuilder);
+
+            //common types configs
             modelBuilder.ApplyConfiguration(new ApplicationConfiguration());
             modelBuilder.ApplyConfiguration(new MapHiveUserConfiguration());
             modelBuilder.ApplyConfiguration(new OrganizationConfiguration());

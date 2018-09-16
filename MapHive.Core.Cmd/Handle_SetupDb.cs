@@ -29,7 +29,7 @@ namespace MapHive.Core.Cmd
             {
                 Console.WriteLine(
                     $"'{cmd}' : sets up the maphive environment databases - maphive2_meta, maphive2_idsrv, maphive2_identity; uses the configured db credentials to connect to the db server.");
-                Console.WriteLine("Most often used for keeping local dev dbs intact (maphive_meta_db) so generating migrations is possible; can update any db though as confogured via dsc.");
+                Console.WriteLine("Most often used for keeping local dev dbs intact (maphive_meta_db) so generating migrations is possible; can update any db though as configured via dsc.");
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
                 Console.WriteLine("\t[full]; all the maphive databases should be created/ugraded");
                 Console.WriteLine("\t[xfull]; all the maphive databases should be dropped prior to being recreated");
@@ -142,7 +142,8 @@ namespace MapHive.Core.Cmd
         /// Sets up databases
         /// </summary>
         /// <param name="dbsToDrop"></param>
-        /// <param name="migrationCtxs"></param>
+        /// <param name="ctxsToMmigrate"></param>
+        /// <param name="confirmDrop"></param>
         protected void SetupDatabases(List<string> dbsToDrop, Dictionary<string, List<Type>> ctxsToMmigrate, bool confirmDrop = true)
         {
             //got here, so need to drop the dbs first in order to recreate them later

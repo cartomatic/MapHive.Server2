@@ -34,17 +34,14 @@ namespace MapHive.Core.DAL
 
         //public DbSet<Privilege> Privileges { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("mh_meta");
+            //assume default schema is set in the deriving context!
 
             //type configs
             modelBuilder.ApplyConfiguration(new ObjectTypeConfiguration());
             modelBuilder.ApplyConfiguration(new LinkConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
-
-            //modelBuilder.ApplyConfiguration(new PrivilegeConfiguration());
         }
     }
 }
