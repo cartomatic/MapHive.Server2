@@ -1,0 +1,3271 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MapHive.Core</name>
+    </assembly>
+    <members>
+        <member name="T:MapHive.Core.AccountCreateDetails">
+            <summary>
+            Input gathered from a client in order to create an account
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.Email">
+            <summary>
+            User email to create an account for
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.Surname">
+            <summary>
+            Surname of a user
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.Forename">
+            <summary>
+            Forename
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.ContactPhone">
+            <summary>
+            phone number a user can be contacted at
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.Company">
+            <summary>
+            Company to create an account for
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.VatNumber">
+            <summary>
+            VAT number
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.Street">
+            <summary>
+            Address street
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.HouseNo">
+            <summary>
+            Address house no
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.FlatNo">
+            <summary>
+            Address flat no
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.Postcode">
+            <summary>
+            Address postcode
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.City">
+            <summary>
+            Address City
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateDetails.Country">
+            <summary>
+            Address city
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateInput.AccountDetails">
+            <summary>
+            The actual details provided by a client
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateInput.EmailTemplate">
+            <summary>
+            Email template to be used during the account creation procedure
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateInput.EmailAccount">
+            <summary>
+            email account details to be used when sending out emails by the account creation api; when not provided, email will not be sent
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateInput.LicenseOptions">
+            <summary>
+            License opts to be applied for the org for each registered application; keys are app shortnames;
+            apps specified here will be connected to created organisation with the opts specified;
+            if default license opts are to be applied, simply add a key with a null for the opts
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.AccountCreateOutput">
+            <summary>
+            account creation output data
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.AccountCreateOutput.EmailTemplate">
+            <summary>
+            Email template used during the account creation procedure; all the tokens generated during the account creation should already be applied to the template
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.Account">
+            <summary>
+            provides platform account related apis
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.Account.CreateAccountAsync(MapHive.Core.DAL.MapHiveDbContext,MapHive.Core.AccountCreateInput)">
+            <summary>
+            Creates an org owner account - creates a user profile, an organization for a user, ties all the bits and pieces together
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.Auth.AccountActivationOutput">
+            <summary>
+            Account activation output
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.Auth.ActivateAccountAsync(System.String)">
+            <summary>
+            Activates account 
+            </summary>
+            <param name="mergedToken">merged token - guid + token</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.ActivateAccountAsync(System.Nullable{System.Guid},System.String)">
+            <summary>
+            Activates user account
+            </summary>
+            <param name="userId"></param>
+            <param name="emailConfirmationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.Auth.AuthOutput.Success">
+            <summary>
+            whether or not the auth request was successful
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Auth.AuthOutput.AccessToken">
+            <summary>
+            Access token
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Auth.AuthOutput.RefreshToken">
+            <summary>
+            Refresh token
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Auth.AuthOutput.AccessTokenExpirationTimeUtc">
+            <summary>
+            Access token expiration coordinated universal time (UTC)
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.Auth.ChangePasswordAsync(System.String,System.String)">
+            <summary>
+            Changes user's password
+            </summary>
+            <param name="newPass"></param>
+            <param name="oldPass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.ChangePasswordFromResetKeyAsync(System.String,System.String)">
+            <summary>
+            changes pass from a reset key
+            </summary>
+            <param name="newPass"></param>
+            <param name="mergedToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.ChangePasswordFromResetKeyAsync(System.Nullable{System.Guid},System.String,System.String)">
+            <summary>
+            changes password from a reset key
+            </summary>
+            <param name="userId"></param>
+            <param name="newPass"></param>
+            <param name="passResetToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.ChangePasswordFromResetKeyAsync(System.String,System.String,System.String)">
+            <summary>
+            Changes pass from a areset key
+            </summary>
+            <param name="email"></param>
+            <param name="newPass"></param>
+            <param name="passResetToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.ChangePasswordFromResetKeyAsync(MapHive.Core.Identity.DataModel.MapHiveIdentityUser,System.String,System.String)">
+            <summary>
+            Changes pass from reset key
+            </summary>
+            <param name="idUser"></param>
+            <param name="newPass"></param>
+            <param name="passResetToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.ForceResetPasswordAsync(System.Guid,System.String)">
+            <summary>
+            Force resets a user password to a specified one
+            </summary>
+            <param name="userId"></param>
+            <param name="newPass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.LetMeInAsync(System.String,System.String)">
+            <summary>
+            Authenticates user based on his email and password
+            </summary>
+            <param name="email"></param>
+            <param name="pass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.AuthenticateUserAsync(System.String,System.String)">
+            <summary>
+            Authenticates a user against the IdSrv
+            </summary>
+            <param name="email"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.LetMeOutOfHereAsync(System.String)">
+            <summary>
+            Finalises a session for a particular accessToken
+            </summary>
+            <param name="accessToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.RefreshTokensAsync(System.String)">
+            <summary>
+            Refreshes auth tokens - access token + refresh token
+            </summary>
+            <param name="refreshToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.RequestRefreshTokenAsync(System.String)">
+            <summary>
+            Refreshes auth tokens - auth token + refresh token
+            </summary>
+            <param name="refreshToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.RequestPassResetAsync(System.String)">
+            <summary>
+            Generates a pass reset token
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.ResendActivationLink(Microsoft.EntityFrameworkCore.DbContext,System.Guid,Cartomatic.Utils.Email.IEmailAccount,Cartomatic.Utils.Email.IEmailTemplate)">
+            <summary>
+            Resends an activation link for a user; expects a user_created email template and a valid user identifier
+            </summary>
+            <param name="context"></param>
+            <param name="userId"></param>
+            <param name="emailAccount"></param>
+            <param name="emailTemplate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.MergeIdWithToken(System.Guid,System.String)">
+            <summary>
+            Merges user id with a token
+            </summary>
+            <param name="userId"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.ExtractTokenFromMergedToken(System.String)">
+            <summary>
+            Extracts token from a merged id + tokken string
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Auth.ExtractIdFromMergedToken(System.String)">
+            <summary>
+            Extracts id from a merged id + tokken string
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Configuration.IConfiguration.ReadAsync">
+            <summary>
+            Reads configuration for a specified scenario;
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.Configuration.UserConfiguration">
+            <summary>
+            Assmbles some configuration data for an api client - user, token, etc
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfiguration.User">
+            <summary>
+            A full record for a user, the checkup has been performed. If the checkup was not made in user scope, then the object is null
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfiguration.UserDescription">
+            <summary>
+            Debug mode user property description
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:MapHive.Core.Configuration.UserConfiguration.IsUser" -->
+        <member name="P:MapHive.Core.Configuration.UserConfiguration.IsToken">
+            <summary>
+            Whether or not this is a token 'user'
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfiguration.Token">
+            <summary>
+            Token retrieved in the config
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfiguration.Orgs">
+            <summary>
+            A list of organisations a user / token / IP grants the access to.
+            <para />
+            It is a user that can exist on scope of many orgs. Tokens are generated per organisation
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfiguration.OrgsDescription">
+            <summary>
+            Dev mode orgs property description
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.Configuration.UserConfiguration.GetAsync``1(``0,MapHive.Core.Configuration.UserConfigurationQuery)">
+            <summary>
+            Reads config details for a specified user characteristics - user uuid, token, etc.
+            </summary>
+            <param name="dbctx"></param>
+            <param name="q"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Configuration.UserConfiguration.ReadAsync">
+            <summary>
+            'Reads' configuration by simply testing for a presence of a user configuration retrieved automagically via UserConfigurationFilter attribute
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Configuration.UserConfiguration.DecryptOrgDbs(MapHive.Core.Configuration.UserConfigurationQuery)">
+            <summary>
+            Decrypts org dbs
+            </summary>
+            <param name="q"></param>
+        </member>
+        <member name="M:MapHive.Core.Configuration.UserConfiguration.EncryptOrgDbs(MapHive.Core.Configuration.UserConfigurationQuery)">
+            <summary>
+            Encrypts org dbs
+            </summary>
+            <param name="q"></param>
+        </member>
+        <member name="M:MapHive.Core.Configuration.UserConfiguration.GetOrganizationdatabase(System.Guid,System.String)">
+            <summary>
+            Extracts a particular database configured for an organisation.
+            if organisation does not have a specified db configured, it creates it off app/web.config as this means a default app/api db should be used
+            </summary>
+            <param name="orgId"></param>
+            <param name="dbIdentifier"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.Configuration.UserConfigurationQuery">
+            <summary>
+            Specifies the input for checking the allowed usage for a client.
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfigurationQuery.UserId">
+            <summary>
+            When present specifies a user context - the configuration is pulled for a real user
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfigurationQuery.TokenId">
+            <summary>
+            When present, specifies an access token; this is an equivalent of a user and data returned take the same form 
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfigurationQuery.Referrer">
+            <summary>
+            Refferer of the original caller. This is tested to see if a token request has come from an allowed client
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfigurationQuery.AppNames">
+            <summary>
+            Comma separated short names of the applications to scope the configuration retrieval to.
+            <para />
+            an org may be configured to just use one or more apis and one or more ui apps; this is to allow for retrieving a cfg for all the required stuff; thanks to this an api can provide a unified single entry point and bypass other api calls on behalfo fo a user
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfigurationQuery.Ip">
+            <summary>
+            Ip of the original caller making an initial config request
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfigurationQuery.OrganizationId">
+            <summary>
+            Organization id for which the token tries to obtain credentials. this setting makes sense only for tokens and also when token is a master token
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.UserConfigurationQuery.CacheKey">
+            <summary>
+            returns a cache key to be used to cache this objcect
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.AppHashProperties">
+            <summary>
+            UrlPart / hash property names; used to pass some data between the apps
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.MhCfgVariableName">
+            <summary>
+            Name of the web client configuration variable output to the client
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.HashPropertyDelimiter">
+            <summary>
+            Hash property delimiters
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.HashPropertyValueDelimiter">
+            <summary>
+            Hash property value delimiter
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.MhCookie">
+            <summary>
+            Name of the settings cookie
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.CookieValidSeconds">
+            <summary>
+            Cookie lifetime expressed in seconds
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.LangParam">
+            <summary>
+            URL param used to identify language the app should localise itself for
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.HeaderLang">
+            <summary>
+            Header used to pass lang info along
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.HeaderSource">
+            <summary>
+            Source header used to send the full location of the request; handy when need to revide the url part stuff (after hash) as this is not sent to the server by a browser
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.HeaderTotal">
+            <summary>
+            header used when returning lists to indicate a full dataset count for given request
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.ActivateAccountLinkHash">
+            <summary>
+            Returns a hash used to activate a user account; Uses a '{InitialPassword}' token as the replacement token placeholder for the password
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.ResetPassLinkHash">
+            <summary>
+            Returns a hash used to trigger a reset pass finalisation procedure; uses a '{VerificationKey}' token as the verification token placeholder
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.Configuration.WebClientConfiguration.GetConfigurationAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a web client confoguration in a form of a dictionary
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Configuration.WebClientConfiguration.GetConfigurationScriptAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Outputs the web client confoguration in a form of a js script
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Configuration.WebClientConfiguration.GetConfigurationScriptFromException(System.Exception,System.String,System.String)">
+            <summary>
+            Gets a web client cfg script with an exception msg appended
+            </summary>
+            <param name="ex"></param>
+            <param name="errMsgPropertyName"></param>
+            <param name="errStackTracePropertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Configuration.WebClientConfiguration.GetConfigurationScript(System.Collections.Generic.Dictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            Appends new data into a single mhapi cfg script, so can inject data to a main maphive configuration script multiple times from multiple sources
+            </summary>
+            <param name="cfg"></param>
+            <param name="camelCase">Whether or not the dictionary keys should be camelcased</param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.Configuration.WebClientConfiguration.CamelCaseSerializerSettings">
+            <summary>
+            camel case json serialiser
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.Configuration.WebClientConfiguration.Serialize(System.Object,System.Boolean)">
+            <summary>
+            serializes an object to JSON with camelised property names
+            </summary>
+            <param name="o"></param>
+            <param name="camelCase">Whether or not the dictionary keys should be camelcased</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Configuration.WebClientConfiguration.Camelise(System.String)">
+            <summary>
+            camelises a property name - makes the first char lowercase
+            </summary>
+            <param name="pName"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:MapHive.Core.DAL.ApplicationDbContext" -->
+        <member name="M:MapHive.Core.DAL.ApplicationDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:MapHive.Core.DAL.BaseDbContext">
+            <summary>
+            Customised DbContext that should be used for the IBase models. Takes care of automated creator / editor nad create / modify dates information application
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DAL.BaseDbContext.GetConfiguredConnectionString(System.String)">
+            <summary>
+            Retrieves conn str from app configuration
+            </summary>
+            <param name="connStrName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DAL.BaseDbContext.UpdateDateProperties">
+            <summary>
+            Updates some custom IBase related properties
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DAL.BaseDbContext.SaveChanges">
+            <inheritdoc />
+            <summary>
+            Saves changes applying all the custom stuff...
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DAL.BaseDbContext.SaveChangesAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:MapHive.Core.DAL.ILinksDbContext">
+            <summary>
+            Db context that can save object links
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DAL.ILinksDbContext.Links">
+            <summary>
+            A collection of link objects that define object relations
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DAL.ILocalizedDbContext">
+            <summary>
+            Interface for a DbContext that provides access to localization data
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DAL.IMapHiveAppsDbContext">
+            <summary>
+            Whether or not a dbctx has access to the maphive Applications
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DAL.IMapHiveUsersDbContext`1">
+            <summary>
+            Whether or not a dbctx has access to the maphive users set
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DAL.MapHiveDbContext.#ctor">
+            <summary>
+            Creates instance with the default conn str name
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DAL.MapHiveDbContext.#ctor(System.String,System.Boolean,Cartomatic.Utils.Data.DataSourceProvider)">
+            <summary>
+            Creates instance with either a specified conn str name or an actual connection str
+            By default uses npgsql db provider
+            </summary>
+            <param name="connStrName"></param>
+            <param name="isConnStr"></param>
+            <param name="provider">db provider</param>
+        </member>
+        <member name="T:MapHive.Core.DAL.OrganizationDbContext">
+            <summary>
+            Context used for org db creation
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DAL.OrganizationDbContext.#ctor">
+            <summary>
+            paramless ctro so can use it as a generic param!
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DAL.OrganizationDbContext.#ctor(System.String,System.Boolean,Cartomatic.Utils.Data.DataSourceProvider)">
+            <summary>
+            Creates instance with either a specified conn str name or an actual connection str
+            By default uses npgsql db provider
+            </summary>
+            <param name="connStrName"></param>
+            <param name="isConnStr"></param>
+            <param name="provider">db provider</param>
+        </member>
+        <member name="M:MapHive.Core.DAL.ExtendedViewsCreator.CreateAll``2(``0)">
+            <summary>
+            Executes all the configured extended views create procedures
+            </summary>
+            <typeparam name="TDbCtx"></typeparam>
+            <typeparam name="TSeed"></typeparam>
+            <param name="dbCtx"></param>
+        </member>
+        <member name="M:MapHive.Core.DAL.ExtendedViewsCreator.CreateAll``1(``0,System.Type)">
+            <summary>
+             Executes all the configured extended views create procedures
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="t">type to execute views creation for</param>
+        </member>
+        <member name="M:MapHive.Core.DAL.Seeder.SeedAll``2(``0,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Executes all the configured seed procedures
+            </summary>
+            <typeparam name="TDbCtx"></typeparam>
+            <typeparam name="TSeed"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="filter">Fully qualified namespaces to be taken into account when auto seeding object types</param>
+        </member>
+        <member name="M:MapHive.Core.DAL.Seeder.SeedAll``1(``0,System.Type,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Executes all the configured seed procedures
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="t">type to execute seed for</param>
+            <param name="filter">Fully qualified namespaces to be taken into account when auto seeding object types</param>
+        </member>
+        <member name="M:MapHive.Core.DAL.Seeder.SeedObjectTypes``1(``0,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Performs object type seed
+            </summary>
+            <typeparam name="TDbCtx"></typeparam>
+            <param name="context"></param>
+            <param name="filter">Fully qualified namespaces to be taken into account when auto seeding object types</param>
+        </member>
+        <member name="M:MapHive.Core.DAL.Seeder.VerifyObjectType(System.Type,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Verifies if an object type should be seeded
+            </summary>
+            <param name="t"></param>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DAL.TypeConfiguration.EntityTypeConfigurationExtensions.ApplyIBaseConfiguration``1(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{``0},System.String,System.String,System.String)">
+            <summary>
+            Takes care of setting up type configuration specific to the IBase model
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <param name="builder"></param>
+            <param name="entityName"></param>
+            <param name="tableName"></param>
+            <param name="schema"></param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Application.GetAllowedXWindowMsgBusOriginsAsync``1(``0)">
+            <summary>
+            Gets urls of the apps registerd in the system so potential xwindow communication between apps can be safely established;
+            returns urls of all the apps registered in the system
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Application.GetAppUrls(System.Collections.Generic.IEnumerable{MapHive.Core.DataModel.Application})">
+            <summary>
+            Returns a list of app urls
+            </summary>
+            <param name="apps"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Application.GetIdentifiersForAppsRequiringAuthAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            returns a collection of app identifying parts for the apps that require auth;
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Application.AddIdentifier(System.Collections.Generic.ICollection{System.String},System.String[])">
+            <summary>
+            Adds an app identifier to a collection
+            </summary>
+            <param name="outAppIdentifiers"></param>
+            <param name="appIdentifiers"></param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Application.HandleFlagsAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Application.ApplicationValidator">
+            <summary>
+            Application validator
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.ShortName">
+            <summary>
+            Short name - used in the url part to indicate an active app (in host mode)
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.Name">
+            <summary>
+            Full app name
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.Description">
+            <summary>
+            A bit more verbal info on the application
+            </summary>E:\MapHive\MapHive.Server\Core\DataModel\Application\_DataModel.cs
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.Urls">
+            <summary>
+            The application's entry point(s).
+            Usually there will only be one url, but during the dev or even in production, when there are multiple envs maintained, providing a pipe (|) separated list of urls,
+            simplifies the app setup. App urls listed here are also used when establishing whether an app requires authentication.
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.UseSplashscreen">
+            <summary>
+            Whether or not own application's splashscreen should be used, or the host should use own load mask
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.RequiresAuth">
+            <summary>
+            Whether or not the application requires authentication in order to be used.
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.IsCommon">
+            <summary>
+            Whether or not the information about an application can be publicly accessible
+            a common app means every user can get the information about the application such as its name, short name, description, url, etc. without having to authenticate
+            if an application is marked as common it may be shown in the app switcher, so user can launch it (provided the env is configured for this of course)
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.IsDefault">
+            <summary>
+            Whether or not an app is a default app;
+            a default app is only meaningful in the context of an organization.
+            This means a default app should be an app that provides some dashboard like functionality
+            for a user.
+            Only one appliation can be flagged as Default
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.IsHome">
+            <summary>
+            Whether or not an app is a home app; Home app means this is an app loaded when there is no organization context. A Home app would be like a main page - it should describe a project,
+            perhaps give some videos, links and such.
+            Only one application can be flagged as Home
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.IsHive">
+            <summary>
+            Whether or not the application is a HOST application
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.IsApi">
+            <summary>
+            Whether or not the application is an API application rather than an UI app
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.ProviderId">
+            <summary>
+            Identifier of the app provider. It is assumed that a provider will have its account and be able to register and publish the apps via its dashboard.
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Application.LicenseOptions">
+            <summary>
+            Application's license options with default values
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.INamed">
+            <summary>
+            Enforces a string Name property
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.LicenseOption.Type">
+            <summary>
+            Type of the stored data
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.LicenseOption.Value">
+            <summary>
+            Stored Value
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.LicenseOption.Inherited">
+            <summary>
+            Whether or not this is an inherited value; if marked as inherited, will be discarded when saving
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.LicenseOptions">
+            <summary>
+            License options used to specify defualt opts for an application, module, data source
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.LicenseOptions.Serialized">
+            <summary>
+            This property is used so EF can nicely read/write and persist the data without a messy setup
+            The TypeConfiguration setup should look like this: Property(p => p.LinkData.Serialized).HasColumnName("some_column_name");
+            </summary>
+            <remarks>
+            Idea ported from MapHive's LinkData / Translations
+            </remarks>
+        </member>
+        <member name="M:MapHive.Core.DataModel.LicenseOptions.Clone">
+            <summary>
+            safe clone of the license opts
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.LicenseOptions.CleanInherited">
+            <summary>
+            Clenas up the inherited properties
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationLicenseOption.LicensedObjectTypeUuid">
+            <summary>
+            type identifier of the licensed object - used to perform object lookups
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationLicenseOption.LicensedObjectUuid">
+            <summary>
+            identifier of a licensed object - used to perform lookups
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationLicenseOption.LicensedObjectType">
+            <summary>
+            Human readable licensed object type name; one should not relay on neither this param presence nor its value as it may change without a notice!
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationLicenseOption.LicensedObjectName">
+            <summary>
+            human readable licensed object name; one should not relay on neither this param presence nor its value as it may change without a notice!
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationLicenseOption.LicenseOptions">
+            <summary>
+            The actual license options
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.OrganizationLicenseOptions">
+            <summary>
+            License options as set on an organization; pretty much a list of customised opts per linked object
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationLicenseOptions.Capacity">
+            <summary>
+            hide the base List Capacity property so EF does not force pushes it into db model!
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationLicenseOptions.Serialized">
+            <summary>
+            This property is used so EF can nicely read/write and persist the data without a messy setup
+            The TypeConfiguration setup should look like this: Property(p => p.LinkData.Serialized).HasColumnName("some_column_name");
+            </summary>
+            <remarks>
+            Idea ported from MapHive's LinkData / Translations
+            </remarks>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationLicenseOptions.Apply``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Applies license options into this collection; makes sure that customised license options are maintained
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="licensedObjects">The object from which to transfer the default options</param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.AppLocalization.GetAppLocalizationsAsync``1(``0,System.String,System.String[])">
+            <summary>
+            Gets translations for the specified apps
+            </summary>
+            <typeparam name="TDbCtx"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="langCode"></param>
+            <param name="appNames"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.AppLocalization.GetAppLocalizationsAsync``1(``0,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Gets localizations for specified lang codes and apps
+            </summary>
+            <typeparam name="TDbCtx"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="langCodes"></param>
+            <param name="appNames"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.AppLocalization.AppLocalizationsCache">
+            <summary>
+            App localizations records cache. invalidated on app localization create, update, destroy
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.AppLocalization.ClientLocalizationsCache">
+            <summary>
+            Client localizations cache - cache of the localizations prepared for the client output
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.AppLocalization.LocalizationClassClassNamesCache">
+            <summary>
+            Caches guids => class names of the localization classes
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.AppLocalization.LocalizationClassAppNamesCache">
+            <summary>
+            Caches guids => app names of the localization classes
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.AppLocalization.LocalizationClassFullClassNamesCache">
+            <summary>
+            Caches guids => fully qualified class names of the localization classes
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.AppLocalization.InvalidateAppLocalizationsCache(System.String)">
+            <summary>
+            Ivalidates app localizations cache
+            </summary>
+            <param name="appName"></param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.AppLocalization.InvalidateAppLocalizationsCache(System.String,System.String)">
+            <summary>
+            Ivalidates app localizations cache
+            </summary>
+            <param name="appName"></param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.AppLocalization.GetClientLocalizationsCacheKey(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Generates a cache key for the client localizations
+            </summary>
+            <param name="langCodes"></param>
+            <param name="appNames"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.AppLocalization.GetLocalizationClassClassNameAsync``1(``0,System.Guid)">
+            <summary>
+            Gets a LocalizationClass ClassName by the object uuid
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="localizationClassIdentifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.AppLocalization.GetLocalizationClassAppNameAsync``1(``0,System.Guid)">
+            <summary>
+            Gets a LocalizationClass ClassName by the object uuid
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="localizationClassIdentifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.AppLocalization.GetLocalizationClassFullClassNameAsync``1(``0,System.Guid)">
+            <summary>
+            Gets a LocalizationClass full ClassName by the object uuid
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="localizationClassIdentifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.EmailTemplateLocalization.GetEmailTemplate(MapHive.Core.DAL.ILocalizedDbContext,System.String,System.String,System.String)">
+            <summary>
+            Gets app specific email template in given language;
+            when template for the language specified is not found it defaults to a template in a default enf language and if it is not defined a first template translation (if any!) is returned
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="emailIdentifier"></param>
+            <param name="appIdentifier"></param>
+            <param name="langCode"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.EmailTemplateLocalization.Name">
+            <summary>
+            Name of a template
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.EmailTemplateLocalization.Description">
+            <summary>
+            Description of a template
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.EmailTemplateLocalization.ApplicationIdentifier">
+            <summary>
+            identifier of the application a template is meant for; should be used along with the Identifier to narrow searches when looking up a template;
+            a part of a unique key with identifier
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.EmailTemplateLocalization.Identifier">
+            <summary>
+            Template identifier; forms a unique key with Application
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.EmailTemplateLocalization.IsBodyHtml">
+            <summary>
+            Whether or not body template contains HTML
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.EmailTemplateLocalization.Translations">
+            <summary>
+            Template translations
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.EmailTemplateLocalization.MapHive#Core#DataModel#ILocalization#Translations">
+            <summary>
+            explicit interface implementation
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Lang.CreateAsync``1(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Creates an object; returns a created object or null if it was not possible to create it due to the fact a uuid is already reserved
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Lang.DefaultLangCode">
+            <summary>
+            lang code of the default lang
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Lang.DefaultLang">
+            <summary>
+            Default lang
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Lang.GetDefaultLangAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a default lang
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Lang.ResetCurrentDefaultLangAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            if lang is marked as default, makes sure to check if there is another lang marked as default and if so remove the flag
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Lang.GetSupportedLangsAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a list of supported languages
+            </summary>
+            <typeparam name="TDbCtx"></typeparam>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Lang.GetSupportedLangCodesAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a list of supported lang codes
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Lang.UpdateAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Updates an object; returns an updated object or null if the object does not exist
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Lang.LangCode">
+            <summary>
+            Language identifier code
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Lang.Name">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Lang.Description">
+            <summary>
+            Descripton
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Lang.IsDefault">
+            <summary>
+            Whether or not the language should be treated as default
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.LocalizationClass.CreateAsync``1(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Creates an object; returns a created object or null if it was not possible to create it due to the fact a uuid is already reserved
+            invalidates app localizations cache, so client localizations will be regenerated on the next read
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.LocalizationClass.DestroyAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Destroys an object; returns destroyed object or null in a case it has not been found
+            invalidates app localizations cache, so client localizations will be regenerated on the next read
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.LocalizationClass.UpdateAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Updates an object; returns an updated object or null if the object does not exist
+            invalidates app localizations cache, so client localizations will be regenerated on the next read
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.LocalizationClass.ApplicationName">
+            <summary>
+            Application name a translation applies to; Fully qualified namespaces is achieved by combining it with the ClassName 
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.LocalizationClass.ClassName">
+            <summary>
+            Class name a translation applies to; Fully qualified namespaces is achieved by combining it with the ApplicationName 
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.LocalizationClass.InheritedClassName">
+            <summary>
+            Specifies localization class this very class inherits from
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.LocalizationClass.TranslationKeys">
+            <summary>
+            Temp list of translation keys that belong to this class
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.TranslationKey.CreateAsync``1(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Creates an object; returns a created object or null if it was not possible to create it due to the fact a uuid is already reserved
+            invalidates app localizations cache, so client localizations will be regenerated on the next read
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.TranslationKey.DestroyAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Destroys an object; returns destroyed object or null in a case it has not been found
+            invalidates app localizations cache, so client localizations will be regenerated on the next read
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.TranslationKey.UpdateAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Updates an object; returns an updated object or null if the object does not exist
+            invalidates app localizations cache, so client localizations will be regenerated on the next read
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.TranslationKey.LocalizationClassUuid">
+            <summary>
+            Identifier of a Localization class name a translation applies to;
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.TranslationKey.Key">
+            <summary>
+            A key that identifies the translation string within a translations class
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.TranslationKey.Translations">
+            <summary>
+            Set of translations for a particular key
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.TranslationsGeneric`1">
+            <summary>
+            Provides a standardised translation object with automated serialisation
+            In order to use it with EF, a non-generic concrete type must be used
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:MapHive.Core.DataModel.MapHiveUserBase">
+            <summary>
+            Basic implementation of MapHiveUser
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUserBase.CreateAsync``1(Microsoft.EntityFrameworkCore.DbContext)">
+            <inheritdoc />
+        </member>
+        <member name="F:MapHive.Core.DataModel.MapHiveUserBase.UserCreated">
+            <summary>
+            Fired when user creation completes successfully
+            </summary>
+            <remarks>
+            EvtHandler is a property so it is serializable by default. It contains some self refs, so serializers would go nuts. Need NonSerialized attribute. Not to mentions this property is not needeed on the user object anyway!
+            </remarks>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUserBase.CreateAsync``1(Microsoft.EntityFrameworkCore.DbContext,Cartomatic.Utils.Email.IEmailAccount,Cartomatic.Utils.Email.IEmailTemplate)">
+            <summary>
+            Creates a new user account in both Identity database and in the MapHive meta database;
+            sends out a confirmation email if email account and template are provided
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="emailAccount"></param>
+            <param name="emailTemplate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUserBase.DestroyAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Destroys an object; returns destroyed object or null in a case it has not been found
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="uuid"></param>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUserBase.ForceDestroyAsync``1(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Force destroys a user record in the system. Since the MapHive core api is meant to be used in a distributed world, it is up to the consumer
+            of this api to perform a necessary data cleanup. No relations will be deleted autmatically.
+            Also, do be careful when using this method - a user may be registered in many places. so it is better to just disable it instead of erasing.
+            Heck, you have been warned....
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUserBase.ForceDestroyAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Force destroys a user record in the system. Since the MapHive core api is meant to be used in a distributed world, it is up to the consumer
+            of this api to perform a necessary data cleanup. No relations will be deleted autmatically.
+            Also, do be careful when using this method - a user may be registered in many places. so it is better to just disable it instead of erasing.
+            Heck, you have been warned....
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUserBase.UpdateAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Updates an object; returns an updated object or null if the object does not exist
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUserBase.UpdateWithNoIdentityChangesAsync``1(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Updates a user without changing the identity critical data - it's pretty much the email MUST stau intact
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.DataModel.MapHiveUserBase.UserValidator">
+            <summary>
+            Configuration for validation
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUserBase.Email">
+            <summary>
+            User's email. Email must be unique in the system and is also a username
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUserBase.IsAccountClosed">
+            <summary>
+            Identity equivalent of a locked account
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUserBase.IsAccountVerified">
+            <summary>
+            Identity equivalent of email confirmed
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.IMapHiveUser.Email">
+            <summary>
+            User's email. Email must be unique in the system and is also a username
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.IMapHiveUser.IsAccountClosed">
+            <summary>
+            Identity equivalent of locked account
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.IMapHiveUser.IsAccountVerified">
+            <summary>
+            Identity equivalent of verified email
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.MapHiveUser">
+            <summary>
+            creates a maphive user
+            </summary>
+            <summary>
+            Customised user
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser,Cartomatic.Utils.Email.IEmailAccount,Cartomatic.Utils.Email.IEmailTemplate,System.String)">
+            <summary>
+            Creates a user acount, sends out email, modifies pass if a custom pass is provided;
+            this is a simple wrapper over the standard user.CreateAsync that adds an option to provide a specific password
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="user"></param>
+            <param name="emailAccount"></param>
+            <param name="emailTemplate"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUser.DestroyAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            destroys a maphive user object and the user's organization if any
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUser.GetUserAppsAsync(Microsoft.EntityFrameworkCore.DbContext,System.Nullable{System.Guid},System.String)">
+            <summary>
+            Gets apps visible by a user
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="userId"></param>
+            <param name="orgIdentifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUser.CreateUserOrganizationAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            creates an organization for maphhive user and sets links as expected. org name, slug and such is based on user email!
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUser.GetUserOrganizationAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            gets user's organization - the org that is a counter part of user profile
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUser.GetUserOrganizationsAsync(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Gets organizations a user has an access to. If user has an own org, then it is returned at the begining
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUser.GetUserOrganizationsAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets organizations a user has an access to. If user has an own org, then it is returned at the begining
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUser.GetUserOrganizationsAsync(Microsoft.EntityFrameworkCore.DbContext,System.Guid,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Gets a list of user's organisations that have access to specified apps
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <param name="appShortNames">app short names - when provided, only orgs that contain a listed app are returned</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUser.EnsureSlug">
+            <summary>
+            makes sure the slug is present and valid
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.MapHiveUser.MapHiveUserValidator">
+            <summary>
+            Configuration for validation
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.MapHiveUser.ValidateAgainstDbAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            validates the org slug for uniqueness
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.Slug">
+            <summary>
+            used only when user is an independent user. Slug name becomes an org slug with an '-org' suffix. This way it is possible to maintain understandable urls when working in a context of a user/org
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.Bio">
+            <summary>
+            Some basic info on the user. Perhaps in a form of html.
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.Company">
+            <summary>
+            Name of the company a user works for
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.Department">
+            <summary>
+            Dept a user work for
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.Location">
+            <summary>
+            some info on user location; an address, coords, place name, whatever.
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.GravatarEmail">
+            <summary>
+            When set, user's image will be pulled from the gravatar service
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.ProfilePicture">
+            <summary>
+            Profile picture. When present it will be used in the profile editor and whenever user info is required (log on info, msngrs, etc).
+            This property is used to suck in the data when saving; pictures themselves are stored separately
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.ProfilePictureId">
+            <summary>
+            Id of a profile picture. When present a picture is available. When not present picture, if any, is deleted
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.IsOrgUser">
+            <summary>
+            Whether or not user is an organization user. Being an organization user means user does not have its own organization to work under and instead can only work in the context of other orgs he is linked to; this will usually be only one organization, but technically a user can be linked to as many orgs as required
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.ParentOrganizationId">
+            <summary>
+            If a user is an organization user, this property contains an identifier of an organization he was created under.
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.VisibleInCatalogue">
+            <summary>
+            Whether or not a user should be visible in the users catalogue; By default, when a user is an OrgUser ('belongs' to an organization) he is not visible in the catalogue
+            setting this property to true will cause the user will become findable in the catalogue.
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.UserOrgId">
+            <summary>
+            identifier of an organization that is connected to user profile
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.MapHiveUser.OrganizationRole">
+            <summary>
+            a role within an organization. this property is not db mapped as its content depends on the orgsanisation context
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:MapHive.Core.DataModel.UserExtensions.GetFullUserName(MapHive.Core.DataModel.MapHiveUser)" -->
+        <member name="P:MapHive.Core.DataModel.ObjectType.Uuid">
+            <summary>
+            Type guid
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.ObjectType.Name">
+            <summary>
+            Full object name
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationDatabase.GetConnectionString(System.Boolean,System.Boolean)">
+            <summary>
+            Get database connection string
+            </summary>
+            <param name="serviceDatabase">whether or not to connect to a service db</param>
+            <param name="superUser">whether or not use superuser credentials</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationDatabase.GetDbContext">
+            <summary>
+            Gets db context instance for this org db object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationDatabase.GetDbContext``1(System.Boolean)">
+            <summary>
+            Gets db context instance for this org db object
+            </summary>
+            <typeparam name="TDbContext"></typeparam>
+            <param name="superUser">whether or not create context with user elevated to superuser - sometimes required for ops such as COPY</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationDatabase.CreateInstanceWithDefaultCredentials(System.Guid,System.String)">
+            <summary>
+            Creates a default isntance of org db object and reads the orgs dbs credentials off the config (if present)
+            </summary>
+            <param name="orgId"></param>
+            <param name="dbIdentifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationDatabase.DisconnectDatabase">
+            <summary>
+            resets all the connections to the database
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationDatabase.RenameAsync(MapHive.Core.DAL.MapHiveDbContext,System.String)">
+            <summary>
+            Renames a database; will throw if a name is not valid
+            </summary>
+            <param name="mhDbCtx"></param>
+            <param name="newName"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.OrganizationId">
+            <summary>
+            Organization id for database
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.Identifier">
+            <summary>
+            Identifier of a db record; Identifiers are in most cases equal to app short names, so each api can have not only its very own db server, but also can load balance
+            per org with no restrictions
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.DataSourceProvider">
+            <inheritdoc />
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.ServerHost">
+            <inheritdoc />
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.ServerName">
+            <inheritdoc />
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.ServerPort">
+            <inheritdoc />
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.DbName">
+            <inheritdoc />
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.ServiceDb">
+            <inheritdoc />
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.UserName">
+            <inheritdoc />
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.Pass">
+            <inheritdoc />
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.ServiceUserName">
+            <inheritdoc />
+        </member>
+        <member name="P:MapHive.Core.DataModel.OrganizationDatabase.ServiceUserPass">
+            <inheritdoc />
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.CanUseAppAsync``1(``0,System.Guid,System.Guid)">
+            <summary>
+            checks if an org can access an application
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="orgId"></param>
+            <param name="appId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.CanUseAppAsync(Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.Application)">
+            <summary>
+            Determines whether or not an organization has an access to an application
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrganizationLinkableAppsAsync(Microsoft.EntityFrameworkCore.DbContext,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Reads applications that are visible to an organization and can be linked to it - returns apps that require auth and apps that are non-public (specific to that very org)
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.CreateDataBaseAsync(Microsoft.EntityFrameworkCore.DbContext,System.String)">
+            <summary>
+            DB identifier - key that allows specifying different dbs for one organisation. identifier has a unique constraint per org uuid
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="identifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetDatabase(System.String)">
+            <summary>
+            Gets a db with a specified db identifier
+            <para />
+            If live data is required make sure to call LoadDatabases prior to calling this method
+            </summary>
+            <param name="dbIdentifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.DestroyAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid,System.Boolean)">
+            <summary>
+            Destroys an organisation and by default drops its db
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <param name="clean"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.EncryptDatabases(System.Object)">
+            <summary>
+            encrypts org dbs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.DecryptDatabases(System.Object)">
+            <summary>
+            decrypts org dbs
+            </summary>
+            <param name="encrypted"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrganizationLinksAsync``1(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets links expressing organization objects
+            </summary>
+            <typeparam name="TChild"></typeparam>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrganizationObjectIdsAsync``1(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            gets a list of organizations object ids
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrganizationAssetsAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Reads org assets of given type; an org asset is an object the org has links to; meant to simplify paged org assets reading
+            </summary>
+            <typeparam name="TChild"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrganizationAssetAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Reads an organization asset. Ensures the asset is actually linked to organization before reading it
+            </summary>
+            <typeparam name="TChild"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.IsOrganizationAssetAsync``1(Microsoft.EntityFrameworkCore.DbContext,``0)">
+            <summary>
+            Checks whether or not an obj is an org asset - is linked to an org
+            </summary>
+            <typeparam name="TChild"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="child"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.IsOrganizationAssetAsync(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            whether or not an org has a link of given uuid
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="childId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.ReadAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Collections.Generic.IEnumerable{Cartomatic.Utils.Sorting.ReadSorter},System.Collections.Generic.IEnumerable{Cartomatic.Utils.Filtering.ReadFilter},System.Int32,System.Int32,System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="F:MapHive.Core.DataModel.Organization.OrgRoleIdentifierOwner">
+            <summary>
+            org owner role identifier. used to mark an owner role
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.Organization.OrgRoleNameOwner">
+            <summary>
+            default en owner role name
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.Organization.OrgRoleIdentifierAdmin">
+            <summary>
+            org admin role identifier; used to mark admin roles
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.Organization.OrgRoleNameAdmin">
+            <summary>
+            default en admin role name
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.Organization.OrgRoleIdentifierMember">
+            <summary>
+            org member role identifier; used to mark standard members of an org
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.Organization.OrgRoleNameMember">
+            <summary>
+            default en member role name
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.CreateRoleAsync(Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.Organization.OrganizationRole)">
+            <summary>
+            Creates an org role
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.CreateRoleAsync(Microsoft.EntityFrameworkCore.DbContext,System.String)">
+            <summary>
+            Creates a role object for an organization and links to an org; does not save org changes!
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="roleName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.CreateRoleAsync(Microsoft.EntityFrameworkCore.DbContext,System.String,System.String)">
+            <summary>
+            Creates a role object for an organization and links to an org; does not save org changes!
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="roleIdentifier"></param>
+            <param name="roleName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrgOwnerRoleAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets organization's owner role
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrgAdminRoleAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets organization's admin role
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrgMemberRoleAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets organization's member role
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrgRoleAsync(Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.Organization.OrganizationRole)">
+            <summary>
+            Gets an organization role
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrgRolesAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets OrgRoles
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.IsOrgMemberAsync(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Determines if a user with given id is an org member
+            </summary>
+            <param name="dbctx"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.IsOrgMemberAsync(Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser)">
+            <summary>
+            Determines if a user is an org member (is assigned to an org)
+            </summary>
+            <param name="dbctx"></param>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.IsOrgOwnerAsync(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Checks if user with given id is an organization owner (user has the org owner role assigned)
+            </summary>
+            <param name="dbctx"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.IsOrgOwnerAsync(Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser)">
+            <summary>
+            Checks if user is an organization owner (user has the org owner role assigned)
+            </summary>
+            <param name="dbctx"></param>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.IsOrgAdminAsync(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Checks if a user with given id is an organization admin (user has the org admin role assigned)
+            </summary>
+            <param name="dbctx"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.IsOrgAdminAsync(Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser)">
+            <summary>
+            Checks if a user is an organization admin (user has the org admin role assigned)
+            </summary>
+            <param name="dbctx"></param>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrgRoleFromRole(MapHive.Core.DataModel.Role)">
+            <summary>
+            Gets a type of OrgRole from role
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrgRoles2UsersMapAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a mapping between org roles and users
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetUserOrgRole(System.Collections.Generic.Dictionary{MapHive.Core.DataModel.Organization.OrganizationRole,System.Collections.Generic.IEnumerable{MapHive.Core.DataModel.Link}},System.Guid)">
+            <summary>
+            Works out a user role within an organization
+            </summary>
+            <param name="roles2users"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.EnsureSlug">
+            <summary>
+            makes sure the slug is present and valid
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.AsSafe">
+            <summary>
+            returns an org object but with all the sensitive data truncated
+            </summary>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:MapHive.Core.DataModel.Organization.UpdateAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)" -->
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrganizationUserAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a user that is associated with given organization (org is the user's profile counterpart
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetOrganizationUserIdsAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Returns a list of organization user identifiers
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Organization.OrgUserAppAccessCredentials">
+            <summary>
+            User application access credentials within an organization
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.OrgUserAppAccessCredentials.Organization">
+            <summary>
+            Organization that the app access credentials are tested for
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.OrgUserAppAccessCredentials.Application">
+            <summary>
+            Application for which the access credentials are tested within an organization
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.OrgUserAppAccessCredentials.CanUseApp">
+            <summary>
+            Whether or not user can use given application within an organization
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.OrgUserAppAccessCredentials.IsAppAdmin">
+            <summary>
+            Whether or not user has application administration rights within an organization
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.GetUserAppAccessCredentialsAsync(Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser,MapHive.Core.DataModel.Application)">
+            <summary>
+            Returns user application credentials within an organization
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="user"></param>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.AddOrganizationUserAsync(Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser,MapHive.Core.DataModel.Organization.OrganizationRole)">
+            <summary>
+            Adds a member to an organization
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="user"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.ChangeOrganizationUserRoleAsync(Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser)">
+            <summary>
+            Changes a user role within the organization
+            </summary>
+            <param name="dbCtx"></param>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Organization.OrganizationValidator">
+            <summary>
+            Configuration for validation
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Organization.ValidateAgainstDbAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            validates the org slug for uniqueness
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Slug">
+            <summary>
+            used as the org identifier. this must be unique within the system.
+            When an org is created for a user (in a batch account creation process) its name will be based on the user slug with an '-org' suffix;
+            It is possible to change the org slug to an arbitrary value provided it is unique within the system
+            No spaces are allowed and chars must be allowed in the url
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.DisplayName">
+            <summary>
+            Organization display name
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Description">
+            <summary>
+            Org descrioption
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Location">
+            <summary>
+            some info on user location; an address, coords, place name, whatever.
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Url">
+            <summary>
+            Url of an org's public site
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Email">
+            <summary>
+            org contact email
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.GravatarEmail">
+            <summary>
+            When set, user's image will be pulled from the gravatar service
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.ProfilePicture">
+            <summary>
+            Profile picture. When present it will be used in the profile editor and whenever user info is required (log on info, msngrs, etc);
+            This property is used to suck in the data when saving; pictures themselves are stored separately
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.ProfilePictureId">
+            <summary>
+            Id of a profile picture. When present a picture is available. When not present picture, if any, is deleted
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.BillingEmail">
+            <summary>
+            billing email if different than the contact email
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.BillingAddress">
+            <summary>
+            Billing address
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.BillingExtraInfo">
+            <summary>
+            Extra information to be put on an invoice such as VAT No, Registration No, etc
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Databases">
+            <summary>
+            Object contains properties and methods (connect, create) for organization database
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.EncryptedDatabases">
+            <summary>
+            dbs in an encrypted form, so the data can be transferred safely over the internet
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Applications">
+            <summary>
+            Applications assigned to organization
+            </summary>
+            <remarks>
+            This property is used as a placeholder for data and for linked data retrieval; it will not always be populated so do not rely on its existence
+            </remarks>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Users">
+            <summary>
+            Users assigned to organization
+            </summary>
+            <remarks>
+            This property is used as a placeholder for data and for linked data retrieval; it will not always be populated so do not rely on its existence
+            </remarks>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Roles">
+            <summary>
+            Roles assigned to organization
+            </summary>
+            <remarks>
+            This property is used as a placeholder for data and for linked data retrieval; it will not always be populated so do not rely on its existence
+            </remarks>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Owners">
+            <summary>
+            Owners of an organisation; see Organisation GetOwnersAsync for details
+            </summary>
+            <remarks>
+            This property is used as a placeholder for data and for linked data retrieval; it will not always be populated so do not rely on its existence
+            </remarks>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Organization.Admins">
+            <summary>
+            Admins of an organisation; see Organisation GetAdminsAsync for details
+            </summary>
+            <remarks>
+            This property is used as a placeholder for data and for linked data retrieval; it will not always be populated so do not rely on its existence
+            </remarks>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.CreateAsync(MapHive.Core.DataModel.Organization,Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates and organisation account, register a user as an owner and registers the specified apps to be linked to it too
+            </summary>
+            <param name="org"></param>
+            <param name="dbCtx"></param>
+            <param name="owner"></param>
+            <param name="appsToLink"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.AddAdminAsync(MapHive.Core.DataModel.Organization,Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser)">
+            <summary>
+            Adds a user to an org as an admin. 
+            </summary>
+            <param name="org"></param>
+            <param name="dbCtx"></param>
+            <param name="u"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.RemoveAdminAsync(MapHive.Core.DataModel.Organization,Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser)">
+            <summary>
+            Removes owner from an organisation; this is done by simply removing a link to the admin role
+            </summary>
+            <param name="org"></param>
+            <param name="dbCtx"></param>
+            <param name="u"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.GetAdminsAsync(MapHive.Core.DataModel.Organization,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a list of admins of an organisation
+            </summary>
+            <param name="org"></param>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.CheckIfUserIsAdminAsync(MapHive.Core.DataModel.Organization,Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Checks if a given user is an admin of an organization
+            </summary>
+            <param name="org"></param>
+            <param name="dbCtx"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.LoadDatabases(MapHive.Core.DataModel.Organization,MapHive.Core.DAL.MapHiveDbContext)">
+            <summary>
+            Loads dbs configured for an org
+            </summary>
+            <param name="organization"></param>
+            <param name="db"></param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.LoadDatabasesAsync(MapHive.Core.DataModel.Organization,MapHive.Core.DAL.MapHiveDbContext)">
+            <summary>
+            Loads dbs configured for an org
+            </summary>
+            <param name="organization"></param>
+            <param name="db"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.ReadLicenseOptionsAsync(MapHive.Core.DataModel.Organization,MapHive.Core.DAL.MapHiveDbContext)">
+            <summary>
+            Reads organization's licence options
+            </summary>
+            <param name="org"></param>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.ReadLicenseOptionsAsync(System.Collections.Generic.IEnumerable{MapHive.Core.DataModel.Organization},MapHive.Core.DAL.MapHiveDbContext)">
+            <summary>
+            Reads licence options for a range of orgs
+            </summary>
+            <param name="orgs"></param>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.AddOwnerAsync(MapHive.Core.DataModel.Organization,Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser)">
+            <summary>
+            
+            </summary>
+            <param name="org"></param>
+            <param name="dbCtx"></param>
+            <param name="u"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.RemoveOwnerAsync(MapHive.Core.DataModel.Organization,Microsoft.EntityFrameworkCore.DbContext,MapHive.Core.DataModel.MapHiveUser)">
+            <summary>
+            Removes owner from an organisation; this is done by simpoy removing a link to the owner role
+            </summary>
+            <param name="org"></param>
+            <param name="dbCtx"></param>
+            <param name="u"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.GetOwnersAsync(MapHive.Core.DataModel.Organization,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a list of owners of an organisation
+            </summary>
+            <param name="org"></param>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.OrganizationCrudExtensions.CheckIfUserIsOwnerAsync(MapHive.Core.DataModel.Organization,Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Checks if a given user is an owner of an organization
+            </summary>
+            <param name="org"></param>
+            <param name="dbCtx"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Privilege">
+            <summary>
+            describes a resource access privilege
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Privilege.TypeId">
+            <summary>
+            type identifier this privilege 
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Privilege.ObjectId">
+            <summary>
+            object identifier
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Privilege.Identifier">
+            <summary>
+            free text privilege identifier - so possible to use 
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Privilege.Read">
+            <summary>
+            Whether or not can read a resource
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Privilege.Create">
+            <summary>
+            Whether or not can create a resource
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Privilege.Update">
+            <summary>
+            Whether or not can update a resource
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Privilege.Destroy">
+            <summary>
+            Whether or not can destroy a resource
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Privilege.PrivilegeData">
+            <summary>
+            Data container for custom privilege data
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.SerializableListOfPrivilege.Capacity">
+            <summary>
+            hide the base List Capacity property so EF does not force pushes it into db model!
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Role">
+            <summary>
+            Roles are the containers for system level and app level priviliges;
+            A role as such does not have to define any priviliges as it is up to an application to properly define and understand a role meaning;
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Role.Identifier">
+            <summary>
+            identifier of a role; some roles may have soecial meaning and use identifiers to uniquely address them
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Role.Name">
+            <summary>
+            Name of a role
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Role.Description">
+            <summary>
+            Description of a role
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Role.Privileges">
+            <summary>
+            Privileges granted by this role
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Team">
+            <summary>
+            Team is a user grouping container.
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.Team.AppAccessCredentialsLinkDataObject">
+            <summary>
+            Name of the object saved on an App -> Team link that stores team's app access credentials
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.Team.AppAdminAccess">
+            <summary>
+            name of the amm admin access key
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Team.Name">
+            <summary>
+            Name of a team
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Team.Description">
+            <summary>
+            team desscription
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Token">
+            <summary>
+            Token is an equivalent of a user; it can provide a secured but non-user api access;
+            Token specifies access to a single or multiple APIs along with the referers that are allowed to use the specified apis;
+            Token can specify per API license restrictions OR relaxation; license checkups are defined on a per API basis
+            Token is tied up with an organisation. So one token can only be assigned to one organisation
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Token.SetApplication(MapHive.Core.DataModel.Application)">
+            <summary>
+            sets applictions that can be accessed via this token
+            </summary>
+            <param name="apps"></param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Token.GetApplicationAsync(MapHive.Core.DAL.MapHiveDbContext)">
+            <summary>
+            Gets application assigned to token
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Token.Name">
+            <summary>
+            Token name, so it is possible to have sensible token naming conventions
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Token.Description">
+            <summary>
+            Token description - used for more detailed description if required
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Token.OrganizationId">
+            <summary>
+            An organization a token is assigned to
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Token.ApplicationId">
+            <summary>
+            Application identifier this tokens grants asccess to
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Token.Referrers">
+            <summary>
+            Referrers that are granted access via this token
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Token.CanIgnoreReferrer">
+            <summary>
+            Whether or not when verifying the access rights via token it is allowed to grant access for requests without a recognised referrer
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Token.IsMaster">
+            <summary>
+            Whether or not a token is a master token; master means token can impersonate any organization - when using this token it is possible to access every org
+            resources. When token is Master it should really be kept secured...
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Token.SetOrganization(MapHive.Core.DataModel.Organization)">
+            <summary>
+            Sets an orgnization for a token
+            </summary>
+            <param name="org"></param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Token.GetOrganizationAsync(MapHive.Core.DAL.MapHiveDbContext)">
+            <summary>
+            Gets organization assigned to token
+            </summary>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Token.TokenValidator">
+            <summary>
+            Configuration for validation
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectCrudExtensions.CreateAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Creates an object; returns a created object or null if it was not possible to create it due to the fact a uuid is already reserved
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectCrudExtensions.DestroyAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Destroys an object; returns destroyed object or null in a case it has not been found
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectCrudExtensions.DestroyAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Destroys an object
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectCrudExtensions.UpdateAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Updates an object; returns an updated object or null if the object does not exist
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.MaterializeLinksAsAttachedAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Linq.Expressions.Expression{System.Func{``0,System.Collections.Generic.IEnumerable{MapHive.Core.DataModel.Base}}}[])">
+            <summary>
+            Loads links as objects attached to db context
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="propertySpecifiers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.MaterializeLinksAsDetachedAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Linq.Expressions.Expression{System.Func{``0,System.Collections.Generic.IEnumerable{MapHive.Core.DataModel.Base}}}[])">
+            <summary>
+            Loads links as objects detached from db context
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="propertySpecifiers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.MaterializeLinksAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Collections.Generic.IEnumerable{System.Linq.Expressions.Expression{System.Func{``0,System.Collections.Generic.IEnumerable{MapHive.Core.DataModel.Base}}}},System.Boolean)">
+            <summary>
+            Loads linked objects for given property, provided the property is an IEnumerable of Base
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="detached">Whether or not the loaded objects should be deatched from db context or not</param>
+            <param name="propertySpecifiers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.AddLink``2(``0,``1,System.Int32,MapHive.Core.DataModel.ILinkData)">
+            <summary>
+            Adds a link to an object; adds appropriate info to the LinksDiff.Upsert collection
+            Does not save the data.  In order to materialise modified links, saving object is required.
+            Saving requires calling Create / Update
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="T"></typeparam>
+            <param name="parent"></param>
+            <param name="child"></param>
+            <param name="sortOrder"></param>
+            <param name="linkData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.RemoveLink``2(``0,``1)">
+            <summary>
+            Removes link from an object; adds appropriate info to the LinksDiff.Destroy collection
+            Does not save the object. In order to materialise modified links, saving object is required.
+            To save calling Create / Update is required
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="child"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.MaterializeLinksAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Collections.Generic.IEnumerable{System.Reflection.MemberInfo},System.Boolean)">
+            <summary>
+            Materialises links for specified properties - reads links of given type and pupulates the property with the obtained data.
+            Uses reflection in order to work out what to load where
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="db">DbContext; Must implement ILinksDbContext, so the the links info can be read off a db</param>
+            <param name="props">IEnumerable Of T where T : Base properties to load the links into</param>
+            <param name="detached">Whether or not the loaded objects should be deatched from db context or not</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetReadByUuidsMethodInfo(System.Type)">
+            <summary>
+            Finds an appropriate 'Read' method
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.SaveLinksAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Saves links based on the current LinksDiff
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.UpsertLinksAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Creates or updates links in the database; uses the diff defined in Links.Uspert
+            </summary>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.DestroyLinksAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Destroys links; uses the diff defined in Links.Destroy
+            </summary>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetParentsAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext,System.Boolean)">
+            <summary>
+            Gets parents of specified type for the object in question
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TParent"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="detached">Whether or not the loaded objects should be deatched from db context or not</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetFirstParentAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext,System.Boolean)">
+            <summary>
+            Gets a first parent of given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TParent"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.HasParentsAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext,System.Boolean)">
+            <summary>
+            Determines if an object has any parents links of given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TParent"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetChildrenAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext,System.Boolean)">
+            <summary>
+            Reads children of given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TChild"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetFirstChildAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext,System.Boolean)">
+            <summary>
+            Gets a first child of given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TChild"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.HasChildrenAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext,System.Boolean)">
+            <summary>
+            Determines if an object has any child links of given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TChild"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.HasChildLinkAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext,``1)">
+            <summary>
+            Determines if an object has link to a specified child
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TChild"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="child"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.HasParentLinkAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext,``1)">
+            <summary>
+            determines if an object has a link to specified parent
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TChild"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="parent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.HasParentLinkAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Checks if an object has a parent with a specified identifier. because child type uuid and child uuid is tested,
+            likelines of hitting false positives due to checking only parent uuid is really low
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="parentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.HasChildLinkAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Checks if an object has a child with a specified identifier. because parent type uuid and parent uuid is tested, 
+            likelines of hitting false positives due to checking only child uuid is really low
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="db"></param>
+            <param name="childId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetChildLinksAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a collection of child links of given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TChild"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetParentLinksAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a collection of parent links of given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TParent"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetChildLinkAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext,``1)">
+            <summary>
+            Gets a child link for given object if any; this is so it is possible to review link data
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TChild"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <param name="child"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetParentLinkAsync``2(``0,Microsoft.EntityFrameworkCore.DbContext,``1)">
+            <summary>
+            Gets a parent link for given object if any; this is so it is possible to review link data
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TParent"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <param name="parent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetChildLinkAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            returns a child link by id
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <param name="childId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.GetParentLinkAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            gets parent link by id
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <param name="parentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.ReadAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Collections.Generic.List{Cartomatic.Utils.Sorting.ReadSorter},System.Collections.Generic.List{Cartomatic.Utils.Filtering.ReadFilter},System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Reads a list of objects
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <param name="sorters"></param>
+            <param name="filters"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.ReadCountAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Collections.Generic.List{Cartomatic.Utils.Filtering.ReadFilter})">
+            <summary>
+            Returns a count of records for a given filters set
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <param name="filters"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.ReadAsync``1(``0,Microsoft.EntityFrameworkCore.DbContext,System.Guid,System.Boolean)">
+            <summary>
+            Reads a single object
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions">
+            <summary>
+            Provides utils for type identifier management; in order to be abe to link objects freely, each object needs to have a unique type identifier
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions.TypesToTypeIdentifiers">
+            <summary>
+            Maps types to their declared type identifiers
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions.TypeIdentifiersToTypes">
+            <summary>
+            maps type identifiers to their types
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions.RegisterTypeIdentifier(System.Type,System.Guid)">
+            <summary>
+            registers type identifier in the runtime cache
+            </summary>
+            <param name="type"></param>
+            <param name="uuid"></param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(System.Type)">
+            <summary>
+            Gets an identifier for a specified type
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions.GetTypeIdentifier``1(``0)">
+            <summary>
+            Gets an identifier for a specified type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions.GetTypeIdentifier``1">
+            <summary>
+            Gets an identifier for a specified type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions.GetTypeByIdentifier(System.Guid)">
+            <summary>
+            Gets type by its identifier 
+            </summary>
+            <param name="identifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions.AutoRegisterBaseTypes">
+            <summary>
+            Automatically registers all the types subclassing MapHive.Core.DataModel.Base
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions.GetRegisteredBaseSubclassingTypes">
+            <summary>
+            gets a collection of registered types
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.BaseObjectTypeIdentifierExtensions.GetBaseSubclassingTypes">
+            <summary>
+            gets all the types subclassing MapHive.Core.DataModel.Base 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.CreateAsync``1(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Creates an object; returns a created object or null if it was not possible to create it due to the fact a uuid is already reserved
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.DestroyAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Destroys an object; returns destroyed object or null in a case it has not been found
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.ReadObjAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Collections.Generic.IEnumerable{Cartomatic.Utils.Sorting.ReadSorter},System.Collections.Generic.IEnumerable{Cartomatic.Utils.Filtering.ReadFilter},System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            A static equivalent of instance ReadAsync method
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="sorters"></param>
+            <param name="filters"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.ReadObjAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid,System.Boolean)">
+            <summary>
+            A static equivalent of instance based ReadAsync method
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.ReadAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Collections.Generic.IEnumerable{Cartomatic.Utils.Sorting.ReadSorter},System.Collections.Generic.IEnumerable{Cartomatic.Utils.Filtering.ReadFilter},System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Reads a collection of objects; note - the public read 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="sorters"></param>
+            <param name="filters"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.ReadCountAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Collections.Generic.IEnumerable{Cartomatic.Utils.Filtering.ReadFilter})">
+            <summary>
+            Counts a set of data for a specified filterset
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="filters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.ReadAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid,System.Boolean)">
+            <summary>
+            Reads a single object
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.ReadAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Collections.Generic.IEnumerable{System.Guid},System.Boolean)">
+            <summary>
+            Reads list of objects by their uuids
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuids">List of object uuids to read; their sort order determines the order of a returned list</param>
+            <param name="detached"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.UpdateAsync``1(Microsoft.EntityFrameworkCore.DbContext,System.Guid)">
+            <summary>
+            Updates an object; returns an updated object or null if the object does not exist
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.ObjectExistsAsync``1(Microsoft.EntityFrameworkCore.DbSet{``0},System.Nullable{System.Guid})">
+            <summary>
+            Helper method, check if object exist in a database
+            </summary>
+            <param name="dbSet"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.GetLinksDbContext(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Gets a ILinksDbContext; returns null if ctx is not ILinksDbContext
+            </summary>
+            <param name="db"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.GetValidators">
+            <summary>
+            Returns a configured class validator
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.ValidateAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Validates the class data model; used prior to saving changes;
+            </summary>
+            <exception cref="T:MapHive.Core.DataModel.Validation.ValidationFailedException"></exception>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Base.ValidateAgainstDbAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Performs extra validation against database. An extenson point for performing validations that do depend on db state;
+            if not valid should throw ValidationFailedException with appropriate ValidationError list
+            </summary>
+            <param name="dbCtx"></param>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Base.TypeUuid">
+            <summary>
+            Type identifier - used to establish links between objects. not saved in a database;
+            declared via class constructor.
+            Important: when uuid is changed in code it will affect all the links in the database(s)
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Base.Uuid">
+            <summary>
+            Unique object identifier; generated automatically upon saving; See DAL MapHiveDatabaseContextBase for more details
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Base.CreatedBy">
+            <summary>
+            Object creator - updated automatically
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Base.LastModifiedBy">
+            <summary>
+            Object last modifued by - updated automatically
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Base.CreateDateUtc">
+            <summary>
+            Create date - updated automatically
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Base.ModifyDateUtc">
+            <summary>
+            Modify date - updated automatically
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Base.EndDateUtc">
+            <summary>
+            End date - updated automatically
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Base.Links">
+            <summary>
+            Object relations defined as set of links; this object is ignored when object is saved and is used only to provide a DIFF of links that should be applied to the db representation
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Base.LinkData">
+            <summary>
+            When an object is used as a link, it may have some extra data; this property is not db mapped, but used for scenarios when such extra information is required
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.IBase">
+            <summary>
+            A minimum required Base class model / functionality necessary to perform some standardised ops
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.ObjectTypeExtensions">
+            <summary>
+            Extension get type uuid for object
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.ObjectTypeExtensions.TypesToUuids">
+            <summary>
+            All objects types with type uuids
+            </summary>
+        </member>
+        <member name="F:MapHive.Core.DataModel.ObjectTypeExtensions.UuidsToTypes">
+            <summary>
+            uuids to types dict
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.ObjectTypeExtensions.GetRegisteredTypes">
+            <summary>
+            Returns a list of all types that inherit from BaseObject and have been registered
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.ObjectTypeExtensions.GetSubclassingTypes">
+            <summary>
+            returns all the tyoes that subclass BaseObject
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.ObjectTypeExtensions.RegisterTypeUuid(System.Type,System.Guid)">
+            <summary>
+            Registers a type's typeuuid
+            </summary>
+            <param name="type"></param>
+            <param name="uuid"></param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.ObjectTypeExtensions.RegisterTypeUuid``1(System.Guid)">
+            <summary>
+            Registers a type's typeuuid
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="uuid"></param>
+        </member>
+        <member name="M:MapHive.Core.DataModel.ObjectTypeExtensions.GetTypeUuid``1(``0)">
+            <summary>
+            Return type uuid for given object
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.ObjectTypeExtensions.GetTypeUuid``1">
+            <summary>
+            Gets a type uuid for a type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.ObjectTypeExtensions.GetTypeUuid(System.Type)">
+            <summary>
+            Returns type uuid for a type
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.ObjectTypeExtensions.GetTypeFromUuid(System.Guid)">
+            <summary>
+            Returns type uuid for a type
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.DataModel.ILink">
+            <summary>
+            ILink describes the Link object that is used to express a relation between objects
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.ILink.Id">
+            <summary>
+            Link identifier (primary key in relationships table)
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.ILink.ParentUuid">
+            <summary>
+            Unique identifier for object that contains links; direction of a link is from parent to child, although obviously the dataset as such can bq querried the other way round too
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.ILink.ChildUuid">
+            <summary>
+            Unique identifier for object that is linked to parent object
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.ILink.ParentTypeUuid">
+            <summary>
+            Parent's type unique identifier
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.ILink.ChildTypeUuid">
+            <summary>
+            Child's type unique identifier
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.ILink.SortOrder">
+            <summary>
+            Sort order if any
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.ILink.LinkData">
+            <summary>
+            Extra data to be saved with the link; can store data for different applications within the same link
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.ILink.SetLinkData(MapHive.Core.DataModel.ILinkData)">
+            <summary>
+            LinkData setter; used so can set data into a collection of specific type, while still maintaining an interface input
+            </summary>
+            <param name="linkData"></param>
+        </member>
+        <member name="T:MapHive.Core.DataModel.ILinkData">
+            <inheritdoc />
+            <summary>
+            Whether or not a link object contains additional data
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.ILinksDiff.Upsert">
+            <summary>
+            Link objects to be either inserted or updated
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.ILinksDiff.Destroy">
+            <summary>
+            Link objects to be destroyed
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Link">
+            <inheritdoc />
+            <summary>
+            Link object used to express relations between objects
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Link.Id">
+            <inheritdoc />
+            <summary>
+            Link identifier (primary key in relationships table)
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Link.ParentUuid">
+            <inheritdoc />
+            <summary>
+            Unique identifier for object that contains links; direction of a link is from parent to child, although obviously the dataset as such can bq querried the other way round too
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Link.ChildUuid">
+            <inheritdoc />
+            <summary>
+            Unique identifier for object that is linked to parent object
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Link.ParentTypeUuid">
+            <inheritdoc />
+            <summary>
+            Parent's type unique identifier
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Link.ChildTypeUuid">
+            <inheritdoc />
+            <summary>
+            Child's type unique identifier
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Link.SortOrder">
+            <inheritdoc />
+            <summary>
+            Sort order if any
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Link.LinkData">
+            <summary>
+            Extra data to be saved with the link; can store data for different applications within the same link
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Link.SetLinkData(MapHive.Core.DataModel.ILinkData)">
+            <inheritdoc />
+            <summary>
+            LinkData setter; used so can set data into a collection of specific type, while still maintaining an interface input
+            </summary>
+            <param name="linkData"></param>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Link.MapHive#Core#DataModel#ILink#LinkData">
+            <summary>
+            explicit interface implementation - lets the Base keep the ILinkData interface while it implements a concrete ILinkData type, so EF can handle the data mapping
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.LinkData.GetByKey(System.String)">
+            <summary>
+            Returns an object by key, so it's not necessary to test for key presence
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Core.DataModel.LinksDiff">
+            <summary>
+            Decribes changes in the object links. Changes must be explicit in order to modify the links
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.LinksDiff.Upsert">
+            <inheritdoc />
+            <summary>
+            Link objects to be either inserted or updated
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.LinksDiff.Destroy">
+            <inheritdoc />
+            <summary>
+            Link objects to be destroyed
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.IValidate">
+            <summary>
+            Whether or not a class exposes functionality to validate its data model
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.IValidate.GetValidators">
+            <summary>
+            Gets the validators
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.IValidate.ValidateAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Validates data model. Should throw when model is not valid; expected to be async!
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.IValidationError.Code">
+            <summary>
+            Unique error code
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.IValidationError.Message">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.IValidationError.PropertyName">
+            <summary>
+            Name of a property that failed to validate
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.IValidationError.Info">
+            <summary>
+            Additional information that may be useful when providing customised error messages
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException(System.String,System.String,System.String)">
+            <summary>
+            Generates a ValidationFailedException with one validation error
+            </summary>
+            <param name="property"></param>
+            <param name="code"></param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException(System.String,MapHive.Core.DataModel.IValidationError)">
+            <summary>
+            Generates a ValidationFailedException with one validation error
+            </summary>
+            <param name="property"></param>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException(System.String)">
+            <summary>
+            Generates a ValidationFailedException with one validation error
+            </summary>
+            <param name="property"></param>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException(System.Exception)">
+            <summary>
+            Generates a ValidationFailedException with one validation error; tries to collect an error message combined with the inner exception messages
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Validation.ValidationError.Code">
+            <summary>
+            Unique error code
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Validation.ValidationError.Message">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Validation.ValidationError.PropertyName">
+            <summary>
+            Name of a property that failed to validate
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.DataModel.Validation.ValidationError.Info">
+            <summary>
+            Additional information that may be useful when providing customised error messages
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Validation.ValidationErrors">
+            <summary>
+            Validation errors
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.DataModel.Validation.ValidationRules">
+            <summary>
+            Helper class for generating IValidationError configurations
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Events.IOpFeedbackEventArgs.OperationFeedback">
+            <summary>
+            Dict containing feedback on the operation performed.
+            </summary>
+        </member>
+        <member name="T:MapHive.Core.Events.OpFeedbackEventArgs">
+            <summary>
+            Operation feedbac event arguments
+            </summary>
+        </member>
+        <member name="P:MapHive.Core.Events.OpFeedbackEventArgs.OperationFeedback">
+            <summary>
+            Dict containing feedback on the operation performed.
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.Utils.Slug.SanitizeSlug(System.String)">
+            <summary>
+            Sanitizes slug - replaces [@.] with a dash 
+            </summary>
+            <param name="slug"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Core.Utils.Slug.GetOrgSlug(System.String,System.String)">
+            <summary>
+            works out a slug for an organization from org name and org owner email. if one does not qualify as a slug, a second one is used
+            </summary>
+            <param name="orgName"></param>
+            <param name="ownerEmail"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

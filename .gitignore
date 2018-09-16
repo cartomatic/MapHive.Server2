@@ -314,3 +314,7 @@ MapHive.Core.Cmd/_nuget-cmd/_nuget-with-key.txt
 MapHive.Core.Identity/_nuget-cmd/_nuget-with-key.txt
 MapHive.Core.IdentityServer/_nuget-cmd/_nuget-with-key.txt
 MapHive.Core/_nuget-cmd/_nuget-with-key.txt
+MapHive.Core.IdentityServer/MapHive.Core.IdentityServer.xml
+MapHive.Core.Identity/MapHive.Core.Identity.xml
+MapHive.Core.Api/MapHive.Core.Api.xml
+MapHive.Core.Cmd/MapHive.Core.Cmd.xml

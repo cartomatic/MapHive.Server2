@@ -9,4 +9,4 @@ set of core MapHive server componets:
 * MapHive.Core.Api - MapHive.Core api utils
 * MapHive.Core.Cmd - MapHive core command line handler
 * MapHive.Core.Identity - MapHive specific wrapper around Microsoft.AspNetCore.Identity
-* MapHive.Core.IdentityServer - MapHive specific wrapper around IdentityServer 4
+* MapHive.Core.IdentityServer - MapHive specific wrapper around IdentityServer 4 & Microsoft.AspNetCore.Identity
