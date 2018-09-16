@@ -22,10 +22,19 @@ namespace MapHive.Core.DAL.TypeConfiguration
         /// <param name="entityName"></param>
         /// <param name="tableName"></param>
         /// <param name="schema"></param>
-        public static void ApplyIBaseConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder, string entityName, string tableName, string schema)
+        public static void ApplyIBaseConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder, string entityName, string tableName, string schema = null)
             where TEntity : class, IBase
         {
-            builder.ToTable(name: tableName, schema: schema);
+            if (string.IsNullOrEmpty(schema))
+            {
+                //do not enforce schema. make it possible to confogure it via model builder and its default schema property
+                builder.ToTable(name: tableName);
+            }
+            else
+            {
+                builder.ToTable(name: tableName, schema: schema);
+            }
+            
 
             builder.HasKey(t => t.Uuid).HasName($"pk_{tableName}");
 

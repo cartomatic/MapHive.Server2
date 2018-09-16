@@ -17,7 +17,8 @@ namespace MapHive.Core.DAL.TypeConfigs
     {
         public void Configure(EntityTypeBuilder<ObjectType> builder)
         {
-            builder.ToTable(name: "object_types", schema: "mh_meta");
+            //object types take the default off the model builder, so can be reused in other schemas too!
+            builder.ToTable(name: "object_types");
 
             builder.HasKey(p => p.Uuid);
 

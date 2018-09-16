@@ -15,7 +15,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
     {
         public void Configure(EntityTypeBuilder<Link> builder)
         {
-            builder.ToTable(name: "links", schema: "mh_meta");
+            //links take the default off the model builder, so can be reused in other schemas too!
+            builder.ToTable(name: "links");
 
             builder.HasKey(p => p.Id);
             builder.Property(en => en.Id).HasColumnName("id");

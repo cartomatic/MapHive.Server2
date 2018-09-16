@@ -15,7 +15,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.ApplyIBaseConfiguration(nameof(Role), "roles", "mh_meta");
+            //roles take the default off the model builder, so can be reused in other schemas too!
+            builder.ApplyIBaseConfiguration(nameof(Role), "roles");
 
             builder.Property(en => en.Identifier).HasColumnName("identifier");
             builder.Property(en => en.Name).HasColumnName("name");
