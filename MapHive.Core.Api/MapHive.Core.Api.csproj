@@ -10,7 +10,7 @@ use at your own risk...</Description>
     <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
     <Copyright>cartomatic</Copyright>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
-    <Version>1.0.4</Version>
+    <Version>1.0.4-dev0020</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -20,7 +20,6 @@ use at your own risk...</Description>
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
-    <PackageReference Include="MapHive.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.WebApiCompatShim" Version="2.1.2" />
     <PackageReference Include="msbump" Version="2.3.2">
@@ -34,6 +33,10 @@ use at your own risk...</Description>
 
   <ItemGroup>
     <Folder Include="_nuget-cmd\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MapHive.Core\MapHive.Core.csproj" />
   </ItemGroup>
 
 </Project>
