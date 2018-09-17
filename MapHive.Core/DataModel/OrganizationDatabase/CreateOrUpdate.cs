@@ -23,12 +23,42 @@ namespace MapHive.Core.DataModel
             public bool Updated { get; set; }
         }
 
+        /// <summary>
+        /// Creates or updates a database with a simple OrganizationDbContext; this is useful for creating empty databases
+        /// </summary>
+        /// <returns></returns>
         public CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase()
         {
-            //net full approach
-            //if no specific cfg provided, do use the 'blank' organisation cfg.
-            //if (configuration == null)
-            //    configuration = new DAL.Migrations.Ef.OrganizationDbCxtMigrations.Configuration();
+            //no specific db context provided; will use a blank OrganizationDbContext
+            var ctx = GetDbContext();
+
+            return CreateOrUpdateDatabase(ctx);
+        }
+
+        /// <summary>
+        /// Creates or updates a db for a specified generic db ctx type
+        /// </summary>
+        /// <typeparam name="TDbContext"></typeparam>
+        /// <returns></returns>
+        public CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase<TDbContext>()
+            where TDbContext : DbContext, new()
+        {
+            var ctx = GetDbContext<TDbContext>();
+
+            return CreateOrUpdateDatabase(ctx);
+        }
+
+        /// <summary>
+        /// Creates or updates a database for a specified db context instance
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <returns></returns>
+        public CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase(DbContext ctx)
+        {
+            //net full approach - needed a db migration configuration
+            //net core does not use such class
+
+            //-------------------------------
 
             //configuration.TargetDatabase = new DbConnectionInfo(GetConnectionString(), DataSourceProvider.ToString());
 
@@ -43,21 +73,24 @@ namespace MapHive.Core.DataModel
             //};
 
             //migrator.Update();
+            //-------------------------------
 
-            var ctx = GetDbContext();
 
             var output = new CreateOrUpdateDatabaseOutput
-            {   
+            {
                 //FIXME... 
                 //for the time being just return false
 
                 //TODO - work out the way of knowing when db has been created, when updated.
+                
+                //Note: so foar do not really know how to recognise if a db has been created OR updated
+                //perhaps it wil be possible in future versions.
+                //for the time being seeds / cleanups / setups based on this output will not have much sense
             };
 
             ctx.Database.Migrate();
 
             return output;
         }
-
     }
 }

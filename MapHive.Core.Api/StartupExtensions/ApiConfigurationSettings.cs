@@ -77,7 +77,7 @@ namespace MapHive.Core.Api
         public Func<DbContext, Task> DbMigrator { get; set; }
 
         /// <summary>
-        /// Whether or not a conofguration call to MapHive.Core.Identity.UserManagerUtils.Configure("MapHiveIdentity") should be performed upon startup;
+        /// Whether or not a configuration call to MapHive.Core.Identity.UserManagerUtils.Configure("MapHiveIdentity") should be performed upon startup;
         /// Set to true if user management APIs is to be used
         /// </summary>
         public bool UsesIdentityUserManagerUtils { get; set; }

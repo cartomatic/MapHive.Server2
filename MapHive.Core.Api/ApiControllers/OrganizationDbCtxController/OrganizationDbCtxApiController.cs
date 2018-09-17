@@ -22,7 +22,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// the default db identifier to be used by the controller
         /// </summary>
-        protected string DbIdentifier { get; set; }
+        protected virtual string DbIdentifier { get; set; }
 
         /// <summary>
         /// Organization id from GetOrganizationDatabasesbActionFilterAttribute action filter
