@@ -21,7 +21,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="obj"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
-        public override async Task<IActionResult> PostAsync(T obj, DbContext db = null)
+        protected override async Task<IActionResult> PostAsync(T obj, DbContext db = null)
         {
             return await CreateAsync(GetOrganizationDbContext(), obj);
         }
@@ -33,7 +33,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="obj"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
-        public override async Task<IActionResult> PostAsync<DTO>(DTO obj, DbContext db = null)
+        protected override async Task<IActionResult> PostAsync<DTO>(DTO obj, DbContext db = null)
         {
             return await CreateAsync(GetOrganizationDbContext(), obj);
         }

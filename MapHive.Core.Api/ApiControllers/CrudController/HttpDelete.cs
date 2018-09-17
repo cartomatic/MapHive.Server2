@@ -19,7 +19,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="uuid"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> DeleteAsync(Guid uuid, DbContext db = null)
+        protected virtual async Task<IActionResult> DeleteAsync(Guid uuid, DbContext db = null)
         {
             if (!await IsCrudPrivilegeGrantedForDestroyAsync(db))
                 return NotAllowed();

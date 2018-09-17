@@ -29,7 +29,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// </summary>
         protected TDbCtx _dbCtx { get; private set; }
 
-        public TDbCtx GetDefaultDbContext()
+        protected TDbCtx GetDefaultDbContext()
         {
             return _dbCtx;
         }

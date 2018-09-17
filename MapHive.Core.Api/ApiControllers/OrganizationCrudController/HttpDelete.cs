@@ -22,7 +22,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="uuid"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
-        public override async Task<IActionResult> DeleteAsync(Guid uuid, DbContext db = null)
+        protected override async Task<IActionResult> DeleteAsync(Guid uuid, DbContext db = null)
         {
             return await DestroyAsync(GetOrganizationDbContext(), uuid);
         }

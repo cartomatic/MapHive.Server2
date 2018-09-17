@@ -27,7 +27,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="limit"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> GetAsync(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
+        protected virtual async Task<IActionResult> GetAsync(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         {
             if (!await IsCrudPrivilegeGrantedForReadAsync(db))
                 return NotAllowed();
@@ -45,7 +45,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="limit"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> GetAsync<TDto>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null) where TDto : class
+        protected virtual async Task<IActionResult> GetAsync<TDto>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null) where TDto : class
         {
             if (!await IsCrudPrivilegeGrantedForReadAsync(db))
                 return NotAllowed();
@@ -116,7 +116,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="uuid"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> GetAsync(Guid uuid, DbContext db = null)
+        protected virtual async Task<IActionResult> GetAsync(Guid uuid, DbContext db = null)
         {
             if (!await IsCrudPrivilegeGrantedForReadAsync(db))
                 return NotAllowed();
@@ -131,7 +131,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="uuid"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> GetAsync<TDto>(Guid uuid, DbContext db = null) where TDto : class
+        protected virtual async Task<IActionResult> GetAsync<TDto>(Guid uuid, DbContext db = null) where TDto : class
         {
             if (!await IsCrudPrivilegeGrantedForReadAsync(db))
                 return NotAllowed();
@@ -188,7 +188,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="uuid"></param>
         /// <param name="propertySpecifier"></param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> ReadLinksAsync(Guid uuid, Expression<Func<T, IEnumerable<Base>>> propertySpecifier)
+        protected virtual async Task<IActionResult> ReadLinksAsync(Guid uuid, Expression<Func<T, IEnumerable<Base>>> propertySpecifier)
         {
             return await ReadLinksAsync(_dbCtx, uuid, propertySpecifier);
         }
@@ -200,7 +200,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="uuid"></param>
         /// <param name="propertySpecifier"></param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> ReadLinksAsync(DbContext db, Guid uuid, Expression<Func<T, IEnumerable<Base>>> propertySpecifier)
+        protected virtual async Task<IActionResult> ReadLinksAsync(DbContext db, Guid uuid, Expression<Func<T, IEnumerable<Base>>> propertySpecifier)
         {
             //first get an instance of T to call the appropriate methods on it
             var obj = (T)Activator.CreateInstance(typeof(T));
@@ -252,7 +252,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <typeparam name="TParent"></typeparam>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> ReadParentsAsync<TParent>(Guid uuid)
+        protected virtual async Task<IActionResult> ReadParentsAsync<TParent>(Guid uuid)
             where TParent : Base
         {
             return await ReadParentsAsync<TParent>(_dbCtx, uuid);
@@ -265,7 +265,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="db"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> ReadParentsAsync<TParent>(DbContext db, Guid uuid)
+        protected virtual async Task<IActionResult> ReadParentsAsync<TParent>(DbContext db, Guid uuid)
             where TParent : Base
         {
             //first get an instance of T to call the appropriate methods on it
@@ -311,7 +311,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <typeparam name="TChild"></typeparam>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> ReadChildrenAsync<TChild>(Guid uuid)
+        protected virtual async Task<IActionResult> ReadChildrenAsync<TChild>(Guid uuid)
             where TChild : Base
         {
 
@@ -325,7 +325,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="db"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> ReadChildrenAsync<TChild>(DbContext db, Guid uuid)
+        protected virtual async Task<IActionResult> ReadChildrenAsync<TChild>(DbContext db, Guid uuid)
             where TChild : Base
         {
             //first get an instance of T to call the appropriate methods on it
@@ -370,7 +370,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <typeparam name="TChild"></typeparam>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> ReadFirstChildAsync<TChild>(Guid uuid)
+        protected virtual async Task<IActionResult> ReadFirstChildAsync<TChild>(Guid uuid)
             where TChild : Base
         {
 
@@ -384,7 +384,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="db"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> ReadFirstChildAsync<TChild>(DbContext db, Guid uuid)
+        protected virtual async Task<IActionResult> ReadFirstChildAsync<TChild>(DbContext db, Guid uuid)
             where TChild : Base
         {
             //first get an instance of T to call the appropriate methods on it

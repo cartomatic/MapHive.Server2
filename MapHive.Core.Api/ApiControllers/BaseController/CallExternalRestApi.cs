@@ -31,7 +31,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// </summary>
         /// <param name="apiResponse"></param>
         /// <returns></returns>
-        public virtual IActionResult ApiCallPassThrough(IRestResponse apiResponse)
+        protected virtual IActionResult ApiCallPassThrough(IRestResponse apiResponse)
         {
             //looks like there is a little problem with content type such as application/json; charset=utf-8
             var contentType = apiResponse.ContentType;

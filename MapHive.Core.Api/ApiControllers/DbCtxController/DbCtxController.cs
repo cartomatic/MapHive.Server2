@@ -25,7 +25,7 @@ namespace MapHive.Core.Api.ApiControllers
             _db = GetNewDefaultDbContext();
         }
 
-        public TDbContext GetDefaultDbContext()
+        protected TDbContext GetDefaultDbContext()
         {
             return _db;
         }

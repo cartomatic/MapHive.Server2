@@ -123,7 +123,7 @@ namespace MapHive.Core.Api.StartupExtensions
             {
                 services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new Info
+                    c.SwaggerDoc(settings.UseGitVersion ? Cartomatic.Utils.Git.GetRepoVersion() : settings.ApiVersion, new Info
                     {
                         Title = settings?.ApiTitle ?? "unknown-api",
                         Version = settings.UseGitVersion ? Cartomatic.Utils.Git.GetRepoVersion() : settings.ApiVersion

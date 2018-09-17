@@ -15,7 +15,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// Extracts a source header off a request. Source header is used by the MH env to pass a full request source including hash, because hash is never sent to the client
         /// </summary>
         /// <returns></returns>
-        public string GetRequestSource(HttpContext context)
+        protected string GetRequestSource(HttpContext context)
         {
             return context.Request.Headers[WebClientConfiguration.HeaderSource];
         }
@@ -24,7 +24,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// extracts app identifier off the client url
         /// </summary>
         /// <returns></returns>
-        public string GetRequestAppIdentifier()
+        protected string GetRequestAppIdentifier()
         {
             return ExtractRequesToken(UrlAppTokenDelimiter);
         }
@@ -33,7 +33,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// extracts org identifier off the client url
         /// </summary>
         /// <returns></returns>
-        public string GetRequestOrgIdentifier()
+        protected string GetRequestOrgIdentifier()
         {
             return ExtractRequesToken(UrlOrgTokenDelimiter);
         }
@@ -71,7 +71,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// Extracts an application Url from the Src header appended by the client
         /// </summary>
         /// <returns></returns>
-        public string GetAppUrl()
+        protected string GetAppUrl()
         {
             //app url is pretty much the full path but without the hash and params
             //need to remove the app / org tokens too

@@ -18,7 +18,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="obj"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> PostAsync(T obj, DbContext db = null)
+        protected virtual async Task<IActionResult> PostAsync(T obj, DbContext db = null)
         {
             if (!await IsCrudPrivilegeGrantedForCreateAsync(db))
                 return NotAllowed();
@@ -33,7 +33,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="obj"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
-        public virtual async Task<IActionResult> PostAsync<DTO>(DTO obj, DbContext db = null) where DTO : class
+        protected virtual async Task<IActionResult> PostAsync<DTO>(DTO obj, DbContext db = null) where DTO : class
         {
             if (!await IsCrudPrivilegeGrantedForCreateAsync(db))
                 return NotAllowed();

@@ -15,7 +15,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// Return 400 with no permission message error
         /// </summary>
         /// <returns></returns>
-        public static NegotiatedContentResult<object> NoPermissionError()
+        protected static NegotiatedContentResult<object> NoPermissionError()
         {
             throw MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException("role", ValidationErrors.NoPermission);
         }
