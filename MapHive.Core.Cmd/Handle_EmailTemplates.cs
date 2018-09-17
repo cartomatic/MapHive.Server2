@@ -32,7 +32,10 @@ namespace MapHive.Core.Cmd
                 return;
             }
 
-            await RegisterEmailTemplatesAsync(GetDefaultEmailTemplates());
+            //explicit info on the cmd mode
+            PrintRemoteMode();
+
+            await RegisterEmailTemplatesAsync(GetEmailTemplates());
         }
 
         /// <summary>
@@ -56,8 +59,6 @@ namespace MapHive.Core.Cmd
                     {
                         ConsoleEx.Write($"Registering email template: {et.Identifier}... ", ConsoleColor.DarkYellow);
 
-                        //TODO - add an option to make the command remote
-
                         if (!await dbCtx.EmailTemplates.AnyAsync(t => t.Uuid == et.Uuid))
                         {
                             dbCtx.EmailTemplates.Add(et);
@@ -76,11 +77,10 @@ namespace MapHive.Core.Cmd
         /// Returns a collection of default email templates
         /// </summary>
         /// <returns></returns>
-        protected IEnumerable<EmailTemplateLocalization> GetDefaultEmailTemplates()
+        protected virtual IEnumerable<EmailTemplateLocalization> GetEmailTemplates()
         {
             var activateAccountLink = MapHive.Core.Configuration.WebClientConfiguration.ActivateAccountLinkHash;
             var resetPassLink = MapHive.Core.Configuration.WebClientConfiguration.ResetPassLinkHash;
-
 
             return new List<EmailTemplateLocalization>
             {

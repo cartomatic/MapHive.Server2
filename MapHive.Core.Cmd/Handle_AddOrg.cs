@@ -142,7 +142,10 @@ namespace MapHive.Core.Cmd
         {
             ConsoleEx.WriteLine($"Creating organisation with the following owner - user: '{email}' with the following pass: '{pass}'...", ConsoleColor.DarkYellow);
 
-            var dropOrg = await DropOrganizationAsync(orgName, clean);
+            //org slug
+            var slug = MapHive.Core.Utils.Slug.GetOrgSlug(orgName, email);
+
+            var dropOrg = await DropOrganizationAsync(slug, clean);
             if (!dropOrg)
             {
                 return false;
@@ -151,8 +154,7 @@ namespace MapHive.Core.Cmd
             //and create an org
             ConsoleEx.Write("Creating organization database and stuff... ", ConsoleColor.DarkYellow);
 
-            //org slug
-            var slug = MapHive.Core.Utils.Slug.GetOrgSlug(orgName, email);
+            
 
             //create an org with owner and register apps
             if (RemoteMode)

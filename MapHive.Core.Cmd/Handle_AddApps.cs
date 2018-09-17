@@ -71,6 +71,8 @@ namespace MapHive.Core.Cmd
             var orgIdentifier = ExtractParam<string>("o", args);
             if (!string.IsNullOrEmpty(orgIdentifier))
             {
+                ConsoleEx.Write($"Getting an org: {orgIdentifier}... ", ConsoleColor.DarkYellow);
+
                 Organization org = null;
                 if (RemoteMode)
                 {
@@ -91,6 +93,8 @@ namespace MapHive.Core.Cmd
                         }
                     }
                 }
+
+                ConsoleEx.WriteOk("Done!" + Environment.NewLine);
 
                 if (org != null)
                 {
@@ -128,6 +132,10 @@ namespace MapHive.Core.Cmd
 
             var apps = GetApps().Where(a => appsToAdd.Contains(a.ShortName));
 
+            ConsoleEx.Write(
+                $"Registering apps: {string.Join(",", apps.Select(a => a.ShortName))} with an org: {org.DisplayName} ({org.Slug})... ",
+                ConsoleColor.DarkYellow);
+
             if (RemoteMode)
             {
                 await RegisterAppsWithOrgRemoteAsync(org, apps);
@@ -144,6 +152,8 @@ namespace MapHive.Core.Cmd
                     await org.UpdateAsync(dbCtx);
                 }
             }
+
+            ConsoleEx.WriteOk("Done!" + Environment.NewLine);
         }
 
         /// <summary>

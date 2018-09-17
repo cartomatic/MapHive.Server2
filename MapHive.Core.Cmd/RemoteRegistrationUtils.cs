@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -56,7 +57,7 @@ namespace MapHive.Core.Cmd
             await AuthenticateAsync();
 
             //and call a remote api...
-            await ApiCallAsync<Auth.AuthOutput>(Endpoints["Localization"] + "envconfig/registeremailtemplates",
+            await ApiCallAsync<Auth.AuthOutput>(Endpoints["Core"] + "envconfig/registeremailtemplates",
                 Method.POST,
                 data: emailTemplates
             );
@@ -190,7 +191,7 @@ namespace MapHive.Core.Cmd
             //this drops a user and org, so need to reset auth!
             if (RemoteAdmin["Email"] == email)
             {
-                ResetAuth();
+                ResetRemoteAuth();
             }
         }
 
@@ -290,7 +291,7 @@ namespace MapHive.Core.Cmd
 
         protected static string AccessToken { get; set; }
 
-        private void ResetAuth()
+        protected void ResetRemoteAuth()
         {
             AccessToken = null;
         }
@@ -338,7 +339,7 @@ namespace MapHive.Core.Cmd
             {
                 foreach (var key in queryParams.Keys)
                 {
-                    request.AddParameter(key, queryParams[key].ToString(), ParameterType.QueryString);
+                    request.AddParameter(key, queryParams[key]?.ToString() ?? string.Empty, ParameterType.QueryString);
                 }
             }
 
@@ -372,7 +373,9 @@ namespace MapHive.Core.Cmd
             }
             else
             {
-               throw new Exception($"{resp.StatusCode}: {resp.ErrorMessage}");
+                Console.WriteLine();
+                ConsoleEx.WriteErr($"{new StackTrace().GetFrame(1).GetMethod().Name}; HTTP Code: {resp.StatusCode}; ErrorMsg: {resp.ErrorMessage}");
+                Console.WriteLine();
             }
 
             return output;

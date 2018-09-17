@@ -81,6 +81,7 @@ namespace MapHive.Core.Cmd
                 if (!string.IsNullOrEmpty(localization))
                     Endpoints["Localization"] = localization;
 
+                ResetRemoteAuth();
             }
 
             PrintEndpoints();
