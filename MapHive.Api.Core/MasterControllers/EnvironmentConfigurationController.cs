@@ -412,6 +412,37 @@ namespace MapHive.Api.Core.Controllers
         }
 
         /// <summary>
+        /// destroys a user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("destroyuser")]
+        [ProducesResponseType(typeof(MapHiveUser), 200)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> DestroyUserAsync([FromUri] string email)
+        {
+            try
+            {
+                if (!await UserIsEnvAdminAsync())
+                    return new UnauthorizedResult();
+
+                //pretend this is an 'automated' user...
+                Cartomatic.Utils.Identity.ImpersonateGhostUserViaHttpContext();
+                Cartomatic.Utils.Identity.ImpersonateGhostUser();
+
+                var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+                await user.ForceDestroyAsync<MapHiveUser>(_db, user.Uuid);
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        /// <summary>
         /// create a user
         /// </summary>
         /// <param name="email"></param>

@@ -62,7 +62,7 @@ namespace MapHive.Core.Cmd
             var cl = ConsoleColor.DarkMagenta;
 
             Console.Write("CMD mode: ");
-            ConsoleEx.Write(RemoteMode ? "remote" : "local" + Environment.NewLine, cl);
+            ConsoleEx.Write(RemoteMode ? "remote api" : "direct db" + Environment.NewLine, cl);
 
             Console.WriteLine();
         }

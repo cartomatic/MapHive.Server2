@@ -13,7 +13,11 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
-
+        /// <summary>
+        /// Handles adding email templates in the mh env
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected virtual async Task Handle_EmailTemplates(IDictionary<string, string> args)
         {
             var cmd = GetCallerName();
@@ -38,22 +42,32 @@ namespace MapHive.Core.Cmd
         /// <returns></returns>
         protected virtual async Task RegisterEmailTemplatesAsync(IEnumerable<EmailTemplateLocalization> ets)
         {
-            var dbCtx = new MapHiveDbContext();
-
-            foreach (var et in ets)
+            if (RemoteMode)
             {
-                ConsoleEx.Write($"Registering email template: {et.Identifier}... ", ConsoleColor.DarkYellow);
-
-                //TODO - add an option to make the command remote
-
-                if (!await dbCtx.EmailTemplates.AnyAsync(t => t.Uuid == et.Uuid))
-                {
-                    dbCtx.EmailTemplates.Add(et);
-                }
-
+                ConsoleEx.Write($"Registering email template: {string.Join(", ", ets.Select(x=>x.Identifier))}... ", ConsoleColor.DarkYellow);
+                await RegisterEmailTemplatesRemoteAsync(ets);
                 ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
             }
-            await dbCtx.SaveChangesAsync();
+            else
+            {
+                using (var dbCtx = GetMapHiveDbContext())
+                {
+                    foreach (var et in ets)
+                    {
+                        ConsoleEx.Write($"Registering email template: {et.Identifier}... ", ConsoleColor.DarkYellow);
+
+                        //TODO - add an option to make the command remote
+
+                        if (!await dbCtx.EmailTemplates.AnyAsync(t => t.Uuid == et.Uuid))
+                        {
+                            dbCtx.EmailTemplates.Add(et);
+                        }
+
+                        ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                    }
+                    await dbCtx.SaveChangesAsync();
+                }
+            }
 
             Console.WriteLine();
         }

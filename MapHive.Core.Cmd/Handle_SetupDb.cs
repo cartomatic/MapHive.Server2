@@ -103,21 +103,22 @@ namespace MapHive.Core.Cmd
                         //this will use the default dsc. perhaps should make it dynamic, huh...
                         //currently can create a db remotely, but will not obtain proper data of it...
                         //get all the orgs
-                        var dbCtx = new MapHiveDbContext(); 
-
-                        var orgs = await dbCtx.Organizations.ToListAsync();
-
-                        if (orgs.Count > 0)
+                        using (var dbCtx = GetMapHiveDbContext())
                         {
-                            ConsoleEx.WriteLine("Wiping out org databases...", ConsoleColor.DarkYellow);
+                            var orgs = await dbCtx.Organizations.ToListAsync();
 
-                            foreach (var org in orgs)
+                            if (orgs.Count > 0)
                             {
-                                ConsoleEx.Write($"Org name: {org.DisplayName}; dropping...", ConsoleColor.DarkYellow);
-                                await org.DestroyAsync(dbCtx);
+                                ConsoleEx.WriteLine("Wiping out org databases...", ConsoleColor.DarkYellow);
+
+                                foreach (var org in orgs)
+                                {
+                                    ConsoleEx.Write($"Org name: {org.DisplayName}; dropping...", ConsoleColor.DarkYellow);
+                                    await org.DestroyAsync(dbCtx);
+                                    ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                                }
                                 ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                             }
-                            ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                         }
                     }
                     catch
@@ -244,9 +245,11 @@ namespace MapHive.Core.Cmd
             {
                 try
                 {
-                    var ctx = new MapHiveDbContext();
-                    // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-                    ctx.Applications.FirstOrDefault();
+                    using (var ctx = GetMapHiveDbContext())
+                    {
+                        // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+                        ctx.Applications.FirstOrDefault();
+                    }
                 }
                 catch (Exception)
                 {

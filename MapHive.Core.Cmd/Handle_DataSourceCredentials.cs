@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
 using Cartomatic.Utils.Data;
+using MapHive.Core.DAL;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -148,6 +150,19 @@ namespace MapHive.Core.Cmd
                    serverport.HasValue &&
                    !string.IsNullOrEmpty(user) &&
                    !string.IsNullOrEmpty(pass);
+        }
+
+        /// <summary>
+        /// Produces a maphive db context with db speciofied via dsc
+        /// </summary>
+        /// <returns></returns>
+        protected MapHiveDbContext GetMapHiveDbContext()
+        {
+            using (var dbCtx = new MapHiveDbContext())
+            {
+                return (MapHiveDbContext)dbCtx.ProduceDbContextInstance(Dsc.GetConnectionString(), true,
+                    DataSourceProvider.Npgsql);
+            }
         }
     }
 }

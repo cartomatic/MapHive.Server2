@@ -36,20 +36,21 @@ namespace MapHive.Core.Cmd
         /// <returns></returns>
         protected virtual async Task RegisterLangsAsync(IEnumerable<Lang> langs)
         {
-            var dbCtx = new MapHiveDbContext();
-
-            foreach (var lang in langs)
+            using (var dbCtx = GetMapHiveDbContext())
             {
-                ConsoleEx.Write($"Registering lang: {lang.LangCode}... ", ConsoleColor.DarkYellow);
-
-                if (!await dbCtx.Langs.AnyAsync(l => l.Uuid == lang.Uuid))
+                foreach (var lang in langs)
                 {
-                    dbCtx.Langs.Add(lang);
-                }
+                    ConsoleEx.Write($"Registering lang: {lang.LangCode}... ", ConsoleColor.DarkYellow);
 
-                ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                    if (!await dbCtx.Langs.AnyAsync(l => l.Uuid == lang.Uuid))
+                    {
+                        dbCtx.Langs.Add(lang);
+                    }
+
+                    ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                }
+                await dbCtx.SaveChangesAsync();
             }
-            await dbCtx.SaveChangesAsync();
 
             Console.WriteLine();
         }

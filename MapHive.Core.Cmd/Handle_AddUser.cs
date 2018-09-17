@@ -27,6 +27,9 @@ namespace MapHive.Core.Cmd
                 return;
             }
 
+            //print remote mode, so it is explicitly communicated
+            PrintRemoteMode();
+
             var email = ExtractParam("e", args);
             var pass = ExtractParam("p", args);
             var slug = ExtractParam("s", args);
@@ -71,25 +74,28 @@ namespace MapHive.Core.Cmd
                 try
                 {
                     //destroy a previous account if any
-                    await DestroyUserAsync<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"));
-
-                    IDictionary<string, object> op = null;
-                    user.UserCreated += (sender, eventArgs) =>
+                    using (var dbCtx = GetMapHiveDbContext())
                     {
-                        op = eventArgs.OperationFeedback;
-                    };
+                        await DestroyUserAsync<MapHiveUser>(email, dbCtx);
 
-                    await user.CreateAsync(new MapHiveDbContext("MapHiveMetadata"));
+                        IDictionary<string, object> op = null;
+                        user.UserCreated += (sender, eventArgs) =>
+                        {
+                            op = eventArgs.OperationFeedback;
+                        };
+
+                        await user.CreateAsync(dbCtx);
 
 
-                    //and also need to change the pass as the default procedure autogenerates a pass
-                    var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
-                    var idUser = await userManager.FindByEmailAsync(email);
-                    await userManager.ChangePasswordAsync(idUser, (string)op["InitialPassword"], pass);
+                        //and also need to change the pass as the default procedure autogenerates a pass
+                        var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
+                        var idUser = await userManager.FindByEmailAsync(email);
+                        await userManager.ChangePasswordAsync(idUser, (string)op["InitialPassword"], pass);
 
-                    //once user is created, need to perform an update in order to set it as valid
-                    user.IsAccountVerified = true;
-                    await user.UpdateAsync(new MapHiveDbContext("MapHiveMetadata"), user.Uuid);
+                        //once user is created, need to perform an update in order to set it as valid
+                        user.IsAccountVerified = true;
+                        await user.UpdateAsync(dbCtx, user.Uuid);
+                    }
 
                 }
                 catch (Exception ex)

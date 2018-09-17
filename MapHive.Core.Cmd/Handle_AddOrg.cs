@@ -38,6 +38,9 @@ namespace MapHive.Core.Cmd
                 return;
             }
 
+            //print remote mode, so it is explicitly communicated
+            PrintRemoteMode();
+
             var email = ExtractParam("e", args);
             var pass = ExtractParam("p", args);
             var clean = ContainsParam("clean", args);
@@ -95,7 +98,10 @@ namespace MapHive.Core.Cmd
                 Console.WriteLine($"example: {cmd} e:someone@maphive.net p:test");
                 return;
             }
-            
+
+            //print remote mode, so it is explicitly communicated
+            PrintRemoteMode();
+
             var email = ExtractParam("e", args);
             var pass = ExtractParam("p", args);
             var clean = ContainsParam("clean", args);
@@ -171,7 +177,10 @@ namespace MapHive.Core.Cmd
                     Slug = slug
                 };
 
-                await newOrg.CreateAsync(new MapHiveDbContext(), user, apps);
+                using (var dbCtx = GetMapHiveDbContext())
+                {
+                    await newOrg.CreateAsync(dbCtx, user, apps);
+                }
             }
             
             //This should be all for now. This way org creation is quick. App related db stuff should be handled by the app related services when they're

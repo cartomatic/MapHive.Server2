@@ -28,6 +28,9 @@ namespace MapHive.Core.Cmd
                 return;
             }
 
+            //print remote mode, so it is explicitly communicated
+            PrintRemoteMode();
+
             var email = ExtractParam("e", args);
             var dflt = ExtractParam<bool>("d", args);
 
@@ -49,7 +52,20 @@ namespace MapHive.Core.Cmd
 
 
             //Note: db context uses a connection defined in app cfg. 
-            await DestroyUserAsync<MapHiveUser>(email, new MapHiveDbContext("MapHiveMetadata"));
+            if (RemoteMode)
+            {
+                ConsoleEx.Write($"Destroying user '{email}'... ", ConsoleColor.DarkRed);
+                await DestroyUserRemoteAsync(email);
+                ConsoleEx.WriteOk($"Done!");
+            }
+            else
+            {
+                using (var dbCtx = GetMapHiveDbContext())
+                {
+                    await DestroyUserAsync<MapHiveUser>(email, dbCtx);
+                }
+            }
+            
             Console.WriteLine();
         }
 
@@ -57,8 +73,7 @@ namespace MapHive.Core.Cmd
         /// Destroys a user account
         /// </summary>
         /// <param name="email"></param>
-        /// <param name="users"></param>
-        /// <param name="mbrUserAccountService"></param>
+        /// <param name="dbCtx"></param>
         protected virtual async Task DestroyUserAsync<T>(string email, DbContext dbCtx)
             where T : MapHive.Core.DataModel.MapHiveUser
         {

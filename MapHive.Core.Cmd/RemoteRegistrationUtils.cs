@@ -50,7 +50,7 @@ namespace MapHive.Core.Cmd
         /// </summary>
         /// <param name="emailTemplates"></param>
         /// <returns></returns>
-        protected async Task RegisterEmailTemplatesRemoteAsync(List<EmailTemplate> emailTemplates)
+        protected async Task RegisterEmailTemplatesRemoteAsync(IEnumerable<EmailTemplateLocalization> emailTemplates)
         {
             //authenticate user
             await AuthenticateAsync();
@@ -85,7 +85,7 @@ namespace MapHive.Core.Cmd
         
 
         /// <summary>
-        /// Gets an org by name - calls core api
+        /// Gets an org by slug - calls core api
         /// </summary>
         /// <param name="slug"></param>
         /// <returns></returns>
@@ -104,6 +104,11 @@ namespace MapHive.Core.Cmd
                 );
         }
 
+        /// <summary>
+        /// Gets org by id - calls core api
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <returns></returns>
         protected async Task<Organization> GetOrgRemoteAsync(Guid orgId)
         {
             //authenticate user
@@ -242,6 +247,24 @@ namespace MapHive.Core.Cmd
             );
         }
 
+        protected async Task<MapHiveUser> DestroyUserRemoteAsync(string email)
+        {
+            if (RemoteAdmin["Email"] == email)
+            {
+                throw new ArgumentException($"Not possible to destroy a master user '{email}' this way. sorry.");
+            }
+
+            await AuthenticateAsync();
+
+            return await ApiCallAsync<MapHiveUser>(Endpoints["Core"] + "envconfig/destroyuser",
+                Method.DELETE,
+                queryParams: new Dictionary<string, object>
+                {
+                    { "email", email }
+                }
+            );
+        }
+
 
         /// <summary>
         /// Registers tokens with a core api
@@ -315,7 +338,7 @@ namespace MapHive.Core.Cmd
             {
                 foreach (var key in queryParams.Keys)
                 {
-                    request.AddParameter(key, queryParams[key], ParameterType.QueryString);
+                    request.AddParameter(key, queryParams[key].ToString(), ParameterType.QueryString);
                 }
             }
 

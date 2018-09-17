@@ -34,6 +34,9 @@ namespace MapHive.Core.Cmd
                 return;
             }
 
+            //print remote mode, so it is explicitly communicated
+            PrintRemoteMode();
+
             var clean = !args.ContainsKey("clean") || ExtractParam<bool>("clean", args);
 
             if (Guid.TryParse(ExtractParam<string>("org", args), out var orgId))
@@ -47,8 +50,7 @@ namespace MapHive.Core.Cmd
 
             Console.WriteLine();
         }
-
-
+        
         /// <summary>
         /// Drops an organization by slug
         /// </summary>
@@ -67,9 +69,9 @@ namespace MapHive.Core.Cmd
             }
             else
             {
-                using (var dbCtx = new MapHiveDbContext())
+                using (var dbCtx = GetMapHiveDbContext())
                 {
-                    var org = await dbCtx.Organizations.Where(x => x.Uuid == orgId).FirstOrDefaultAsync();
+                    var org = await dbCtx.Organizations.Where(x => x.Slug == orgSlug).FirstOrDefaultAsync();
                     orgId = org?.Uuid;
                 }
             }
@@ -119,7 +121,7 @@ namespace MapHive.Core.Cmd
             else
             {
                 //if an organisation for a specified user exists, destroy it
-                using (var dbCtx = new MapHiveDbContext())
+                using (var dbCtx = GetMapHiveDbContext())
                 {
                     var org = await dbCtx.Organizations.Where(x => x.Uuid == orgId).FirstOrDefaultAsync();
 
