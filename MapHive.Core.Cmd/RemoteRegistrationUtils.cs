@@ -87,9 +87,9 @@ namespace MapHive.Core.Cmd
         /// <summary>
         /// Gets an org by name - calls core api
         /// </summary>
-        /// <param name="orgName"></param>
+        /// <param name="slug"></param>
         /// <returns></returns>
-        protected async Task<Organization> GetOrgRemoteAsync(string orgName)
+        protected async Task<Organization> GetOrgRemoteAsync(string slug)
         {
             //authenticate user
             await AuthenticateAsync();
@@ -99,7 +99,7 @@ namespace MapHive.Core.Cmd
                     Method.GET,
                     queryParams: new Dictionary<string, string>
                     {
-                        { "identifier", orgName }
+                        { "slug", slug }
                     }
                 );
         }
@@ -120,7 +120,7 @@ namespace MapHive.Core.Cmd
                 Method.PUT,
                 queryParams: new Dictionary<string, string>
                 {
-                    { "orgSlug", org.DisplayName },
+                    { "orgSlug", org.Slug },
                     { "appShortNames", string.Join(",", apps.Select(a=>a.ShortName)) }
                 }
             );
@@ -131,6 +131,7 @@ namespace MapHive.Core.Cmd
         /// </summary>
         /// <param name="orgName"></param>
         /// <param name="orgDescription"></param>
+        /// <param name="orgSlug"></param>
         /// <param name="clean"></param>
         /// <param name="morg"></param>
         /// <param name="email"></param>
@@ -147,7 +148,7 @@ namespace MapHive.Core.Cmd
                 {
                     { "orgName", orgName },
                     { "orgDescription", orgDescription },
-                    { "orgSlug", orgSlug },
+                    { "orgSlug", orgSlug ?? MapHive.Core.Utils.Slug.GetOrgSlug(orgName, email) },
                     { "clean", clean.ToString() },
                     { "morg", morg.ToString() },
                     { "email", email },
