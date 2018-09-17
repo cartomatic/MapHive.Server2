@@ -30,7 +30,7 @@ namespace MapHive.Core.Cmd
  Console.WriteLine("\t[org:orgname] name of the organisation. Defaults to 'THE HIVE'");
                 Console.WriteLine("\t[clean:bool=true] whether or not to drop an organisation (and its database) previously assigned to a user, if any; defaults to true");
                 Console.WriteLine();
-                Console.WriteLine($"example: {cmd} e:queen@maphive.net p:test");
+                Console.WriteLine($"example: {cmd} e:{MasterOrgEmail} p:{MasterOrgPass}");
                 return;
             }
 

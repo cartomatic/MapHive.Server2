@@ -57,7 +57,7 @@ namespace MapHive.Core.Cmd
                 Console.WriteLine("\t[e:email");
                 Console.WriteLine("\t[p:pass]");
                 Console.WriteLine();
-                Console.WriteLine($"example: {cmd} e:queen@maphive.net p:test");
+                Console.WriteLine($"example: {cmd} e:{MasterOrgEmail} p:{MasterOrgPass}");
                 Console.WriteLine();
                 Console.WriteLine("The order of params is not important; it is possible to change any number of params at once");
                 Console.WriteLine();
@@ -94,7 +94,6 @@ namespace MapHive.Core.Cmd
             ConsoleEx.Write(RemoteAdmin["Email"] + Environment.NewLine, cl);
             Console.Write("password: ");
             ConsoleEx.Write(RemoteAdmin["Password"] + Environment.NewLine, cl);
-            Console.Write(Environment.NewLine);
 
             Console.WriteLine();
         }

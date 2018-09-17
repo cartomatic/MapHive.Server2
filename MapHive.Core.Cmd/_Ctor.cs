@@ -21,7 +21,8 @@ namespace MapHive.Core.Cmd
                     .AddAliases(nameof(Handle_AddApps), "apps")
                     .AddAliases(nameof(Handle_AddUser), "u")
                     .AddAliases(nameof(Handle_AddUserRemote), "ur")
-                    .AddAliases(nameof(Handle_AddMasterOrg), "morg")
+                    .AddAliases(nameof(Handle_AddMasterOrg), "addmorg")
+                    .AddAliases(nameof(Handle_MasterOrg), "morg")
                     .AddAliases(nameof(Handle_Endpoints), "ep")
                     .AddAliases(nameof(Handle_RemoteAdmin), "ra")
                     .AddAliases(nameof(Handle_EmailTemplates), "et")
@@ -32,6 +33,8 @@ namespace MapHive.Core.Cmd
 
             //default db credentials
             SetDefaultDsc();
+
+            SetDefaultMasterOrg();
 
             SetDefaultEndpoints();
 

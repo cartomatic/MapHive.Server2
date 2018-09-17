@@ -21,9 +21,9 @@ namespace MapHive.Core.Cmd
                 Console.WriteLine($"'{cmd}' : destroys a user account");
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
                 Console.WriteLine("\t[e:email]");
-                Console.WriteLine("\t[d:destroy the default user account (queen@maphive.net)]");
+                Console.WriteLine($"\t[d:destroy the default user account ({MasterOrgEmail})]");
                 Console.WriteLine();
-                Console.WriteLine($"example: {cmd} e:queen@maphive.net");
+                Console.WriteLine($"example: {cmd} e:{MasterOrgEmail}");
                 Console.WriteLine($"example: {cmd} d:true");
                 return;
             }
@@ -34,7 +34,7 @@ namespace MapHive.Core.Cmd
             //use the default account if required
             if (dflt)
             {
-                email = "queen@maphive.net";
+                email = MasterOrgEmail;
             }
 
             if (string.IsNullOrEmpty(email))

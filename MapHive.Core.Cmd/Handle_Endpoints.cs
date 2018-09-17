@@ -101,7 +101,6 @@ namespace MapHive.Core.Cmd
             ConsoleEx.Write(Endpoints["Auth"] + Environment.NewLine, cl);
             Console.Write("localization: ");
             ConsoleEx.Write(Endpoints["Localization"] + Environment.NewLine, cl);
-            Console.Write(Environment.NewLine);
 
             Console.WriteLine();
         }

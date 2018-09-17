@@ -13,9 +13,11 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
-        public readonly string MasterOrgName = "THE HIVE";
-        public readonly string MasterOrgDesc = "MapHive env master organisation.";
-
+        /// <summary>
+        /// Adds master org to the env
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected virtual async Task Handle_AddMasterOrg(Dictionary<string, string> args)
         {
             var cmd = GetCallerName();
@@ -47,8 +49,8 @@ namespace MapHive.Core.Cmd
             //use the default account if email and pass not provided
             if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(pass))
             {
-                email = "queen@maphive.net";
-                pass = "test";
+                email = MasterOrgEmail;
+                pass = MasterOrgPass;
             }
 
             //ensure the site admin app is present!!!
