@@ -27,108 +27,128 @@ namespace MapHive.Core.Cmd
             {
                 Console.WriteLine($"'{cmd}' : drops an org");
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
- Console.WriteLine("\t[org:orgname] name of the organisation. Defaults to 'THE HIVE'");
+ Console.WriteLine("\t[org:orguuid] identifier of an organisation to drop.");
                 Console.WriteLine("\t[clean:bool=true] whether or not to drop an organisation (and its database) previously assigned to a user, if any; defaults to true");
                 Console.WriteLine();
-                Console.WriteLine($"example: {cmd} e:{MasterOrgEmail} p:{MasterOrgPass}");
+                Console.WriteLine($"example: {cmd} org:someuuid");
                 return;
             }
 
             var clean = !args.ContainsKey("clean") || ExtractParam<bool>("clean", args);
-            var orgName = ExtractParam<string>("org", args);
 
-            await DropOrganizationAsync(orgName, clean);
+            if (Guid.TryParse(ExtractParam<string>("org", args), out var orgId))
+            {
+                await DropOrganizationAsync(orgId, clean);
+            }
+            else
+            {
+                ConsoleEx.WriteErr($"Invalid org id: {orgId}");
+            };
 
             Console.WriteLine();
         }
 
 
         /// <summary>
-        /// Drops an organization
+        /// Drops an organization by slug
         /// </summary>
-        /// <param name="orgName"></param>
+        /// <param name="orgSlug"></param>
+        /// <param name="clean"></param>
+        /// <returns></returns>
+        protected async Task<bool> DropOrganizationAsync(string orgSlug, bool clean)
+        {
+            Guid? orgId = null;
+
+            if (RemoteMode)
+            {
+                //grab an org remotely
+                var org = await GetOrgRemoteAsync(orgSlug);
+                orgId = org?.Uuid;
+            }
+            else
+            {
+                using (var dbCtx = new MapHiveDbContext())
+                {
+                    var org = await dbCtx.Organizations.Where(x => x.Uuid == orgId).FirstOrDefaultAsync();
+                    orgId = org?.Uuid;
+                }
+            }
+
+            if (orgId.HasValue)
+            {
+                return await DropOrganizationAsync(orgId.Value, clean);
+            }
+
+            //no such org, pretend successful drop
+            return true;
+        }
+
+
+        /// <summary>
+        /// Drops an organization by id
+        /// </summary>
+        /// <param name="orgId"></param>
         /// <param name="clean"></param>
         /// <returns>Whether or not an org drop procedure has been performed</returns>
-        protected async Task<bool> DropOrganizationAsync(string orgName, bool clean)
+        protected async Task<bool> DropOrganizationAsync(Guid orgId, bool clean)
         {
-            //if an organisation for a specified user exists, destroy it
-            using (var dbCtx = new MapHiveDbContext())
+            var output = false;
+
+            //remote mode
+            if (RemoteMode)
             {
-                var org = await dbCtx.Organizations.Where(x => x.DisplayName == orgName).FirstOrDefaultAsync();
-
-
+                var org = await GetOrgRemoteAsync(orgId);
                 if (org != null)
                 {
-                    //to drop db need to connect to a proper db (org can be somewhere out there...), so need to save the current dsc
-                    var dsc = Dsc.Clone();
-                    org.LoadDatabases(dbCtx);
-
                     Console.WriteLine();
                     if (clean &&
                         !PromptUser(
                             "A database previously registered to the specified user already exists and you are about to delete it. Proceed?"))
                         return false;
 
-                    //clean the org rec in the metadata
+                    //org exists, so need to drop it with a remote API...
                     ConsoleEx.Write($"Dropping organisation '{org.DisplayName}' ({org.Slug}) with its db... ", ConsoleColor.DarkYellow);
-
-                    await org.DestroyAsync(dbCtx, clean);
-
+                    await DropOrgRemoteAsync(orgId, clean);
                     ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
-                    Console.WriteLine();
+
+                    //assume it's been dropped. otherwise api will throw (at least it should...)
+                    output = true;
                 }
             }
-            return true;
-        }
-
-
-        /// <summary>
-        /// Drops an organization
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        protected virtual async Task Handle_DropOrgRemote(Dictionary<string, string> args)
-        {
-            var cmd = GetCallerName();
-
-            if (GetHelp(args))
-            {
-                Console.WriteLine($"'{cmd}' : drops an org");
-                Console.WriteLine($"syntax: {cmd} space separated params: ");
-                Console.WriteLine("\t[org:orgname] name of the organisation. Defaults to 'THE HIVE'");
-                Console.WriteLine();
-                Console.WriteLine($"example: {cmd} org:someOrgName");
-                return;
-            }
-
-            var orgName = ExtractParam<string>("org", args);
-            
-            //cmd is a simplistic tool, so splits params on spaces
-            //need to provide a fake mechanism for hacking it
-            orgName = (orgName ?? "").Replace("_", " ");
-
-            //grab the master org
-            var org = await GetOrgRemoteAsync(orgName);
-            if (org != null)
-            {
-                //org exists, so need to drop it with a remote API...
-                await DropOrgRemoteAsync(org.Uuid);
-                Console.WriteLine("Dropped a remote org!");
-            }
+            //and local
             else
             {
-                Console.WriteLine("No such org!");
+                //if an organisation for a specified user exists, destroy it
+                using (var dbCtx = new MapHiveDbContext())
+                {
+                    var org = await dbCtx.Organizations.Where(x => x.Uuid == orgId).FirstOrDefaultAsync();
+
+                    if (org != null)
+                    {
+                        //to drop db need to connect to a proper db (org can be somewhere out there...), so need to save the current dsc
+                        var dsc = Dsc.Clone();
+                        org.LoadDatabases(dbCtx);
+
+                        Console.WriteLine();
+                        if (clean &&
+                            !PromptUser(
+                                "A database previously registered to the specified user already exists and you are about to delete it. Proceed?"))
+                            return false;
+
+                        //clean the org rec in the metadata
+                        ConsoleEx.Write($"Dropping organisation '{org.DisplayName}' ({org.Slug}) with its db... ", ConsoleColor.DarkYellow);
+
+                        await org.DestroyAsync(dbCtx, clean);
+
+                        ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                    }
+                }
+
+                output = true;
             }
 
-            //basically endpoint performs a clean destroy, so cleans up all the stuff, including users, connections
-            //and <<local>> databases
-            //local means local to the server, so pretty much same host / port
-            //all the remote dbs need to be dropped at the discretion of specific apps!
-            //this is because the core API may not even know if some remote ones use dbs or not!
-            //for the registered apis, the core api issues 'drop org' calls, so the actual cleanup is performed at the discretion of each api!
-            
-
             Console.WriteLine();
+            return output;
         }
     }
 }

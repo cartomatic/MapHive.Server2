@@ -75,7 +75,7 @@ namespace MapHive.Core.Cmd
             //and call a remote api...
             return await ApiCallAsync<bool>(Endpoints["Core"] + "envconfig/appregistered",
                 Method.GET,
-                queryParams: new Dictionary<string, string>
+                queryParams: new Dictionary<string, object>
                 {
                     { "appShortName", appShortName }
                 }
@@ -97,20 +97,46 @@ namespace MapHive.Core.Cmd
             //and call a remote api...
             return await ApiCallAsync<Organization>(Endpoints["Core"] + "envconfig/getorg",
                     Method.GET,
-                    queryParams: new Dictionary<string, string>
+                    queryParams: new Dictionary<string, object>
                     {
-                        { "slug", slug }
+                        { "identifier", slug }
                     }
                 );
         }
 
+        protected async Task<Organization> GetOrgRemoteAsync(Guid orgId)
+        {
+            //authenticate user
+            await AuthenticateAsync();
+
+            //and call a remote api...
+            return await ApiCallAsync<Organization>(Endpoints["Core"] + "envconfig/getorg",
+                Method.GET,
+                queryParams: new Dictionary<string, object>
+                {
+                    { "identifier", orgId.ToString() }
+                }
+            );
+        }
+
         /// <summary>
-        /// Registers apps with a master org - calls core API
+        /// Registers apps with a an org - calls core API
         /// </summary>
         /// <param name="org"></param>
         /// <param name="apps"></param>
         /// <returns></returns>
-        protected async Task RegisterAppsWithMasterOrgRemoteAsync(Organization org, IEnumerable<Application> apps)
+        protected async Task RegisterAppsWithOrgRemoteAsync(Organization org, IEnumerable<Application> apps)
+        {
+            await RegisterAppsWithOrgRemoteAsync(org, apps.Select(a => a.ShortName));
+        }
+
+        /// <summary>
+        /// Registers apps with a an org - calls core API
+        /// </summary>
+        /// <param name="org"></param>
+        /// <param name="appShortNames"></param>
+        /// <returns></returns>
+        protected async Task RegisterAppsWithOrgRemoteAsync(Organization org, IEnumerable<string> appShortNames)
         {
             //authenticate user
             await AuthenticateAsync();
@@ -118,10 +144,10 @@ namespace MapHive.Core.Cmd
             //just a put but with url params...
             await ApiCallAsync<object>(Endpoints["Core"] + "envconfig/registerappstoorg",
                 Method.PUT,
-                queryParams: new Dictionary<string, string>
+                queryParams: new Dictionary<string, object>
                 {
-                    { "orgSlug", org.Slug },
-                    { "appShortNames", string.Join(",", apps.Select(a=>a.ShortName)) }
+                    { "identifier", org.Uuid.ToString() },
+                    { "appShortNames", string.Join(",", appShortNames) }
                 }
             );
         }
@@ -144,7 +170,7 @@ namespace MapHive.Core.Cmd
 
             await ApiCallAsync<object>(Endpoints["Core"] + "envconfig/createorg",
                 Method.POST,
-                queryParams: new Dictionary<string, string>
+                queryParams: new Dictionary<string, object>
                 {
                     { "orgName", orgName },
                     { "orgDescription", orgDescription },
@@ -168,16 +194,21 @@ namespace MapHive.Core.Cmd
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        protected async Task DropOrgRemoteAsync(Guid orgId)
+        protected async Task DropOrgRemoteAsync(Guid orgId, bool clean)
         {
             //authenticate user
             await AuthenticateAsync();
 
             await ApiCallAsync<object>(Endpoints["Core"] + "envconfig/droporg",
                 Method.DELETE,
-                queryParams: new Dictionary<string, string>
+                queryParams: new Dictionary<string, object>
                 {
-                    { "orgId", orgId.ToString() }
+                    {
+                        "orgId", orgId.ToString()
+                    },
+                    {
+                        "clean", clean
+                    }
                 }
             );
         }
@@ -187,6 +218,7 @@ namespace MapHive.Core.Cmd
         /// </summary>
         /// <param name="email"></param>
         /// <param name="pass"></param>
+        /// <param name="slug"></param>
         /// <param name="destroy"></param>
         /// <returns></returns>
         protected async Task<MapHiveUser> CreateUserRemoteAsync(string email, string pass, string slug, bool destroy)
@@ -200,7 +232,7 @@ namespace MapHive.Core.Cmd
 
             return await ApiCallAsync<MapHiveUser>(Endpoints["Core"] + "envconfig/createuser",
                 Method.POST,
-                queryParams: new Dictionary<string, string>
+                queryParams: new Dictionary<string, object>
                 {
                     { "email", email },
                     { "pass", pass },
@@ -252,7 +284,7 @@ namespace MapHive.Core.Cmd
             {
                 var auth = await ApiCallAsync<Auth.AuthOutput>(Endpoints["Auth"] + "letmein",
                     Method.GET,
-                    new Dictionary<string, string>
+                    new Dictionary<string, object>
                     {
                         {"email", RemoteAdmin["Email"]},
                         {"pass", RemoteAdmin["Password"]}
@@ -272,7 +304,7 @@ namespace MapHive.Core.Cmd
         /// <param name="queryParams"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected internal virtual async Task<TOut> ApiCallAsync<TOut>(string url, Method method = Method.GET, Dictionary<string, string> queryParams = null, object data = null)
+        protected internal virtual async Task<TOut> ApiCallAsync<TOut>(string url, Method method = Method.GET, Dictionary<string, object> queryParams = null, object data = null)
         {
             var client = new RestClient(url);
             var request = new RestRequest(method);

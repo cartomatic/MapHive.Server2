@@ -13,6 +13,67 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
+
+        /// <summary>
+        /// Adds an org to the env
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected virtual async Task Handle_AddOrg(Dictionary<string, string> args)
+        {
+            var cmd = GetCallerName();
+
+            if (GetHelp(args))
+            {
+                Console.WriteLine($"'{cmd}' : adds an organisation to the system and registers it to the specified owner user. Org initiall does not have any apps assigned, so in order to make apps accessible to an organization, one needs to register them separately");
+                Console.WriteLine($"syntax: {cmd} space separated params: ");
+                Console.WriteLine("\t[e:email] email of an owner user");
+                Console.WriteLine("\t[p:pass] password of an owner user");
+                Console.WriteLine("\t[n:orgname] name of the organisation.");
+                Console.WriteLine("\t[d:orgdesc] description of the organisation.");
+                Console.WriteLine("\t[morg:bool presence] whether or not this should be a master organization; defaults to false");
+                Console.WriteLine("\t[clean:bool presence] whether or not to drop an organisation (and its database) previously assigned to a user, if any; defaults to true");
+                Console.WriteLine();
+                Console.WriteLine($"example: {cmd} e:someone@maphive.net p:test");
+                return;
+            }
+
+            var email = ExtractParam("e", args);
+            var pass = ExtractParam("p", args);
+            var clean = ContainsParam("clean", args);
+            var orgName = ExtractParam<string>("n", args);
+            var orgDescription = ExtractParam<string>("d", args);
+            var morg = ContainsParam("morg", args);
+
+            if (string.IsNullOrWhiteSpace(orgName))
+            {
+                ConsoleEx.WriteErr("Organization needs a name.");
+                Console.WriteLine();
+                return;
+            }
+
+            //use the default account if email and pass not provided
+            if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(pass))
+            {
+                ConsoleEx.WriteErr("Organization needs a valid owner email & pass.");
+                Console.WriteLine();
+                return;
+            }
+
+            //ensure the site admin app is present!!!
+            await RegisterAppsAsync(new[] { "masterofpuppets" });
+
+            var apps = new List<string>();
+            if(morg)
+                apps.Add("masterofpuppets");
+
+            //todo - allow specifying apps via param??? dunno, maybe so
+
+            await CreateOrganisationAsync(orgName, orgDescription, email, pass, apps, clean);
+
+            Console.WriteLine();
+        }
+
         /// <summary>
         /// Adds master org to the env
         /// </summary>
@@ -81,23 +142,38 @@ namespace MapHive.Core.Cmd
                 return false;
             }
 
-            //add user
-            var user = await CreateUserAsync(email, pass);
-
             //and create an org
             ConsoleEx.Write("Creating organization database and stuff... ", ConsoleColor.DarkYellow);
 
-            //now the org object
-            var newOrg = new Organization
-            {
-                DisplayName = orgName,
-                Description = orgDescription,
-                Slug = MapHive.Core.Utils.Slug.GetOrgSlug(orgName, user.Slug)
-            };
+            //org slug
+            var slug = MapHive.Core.Utils.Slug.GetOrgSlug(orgName, email);
 
             //create an org with owner and register apps
-            await newOrg.CreateAsync(new MapHiveDbContext(), user, apps);
+            if (RemoteMode)
+            {
+                //while remote org creation auto adds an owner user
+                await CreateOrgRemoteAsync(orgName, orgDescription, slug, true, apps.Contains("masterofpuppets"), email, pass);
 
+                //it does not register apps, so need to do it in a separate go
+                var newOrg = await GetOrgRemoteAsync(slug);
+                await RegisterAppsWithOrgRemoteAsync(newOrg, apps);
+            }
+            else
+            {
+                //add user
+                var user = await CreateUserAsync(email, pass, email);
+
+                //now the org object
+                var newOrg = new Organization
+                {
+                    DisplayName = orgName,
+                    Description = orgDescription,
+                    Slug = slug
+                };
+
+                await newOrg.CreateAsync(new MapHiveDbContext(), user, apps);
+            }
+            
             //This should be all for now. This way org creation is quick. App related db stuff should be handled by the app related services when they're
             //accessed for the first time.
 

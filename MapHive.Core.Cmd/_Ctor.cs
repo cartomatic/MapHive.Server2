@@ -20,10 +20,10 @@ namespace MapHive.Core.Cmd
                     .AddAliases(nameof(Handle_DestroyUser), "xuser", "xu")
                     .AddAliases(nameof(Handle_AddApps), "apps")
                     .AddAliases(nameof(Handle_AddUser), "u")
-                    .AddAliases(nameof(Handle_AddUserRemote), "ur")
                     .AddAliases(nameof(Handle_AddMasterOrg), "addmorg")
                     .AddAliases(nameof(Handle_MasterOrg), "morg")
                     .AddAliases(nameof(Handle_Endpoints), "ep")
+                    .AddAliases(nameof(Handle_RemoteMode), "rm")
                     .AddAliases(nameof(Handle_RemoteAdmin), "ra")
                     .AddAliases(nameof(Handle_EmailTemplates), "et")
                     .AddAliases(nameof(Handle_DefaultLangs), "dl")
@@ -39,6 +39,8 @@ namespace MapHive.Core.Cmd
             SetDefaultEndpoints();
 
             SetDefaultRemoteAdmin();
+
+            PrintRemoteMode();
         }
         
         public CommandHandler()

@@ -44,6 +44,8 @@ namespace MapHive.Core.Cmd
             {
                 ConsoleEx.Write($"Registering email template: {et.Identifier}... ", ConsoleColor.DarkYellow);
 
+                //TODO - add an option to make the command remote
+
                 if (!await dbCtx.EmailTemplates.AnyAsync(t => t.Uuid == et.Uuid))
                 {
                     dbCtx.EmailTemplates.Add(et);

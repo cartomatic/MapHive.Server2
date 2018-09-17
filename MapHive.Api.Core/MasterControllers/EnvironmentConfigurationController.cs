@@ -44,14 +44,14 @@ namespace MapHive.Api.Core.Controllers
         /// <summary>
         /// Gets an org by name or id
         /// </summary>
-        /// <param name="slug">slug or guid</param>
+        /// <param name="identifier">slug or guid</param>
         /// <returns></returns>
         [HttpGet]
         [Route("getorg")]
         [ProducesResponseType(typeof(Organization), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetMasterOrgAsync([FromQuery] string slug)
+        public async Task<IActionResult> GetMasterOrgAsync([FromQuery] string identifier)
         {
             try
             {
@@ -60,13 +60,13 @@ namespace MapHive.Api.Core.Controllers
 
                 Organization org = null;
 
-                if (Guid.TryParse(slug, out var orgId))
+                if (Guid.TryParse(identifier, out var orgId))
                 {
                     org = await _db.Organizations.FirstOrDefaultAsync(o => o.Uuid == orgId);
                 }
                 else
                 {
-                    org = await _db.Organizations.FirstOrDefaultAsync(o => o.Slug == slug);
+                    org = await _db.Organizations.FirstOrDefaultAsync(o => o.Slug == identifier);
                 }
 
                 if (org == null)
@@ -149,14 +149,14 @@ namespace MapHive.Api.Core.Controllers
         /// <summary>
         /// registers apps with org
         /// </summary>
-        /// <param name="orgSlug"></param>
+        /// <param name="identifier"></param>
         /// <param name="appShortNames"></param>
         /// <returns></returns>
         [HttpPut]
         [Route("registerappstoorg")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> RegisterAppsToOrgAsync([FromQuery]string orgSlug, [FromQuery]string appShortNames)
+        public async Task<IActionResult> RegisterAppsToOrgAsync([FromQuery]string identifier, [FromQuery]string appShortNames)
         {
             try
             {
@@ -167,7 +167,17 @@ namespace MapHive.Api.Core.Controllers
                 Cartomatic.Utils.Identity.ImpersonateGhostUserViaHttpContext();
                 Cartomatic.Utils.Identity.ImpersonateGhostUser();
 
-                var org = await _db.Organizations.FirstOrDefaultAsync(o => o.Slug == orgSlug);
+                Organization org = null;
+
+                if (Guid.TryParse(identifier, out var orgId))
+                {
+                    org = await _db.Organizations.FirstOrDefaultAsync(o => o.Uuid == orgId);
+                }
+                else
+                {
+                    org = await _db.Organizations.FirstOrDefaultAsync(o => o.Slug == identifier);
+                }
+
                 if (org == null)
                     return BadRequest("Org not found");
 
@@ -272,12 +282,13 @@ namespace MapHive.Api.Core.Controllers
         /// Drops an organisation
         /// </summary>
         /// <param name="orgId"></param>
+        /// <param name="clean"></param>
         /// <returns></returns>
         [HttpDelete]
         [Route("droporg")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DropOrgAsync([FromUri]Guid orgId)
+        public async Task<IActionResult> DropOrgAsync([FromUri]Guid orgId, bool clean)
         {
             try
             {
@@ -358,7 +369,7 @@ namespace MapHive.Api.Core.Controllers
                 //need to keep it alive until all the apis perform a cleanup because they may need to consult the core for specific org db details
 
                 //this should destroy org, its dbs, roles and all the related stuff
-                await org.DestroyAsync(_db, true);
+                await org.DestroyAsync(_db, clean);
 
 
                 return Ok();
@@ -449,7 +460,7 @@ namespace MapHive.Api.Core.Controllers
 
 
         /// <summary>
-        /// registers tokens in the nevironment...
+        /// registers tokens in the environment...
         /// </summary>
         /// <param name="tokens"></param>
         /// <returns></returns>
