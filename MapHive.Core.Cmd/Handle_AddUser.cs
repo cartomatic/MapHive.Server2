@@ -36,54 +36,7 @@ namespace MapHive.Core.Cmd
                 ConsoleEx.WriteErr("User name and pass cannot be empty!");
             }
 
-            var user = new MapHiveUser
-            {
-                Email = email,
-                Slug = slug
-            };
-
-            ConsoleEx.WriteLine($"Creating user: '{email}' with the following pass: '{pass}'; slug: {user.GetSlug()}", ConsoleColor.DarkYellow);
-
-            //need a valid user to create a Core.Base object
-            Cartomatic.Utils.Identity.ImpersonateGhostUser();
-
-            
-
-
-            //Note: db context uses a connection defined in app cfg. 
-            //TODO - make it somewhat dynamic!          
-            try
-            {
-                //destroy a previous account if any
-                await DestroyUserAsync<MapHiveUser>(email, new MapHiveDbContext("MapHiveMeta"));
-
-                IDictionary<string, object> op = null;
-                user.UserCreated += (sender, eventArgs) =>
-                {
-                    op = eventArgs.OperationFeedback;
-                };
-
-                await user.CreateAsync(new MapHiveDbContext("MapHiveMeta"));
-
-                //once user is created, need to perform an update in order to set it as valid
-                user.IsAccountVerified = true;
-                await user.UpdateAsync(new MapHiveDbContext("MapHiveMeta"));
-
-                //and also need to change the pass as the default procedure autogenerates a pass
-                var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
-                var idUser = await userManager.FindByEmailAsync(email);
-                await userManager.ChangePasswordAsync(idUser, (string)op["InitialPassword"], pass);
-                
-
-                ConsoleEx.WriteOk($"User '{email}' with the following pass: '{pass}' has been created.");
-                Console.WriteLine();
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-                return;
-            }
-
+            await CreateUserAsync(email, pass, slug);
         }
 
         /// <summary>
@@ -95,26 +48,24 @@ namespace MapHive.Core.Cmd
         /// <returns></returns>
         protected async Task<MapHiveUser> CreateUserAsync(string email, string pass, string slug)
         {
+            var user = new MapHiveUser
+            {
+                Email = email,
+                Slug = slug
+            };
+
+            ConsoleEx.WriteLine($"Creating user: '{email}' with the following pass: '{pass}'; slug: {user.GetSlug()}", ConsoleColor.DarkYellow);
+
             if (RemoteMode)
             {
-                var user = await CreateUserRemoteAsync(email, pass, slug, true);
-
-                ConsoleEx.WriteOk($"User '{email}' with the following pass: '{pass}' has been created.");
-                Console.WriteLine();
-
-                return user;
+                user = await CreateUserRemoteAsync(email, pass, slug, true);
             }
             else
             {
                 //need a valid user to create a Core.Base object
                 Cartomatic.Utils.Identity.ImpersonateGhostUser();
 
-                var user = new MapHiveUser
-                {
-                    Email = email,
-                    Slug = slug
-                };
-
+                
                 //Note: db context uses a connection defined in app cfg. 
                 //TODO - make it somewhat dynamic!          
                 try
@@ -140,10 +91,6 @@ namespace MapHive.Core.Cmd
                     user.IsAccountVerified = true;
                     await user.UpdateAsync(new MapHiveDbContext("MapHiveMetadata"), user.Uuid);
 
-                    ConsoleEx.WriteOk($"User '{email}' with the following pass: '{pass}' has been created.");
-                    Console.WriteLine();
-
-                    return user;
                 }
                 catch (Exception ex)
                 {
@@ -151,6 +98,11 @@ namespace MapHive.Core.Cmd
                     return null;
                 }
             }
+
+            ConsoleEx.WriteOk($"User '{email}' with the following pass: '{pass}' has been created.");
+            Console.WriteLine();
+
+            return user;
         }
     }
 }
