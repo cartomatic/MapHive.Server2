@@ -222,7 +222,7 @@ namespace MapHive.Core.DataModel
             do
             {
                 retVal = type.GetMethod(
-                    "Read",
+                    "ReadAsync",
                     BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static,
                     null,
                     new[]
