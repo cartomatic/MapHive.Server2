@@ -19,8 +19,8 @@ namespace MapHive.Core.Api
         protected static ApiConfigurationSettings Settings => new ApiConfigurationSettings
         {
             AppShortNames = "hive,home,dashboard,hgis1,masterofpuppets",
-            XmlCommentsPath = @"MapHive.Core.Api.xml",
-            ApiTitle = "MapHive.Core.Api",
+            XmlCommentsPath = @"MapHive.Api.Core.xml",
+            ApiTitle = "MapHive.Api.Core",
             UseGitVersion = true,
             AllowApiTokenAccess = true,
             UsesIdentityUserManagerUtils = true
