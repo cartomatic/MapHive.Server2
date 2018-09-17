@@ -3,8 +3,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>1.0.4-dev0026</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.4-dev0031</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
 aimed at working with pgsql initially</Description>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
