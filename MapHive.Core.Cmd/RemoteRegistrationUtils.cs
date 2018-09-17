@@ -249,7 +249,7 @@ namespace MapHive.Core.Cmd
         {
             if (string.IsNullOrEmpty(AccessToken))
             {
-                var auth = await ApiCallAsync<Auth.AuthOutput>(Endpoints["Auth"] + "login",
+                var auth = await ApiCallAsync<Auth.AuthOutput>(Endpoints["Auth"] + "letmein",
                     Method.GET,
                     new Dictionary<string, string>
                     {
