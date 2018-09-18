@@ -108,7 +108,6 @@ Replacement tokens are:
 $@"<h3>Hi {{UserName}},</h3>
 <p>MapHive user account has been created for you.</p>
 <p>Your initial password is: <b>{{InitialPassword}}</b></p>
-<p>and your verification key is: <b>{{VerificationKey}}</b></p>
 <br/>
 <p>In order to activate your account please click <a href={activateAccountLink}>here</a> or paste the following link in your browser: {activateAccountLink}</p>
 <br/>
@@ -142,8 +141,7 @@ Replacement tokens are:
                                 Body =
 $@"<h3>Hi {{UserName}},</h3>
 <p>MapHive user account could not have been activated due to the verification key becoming outdated.</p>
-<p>Your new verification key : <b>{{VerificationKey}}</b></p>
-<p>Please use the initial password sent previously.</p>
+<p>Your initial password is: <b>{{InitialPassword}}</b></p>
 <br/>
 <p>In order to activate your account please click <a href={activateAccountLink}>here</a> or paste the following link in your browser: {activateAccountLink}</p>
 <br/>
