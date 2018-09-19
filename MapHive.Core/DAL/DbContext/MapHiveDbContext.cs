@@ -14,6 +14,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DAL
 {
+    /// <summary>
+    /// Maphive db ctx
+    /// </summary>
     public class MapHiveDbContext : ApplicationDbContext, ILinksDbContext, IMapHiveAppsDbContext, ILocalizedDbContext, IMapHiveUsersDbContext<MapHiveUser>, IProvideDbContextFactory
     {
         /// <summary>
@@ -36,12 +39,15 @@ namespace MapHive.Core.DAL
         {
         }
 
+
+        /// <inheritdoc />
         public DbContext ProduceDbContextInstance(string connStrName = null, bool isConnStr = false,
             DataSourceProvider provider = DataSourceProvider.EfInMemory)
         {
             return new MapHiveDbContext(connStrName, isConnStr, provider);
         }
 
+        /// <inheritdoc />
         public DbContext ProduceDefaultDbContextInstance()
         {
             return new MapHiveDbContext();

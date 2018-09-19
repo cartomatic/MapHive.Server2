@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Ef;
 using MapHive.Core.DAL;
 using Newtonsoft.Json;
 using Npgsql;
@@ -34,7 +35,7 @@ namespace MapHive.Core.DataModel
         /// <param name="superUser">whether or not create context with user elevated to superuser - sometimes required for ops such as COPY</param>
         /// <returns></returns>
         public TDbContext GetDbContext<TDbContext>(bool superUser = false)
-            where TDbContext : DbContext, new()
+            where TDbContext : DbContext, IProvideDbContextFactory, new()
         {
 
             //full framework
@@ -43,7 +44,10 @@ namespace MapHive.Core.DataModel
 
             var connStr = GetConnectionString(superUser: superUser);
 
-            return (TDbContext)Activator.CreateInstance(typeof(TDbContext), new object[] { connStr, true });
+            //assume here the context has a constructor that takes in connStr, flag confirming it's a connStr, and a data source provider
+            //the constructor should have signatrue that is an equivalent to IProvideDbContextFactory.ProduceDbContextInstance(string connStrName = null, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.EfInMemory)
+            var dbCtx = (TDbContext)Activator.CreateInstance(typeof(TDbContext));
+            return (TDbContext)dbCtx.ProduceDbContextInstance(connStr, true, DataSourceProvider);
         }
     }
 }

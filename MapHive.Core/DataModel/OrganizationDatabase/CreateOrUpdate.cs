@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Ef;
 using Newtonsoft.Json;
 using Npgsql;
 
@@ -41,7 +42,7 @@ namespace MapHive.Core.DataModel
         /// <typeparam name="TDbContext"></typeparam>
         /// <returns></returns>
         public CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase<TDbContext>()
-            where TDbContext : DbContext, new()
+            where TDbContext : DbContext, IProvideDbContextFactory, new()
         {
             var ctx = GetDbContext<TDbContext>();
 

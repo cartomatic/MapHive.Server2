@@ -69,7 +69,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="dbIdentifier"></param>
         /// <returns></returns>
         protected TDbCtx GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null)
-            where TDbCtx : DbContext, new() => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
+            where TDbCtx : DbContext, IProvideDbContextFactory, new() => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
 
         TDbCtx IOrganizationApiController<TDbContext>.GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null) => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
     }

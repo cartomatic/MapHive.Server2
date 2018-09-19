@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +39,6 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="dbIdentifier"></param>
         /// <returns></returns>
         TDbCtx GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null)
-            where TDbCtx : DbContext, new();
+            where TDbCtx : DbContext, IProvideDbContextFactory, new();
     }
 }

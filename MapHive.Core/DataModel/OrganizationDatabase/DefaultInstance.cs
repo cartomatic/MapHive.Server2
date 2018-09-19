@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Npgsql;
 
@@ -27,14 +28,12 @@ namespace MapHive.Core.DataModel
             {
                 var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
 
-                defaultDb =
-                    JsonConvert.DeserializeObject<OrganizationDatabase>(
-                        ConfigurationManager.AppSettings["OrganizationsDatabase"]
-                        ?? cfg?["OrganizationsDatabase"]
-                    );
+                defaultDb = !string.IsNullOrEmpty(ConfigurationManager.AppSettings["OrganizationsDatabase"]) 
+                    ? JsonConvert.DeserializeObject<OrganizationDatabase>(ConfigurationManager.AppSettings["OrganizationsDatabase"]) 
+                    : cfg?.GetSection("OrganizationsDatabase")?.Get<OrganizationDatabase>();
 
                 defaultDb.OrganizationId = orgId;
-                defaultDb.DbName = $"org_{orgId.ToString().Replace("-", "")}";
+                defaultDb.DbName = $"mhorg_{orgId:N}"; //uuid without dashes
                 defaultDb.Identifier = dbIdentifier;
             }
             catch

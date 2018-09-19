@@ -146,7 +146,9 @@ namespace MapHive.Core.DataModel
         /// </remarks>
         public virtual List<MapHiveUser> Admins { get; set; }
 
-
+        /// <summary>
+        /// org license opts
+        /// </summary>
         public OrganizationLicenseOptions LicenseOptions { get; set; }
 
         [JsonIgnore]

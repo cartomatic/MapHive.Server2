@@ -18,21 +18,21 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             builder.ApplyIBaseConfiguration(nameof(OrganizationDatabase), "organization_databases", "mh_meta");
 
-            builder.Property(en => en.OrganizationId).HasColumnName("organization_id");
-            builder.Property(en => en.Identifier).HasColumnName("identifier");
-            builder.Property(en => en.UserName).HasColumnName("user_name");
-            builder.Property(en => en.Pass).HasColumnName("password");
-            builder.Property(en => en.ServerHost).HasColumnName("server_host");
-            builder.Property(en => en.ServerPort).HasColumnName("server_port");
-            builder.Property(en => en.DbName).HasColumnName("db_name");
+            builder.Property(p => p.OrganizationId).HasColumnName("organization_id");
+            builder.Property(p => p.Identifier).HasColumnName("identifier");
+            builder.Property(p => p.UserName).HasColumnName("user_name");
+            builder.Property(p => p.Pass).HasColumnName("password");
+            builder.Property(p => p.ServerHost).HasColumnName("server_host");
+            builder.Property(p => p.ServerPort).HasColumnName("server_port");
+            builder.Property(p => p.DbName).HasColumnName("db_name");
 
-            builder.Property(en => en.ServiceUserName).HasColumnName("service_user_name");
-            builder.Property(en => en.ServiceUserPass).HasColumnName("service_user_password");
-            builder.Property(en => en.ServiceDb).HasColumnName("service_db_name");
+            builder.Property(p => p.ServiceUserName).HasColumnName("service_user_name");
+            builder.Property(p => p.ServiceUserPass).HasColumnName("service_user_password");
+            builder.Property(p => p.ServiceDb).HasColumnName("service_db_name");
 
-            builder.Property(en => en.DataSourceProvider).HasColumnName("provider");
+            builder.Property(p => p.DataSourceProvider).HasColumnName("provider");
 
-            builder.HasIndex(t => new { t.OrganizationId, t.Identifier }) //this should create a unique composite field idx!
+            builder.HasIndex(p => new { p.OrganizationId, p.Identifier }) //this should create a unique composite field idx!
                 .HasName($"uq_org_uuid_identifier_{nameof(OrganizationDatabase).ToLower()}")
                 .IsUnique();
         }

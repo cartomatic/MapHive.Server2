@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,7 @@ namespace MapHive.Core.Api.ApiControllers
     /// <typeparam name="TDbContext">The default context to be used for the controller</typeparam>
     //[OrganizationContextActionFilter] - in the startup now so kicks in when required!
     public abstract class OrganizationDbCtxController<TDbContext> : DbCtxController<TDbContext>, IOrganizationApiController<TDbContext>, IOrganizationDbCtxApiController, IDbCtxController
-        where TDbContext : DbContext, new()
+        where TDbContext : DbContext, IProvideDbContextFactory, new()
     {
         private TDbContext _organizationDb;
 
@@ -57,7 +58,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="dbIdentifier"></param>
         /// <returns></returns>
         protected TDbCtx GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null)
-            where TDbCtx: DbContext, new() => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
+            where TDbCtx: DbContext, IProvideDbContextFactory, new() => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
 
         TDbCtx IOrganizationApiController<TDbContext>.GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null) => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
 

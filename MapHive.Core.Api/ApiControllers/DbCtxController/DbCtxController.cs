@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace MapHive.Core.Api.ApiControllers
 {
     /// <summary>
-    /// Base controller with db ctx access
+    /// Base controller with db ctx access; the provided db context must be initialable via paramless ctor
     /// </summary>
     /// <typeparam name="TDbContext"></typeparam>
     public abstract partial class DbCtxController<TDbContext> : BaseController, IDbCtxController

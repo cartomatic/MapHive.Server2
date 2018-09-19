@@ -44,7 +44,6 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Ignore(p => p.Databases);
             builder.Ignore(p => p.EncryptedDatabases);
 
-
             builder.HasIndex(t => t.Slug)
                 .HasName($"uq_slug_{nameof(Organization).ToLower()}")
                 .IsUnique();
