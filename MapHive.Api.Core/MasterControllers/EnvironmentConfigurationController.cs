@@ -303,7 +303,7 @@ namespace MapHive.Api.Core.Controllers
         [Route("droporg")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DropOrgAsync([FromUri]Guid orgId, bool clean)
+        public async Task<IActionResult> DropOrgAsync([FromUri]Guid orgId, [FromUri] bool clean)
         {
             try
             {
@@ -514,7 +514,7 @@ namespace MapHive.Api.Core.Controllers
         [Route("registertokens")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> RegisterTokensAsync(List<Token> tokens)
+        public async Task<IActionResult> RegisterTokensAsync([FromBody] List<Token> tokens)
         {
             try
             {
@@ -566,7 +566,7 @@ namespace MapHive.Api.Core.Controllers
         [Route("registeremailtemplates")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> RegisterEmailTemplatesAsync(List<MapHive.Core.DataModel.EmailTemplateLocalization> emailTemplates)
+        public async Task<IActionResult> RegisterEmailTemplatesAsync([FromBody] List<MapHive.Core.DataModel.EmailTemplateLocalization> emailTemplates)
         {
             try
             {
