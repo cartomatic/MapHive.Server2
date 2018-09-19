@@ -41,9 +41,40 @@ namespace MapHive.Core.Cmd
                 data: apps
             );
         }
+        /// <summary>
+        /// registers apps remotely
+        /// </summary>
+        /// <param name="apps"></param>
+        /// <returns></returns>
         protected async Task RegisterAppsRemoteAsync(List<Application> apps)
         {
             await RegisterAppsRemoteAsync(apps.ToArray());
+        }
+
+        /// <summary>
+        /// Regusters langs remeotely
+        /// </summary>
+        /// <param name="langs"></param>
+        /// <returns></returns>
+        protected async Task RegisterLangsRemoteAsync(params Lang[] langs)
+        {
+            //authenticate user
+            await AuthenticateAsync();
+
+            //and call a remote api...
+            await ApiCallAsync<Auth.AuthOutput>(Endpoints["Core"] + "envconfig/registerlangs",
+                Method.POST,
+                data: langs
+            );
+        }
+        /// <summary>
+        /// registers langs remotely
+        /// </summary>
+        /// <param name="langs"></param>
+        /// <returns></returns>
+        protected async Task RegisterLangsRemoteAsync(List<Lang> langs)
+        {
+            await RegisterLangsRemoteAsync(langs.ToArray());
         }
 
         /// <summary>
@@ -373,6 +404,8 @@ namespace MapHive.Core.Cmd
             }
             else
             {
+                var st = new StackTrace();
+
                 Console.WriteLine();
                 ConsoleEx.WriteErr($"{new StackTrace().GetFrame(1).GetMethod().Name}; HTTP Code: {resp.StatusCode}; ErrorMsg: {resp.ErrorMessage}");
                 Console.WriteLine();

@@ -29,6 +29,13 @@ namespace MapHive.Core.Cmd
                 return;
             }
 
+            if (RemoteMode)
+            {
+                ConsoleEx.WriteLine($"{nameof(Handle_DropDb)} works only in direct db mode, skipping!", ConsoleColor.DarkGray);
+                Console.WriteLine();
+                return;
+            }
+
             //expect the args to contain one entry only
             if (args.Count != 1)
             {

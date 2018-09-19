@@ -26,6 +26,9 @@ namespace MapHive.Core.Cmd
                 return;
             }
 
+            //print remote mode, so it is explicitly communicated
+            PrintRemoteMode();
+
             await RegisterLangsAsync(GetDefaultLangs());
         }
 
@@ -36,20 +39,29 @@ namespace MapHive.Core.Cmd
         /// <returns></returns>
         protected virtual async Task RegisterLangsAsync(IEnumerable<Lang> langs)
         {
-            using (var dbCtx = GetMapHiveDbContext())
+            if (RemoteMode)
             {
-                foreach (var lang in langs)
+                ConsoleEx.Write($"Registering langs: {string.Join(", ", langs.Select(l => l.LangCode))}... ", ConsoleColor.DarkYellow);
+                await RegisterLangsRemoteAsync(langs.ToArray());
+                ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+            }
+            else
+            {
+                using (var dbCtx = GetMapHiveDbContext())
                 {
-                    ConsoleEx.Write($"Registering lang: {lang.LangCode}... ", ConsoleColor.DarkYellow);
-
-                    if (!await dbCtx.Langs.AnyAsync(l => l.Uuid == lang.Uuid))
+                    foreach (var lang in langs)
                     {
-                        dbCtx.Langs.Add(lang);
-                    }
+                        ConsoleEx.Write($"Registering lang: {lang.LangCode}... ", ConsoleColor.DarkYellow);
 
-                    ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                        if (!await dbCtx.Langs.AnyAsync(l => l.Uuid == lang.Uuid))
+                        {
+                            dbCtx.Langs.Add(lang);
+                        }
+
+                        ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                    }
+                    await dbCtx.SaveChangesAsync();
                 }
-                await dbCtx.SaveChangesAsync();
             }
 
             Console.WriteLine();

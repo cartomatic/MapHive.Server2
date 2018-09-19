@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Cartomatic.Utils.Dto;
 using MapHive.Core;
 using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.DataModel;
@@ -104,13 +105,25 @@ namespace MapHive.Api.Core.Controllers
                 Cartomatic.Utils.Identity.ImpersonateGhostUserViaHttpContext();
                 Cartomatic.Utils.Identity.ImpersonateGhostUser();
 
-                var dbApps = await _db.Applications.ToListAsync();
+                var appIds = apps.Select(a=> a.Uuid).ToArray();
+                var dbApps = await _db.Applications.Where(a => appIds.Contains(a.Uuid)).ToListAsync();
 
                 //good to go
                 foreach (var app in apps)
                 {
-                    if(dbApps.All(a => a.Uuid != app.Uuid))
+                    //add
+                    if (dbApps.All(a => a.Uuid != app.Uuid))
+                    {
                         _db.Applications.Add(app);
+                    }
+                    //or update
+                    else
+                    {
+                        //just find an object and copy properties
+                        dbApps.FirstOrDefault(a => a.Uuid == app.Uuid)
+                            .CopyPublicPropertiesFrom(app);
+                    }
+
                 }
                 await _db.SaveChangesAsync();
 
@@ -519,8 +532,19 @@ namespace MapHive.Api.Core.Controllers
                 //good to go
                 foreach (var token in tokens)
                 {
+                    //add
                     if (dbTokens.All(t => t.Uuid != token.Uuid))
+                    {
                         _db.Tokens.Add(token);
+                    }
+                    //or update
+                    else
+                    {
+                        //just find an object and copy properties
+                        dbTokens.FirstOrDefault(t => t.Uuid == token.Uuid)
+                            .CopyPublicPropertiesFrom(token);
+                    }
+
                 }
                 await _db.SaveChangesAsync();
 
@@ -555,13 +579,24 @@ namespace MapHive.Api.Core.Controllers
 
                 //good to go
                 var emailTemplateIds = emailTemplates.Select(et => et.Uuid).ToArray();
-                var dbEmailTemplates = await _db.EmailTemplates.Where(et => emailTemplateIds.Contains(et.Uuid)).ToListAsync();
+                var dbEmailTemplates = await _db.EmailTemplates.Where(et=>emailTemplateIds.Contains(et.Uuid)).ToListAsync();
 
                 //good to go
                 foreach (var emailTemplate in emailTemplates)
                 {
+                    //add
                     if (dbEmailTemplates.All(et => et.Uuid != emailTemplate.Uuid))
+                    {
                         _db.EmailTemplates.Add(emailTemplate);
+                    }
+                    //or update
+                    else
+                    {
+                        //just find an object and copy properties
+                        dbEmailTemplates.FirstOrDefault(et => et.Uuid == emailTemplate.Uuid)
+                            .CopyPublicPropertiesFrom(emailTemplate);
+
+                    }
                 }
                 await _db.SaveChangesAsync();
 
@@ -572,5 +607,56 @@ namespace MapHive.Api.Core.Controllers
                 return HandleException(ex);
             }
         }
+
+        /// <summary>
+        /// Registers langs in the system
+        /// </summary>
+        /// <param name="langs"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("registerlangs")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> RegisterLangsAsync([FromBody] List<Lang> langs)
+        {
+            try
+            {
+                if (!await UserIsEnvAdminAsync())
+                    return new UnauthorizedResult();
+
+                //pretend this is an 'automated' user...
+                Cartomatic.Utils.Identity.ImpersonateGhostUserViaHttpContext();
+                Cartomatic.Utils.Identity.ImpersonateGhostUser();
+
+                var langIds = langs.Select(l => l.Uuid).ToArray();
+                var dbLangs = await _db.Langs.Where(l => langIds.Contains(l.Uuid)).ToListAsync();
+
+                //good to go
+                foreach (var lng in langs)
+                {
+                    //add
+                    if (dbLangs.All(l => l.Uuid != lng.Uuid))
+                    {
+                        _db.Langs.Add(lng);
+                    }
+                    //or update
+                    else
+                    {
+                        //just find an object and copy properties
+                        dbLangs.FirstOrDefault(l => l.Uuid == lng.Uuid)
+                            .CopyPublicPropertiesFrom(lng);
+                    }
+
+                }
+                await _db.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
     }
 }

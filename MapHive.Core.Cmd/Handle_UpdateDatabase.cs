@@ -35,6 +35,13 @@ namespace MapHive.Core.Cmd
                 return;
             }
 
+            if (RemoteMode)
+            {
+                ConsoleEx.WriteLine($"{nameof(Handle_SetUpDb)} works only in direct db mode, skipping!", ConsoleColor.DarkGray);
+                Console.WriteLine();
+                return;
+            }
+
             var ctxsToMigrate = new Dictionary<string, List<Type>>();
 
             var all = ContainsParam("all", args);
