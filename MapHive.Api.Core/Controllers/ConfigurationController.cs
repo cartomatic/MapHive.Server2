@@ -61,6 +61,9 @@ namespace MapHive.Api.Core.Controllers
         {
             try
             {
+                //TODO - secure this endpoint with a m2m token of some sort. so one cannot retrieve user orgs by simply knowing user id.
+                //TODO - calling api needs to provide a token in order to call this api; see the user configuration attribute too as will have to provide the token there!
+
                 return Ok(await MapHive.Core.Configuration.UserConfiguration.GetAsync(GetDefaultDbContext(), input));
             }
             catch (Exception ex)

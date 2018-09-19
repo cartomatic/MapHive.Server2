@@ -19,23 +19,25 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             builder.ApplyIBaseConfiguration(nameof(Application), "applications", "mh_meta");
 
-            builder.Property(en => en.ShortName).HasColumnName("short_name");
-            builder.Property(en => en.Name).HasColumnName("name");
-            builder.Property(en => en.Description).HasColumnName("description");
-            builder.Property(en => en.Urls).HasColumnName("urls");
-            builder.Property(en => en.UseSplashscreen).HasColumnName("use_splashscreen");
-            builder.Property(en => en.RequiresAuth).HasColumnName("requires_auth");
-            builder.Property(en => en.IsCommon).HasColumnName("is_common");
-            builder.Property(en => en.IsDefault).HasColumnName("is_default");
-            builder.Property(en => en.IsHome).HasColumnName("is_home");
-            builder.Property(en => en.IsHive).HasColumnName("is_hive");
-            builder.Property(en => en.IsApi).HasColumnName("is_api");
-            builder.Property(en => en.ProviderId).HasColumnName("provider_id");
+            builder.Property(p => p.ShortName).HasColumnName("short_name");
+            builder.Property(p => p.Name).HasColumnName("name");
+            builder.Property(p => p.Description).HasColumnName("description");
+            builder.Property(p => p.Urls).HasColumnName("urls");
+            builder.Property(p => p.UseSplashscreen).HasColumnName("use_splashscreen");
+            builder.Property(p => p.RequiresAuth).HasColumnName("requires_auth");
+            builder.Property(p => p.IsCommon).HasColumnName("is_common");
+            builder.Property(p => p.IsDefault).HasColumnName("is_default");
+            builder.Property(p => p.IsHome).HasColumnName("is_home");
+            builder.Property(p => p.IsHive).HasColumnName("is_hive");
+            builder.Property(p => p.IsApi).HasColumnName("is_api");
+            builder.Property(p => p.ProviderId).HasColumnName("provider_id");
 
-            builder.Ignore(en => en.LicenseOptions);
-            builder.Property(en => en.LicenseOptionsSerialized).HasColumnName("license_options");
+            builder.Ignore(p => p.LicenseOptions);
+            builder.Property(p => p.LicenseOptionsSerialized).HasColumnName("license_options");
 
-            builder.HasIndex(t => t.ShortName)
+            builder.Ignore(p => p.OrgUserAppAccessCredentials);
+
+            builder.HasIndex(p => p.ShortName)
                 .HasName($"uq_short_name_{nameof(Application).ToLower()}")
                 .IsUnique();
         }

@@ -112,6 +112,7 @@ Note: this description is only visible in DEBUG mode.";
             //Note: not likely to have both - user and token auth but in a case this is true, pull an org for token regardless the fact a user
             //may already have been 'served' above
             if (token != null)
+
             {
                 var tokenOrg = dbCtx.Organizations.FirstOrDefault(org => org.Uuid == token.OrganizationId);
 
@@ -196,9 +197,29 @@ Note: this description is only visible in DEBUG mode.";
                 await org.LoadDatabasesAsync(dbCtx);
 
             }
-
             //FIXME - same as above - make it possible to pass a list of org assets here
             
+
+
+            //read user access to orgs / apps
+            //this gathers info on user apps access for each org the user is assigned to
+            if (user != null)
+            {
+                //user must be present as without one there is no app access really
+                //Note: basically tokens grant direct access rights to apis and apis handle permissions on their own.
+                foreach (var o in orgs ?? new Organization[0])
+                {
+                    foreach (var a in o.Applications)
+                    {
+                        a.OrgUserAppAccessCredentials = await o.GetUserAppAccessCredentialsAsync(dbCtx, user, a);
+
+                        //reset some properties to avoid circular refs when serializing; and to minimize payload too
+                        a.OrgUserAppAccessCredentials.User = null;
+                        a.OrgUserAppAccessCredentials.Application = null;
+                        a.OrgUserAppAccessCredentials.Organization = null;
+                    }
+                }
+            }
 
 
             var userCfg = new UserConfiguration

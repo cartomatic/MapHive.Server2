@@ -22,7 +22,9 @@ namespace MapHive.Core.DAL
         /// </summary>
         public OrganizationDbContext() : this("dummy_conn_str")
         {
-            throw new InvalidOperationException($"You tried to use a paramless {nameof(OrganizationDbContext)}... You should really not do that and use the one that requires a conn str name...");
+            //not throwing now, as IProvideDbContextFactory is used and need to be able to create a default instance in order to 
+            //create an instance with proper conn details
+            //throw new InvalidOperationException($"You tried to use a paramless {nameof(OrganizationDbContext)}... You should really not do that and use the one that requires a conn str name...");
         }
 
         /// <summary>
@@ -37,12 +39,23 @@ namespace MapHive.Core.DAL
         {
         }
 
+        /// <summary>
+        /// creates a new instanc with the conn details specified
+        /// </summary>
+        /// <param name="connStrName"></param>
+        /// <param name="isConnStr"></param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
         public DbContext ProduceDbContextInstance(string connStrName = null, bool isConnStr = false,
             DataSourceProvider provider = DataSourceProvider.EfInMemory)
         {
             return new OrganizationDbContext(connStrName, isConnStr, provider);
         }
 
+        /// <summary>
+        /// created a new default instance of the db ctx
+        /// </summary>
+        /// <returns></returns>
         public DbContext ProduceDefaultDbContextInstance()
         {
             //this will throw deeper of course!!!

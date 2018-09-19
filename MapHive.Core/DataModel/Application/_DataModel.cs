@@ -102,6 +102,14 @@ namespace MapHive.Core.DataModel
             }
         }
 
+        /// <summary>
+        /// App access credentials for current user - current user is the user for whom the access credentials were calculated
+        /// </summary>
+        /// <remarks>
+        /// This property is used as a placeholder for dynamically linked data; it will not always be populated so do not rely on its existence
+        /// </remarks>
+        public virtual Organization.OrgUserAppAccessCredentials OrgUserAppAccessCredentials { get; set; }
+
 
         //TODO
         //comments

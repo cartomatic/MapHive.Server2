@@ -59,9 +59,12 @@ namespace MapHive.Core.DataModel
             foreach (var a in appCollector)
             {
                 if (
-                    a.IsDefault || //always return the dashboard
-                    (a.IsCommon && !a.RequiresAuth) || //and the public apps with no auth
-                    (org != null && (await org.GetUserAppAccessCredentialsAsync(dbCtx, user, a)).CanUseApp)
+                    !a.IsApi && //discard apis, they are not 'user apps'
+                    (
+                        a.IsDefault || //always return the dashboard
+                        (a.IsCommon && !a.RequiresAuth) || //and the public apps with no auth
+                        (org != null && (await org.GetUserAppAccessCredentialsAsync(dbCtx, user, a)).CanUseApp)
+                    )
                 )
                     outApps.Add(a);
             }

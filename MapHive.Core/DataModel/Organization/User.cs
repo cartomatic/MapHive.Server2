@@ -39,6 +39,11 @@ namespace MapHive.Core.DataModel
         public class OrgUserAppAccessCredentials
         {
             /// <summary>
+            /// User for whom this credentials were calculated
+            /// </summary>
+            public MapHiveUser User { get; set; }
+
+            /// <summary>
             /// Organization that the app access credentials are tested for
             /// </summary>
             public Organization Organization { get; set; }
@@ -73,15 +78,22 @@ namespace MapHive.Core.DataModel
         {
             var output = new OrgUserAppAccessCredentials
             {
+                User = user,
                 Organization = this,
                 Application = app
             };
-
-            //check if organization can access and application if not, then good bye
+            
+            //check if organization can access an application and if not, then good bye
             if (!await CanUseAppAsync(dbCtx, app))
                 return output;
 
-
+            //ignore api apps; non authorized apps are accessible anyway
+            //and apis just need to be assigned to an organisation in order to be accessible
+            if (app.IsApi)
+            {
+                output.CanUseApp = true;
+                return output;
+            }
 
             //check if user is an org owner or org admin
             output.IsAppAdmin = await IsOrgOwnerAsync(dbCtx, user) || await IsOrgAdminAsync(dbCtx, user);
