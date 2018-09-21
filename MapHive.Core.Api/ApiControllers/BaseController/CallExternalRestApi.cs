@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace MapHive.Core.Api.ApiControllers
@@ -45,12 +46,18 @@ namespace MapHive.Core.Api.ApiControllers
             }
 
             //looks like no content info was returned from the backend api
-            if (!string.IsNullOrWhiteSpace(contentType))
+            if (string.IsNullOrWhiteSpace(contentType))
             {
                 contentType = "application/octet-stream";
             }
             
-            return new ObjectResult(apiResponse.RawBytes ?? new byte[0])
+            return new ObjectResult(
+                string.IsNullOrEmpty(apiResponse.Content)
+                    ? (object)(apiResponse.RawBytes ?? new byte[0])
+                    : contentType == "application/json"
+                        ? JsonConvert.DeserializeObject(apiResponse.Content) //so nicely serialize object is returned
+                        : contentType
+            )
             {
                 StatusCode = (int) apiResponse.StatusCode, //note: this cast should be ok, the enum uses proper values
                 ContentTypes = new MediaTypeCollection()
