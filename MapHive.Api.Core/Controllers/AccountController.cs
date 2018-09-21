@@ -28,7 +28,7 @@ namespace MapHive.Api.Core.Controllers
         {
             try
             {
-                Cartomatic.Utils.Identity.ImpersonateGhostUserViaHttpContext();
+                Cartomatic.Utils.Identity.ImpersonateGhostUser();
                 var output = await MapHive.Core.Account.CreateAccountAsync(GetDefaultDbContext(), input);
                 return Ok(output);
             }

@@ -17,6 +17,11 @@ namespace MapHive.Core
         public string Email { get; set; }
 
         /// <summary>
+        /// User identifier if one wishes to customise it
+        /// </summary>
+        public string Slug { get; set; }
+
+        /// <summary>
         /// Surname of a user
         /// </summary>
         public string Surname { get; set; }
@@ -35,6 +40,11 @@ namespace MapHive.Core
         /// Company to create an account for
         /// </summary>
         public string Company { get; set; }
+
+        /// <summary>
+        /// Department
+        /// </summary>
+        public string Department { get; set; }
 
         /// <summary>
         /// VAT number

@@ -30,8 +30,12 @@ namespace MapHive.Core
             var user = new MapHive.Core.DataModel.MapHiveUser()
             {
                 Email = input.AccountDetails.Email,
+                Slug = input.AccountDetails.Slug,
                 Forename = input.AccountDetails.Forename,
                 Surname = input.AccountDetails.Surname,
+
+                Company = input.AccountDetails.Company,
+                Department = input.AccountDetails.Department,
                 ContactPhone = input.AccountDetails.ContactPhone
             };
 
@@ -42,7 +46,8 @@ namespace MapHive.Core
                 {"Email", user.Email}
             };
 
-            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user, input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
+            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user,
+                input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
             user = accountCreateOutput.User;
 
 
@@ -50,17 +55,23 @@ namespace MapHive.Core
 
             //get the apps
 
-            //web router app
+            //see what apps the client api wants to register
             var apps = await dbCtx.Applications.Where(a => appIdentifiers.Contains(a.ShortName)).ToListAsync();
 
+            //always make sure to glue in the core apis and apps
+            apps.AddRange(
+                MapHive.Core.Defaults.Applications.GetApplications()
+                    .Where(a=> a.IsCommon) //simply add all the common apps
+            );
 
-            //now the org object
-            var orgNameDesc = string.IsNullOrEmpty(input.AccountDetails.Company) ? input.AccountDetails.Email : input.AccountDetails.Company;
+
+        //now the org object
+            var orgNameDesc = string.IsNullOrEmpty(input.AccountDetails.Company) ? input.AccountDetails.Email + "-org" : input.AccountDetails.Company;
             var newOrg = new Organization
             {
                 DisplayName = orgNameDesc,
                 Description = orgNameDesc,
-                Slug = Utils.Slug.GetOrgSlug(orgNameDesc, user.Slug),
+                Slug = Utils.Slug.GetOrgSlug(orgNameDesc, user.Slug + "-org"),
 
                 //push to extra billing info?
                 BillingExtraInfo = new SerializableDictionaryOfString
