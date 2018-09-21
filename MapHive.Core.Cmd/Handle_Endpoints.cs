@@ -24,7 +24,7 @@ namespace MapHive.Core.Cmd
             {
                 var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
 
-                Endpoints = cfg.GetSection("RemoteAdminConfig:Endpoints").Get<Dictionary<string, string>>();
+                Endpoints = cfg.GetSection("RemoteAdminConfig:Endpoints:Local").Get<Dictionary<string, string>>();
 
                 if(Endpoints == null)
                     Endpoints = new Dictionary<string, string>();
@@ -49,14 +49,17 @@ namespace MapHive.Core.Cmd
         protected virtual void Handle_Endpoints(Dictionary<string, string> args)
         {
             var cmd = GetCallerName();
+            PrintCommand("mh.core.cmd", cmd);
 
             if (GetHelp(args))
             {
                 Console.WriteLine($"'{cmd}' : prints or sets endpoints details for default connection");
                 Console.WriteLine($"syntax: {cmd} space separated params: ");
-                Console.WriteLine("\t[a:auth endpoint");
-                Console.WriteLine("\t[c:core endpoint]");
-                Console.WriteLine("\t[l:localization endpoint]");
+                Console.WriteLine("\t[a:url] auth endpoint");
+                Console.WriteLine("\t[c:ur] core endpoint");
+                Console.WriteLine("\t[l:url] localization endpoint");
+                Console.WriteLine("\t[local: presence] set to local endpoints");
+                Console.WriteLine("\t[remote: presence] set to remote endpoints");
                 Console.WriteLine();
                 Console.WriteLine($"example: {cmd} c:https://coreapi.maphive.net");
                 Console.WriteLine();
@@ -68,18 +71,31 @@ namespace MapHive.Core.Cmd
 
             if (args.Count > 0)
             {
-                var core = ExtractParam("c", args);
-                var auth = ExtractParam("a", args);
-                var localization = ExtractParam("l", args);
+                var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
 
-                if (!string.IsNullOrEmpty(core))
-                    Endpoints["Core"] = core;
+                if (ContainsParam("local", args))
+                {
+                    Endpoints = cfg.GetSection("RemoteAdminConfig:Endpoints:Local").Get<Dictionary<string, string>>();
+                }
+                else if (ContainsParam("remote", args))
+                {
+                    Endpoints = cfg.GetSection("RemoteAdminConfig:Endpoints:Remote").Get<Dictionary<string, string>>();
+                }
+                else
+                {
+                    var core = ExtractParam("c", args);
+                    var auth = ExtractParam("a", args);
+                    var localization = ExtractParam("l", args);
 
-                if (!string.IsNullOrEmpty(auth))
-                    Endpoints["Auth"] = auth;
+                    if (!string.IsNullOrEmpty(core))
+                        Endpoints["Core"] = core;
 
-                if (!string.IsNullOrEmpty(localization))
-                    Endpoints["Localization"] = localization;
+                    if (!string.IsNullOrEmpty(auth))
+                        Endpoints["Auth"] = auth;
+
+                    if (!string.IsNullOrEmpty(localization))
+                        Endpoints["Localization"] = localization;
+                }
 
                 ResetRemoteAuth();
             }

@@ -21,6 +21,7 @@ namespace MapHive.Core.Cmd
         protected virtual async Task Handle_EmailTemplates(IDictionary<string, string> args)
         {
             var cmd = GetCallerName();
+            PrintCommand("mh.core.cmd", cmd);
 
             if (GetHelp(args))
             {

@@ -76,6 +76,7 @@ namespace MapHive.Core.Cmd
         protected virtual void Handle_MasterOrg(Dictionary<string, string> args)
         {
             var cmd = GetCallerName();
+            PrintCommand("mh.core.cmd", cmd);
 
             if (GetHelp(args))
             {

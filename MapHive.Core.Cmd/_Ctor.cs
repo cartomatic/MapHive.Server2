@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
@@ -22,6 +24,7 @@ namespace MapHive.Core.Cmd
                     .AddAliases(nameof(Handle_AddUser), "u")
                     .AddAliases(nameof(Handle_AddMasterOrg), "addmorg")
                     .AddAliases(nameof(Handle_MasterOrg), "morg")
+                    .AddAliases(nameof(Handle_FindOrg), "getorg")
                     .AddAliases(nameof(Handle_Endpoints), "ep")
                     .AddAliases(nameof(Handle_RemoteMode), "rm")
                     .AddAliases(nameof(Handle_RemoteAdmin), "ra")
@@ -47,6 +50,13 @@ namespace MapHive.Core.Cmd
             : this("MapHive2 CMD v1.0....")
         {
             Cartomatic.Utils.Identity.ImpersonateGhostUser();
+        }
+
+        protected void PrintCommand(string cmdType, string commandName)
+        {
+            ConsoleEx.Write($"{cmdType}: ", ConsoleColor.DarkCyan);
+            ConsoleEx.Write(commandName, ConsoleColor.DarkGray);
+            Console.WriteLine();
         }
     }
 }

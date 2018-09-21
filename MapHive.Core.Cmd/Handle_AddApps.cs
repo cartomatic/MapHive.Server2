@@ -22,6 +22,7 @@ namespace MapHive.Core.Cmd
         protected virtual async Task Handle_AddApps(IDictionary<string, string> args)
         {
             var cmd = GetCallerName();
+            PrintCommand("mh.core.cmd", cmd);
 
             if (GetHelp(args))
             {
@@ -167,33 +168,40 @@ namespace MapHive.Core.Cmd
             {
                 var apps = GetApps();
 
+                ConsoleEx.WriteLine($"Verifying apps presence: {string.Join(", ", appsToAdd)}... ", ConsoleColor.DarkYellow);
+
                 foreach (var appToAdd in appsToAdd)
                 {
                     var app = apps.FirstOrDefault(a => a.ShortName == appToAdd);
 
                     if (app != null)
                     {
-                        ConsoleEx.Write($"Registering {app.ShortName} app... ", ConsoleColor.DarkYellow);
-
                         if (RemoteMode)
                         {
-                            await RegisterAppsRemoteAsync(app);
+                            if (!await IsAppRegisteredRemoteAsync(app.ShortName))
+                            {
+                                ConsoleEx.Write($"Registering {app.ShortName} app... ", ConsoleColor.DarkYellow);
+                                await RegisterAppsRemoteAsync(app);
+                                ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                            }
                         }
                         else
                         {
                             if (!await dbCtx.Applications.AnyAsync(a => a.Uuid == app.Uuid))
                             {
+                                ConsoleEx.Write($"Registering {app.ShortName} app... ", ConsoleColor.DarkYellow);
                                 dbCtx.Applications.Add(app);
+                                ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                             }
                         }
-
-                        ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                     }
                     else
                     {
                         ConsoleEx.WriteErr($"Unrecognised app: {appToAdd}. Ignoring!");
                     }
                 }
+
+                ConsoleEx.WriteLine("Done!", ConsoleColor.DarkGreen);
 
                 await dbCtx.SaveChangesAsync();
             }

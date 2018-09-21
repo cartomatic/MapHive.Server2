@@ -18,6 +18,7 @@ namespace MapHive.Core.Cmd
         protected virtual void Handle_DropDb(IDictionary<string, string> args)
         {
             var cmd = GetCallerName();
+            PrintCommand("mh.core.cmd", cmd);
 
             if (GetHelp(args))
             {
@@ -99,6 +100,8 @@ namespace MapHive.Core.Cmd
 
                     ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                 }
+
+                Console.WriteLine();
 
             }
             catch (Exception ex)

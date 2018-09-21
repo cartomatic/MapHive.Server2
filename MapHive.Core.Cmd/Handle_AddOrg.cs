@@ -22,6 +22,7 @@ namespace MapHive.Core.Cmd
         protected virtual async Task Handle_AddOrg(Dictionary<string, string> args)
         {
             var cmd = GetCallerName();
+            PrintCommand("mh.core.cmd", cmd);
 
             if (GetHelp(args))
             {
@@ -86,6 +87,7 @@ namespace MapHive.Core.Cmd
         protected virtual async Task Handle_AddMasterOrg(Dictionary<string, string> args)
         {
             var cmd = GetCallerName();
+            PrintCommand("mh.core.cmd", cmd);
 
             if (GetHelp(args))
             {
