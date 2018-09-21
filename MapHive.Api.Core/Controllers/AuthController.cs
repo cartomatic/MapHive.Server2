@@ -127,7 +127,7 @@ namespace MapHive.Api.Core.Controllers
                 }
 
                 //basically need to send an email the verification key has expired and send a new one
-                var user = await GetDefaultDbContext().Users.FirstOrDefaultAsync(u => u.Uuid == Auth.ExtractIdFromMergedToken(activationOutput.VerificationKey));
+                var user = await GetDefaultDbContext().Users.FirstOrDefaultAsync(u => u.Uuid == Auth.ExtractIdFromMergedToken(activationInput.VerificationKey));
 
                 //since got an email off mbr, user should not be null, but just in a case...
                 if (user == null)
@@ -154,6 +154,9 @@ namespace MapHive.Api.Core.Controllers
                     //prepare and send the email
                     EmailSender.Send(emailAccount, emailTemplate.Prepare(tokens), user.Email);
                 }
+
+                //going to save, so need to impersonate
+                Cartomatic.Utils.Identity.ImpersonateGhostUser();
 
                 //mark user rec as activated
                 if (activationOutput.Success)

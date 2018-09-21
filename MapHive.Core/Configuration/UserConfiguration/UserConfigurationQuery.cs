@@ -30,7 +30,7 @@ namespace MapHive.Core.Configuration
         /// <summary>
         /// Comma separated short names of the applications to scope the configuration retrieval to.
         /// <para />
-        /// an org may be configured to just use one or more apis and one or more ui apps; this is to allow for retrieving a cfg for all the required stuff; thanks to this an api can provide a unified single entry point and bypass other api calls on behalfo fo a user
+        /// an org may be configured to just use one or more apis and one or more ui apps; this is to allow for retrieving a cfg for all the required stuff; thanks to this an api can provide a unified single entry point and bypass other api calls on behalf of a user
         /// </summary>
         public string AppNames { get; set; }
 

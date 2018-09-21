@@ -26,7 +26,7 @@ namespace MapHive.Core
         /// <returns></returns>
         public static string ExtractTokenFromMergedToken(string input)
         {
-            return input.Substring(input.IndexOf(".", StringComparison.Ordinal));
+            return input.Substring(input.IndexOf(".", StringComparison.Ordinal) + 1);
         }
 
         /// <summary>
