@@ -21,6 +21,26 @@ namespace MapHive.Core.DataModel
         /// <returns></returns>
         public static async Task<Organization> CreateAsync(this Organization org, DbContext dbCtx, MapHiveUser owner, IEnumerable<string> appsToLink)
         {
+            //finaly grab the apps that should be registered for the org and link them
+            var mhDb = (MapHiveDbContext)dbCtx;
+
+            var apps = await mhDb.Applications.Where(app => appsToLink.Contains(app.ShortName))
+                .OrderBy(app => app.ShortName)
+                .ToListAsync();
+
+            return await CreateAsync(org, dbCtx, owner, apps);
+        }
+
+        /// <summary>
+        /// Creates and organisation account, register a user as an owner and registers the specified apps to be linked to it too
+        /// </summary>
+        /// <param name="org"></param>
+        /// <param name="dbCtx"></param>
+        /// <param name="owner"></param>
+        /// <param name="appsToLink"></param>
+        /// <returns></returns>
+        public static async Task<Organization> CreateAsync(this Organization org, DbContext dbCtx, MapHiveUser owner, IEnumerable<Application> appsToLink)
+        {
             //first create the org
             await org.CreateAsync(dbCtx);
 
@@ -30,11 +50,7 @@ namespace MapHive.Core.DataModel
             //finaly grab the apps that should be registered for the org and link them
             var mhDb = (MapHiveDbContext)dbCtx;
 
-            var apps = await mhDb.Applications.Where(app => appsToLink.Contains(app.ShortName))
-                .OrderBy(app => app.ShortName)
-                .ToListAsync();
-
-            foreach (var app in apps)
+            foreach (var app in appsToLink)
             {
                 org.AddLink(app);
             }
@@ -44,6 +60,7 @@ namespace MapHive.Core.DataModel
             return org;
         }
     }
+
 
     public partial class Organization
     {

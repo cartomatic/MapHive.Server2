@@ -51,20 +51,8 @@ namespace MapHive.Core
             user = accountCreateOutput.User;
 
 
-            var appIdentifiers = input.LicenseOptions.Keys.ToArray();
 
-            //get the apps
-
-            //see what apps the client api wants to register
-            var apps = await dbCtx.Applications.Where(a => appIdentifiers.Contains(a.ShortName)).ToListAsync();
-
-            //always make sure to glue in the core apis and apps
-            apps.AddRange(
-                MapHive.Core.Defaults.Applications.GetDefaultOrgApps()
-            );
-
-
-        //now the org object
+            //now the org object
             var orgNameDesc = string.IsNullOrEmpty(input.AccountDetails.Company) ? input.AccountDetails.Email + "-org" : input.AccountDetails.Company;
             var newOrg = new Organization
             {
@@ -90,7 +78,16 @@ namespace MapHive.Core
                 LicenseOptions = new OrganizationLicenseOptions()
             };
 
-           
+            //see what apps the client api wants to register
+            var appIdentifiers = input.LicenseOptions.Keys.ToArray();
+            //get them...
+            var apps = await dbCtx.Applications.Where(a => appIdentifiers.Contains(a.ShortName)).ToListAsync();
+
+            //always make sure to glue in the core apis and apps
+            apps.AddRange(
+                MapHive.Core.Defaults.Applications.GetDefaultOrgApps()
+            );
+
             foreach (var appShortName in input.LicenseOptions.Keys)
             {
                 var app = apps.FirstOrDefault(a => a.ShortName == appShortName);
@@ -109,7 +106,8 @@ namespace MapHive.Core
 
 
             //create an org with owner and register the specified apps
-            await newOrg.CreateAsync(dbCtx, user, appIdentifiers);
+            //make sure though to use the collection that contains the the default org apps!
+            await newOrg.CreateAsync(dbCtx, user, apps);
 
             //wire up user with his 'parent org'
             //this is so it is clear a user has his own org
