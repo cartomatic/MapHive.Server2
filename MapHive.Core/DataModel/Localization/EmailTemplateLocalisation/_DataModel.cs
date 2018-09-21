@@ -46,10 +46,10 @@ namespace MapHive.Core.DataModel
             get => Translations?.Serialized;
             set
             {
-                if (Translations != null)
-                {
-                    Translations.Serialized = value;
-                }
+                if(Translations == null)
+                    Translations = new EmailTranslations();
+
+                Translations.Serialized = value;
             }
         }
 
