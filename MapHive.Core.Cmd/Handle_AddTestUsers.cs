@@ -19,7 +19,7 @@ namespace MapHive.Core.Cmd
         protected virtual async Task Handle_AddTestUsers(Dictionary<string, string> args)
         {
             var cmd = GetCallerName();
-            PrintCommand("mh.core.cmd", cmd);
+            PrintCommand("mh.core.cmd", cmd, args);
 
             if (GetHelp(args))
             {

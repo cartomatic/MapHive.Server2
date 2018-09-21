@@ -26,7 +26,7 @@ namespace MapHive.Core.Cmd
         protected virtual void Handle_RemoteMode(Dictionary<string, string> args)
         {
             var cmd = GetCallerName();
-            PrintCommand("mh.core.cmd", cmd);
+            PrintCommand("mh.core.cmd", cmd, args);
 
             if (GetHelp(args))
             {

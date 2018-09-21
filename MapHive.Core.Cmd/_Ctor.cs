@@ -52,10 +52,12 @@ namespace MapHive.Core.Cmd
             Cartomatic.Utils.Identity.ImpersonateGhostUser();
         }
 
-        protected void PrintCommand(string cmdType, string commandName)
+        protected void PrintCommand(string cmdType, string commandName, IDictionary<string, string> args)
         {
+            var prms = args.Select(kv => $"{kv.Key}" + (string.IsNullOrEmpty(kv.Value) ? "" : $":{kv.Value}"));
+
             ConsoleEx.Write($"{cmdType}: ", ConsoleColor.DarkCyan);
-            ConsoleEx.Write(commandName, ConsoleColor.DarkGray);
+            ConsoleEx.Write($"{commandName} {string.Join(" ", prms)}", ConsoleColor.DarkGray);
             Console.WriteLine();
         }
     }

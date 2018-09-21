@@ -18,7 +18,7 @@ namespace MapHive.Core.Cmd
             await Task.Delay(0);
 
             var cmd = GetCallerName();
-            PrintCommand("mh.core.cmd", cmd);
+            PrintCommand("mh.core.cmd", cmd, args);
 
             if (GetHelp(args))
             {
