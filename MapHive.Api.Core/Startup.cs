@@ -12,7 +12,7 @@ namespace MapHive.Core.Api
         /// </summary>
         protected static ApiConfigurationSettings Settings => new ApiConfigurationSettings
         {
-            AppShortNames = "hive,home,dashboard,hgis1,masterofpuppets",
+            AppShortNames = "core-api,auth-api", //so far aurth api not split into a separate service
             XmlCommentsPath = @"MapHive.Api.Core.xml",
             ApiTitle = "MapHive.Api.Core",
             UseGitVersion = true,
