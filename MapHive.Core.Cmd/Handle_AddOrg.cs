@@ -63,12 +63,13 @@ namespace MapHive.Core.Cmd
                 return;
             }
 
-            //ensure the site admin app is present!!!
-            await RegisterAppsAsync(new[] { "masterofpuppets" });
-
-            var apps = new List<string>();
+            
+            var apps = MapHive.Core.Defaults.Applications.GetDefaultOrgApps().Select(a=>a.ShortName).ToList();
             if(morg)
                 apps.Add("masterofpuppets");
+
+            //ensure the site apps are present in the system!!!
+            await RegisterAppsAsync(apps.ToArray());
 
             //todo - allow specifying apps via param??? dunno, maybe so
 
@@ -120,10 +121,16 @@ namespace MapHive.Core.Cmd
                 pass = MasterOrgPass;
             }
 
-            //ensure the site admin app is present!!!
-            await RegisterAppsAsync(new[] {"masterofpuppets"});
+            //org creation here does not use the defautl account creation flow,
+            //but need to ensure org gets the same default apps!
 
-            await CreateOrganisationAsync(orgName, orgDescription, email, pass, new [] { "masterofpuppets" }, clean);
+            var apps = MapHive.Core.Defaults.Applications.GetDefaultOrgApps().Select(a => a.ShortName).ToList();
+            apps.Add("masterofpuppets");
+
+            //ensure the site apps are present in the system!!!
+            await RegisterAppsAsync(apps.ToArray());
+
+            await CreateOrganisationAsync(orgName, orgDescription, email, pass, apps, clean);
 
             Console.WriteLine();
         }

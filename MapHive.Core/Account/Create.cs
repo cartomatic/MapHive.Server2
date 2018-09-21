@@ -60,8 +60,7 @@ namespace MapHive.Core
 
             //always make sure to glue in the core apis and apps
             apps.AddRange(
-                MapHive.Core.Defaults.Applications.GetApplications()
-                    .Where(a=> a.IsCommon) //simply add all the common apps
+                MapHive.Core.Defaults.Applications.GetDefaultOrgApps()
             );
 
 

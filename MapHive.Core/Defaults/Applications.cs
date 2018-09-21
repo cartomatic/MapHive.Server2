@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using MapHive.Core.DataModel;
 
@@ -7,6 +8,20 @@ namespace MapHive.Core.Defaults
 {
     public class Applications
     {
+        /// <summary>
+        /// Returns a list of the default applications that should be registered to each organization
+        /// </summary>
+        /// <returns></returns>
+        public static List<Application> GetDefaultOrgApps()
+        {
+            //simply add all the common apps
+            return GetApplications().Where(a => a.IsCommon).ToList(); 
+        }
+
+        /// <summary>
+        /// Returns all the default applications declared in the mh core
+        /// </summary>
+        /// <returns></returns>
         public static List<Application> GetApplications()
         {
             return new List<Application>
