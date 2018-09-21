@@ -33,13 +33,13 @@ Replacement tokens are:
                     {
                         { "en",
                             new EmailTemplate{
-                                Title = "[NoReply@maphive.net] MapHive user account created for {UserName}.",
+                                Title = "[no-reply@maphive.net] MapHive user account created for {UserName}.",
                                 Body =
-$@"<h3>Hi {{UserName}},</h3>
+$@"<h3>Hi {{UserName}}</h3>
 <p>MapHive user account has been created for you.</p>
 <p>Your initial password is: <b>{{InitialPassword}}</b></p>
 <br/>
-<p>In order to activate your account please click <a href={activateAccountLink}>here</a> or paste the following link in your browser: {activateAccountLink}</p>
+<p>In order to activate your account please click <a href=""{activateAccountLink}"">here</a> or paste the following link in your browser: {activateAccountLink}</p>
 <br/>
 <p>Kind regards<br/>MapHive Team</p>"
                             }
@@ -67,13 +67,13 @@ Replacement tokens are:
                     {
                         { "en",
                             new EmailTemplate{
-                                Title = "[NoReply@maphive.net] MapHive account activation required for {UserName}.",
+                                Title = "[no-reply@maphive.net] MapHive account activation required for {UserName}.",
                                 Body =
-$@"<h3>Hi {{UserName}},</h3>
+$@"<h3>Hi {{UserName}}</h3>
 <p>MapHive user account could not have been activated due to the verification key becoming outdated.</p>
 <p>Your initial password is: <b>{{InitialPassword}}</b></p>
 <br/>
-<p>In order to activate your account please click <a href={activateAccountLink}>here</a> or paste the following link in your browser: {activateAccountLink}</p>
+<p>In order to activate your account please click <a href=""{activateAccountLink}"">here</a> or paste the following link in your browser: {activateAccountLink}</p>
 <br/>
 <p>Kind regards<br/>MapHive Team</p>"
                             }
@@ -100,12 +100,12 @@ Replacement tokens are:
                     {
                         { "en",
                             new EmailTemplate{
-                                Title = "[NoReply@maphive.net] MapHive account password reset requested for {UserName}.",
+                                Title = "[no-reply@maphive.net] MapHive account password reset requested for {UserName}.",
                                 Body =
-$@"<h3>Hi {{UserName}},</h3>
+$@"<h3>Hi {{UserName}}</h3>
 <p>MapHive account password reset has been requested for your account. If you have not requested a password reset then please ignore this email as nothing has changed for you.<br/>Otherwise please follow the instructions below to complete a password reset request.</p>
 <br/>
-<p>In order to reset your current password please click <a href={resetPassLink}>here</a> or paste the following link in your browser: {resetPassLink}</p>
+<p>In order to reset your current password please click <a href=""{resetPassLink}"">here</a> or paste the following link in your browser: {resetPassLink}</p>
 <br/>
 <p>Kind regards<br/>MapHive Team</p>"
                             }
