@@ -27,7 +27,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             if (string.IsNullOrEmpty(schema))
             {
-                //do not enforce schema. make it possible to confogure it via model builder and its default schema property
+                //do not enforce schema. make it possible to configure it via model builder and its default schema property
                 builder.ToTable(name: tableName);
             }
             else
