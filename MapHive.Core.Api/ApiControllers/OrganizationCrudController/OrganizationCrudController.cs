@@ -17,7 +17,7 @@ namespace MapHive.Core.Api.ApiControllers
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TDbContext"></typeparam>
-    //[OrganizationContextActionFilter] - in the startup now so kicks in when required!
+    //[OrganizationContextActionFilter] - in the startup now so kicks in when required - basically before dependant filters such as user config!
     public abstract partial class OrganizationCrudController<T, TDbContext> : CrudController<T, TDbContext>, IOrganizationApiController<TDbContext>
         where T : Base, new()
         where TDbContext : DbContext, IProvideDbContextFactory, new()

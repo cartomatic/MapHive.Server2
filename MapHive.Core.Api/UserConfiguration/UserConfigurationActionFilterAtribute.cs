@@ -19,6 +19,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace MapHive.Core.Api.UserConfiguration
 {
+    /// <summary>
+    /// Extracts organization context off a request
+    /// </summary>
     public class UserConfigurationActionFilterAtribute : IAsyncActionFilter
     {
         private readonly bool _disabled;

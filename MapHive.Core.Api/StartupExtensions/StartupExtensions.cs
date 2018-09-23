@@ -51,6 +51,10 @@ namespace MapHive.Core.Api.StartupExtensions
                     //a bit not in line with aspnet core though, but these utils are used in many places and passing identity explicitly doesn't seem to be a viable option. at least at this stage...
                     opts.Filters.Add(new OldSchoolUserImpersonationViaClaimsPrincipalAttribute());
 
+                    //user cfg depends on the org context so this attribute must kick in earlier
+                    //this way org context is exrtracted before dependant code kicks in
+                    opts.Filters.Add(new OrganizationContextActionFilterAttribute());
+
                     //use a default or customised user cfg filter 
                     opts.Filters.Add(
                         settings?.UserConfigurationActionFilterAtribute
