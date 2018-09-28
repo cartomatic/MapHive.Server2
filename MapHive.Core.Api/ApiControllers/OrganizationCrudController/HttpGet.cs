@@ -32,6 +32,9 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> GetAsync(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         {
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                return NotAllowed();
+
             return await ReadAsync<T,T>(GetOrganizationDbContext(), sort, filter, start, limit);
         }
 
@@ -54,6 +57,24 @@ namespace MapHive.Core.Api.ApiControllers
         }
 
         /// <summary>
+        /// Default get all action
+        /// </summary>
+        /// <typeparam name="TExtended">Type to use as a base for reading - used for customising the read src, usually for extended views</typeparam>
+        /// <param name="sort"></param>
+        /// <param name="filter"></param>
+        /// <param name="start"></param>
+        /// <param name="limit"></param>
+        /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
+        /// <returns></returns>
+        protected override async Task<IActionResult> GetExtendedAsync<TExtended>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
+        {
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                return NotAllowed();
+
+            return await ReadAsync<TExtended, TExtended>(GetOrganizationDbContext(), sort, filter, start, limit);
+        }
+
+        /// <summary>
         /// Defualt get by id action
         /// </summary>
         /// <param name="uuid"></param>
@@ -61,6 +82,9 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> GetAsync(Guid uuid, DbContext db = null)
         {
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                return NotAllowed();
+
             return await ReadAsync<T>(GetOrganizationDbContext(), uuid);
         }
 
@@ -73,6 +97,9 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> GetAsync<TDto>(Guid uuid, DbContext db = null)
         {
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                return NotAllowed();
+
             return await ReadAsync<TDto>(GetOrganizationDbContext(), uuid);
         }
 

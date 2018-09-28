@@ -54,6 +54,25 @@ namespace MapHive.Core.Api.ApiControllers
         }
 
         /// <summary>
+        /// Default get all action
+        /// </summary>
+        /// <typeparam name="TExtended">Type to use as a base for reading - used for customising the read src, usually for extended views</typeparam>
+        /// <param name="sort"></param>
+        /// <param name="filter"></param>
+        /// <param name="start"></param>
+        /// <param name="limit"></param>
+        /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
+        /// <returns></returns>
+        protected virtual async Task<IActionResult> GetExtendedAsync<TExtended>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
+        where TExtended : Base
+        {
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                return NotAllowed();
+
+            return await ReadAsync<TExtended, TExtended>(db ?? _dbCtx, sort, filter, start, limit);
+        }
+
+        /// <summary>
         /// Gets alist of objects; performs automated conversion of output into specified DTO
         /// </summary>
         /// <typeparam name="TRead">Type to read</typeparam>
@@ -70,7 +89,7 @@ namespace MapHive.Core.Api.ApiControllers
             where TDto : class
         {
             //all stuff is instance based, so need to obtain one first
-            T obj = (T)Activator.CreateInstance(typeof(T));
+            var obj = (TRead)Activator.CreateInstance(typeof(TRead));
 
             try
             {
@@ -87,7 +106,7 @@ namespace MapHive.Core.Api.ApiControllers
                     //Note: this could and should be done in a more elegant way. but had no smart ideas at a time.
                     //will come back to this at some stage...
                     //do dto hocus pocus if needed
-                    if (typeof(T) != typeof(TDto))
+                    if (typeof(TRead) != typeof(TDto))
                     {
                         //Note: IDTO is on the DTO and is implemented on instance obviously. so need one
                         var inst = Cartomatic.Utils.Dto.IDtoUtils.CrateIDtoInstance<TDto>();
