@@ -16,6 +16,17 @@ namespace MapHive.Core.DAL
         /// <summary>
         /// Executes all the configured seed procedures
         /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <param name="filter"></param>
+        public static void SeedAll(DbContext dbCtx, IEnumerable<string> filter = null)
+        {
+            if (dbCtx is IProvideSeeder seedDbCtx && seedDbCtx is BaseDbContext baseExtViewsDbContext)
+                SeedAll(baseExtViewsDbContext, seedDbCtx.SeedProvider);
+        }
+
+        /// <summary>
+        /// Executes all the configured seed procedures
+        /// </summary>
         /// <typeparam name="TDbCtx"></typeparam>
         /// <typeparam name="TSeed"></typeparam>
         /// <param name="dbCtx"></param>

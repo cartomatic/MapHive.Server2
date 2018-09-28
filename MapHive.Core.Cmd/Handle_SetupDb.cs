@@ -212,7 +212,7 @@ namespace MapHive.Core.Cmd
                                 var dbCtx = dbCtxFacade.ProduceDbContextInstance(dbc.GetConnectionString(), true, dbc.DataSourceProvider);
                                 
                                 //this will create db if it dies not exist and apply all the pending migrations
-                                dbCtx.Database.Migrate();
+                                dbCtx.CreateOrUpdateDatabase();
 
                                 ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                             }

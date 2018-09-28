@@ -4,11 +4,25 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DAL
 {
+    /// <summary>
+    /// A utility for automated extended views creation
+    /// </summary>
     public partial class ExtendedViewsCreator
     {
+        /// <summary>
+        /// Creates extended views for a db context
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        public static void CreateAll(DbContext dbCtx)
+        {
+            if (dbCtx is IProvideExtendedViews extViewsDbCtx && extViewsDbCtx is BaseDbContext baseExtViewsDbContext)
+                CreateAll(baseExtViewsDbContext, extViewsDbCtx.ExtendedViewsProvider);
+        }
+
         /// <summary>
         /// Executes all the configured extended views create procedures
         /// </summary>
@@ -20,6 +34,7 @@ namespace MapHive.Core.DAL
         {
             CreateAll(dbCtx, typeof(TSeed));
         }
+
 
         /// <summary>
         ///  Executes all the configured extended views create procedures

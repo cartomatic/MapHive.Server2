@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Ef;
+using MapHive.Core.DAL;
 using Newtonsoft.Json;
 using Npgsql;
 
@@ -17,18 +18,11 @@ namespace MapHive.Core.DataModel
 {
     public partial class OrganizationDatabase
     {
-        public class CreateOrUpdateDatabaseOutput
-        {
-            public bool Created { get; set; }
-
-            public bool Updated { get; set; }
-        }
-
         /// <summary>
         /// Creates or updates a database with a simple OrganizationDbContext; this is useful for creating empty databases
         /// </summary>
         /// <returns></returns>
-        public CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase()
+        public DbContextMigrator.CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase()
         {
             //no specific db context provided; will use a blank OrganizationDbContext
             var ctx = GetDbContext();
@@ -41,7 +35,7 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <typeparam name="TDbContext"></typeparam>
         /// <returns></returns>
-        public CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase<TDbContext>()
+        public DbContextMigrator.CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase<TDbContext>()
             where TDbContext : DbContext, IProvideDbContextFactory, new()
         {
             var ctx = GetDbContext<TDbContext>();
@@ -54,7 +48,7 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <param name="ctx"></param>
         /// <returns></returns>
-        public CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase(DbContext ctx)
+        public DbContextMigrator.CreateOrUpdateDatabaseOutput CreateOrUpdateDatabase(DbContext ctx)
         {
             //net full approach - needed a db migration configuration
             //net core does not use such class
@@ -76,22 +70,9 @@ namespace MapHive.Core.DataModel
             //migrator.Update();
             //-------------------------------
 
+            //redirect the work to a standardised util
+            return ctx.CreateOrUpdateDatabase();
 
-            var output = new CreateOrUpdateDatabaseOutput
-            {
-                //FIXME... 
-                //for the time being just return false
-
-                //TODO - work out the way of knowing when db has been created, when updated.
-                
-                //Note: so foar do not really know how to recognise if a db has been created OR updated
-                //perhaps it wil be possible in future versions.
-                //for the time being seeds / cleanups / setups based on this output will not have much sense
-            };
-
-            ctx.Database.Migrate();
-
-            return output;
         }
     }
 }
