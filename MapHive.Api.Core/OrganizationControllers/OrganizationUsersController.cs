@@ -31,8 +31,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAsync(Guid organizationuuid, string sort = null, string filter = null, int start = 0,
-            int limit = 25)
+        public async Task<IActionResult> GetAsync([FromRoute]Guid organizationuuid, [FromQuery]string sort = null, [FromQuery]string filter = null, [FromQuery]int start = 0, [FromQuery] int limit = 25)
         {
             try
             {
@@ -72,7 +71,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(MapHiveUser), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromQuery] Guid uuid)
+        public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             //note:
             //org users and org roles are read from mh meta db!
@@ -98,7 +97,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> PostAsync(Guid organizationuuid, MapHiveUser user)
+        public async Task<IActionResult> PostAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user)
         {
             //this is an org user, so needs to be flagged as such!
             user.IsOrgUser = true;
@@ -154,7 +153,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> LinkAsync(Guid organizationuuid, MapHiveUser user)
+        public async Task<IActionResult> LinkAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user)
         {
             try
             {
@@ -185,7 +184,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> PutAsync(Guid organizationuuid, MapHiveUser user, Guid uuid)
+        public async Task<IActionResult> PutAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user, [FromRoute] Guid uuid)
         {
             try
             {
@@ -226,7 +225,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(MapHiveUser), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> UnLinkAsync(Guid organizationuuid, Guid uuid)
+        public async Task<IActionResult> UnLinkAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             try
             {
@@ -276,7 +275,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteAsync(Guid organizationuuid, Guid uuid)
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             try
             {
@@ -332,7 +331,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> ForceDeleteAsync(Guid organizationuuid, Guid uuid)
+        public async Task<IActionResult> ForceDeleteAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             try
             {

@@ -31,9 +31,8 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> Get(Guid organizationuuid, string sort = null, string filter = null,
-            int start = 0,
-            int limit = 25)
+        public async Task<IActionResult> Get([FromRoute] Guid organizationuuid, [FromQuery] string sort = null, [FromQuery] string filter = null,
+            [FromQuery] int start = 0, [FromQuery] int limit = 25)
         {
             try
             {

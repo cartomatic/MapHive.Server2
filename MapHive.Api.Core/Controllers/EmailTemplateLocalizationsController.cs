@@ -84,7 +84,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(EmailTemplateLocalization), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> PostAsync(EmailTemplateLocalization obj)
+        public async Task<IActionResult> PostAsync([FromBody] EmailTemplateLocalization obj)
         {
             return await base.PostAsync(obj);
         }
@@ -99,7 +99,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(EmailTemplateLocalization), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteAsync(Guid uuid)
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid uuid)
         {
             return await base.DeleteAsync(uuid);
         }

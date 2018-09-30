@@ -92,7 +92,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(Team), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> PostAsync([FromRoute] Guid organizationuuid, Team obj)
+        public async Task<IActionResult> PostAsync([FromRoute] Guid organizationuuid, [FromBody] Team obj)
         {
             //Note:
             //main mh env objects are kept in the maphive_meta db!
@@ -111,7 +111,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(Team), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteAsync([FromRoute] Guid organizationuuid, Guid uuid)
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             //Note:
             //main mh env objects are kept in the maphive_meta db!
@@ -132,7 +132,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(IEnumerable<MapHiveUser>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetTeamUsers(Guid organizationuuid, Guid uuid)
+        public async Task<IActionResult> GetTeamUsers([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             try
             {
@@ -167,7 +167,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(IEnumerable<Application>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetTeamApplications(Guid organizationuuid, Guid uuid)
+        public async Task<IActionResult> GetTeamApplications([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             try
             {

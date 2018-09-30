@@ -78,7 +78,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(Organization), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> PostAsync(Organization obj)
+        public async Task<IActionResult> PostAsync([FromBody] Organization obj)
         {
             return await base.PostAsync(obj);
         }
@@ -93,7 +93,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(Organization), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DeleteAsync(Guid uuid)
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid uuid)
         {
             return await base.DeleteAsync(uuid);
         }
@@ -110,7 +110,7 @@ namespace MapHive.Api.Core.Controllers
         [Route("{orgId}/allowsapplication/{appId}")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> CheckIOrgCanUseAppAsync(Guid orgId, Guid appId)
+        public async Task<IActionResult> CheckIOrgCanUseAppAsync([FromRoute] Guid orgId, [FromRoute] Guid appId)
         {
             try
             {
