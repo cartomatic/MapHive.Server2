@@ -27,6 +27,7 @@ Replacement tokens are:
     {Email}
     {RedirectUrl}
 ",
+                    ApplicationIdentifier = "common",
                     Identifier = "user_created",
                     IsBodyHtml = true,
                     Translations = new EmailTranslations
@@ -61,6 +62,7 @@ Replacement tokens are:
     {Email}
     {RedirectUrl}
 ",
+                    ApplicationIdentifier = "common",
                     Identifier = "activate_account_stale",
                     IsBodyHtml = true,
                     Translations = new EmailTranslations
@@ -94,6 +96,7 @@ Replacement tokens are:
     {Email}
     {RedirectUrl}
 ",
+                    ApplicationIdentifier = "common",
                     Identifier = "pass_reset_request",
                     IsBodyHtml = true,
                     Translations = new EmailTranslations

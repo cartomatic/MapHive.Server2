@@ -207,7 +207,7 @@ namespace MapHive.Api.Core.Controllers
                 //This is where some env core objects are kept
 
                 //make sure user 'belongs' to an org
-                if (await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
+                if (!await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
                     return BadRequest("Not an org user.");
 
                 var entity = await user.UpdateAsync(GetDefaultDbContext(), uuid);
@@ -298,7 +298,7 @@ namespace MapHive.Api.Core.Controllers
                 //This is where some env core objects are kept
 
                 //make sure user 'belongs' to an org
-                if (await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
+                if (!await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
                     return BadRequest("Not an org user.");
 
                 //make sure to prevent self deletes
@@ -354,7 +354,7 @@ namespace MapHive.Api.Core.Controllers
                 //This is where some env core objects are kept
 
                 //make sure user 'belongs' to an org
-                if (await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
+                if (!await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
                     return BadRequest("Not an org user.");
 
                 //make sure to prevent self deletes
