@@ -228,6 +228,40 @@ namespace MapHive.Api.Core.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Updates a role of a linked user
+        /// </summary>
+        /// <param name="organizationuuid"></param>
+        /// <param name="user"></param>
+        /// <param name="uuid"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("link/{uuid}")]
+        [ProducesResponseType(typeof(MapHiveUser), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> UpdateLinkAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user, [FromRoute] Guid uuid)
+        {
+            try
+            {
+                //make sure user 'belongs' to an org
+                if (!await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
+                    return BadRequest("Not an org user.");
+
+                //just need to update its role within an org too
+                user.Uuid = uuid; //in put no uuid in the model!
+                await this.OrganizationContext.ChangeOrganizationUserRoleAsync(GetDefaultDbContext(), user);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return this.HandleException(ex);
+            }
+        }
+
+
         /// <summary>
         /// Removes and external user link from an Organization
         /// </summary>
@@ -310,10 +344,13 @@ namespace MapHive.Api.Core.Controllers
                 if (isOrgOwner)
                     return BadRequest("Cannot remove org owner.");
 
-                var isOrgAdmin = await OrganizationContext.IsOrgAdminAsync(GetDefaultDbContext(), uuid);
+                var callerId = Cartomatic.Utils.Identity.GetUserGuid().Value;
+
+                var callerIsOrgOwner = await OrganizationContext.IsOrgOwnerAsync(GetDefaultDbContext(), callerId);
+                var callerIsOrgAdmin = await OrganizationContext.IsOrgAdminAsync(GetDefaultDbContext(), callerId);
 
                 //only owners and admins should be able to delete users!
-                if (!(isOrgAdmin || isOrgOwner))
+                if (!(callerIsOrgOwner || callerIsOrgAdmin))
                     return NotAllowed();
 
                 var user = await Base.ReadObjAsync<MapHiveUser>(GetDefaultDbContext(), uuid);
@@ -366,10 +403,14 @@ namespace MapHive.Api.Core.Controllers
                 if (isOrgOwner)
                     return BadRequest("Cannot remove org owner.");
 
-                var isOrgAdmin = await OrganizationContext.IsOrgAdminAsync(GetDefaultDbContext(), uuid);
+
+                var callerId = Cartomatic.Utils.Identity.GetUserGuid().Value;
+
+                var callerIsOrgOwner = await OrganizationContext.IsOrgOwnerAsync(GetDefaultDbContext(), callerId);
+                var callerIsOrgAdmin = await OrganizationContext.IsOrgAdminAsync(GetDefaultDbContext(), callerId);
 
                 //only owners and admins should be able to delete users!
-                if (!(isOrgAdmin || isOrgOwner))
+                if (!(callerIsOrgOwner || callerIsOrgAdmin))
                     return NotAllowed();
 
                 var user = await Base.ReadObjAsync<MapHiveUser>(GetDefaultDbContext(), uuid);
