@@ -21,7 +21,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> DeleteAsync(Guid uuid, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForDestroyAsync(db))
+            if (!await IsCrudPrivilegeGrantedForDestroyAsync(db ?? _dbCtx))
                 return NotAllowed();
 
             return await DestroyAsync(db ?? _dbCtx, uuid);

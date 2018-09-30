@@ -24,7 +24,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> DeleteAsync(Guid uuid, DbContext db = null)
         {
-            return await DestroyAsync(GetOrganizationDbContext(), uuid);
+            if (!await IsCrudPrivilegeGrantedForDestroyAsync(db ?? GetOrganizationDbContext()))
+                return NotAllowed();
+
+            return await DestroyAsync(db ?? GetOrganizationDbContext(), uuid);
         }
     }
 }

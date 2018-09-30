@@ -29,7 +29,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> GetAsync(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
                 return NotAllowed();
 
             return await ReadAsync<T,T>(db ?? _dbCtx, sort, filter, start, limit);
@@ -47,7 +47,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> GetAsync<TDto>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null) where TDto : class
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
                 return NotAllowed();
 
             return await ReadAsync<T,TDto>(db ?? _dbCtx, sort, filter, start, limit);
@@ -66,7 +66,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected virtual async Task<IActionResult> GetExtendedAsync<TExtended>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         where TExtended : Base
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
                 return NotAllowed();
 
             return await ReadAsync<TExtended, TExtended>(db ?? _dbCtx, sort, filter, start, limit);
@@ -137,7 +137,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> GetAsync(Guid uuid, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
                 return NotAllowed();
 
             return await ReadAsync<T>(db ?? _dbCtx, uuid);
@@ -152,7 +152,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> GetAsync<TDto>(Guid uuid, DbContext db = null) where TDto : class
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
                 return NotAllowed();
 
             return await ReadAsync<TDto>(db ?? _dbCtx, uuid);

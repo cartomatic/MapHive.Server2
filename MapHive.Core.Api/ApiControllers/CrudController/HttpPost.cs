@@ -20,7 +20,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> PostAsync(T obj, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForCreateAsync(db))
+            if (!await IsCrudPrivilegeGrantedForCreateAsync(db ?? _dbCtx))
                 return NotAllowed();
 
             return await CreateAsync(db ?? _dbCtx, obj);
@@ -35,7 +35,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> PostAsync<DTO>(DTO obj, DbContext db = null) where DTO : class
         {
-            if (!await IsCrudPrivilegeGrantedForCreateAsync(db))
+            if (!await IsCrudPrivilegeGrantedForCreateAsync(db ?? _dbCtx))
                 return NotAllowed();
 
             return await CreateAsync(db ?? _dbCtx, obj);

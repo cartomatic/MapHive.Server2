@@ -24,7 +24,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> PutAsync(T obj, Guid uuid, DbContext db = null)
         {
-            return await UpdateAsync(GetOrganizationDbContext(), obj, uuid);
+            if (!await IsCrudPrivilegeGrantedForUpdateAsync(db ?? GetOrganizationDbContext()))
+                return NotAllowed();
+
+            return await UpdateAsync(db ?? GetOrganizationDbContext(), obj, uuid);
         }
 
         /// <summary>
@@ -37,7 +40,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> PutAsync<TDto>(TDto obj, Guid uuid, DbContext db = null)
         {
-            return await UpdateAsync(GetOrganizationDbContext(), obj, uuid);
+            if (!await IsCrudPrivilegeGrantedForUpdateAsync(db ?? GetOrganizationDbContext()))
+                return NotAllowed();
+
+            return await UpdateAsync(db ?? GetOrganizationDbContext(), obj, uuid);
         }
     }
 }

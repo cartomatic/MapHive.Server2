@@ -10,7 +10,7 @@ use at your own risk...</Description>
     <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
     <Copyright>cartomatic</Copyright>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
-    <Version>1.0.4-dev0091</Version>
+    <Version>1.0.4-dev0097</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

@@ -23,7 +23,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> PostAsync(T obj, DbContext db = null)
         {
-            return await CreateAsync(GetOrganizationDbContext(), obj);
+            if (!await IsCrudPrivilegeGrantedForCreateAsync(db ?? GetOrganizationDbContext()))
+                return NotAllowed();
+
+            return await CreateAsync(db ?? GetOrganizationDbContext(), obj);
         }
 
         /// <summary>
@@ -35,7 +38,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> PostAsync<DTO>(DTO obj, DbContext db = null)
         {
-            return await CreateAsync(GetOrganizationDbContext(), obj);
+            if (!await IsCrudPrivilegeGrantedForCreateAsync(db ?? GetOrganizationDbContext()))
+                return NotAllowed();
+
+            return await CreateAsync(db ?? GetOrganizationDbContext(), obj);
         }
     }
 }

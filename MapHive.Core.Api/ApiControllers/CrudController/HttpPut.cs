@@ -21,7 +21,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> PutAsync(T obj, Guid uuid, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForUpdateAsync(db))
+            if (!await IsCrudPrivilegeGrantedForUpdateAsync(db ?? _dbCtx))
                 return NotAllowed();
 
             return await UpdateAsync(db ?? _dbCtx, obj, uuid);
@@ -37,7 +37,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> PutAsync<TDto>(TDto obj, Guid uuid, DbContext db = null) where TDto : class
         {
-            if (!await IsCrudPrivilegeGrantedForUpdateAsync(db))
+            if (!await IsCrudPrivilegeGrantedForUpdateAsync(db ?? _dbCtx))
                 return NotAllowed();
 
             return await UpdateAsync(db ?? _dbCtx, obj, uuid);
