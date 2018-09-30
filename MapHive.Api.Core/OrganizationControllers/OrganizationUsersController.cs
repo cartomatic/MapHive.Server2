@@ -78,8 +78,22 @@ namespace MapHive.Api.Core.Controllers
             //This is where some env core objects are kept
 
             //ensure user belongs to an org
-            if(await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
-                return await base.GetAsync(uuid, GetDefaultDbContext());
+            if (await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
+            {
+                var user = (await base.GetAsync(uuid, GetDefaultDbContext())).GetContent<MapHiveUser>();
+                if (user == null)
+                    return NotFound();
+
+                //just check for owner / admin roles; it is an org member anyway
+                if (await OrganizationContext.IsOrgOwnerAsync(GetDefaultDbContext(), user))
+                    user.OrganizationRole = Organization.OrganizationRole.Owner;
+                else if (await OrganizationContext.IsOrgAdminAsync(GetDefaultDbContext(), user))
+                    user.OrganizationRole = Organization.OrganizationRole.Admin;
+                else
+                    user.OrganizationRole = Organization.OrganizationRole.Member;
+
+                return Ok(user);
+            }
 
             return NotFound();
         }
