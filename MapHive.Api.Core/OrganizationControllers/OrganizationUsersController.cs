@@ -127,6 +127,11 @@ namespace MapHive.Api.Core.Controllers
                     //user has been created, so now need to add it to the org with an appropriate role
                     await this.OrganizationContext.AddOrganizationUserAsync(GetDefaultDbContext(), createdUser.User);
 
+                    //at this stage user should have had a member role assigned
+                    //mkae sure to assign the one that has been asked for
+                    if(user.OrganizationRole.HasValue && user.OrganizationRole != Organization.OrganizationRole.Member)
+                        await this.OrganizationContext.ChangeOrganizationUserRoleAsync(GetDefaultDbContext(), user);
+
                     return Ok(createdUser.User);
                 }
 
