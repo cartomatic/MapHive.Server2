@@ -191,6 +191,10 @@ namespace MapHive.Core.Cmd
                 using (var dbCtx = GetMapHiveDbContext())
                 {
                     await newOrg.CreateAsync(dbCtx, user, apps);
+
+                    //explicit user -> org asignment
+                    user.UserOrgId = newOrg.Uuid;
+                    await user.UpdateAsync(dbCtx);
                 }
             }
             

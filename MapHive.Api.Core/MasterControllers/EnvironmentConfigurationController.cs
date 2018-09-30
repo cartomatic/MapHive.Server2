@@ -278,6 +278,9 @@ namespace MapHive.Api.Core.Controllers
                         apps = new[] {"masterofpuppets"};
 
                     await newOrg.CreateAsync(_db, user, apps);
+
+                    user.UserOrgId = newOrg.Uuid;
+                    await user.UpdateAsync(_db);
                 }
 
                 if (org != null && !clean)
