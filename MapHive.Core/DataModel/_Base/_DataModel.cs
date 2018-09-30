@@ -51,6 +51,6 @@ namespace MapHive.Core.DataModel
         /// <summary>
         /// When an object is used as a link, it may have some extra data; this property is not db mapped, but used for scenarios when such extra information is required
         /// </summary>
-        public ILinkData LinkData { get; set; }
+        public LinkData LinkData { get; set; }
     }
 }

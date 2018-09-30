@@ -192,6 +192,8 @@ Note: this description is only visible in DEBUG mode.";
                 org.Owners = (await org.GetOwnersAsync(dbCtx)).ToList();
                 org.Admins = (await org.GetAdminsAsync(dbCtx)).ToList();
 
+                org.Roles = (await org.GetOrgRolesAsync(dbCtx)).ToList();
+
                 await org.ReadLicenseOptionsAsync(dbCtx);
 
                 await org.LoadDatabasesAsync(dbCtx);

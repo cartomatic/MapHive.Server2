@@ -79,7 +79,7 @@ namespace MapHive.Core.DataModel
         /// <param name="sortOrder"></param>
         /// <param name="linkData"></param>
         /// <returns></returns>
-        public static TEntity AddLink<TEntity, T>(this TEntity parent, T child, int sortOrder = 0, ILinkData linkData = null)
+        public static TEntity AddLink<TEntity, T>(this TEntity parent, T child, int sortOrder = 0, LinkData linkData = null)
             where TEntity : Base
             where T : Base
         {

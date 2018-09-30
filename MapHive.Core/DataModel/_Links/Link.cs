@@ -72,16 +72,16 @@ namespace MapHive.Core.DataModel
         /// LinkData setter; used so can set data into a collection of specific type, while still maintaining an interface input
         /// </summary>
         /// <param name="linkData"></param>
-        public void SetLinkData(ILinkData linkData)
+        public void SetLinkData(LinkData linkData)
         {
             //Note: complex type cannot be null, otherwise EF will throw!
-            LinkData = (LinkData)linkData ?? new LinkData();
+            LinkData = linkData ?? new LinkData();
         }
 
         /// <summary>
-        /// explicit interface implementation - lets the Base keep the ILinkData interface while it implements a concrete ILinkData type, so EF can handle the data mapping
+        /// explicit interface implementation - lets the Base keep the LinkData interface while it implements a concrete LinkData type, so EF can handle the data mapping
         /// </summary>
-        ILinkData ILink.LinkData
+        LinkData ILink.LinkData
         {
             get => LinkData;
             set => LinkData = (LinkData) value;

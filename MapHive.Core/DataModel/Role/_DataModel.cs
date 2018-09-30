@@ -15,7 +15,7 @@ namespace MapHive.Core.DataModel
     public partial class Role
     {
         /// <summary>
-        /// identifier of a role; some roles may have soecial meaning and use identifiers to uniquely address them
+        /// identifier of a role; some roles may have special meaning and use identifiers to uniquely address them
         /// </summary>
         public string Identifier { get; set; }
 

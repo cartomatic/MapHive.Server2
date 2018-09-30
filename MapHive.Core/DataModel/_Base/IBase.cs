@@ -22,6 +22,6 @@ namespace MapHive.Core.DataModel
 
         ILinksDiff Links { get; set; }
 
-        ILinkData LinkData { get; set; }
+        LinkData LinkData { get; set; }
     }
 }

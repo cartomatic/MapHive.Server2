@@ -2401,7 +2401,7 @@
             <param name="propertySpecifiers"></param>
             <returns></returns>
         </member>
-        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.AddLink``2(``0,``1,System.Int32,MapHive.Core.DataModel.ILinkData)">
+        <member name="M:MapHive.Core.DataModel.BaseCrudExtensions.AddLink``2(``0,``1,System.Int32,MapHive.Core.DataModel.LinkData)">
             <summary>
             Adds a link to an object; adds appropriate info to the LinksDiff.Upsert collection
             Does not save the data.  In order to materialise modified links, saving object is required.
@@ -3034,13 +3034,13 @@
             Extra data to be saved with the link; can store data for different applications within the same link
             </summary>
         </member>
-        <member name="M:MapHive.Core.DataModel.ILink.SetLinkData(MapHive.Core.DataModel.ILinkData)">
+        <member name="M:MapHive.Core.DataModel.ILink.SetLinkData(MapHive.Core.DataModel.LinkData)">
             <summary>
             LinkData setter; used so can set data into a collection of specific type, while still maintaining an interface input
             </summary>
             <param name="linkData"></param>
         </member>
-        <member name="T:MapHive.Core.DataModel.ILinkData">
+        <member name="T:MapHive.Core.DataModel.LinkData">
             <inheritdoc />
             <summary>
             Whether or not a link object contains additional data
@@ -3103,7 +3103,7 @@
             Extra data to be saved with the link; can store data for different applications within the same link
             </summary>
         </member>
-        <member name="M:MapHive.Core.DataModel.Link.SetLinkData(MapHive.Core.DataModel.ILinkData)">
+        <member name="M:MapHive.Core.DataModel.Link.SetLinkData(MapHive.Core.DataModel.LinkData)">
             <inheritdoc />
             <summary>
             LinkData setter; used so can set data into a collection of specific type, while still maintaining an interface input
@@ -3112,7 +3112,7 @@
         </member>
         <member name="P:MapHive.Core.DataModel.Link.MapHive#Core#DataModel#ILink#LinkData">
             <summary>
-            explicit interface implementation - lets the Base keep the ILinkData interface while it implements a concrete ILinkData type, so EF can handle the data mapping
+            explicit interface implementation - lets the Base keep the LinkData interface while it implements a concrete LinkData type, so EF can handle the data mapping
             </summary>
         </member>
         <member name="M:MapHive.Core.DataModel.LinkData.GetByKey(System.String)">

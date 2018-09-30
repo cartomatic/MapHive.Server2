@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.JsonSerializableObjects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace MapHive.Core.DataModel
 {
-    public class LinkData : Dictionary<string, Dictionary<string,object>>, ILinkData
+    public class LinkData : Dictionary<string, Dictionary<string,object>>, IJsonSerializable
     {
         private static JsonSerializerSettings JsonSerializerSettings => new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver()};
 

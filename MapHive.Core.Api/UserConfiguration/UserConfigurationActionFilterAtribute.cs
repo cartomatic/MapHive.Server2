@@ -268,6 +268,11 @@ namespace MapHive.Core.Api.UserConfiguration
             return null;
         }
 
+        /// <summary>
+        /// Tries to obrain user confoguration off a context
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static MapHive.Core.Configuration.UserConfiguration GetUserConfiguration(HttpContext context)
         {
             if (context.Items.ContainsKey(nameof(MapHive.Core.Configuration.UserConfiguration)))
