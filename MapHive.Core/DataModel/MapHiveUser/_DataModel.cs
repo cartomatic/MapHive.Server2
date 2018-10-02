@@ -58,6 +58,9 @@ namespace MapHive.Core.DataModel
         /// </summary>
         public Guid? ProfilePictureId { get; set; }
 
+        //TODO - maybe should have some sort of lightweight 100x100 or perhaps 250x250 thumb???? dunno
+
+
         /// <summary>
         /// Whether or not user is an organization user. Being an organization user means user does not have its own organization to work under and instead can only work in the context of other orgs he is linked to; this will usually be only one organization, but technically a user can be linked to as many orgs as required
         /// </summary>
