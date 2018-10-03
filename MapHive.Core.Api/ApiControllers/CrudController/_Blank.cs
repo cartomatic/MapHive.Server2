@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MapHive.Core.Api.ApiControllers
 {
-    public abstract partial class CrudController
+    public abstract partial class CrudController<T, TDbCtx>
     {
     }
 }

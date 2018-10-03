@@ -68,6 +68,33 @@ namespace MapHive.Core.Api.ApiControllers
         }
 
         /// <summary>
+        /// Calls a rest API; extracts authorization header off a request
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="url"></param>
+        /// <param name="route"></param>
+        /// <param name="method"></param>
+        /// <param name="queryParams"></param>
+        /// <param name="data"></param>
+        /// <param name="customHeaders"></param>
+        /// <returns></returns>
+        protected internal virtual async Task<IRestResponse> RestApiCall(HttpRequestMessage request, string url, string route,
+            Method method = Method.GET,
+            Dictionary<string, object> queryParams = null, object data = null,
+            Dictionary<string, string> customHeaders = null)
+        {
+            return await RestApiCall(
+                url,
+                route,
+                method,
+                queryParams,
+                data,
+                ExtractAuthorizationToken(request),
+                customHeaders
+            );
+        }
+
+        /// <summary>
         /// Calls a rest API
         /// </summary>
         /// <param name="url"></param>
@@ -122,6 +149,32 @@ namespace MapHive.Core.Api.ApiControllers
 #endif
 
             return await client.ExecuteTaskAsync(request);
+        }
+
+        /// <summary>
+        /// Calls a REST API and auto deserializes the output; extracs authorization header off a request
+        /// </summary>
+        /// <typeparam name="TOut"></typeparam>
+        /// <param name="request"></param>
+        /// <param name="url"></param>
+        /// <param name="route"></param>
+        /// <param name="method"></param>
+        /// <param name="queryParams"></param>
+        /// <param name="data"></param>
+        /// <param name="customHeaders"></param>
+        /// <returns></returns>
+        protected internal virtual async Task<ApiCallOutput<TOut>> RestApiCall<TOut>(HttpRequestMessage request, string url, string route, Method method = Method.GET,
+            Dictionary<string, object> queryParams = null, object data = null, Dictionary<string, string> customHeaders = null)
+        {
+            return await RestApiCall<TOut>(
+                url,
+                route,
+                method,
+                queryParams,
+                data,
+                ExtractAuthorizationToken(request),
+                customHeaders
+            );
         }
 
         /// <summary>
