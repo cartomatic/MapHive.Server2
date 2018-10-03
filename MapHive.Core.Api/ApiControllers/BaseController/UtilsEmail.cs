@@ -13,23 +13,13 @@ namespace MapHive.Core.Api.ApiControllers
     public abstract partial class BaseController
     {
         /// <summary>
-        /// Extracts an email template and a configured email account based on the email identifier. Since application name is not provided it only matches email identifiers for templates that do not have the app name set. Tries to work out the lang to extract the translation for email dynamically
-        /// </summary>
-        /// <param name="emailIdentifier"></param>
-        /// <returns></returns>
-        protected async Task<(EmailAccount emailAccount, EmailTemplate emailTemplate)> GetEmailStuffAsync(string emailIdentifier)
-        {
-            return await this.GetEmailStuffAsync(emailIdentifier, "common");
-        }
-
-        /// <summary>
-        /// Extracts an email template and a configured email account based on the email template identifier and app identifier; Tries to work out the lang to extract the translation for email dynamically
+        /// Extracts an email template and a configured email account based on the email template identifier and app identifier; if application name is not provided it defaults to "common" as such templates should always be provided by the maphive core; Tries to work out the lang to extract the translation for email dynamically
         /// </summary>
         /// <param name="emailIdentifier"></param>
         /// <param name="appName"></param>
         /// <param name="langCode"></param>
         /// <returns></returns>
-        protected async Task<(EmailAccount emailAccount, EmailTemplate emailTemplate)> GetEmailStuffAsync(string emailIdentifier, string appName, string langCode = null)
+        protected async Task<(EmailAccount emailAccount, EmailTemplate emailTemplate)> GetEmailStuffAsync(string emailIdentifier, string appName = null, string langCode = null)
         {
             EmailAccount ea = null;
             EmailTemplate et = null;
@@ -40,7 +30,7 @@ namespace MapHive.Core.Api.ApiControllers
                 queryParams: new Dictionary<string, object>
                 {
                     { "emailIdentifier" , emailIdentifier},
-                    { "appIdentifier" , appName},
+                    { "appIdentifier" , string.IsNullOrEmpty(appName) ? "common" : appName },
                     {
                         "langCode" , string.IsNullOrEmpty(langCode) ? GetRequestLangCode(Context) : langCode
                     }

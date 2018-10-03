@@ -104,14 +104,15 @@ namespace MapHive.Api.Core.Controllers
         /// </summary>
         /// <param name="organizationuuid"></param>
         /// <param name="user"></param>
+        /// <param name="applicationContext">Application context to be used when sending out emails</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("")]
+        [Route("{applicationContext?}")]
         [ProducesResponseType(typeof(MapHiveUser), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> PostAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user)
+        public async Task<IActionResult> PostAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user, string applicationContext = null)
         {
             //this is an org user, so needs to be flagged as such!
             user.IsOrgUser = true;
@@ -127,7 +128,7 @@ namespace MapHive.Api.Core.Controllers
                     {"RedirectUrl", this.GetRequestSource(Context).Split('#')[0]}
                 };
 
-                var email = await GetEmailStuffAsync("user_created");
+                var email = await GetEmailStuffAsync("user_created", applicationContext);
 
                 //note:
                 //org users and org roles are created against mh meta db!

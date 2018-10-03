@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>1.0.4-dev0138</Version>
+    <Version>1.0.4-dev0139</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
 aimed at working with pgsql initially</Description>
