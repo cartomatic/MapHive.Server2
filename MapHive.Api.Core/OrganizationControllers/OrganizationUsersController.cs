@@ -104,7 +104,7 @@ namespace MapHive.Api.Core.Controllers
         /// </summary>
         /// <param name="organizationuuid"></param>
         /// <param name="user"></param>
-        /// <param name="applicationContext">Application context to be used when sending out emails</param>
+        /// <param name="applicationContext">Application context to be used when sending out emails; when not provided, default emails are sent out; if no emails should be sent out simply provide a non-existent context</param>
         /// <returns></returns>
         [HttpPost]
         [Route("{applicationContext?}")]
@@ -134,7 +134,7 @@ namespace MapHive.Api.Core.Controllers
                 //org users and org roles are created against mh meta db!
                 //This is where some env core objects are kept
 
-                var createdUser = await MapHiveUser.CreateUserAccountAsync(GetDefaultDbContext(), user, email.emailAccount, email.emailTemplate.Prepare(replacementData));
+                var createdUser = await MapHiveUser.CreateUserAccountAsync(GetDefaultDbContext(), user, email.emailAccount, email.emailTemplate?.Prepare(replacementData));
 
                 if (createdUser != null)
                 {

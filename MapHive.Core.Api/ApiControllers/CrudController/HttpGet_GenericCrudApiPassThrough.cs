@@ -16,7 +16,6 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Performs a standard GetAsync (sort, filter,start,limit) pass through against a maphive core api
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="route"></param>
         /// <param name="sort"></param>
         /// <param name="filter"></param>
@@ -24,13 +23,11 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="limit"></param>
         /// <returns></returns>
         protected internal virtual async Task<IActionResult> CoreApiGetPassThroughAsync(
-            HttpRequestMessage request,
             string route,
             string sort = null, string filter = null, int start = 0, int limit = 25
         )
         {
             var apiResponse = await CoreApiCall(
-                request,
                 route,
                 Method.GET,
                 new Dictionary<string, object>
@@ -49,7 +46,6 @@ namespace MapHive.Core.Api.ApiControllers
         /// Performs a standard GetAsync (sort, filter,start,limit) against a maphive core api; automatically deserializes the output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
         /// <param name="route"></param>
         /// <param name="sort"></param>
         /// <param name="filter"></param>
@@ -57,13 +53,11 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="limit"></param>
         /// <returns></returns>
         protected internal virtual async Task<TOut> CoreApiGetAsync<TOut>(
-            HttpRequestMessage request,
             string route,
             string sort = null, string filter = null, int start = 0, int limit = 25
         )
         {
             var apiResponse = await CoreApiCall<TOut>(
-                request,
                 route,
                 Method.GET,
                 new Dictionary<string, object>
@@ -81,7 +75,6 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Performs a standard GetAsync (sort, filter,start,limit) pass through against a rest api
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="url"></param>
         /// <param name="route"></param>
         /// <param name="sort"></param>
@@ -90,14 +83,12 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="limit"></param>
         /// <returns></returns>
         protected internal virtual async Task<IActionResult> RestApiGetPassThroughAsync(
-            HttpRequestMessage request,
             string url,
             string route,
             string sort = null, string filter = null, int start = 0, int limit = 25
         )
         {
             var apiResponse = await RestApiCall(
-                request,
                 url,
                 route,
                 Method.GET,
@@ -117,7 +108,6 @@ namespace MapHive.Core.Api.ApiControllers
         /// Performs a standard GetAsync (sort, filter,start,limit) against a rest api; automatically deserializes the output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
         /// <param name="url"></param>
         /// <param name="route"></param>
         /// <param name="sort"></param>
@@ -126,14 +116,12 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="limit"></param>
         /// <returns></returns>
         protected internal virtual async Task<TOut> RestApiGetAsync<TOut>(
-            HttpRequestMessage request,
             string url,
             string route,
             string sort = null, string filter = null, int start = 0, int limit = 25
         )
         {
             var apiResponse = await RestApiCall<TOut>(
-                request,
                 url,
                 route,
                 Method.GET,
@@ -152,18 +140,15 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Performs a standard GetAsync (uuid) pass through against a maphive core api
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="route"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<IActionResult> CoreApiGetPassThroughAsync(
-            HttpRequestMessage request,
             string route,
             Guid? uuid = null
         )
         {
             var apiResponse = await CoreApiCall(
-                request,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.GET
             );
@@ -175,18 +160,15 @@ namespace MapHive.Core.Api.ApiControllers
         /// Performs a standard GetAsync (uuid) against a maphive core api; automatically deserializes the output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
         /// <param name="route"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<TOut> CoreApiGetAsync<TOut>(
-            HttpRequestMessage request,
             string route,
             Guid? uuid = null
         )
         {
             var apiResponse = await CoreApiCall<TOut>(
-                request,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.GET
             );
@@ -197,20 +179,17 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Performs a standard GetAsync (uuid) pass through against a rest api
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="url"></param>
         /// <param name="route"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<IActionResult> RestApiGetPassThroughAsync(
-            HttpRequestMessage request,
             string url,
             string route,
             Guid? uuid = null
         )
         {
             var apiResponse = await RestApiCall(
-                request,
                 url,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.GET
@@ -223,20 +202,17 @@ namespace MapHive.Core.Api.ApiControllers
         /// Performs a standard GetAsync (uuid) against a rest api; automatically deserializes the output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
         /// <param name="url"></param>
         /// <param name="route"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<TOut> RestApiGetAsync<TOut>(
-            HttpRequestMessage request,
             string url,
             string route,
             Guid? uuid = null
         )
         {
             var apiResponse = await RestApiCall<TOut>(
-                request,
                 url,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.GET

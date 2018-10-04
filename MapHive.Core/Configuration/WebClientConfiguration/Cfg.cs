@@ -79,5 +79,18 @@ namespace MapHive.Core.Configuration
         /// </summary>
         public static string ResetPassLinkHash =>
             $"{{RedirectUrl}}#{AppHashProperties["auth"]}{HashPropertyValueDelimiter}resetpass{HashPropertyDelimiter}{AppHashProperties["verificationKey"]}{HashPropertyValueDelimiter}{{VerificationKey}}";
+
+        /// <summary>
+        /// gets a collection of mh header names
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetMhHeaders()
+        {
+            return new List<string>
+            {
+                HeaderLang,
+                HeaderSource
+            };
+        }
     }
 }

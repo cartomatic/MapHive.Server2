@@ -22,8 +22,14 @@ namespace MapHive.Core.Api.ApiControllers
         /// <typeparam name="TOut"></typeparam>
         public class ApiCallOutput<TOut>
         {
+            /// <summary>
+            /// deserialized api call output
+            /// </summary>
             public TOut Output { get; set; }
 
+            /// <summary>
+            /// raw IRestResponse
+            /// </summary>
             public IRestResponse Response { get; set; }
         }
 
@@ -68,33 +74,6 @@ namespace MapHive.Core.Api.ApiControllers
         }
 
         /// <summary>
-        /// Calls a rest API; extracts authorization header off a request
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="url"></param>
-        /// <param name="route"></param>
-        /// <param name="method"></param>
-        /// <param name="queryParams"></param>
-        /// <param name="data"></param>
-        /// <param name="customHeaders"></param>
-        /// <returns></returns>
-        protected internal virtual async Task<IRestResponse> RestApiCall(HttpRequestMessage request, string url, string route,
-            Method method = Method.GET,
-            Dictionary<string, object> queryParams = null, object data = null,
-            Dictionary<string, string> customHeaders = null)
-        {
-            return await RestApiCall(
-                url,
-                route,
-                method,
-                queryParams,
-                data,
-                ExtractAuthorizationToken(request),
-                customHeaders
-            );
-        }
-
-        /// <summary>
         /// Calls a rest API
         /// </summary>
         /// <param name="url"></param>
@@ -104,12 +83,17 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="data"></param>
         /// <param name="authToken">Allows for performing authorized calls against MapHive apis</param>
         /// <param name="customHeaders"></param>
+        /// <param name="transferAuthHdr">Whether or not auth header should be automatically transferred to outgoing request; when a custom auth header is provided it will always take precedence</param>
+        /// <param name="transferMhHdrs">Whether or not should auto transfer maphive request headers such as request src, lng, etc</param>
+        /// <param name="transferRequestHdrs">Whether or not should auto transfer request headers so they are sent out </param>
         /// <returns></returns>
         protected internal virtual async Task<IRestResponse> RestApiCall(string url, string route, Method method = Method.GET,
-            Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null)
+            Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null, bool transferAuthHdr = true, bool transferMhHdrs = true, bool transferRequestHdrs = true)
         {
             var client = new RestClient($"{url}{(url.EndsWith("/") ? "" : "/")}{route}");
             var request = new RestRequest(method);
+
+            //assuming here only json ap input is supported.
             request.AddHeader("Content-Type", "application/json");
 
             if (customHeaders != null)
@@ -119,6 +103,11 @@ namespace MapHive.Core.Api.ApiControllers
                     request.AddHeader(headerKey, customHeaders[headerKey]);
                 }
             }
+
+            //sice the api call is done in scope of a maphive controller try to attach the default custom maphive headers
+            TransferRequestHeaders(request, customHeaders, transferMhHdrs, transferRequestHdrs);
+
+
 
             //add params if any
             if (queryParams != null && queryParams.Keys.Count > 0)
@@ -138,6 +127,13 @@ namespace MapHive.Core.Api.ApiControllers
             }
 
 
+            //when auth token not provided try to obtain it off the request
+            if (transferAuthHdr && string.IsNullOrEmpty(authToken))
+            {
+                authToken = ExtractAuthorizationHeader();
+            }
+
+
             //add auth if need to perform an authorized call
             if (!string.IsNullOrEmpty(authToken))
             {
@@ -152,32 +148,6 @@ namespace MapHive.Core.Api.ApiControllers
         }
 
         /// <summary>
-        /// Calls a REST API and auto deserializes the output; extracs authorization header off a request
-        /// </summary>
-        /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
-        /// <param name="url"></param>
-        /// <param name="route"></param>
-        /// <param name="method"></param>
-        /// <param name="queryParams"></param>
-        /// <param name="data"></param>
-        /// <param name="customHeaders"></param>
-        /// <returns></returns>
-        protected internal virtual async Task<ApiCallOutput<TOut>> RestApiCall<TOut>(HttpRequestMessage request, string url, string route, Method method = Method.GET,
-            Dictionary<string, object> queryParams = null, object data = null, Dictionary<string, string> customHeaders = null)
-        {
-            return await RestApiCall<TOut>(
-                url,
-                route,
-                method,
-                queryParams,
-                data,
-                ExtractAuthorizationToken(request),
-                customHeaders
-            );
-        }
-
-        /// <summary>
         /// Calls a REST API, auto deserializes output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
@@ -188,16 +158,19 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="data"></param>
         /// <param name="authToken"></param>
         /// <param name="customHeaders"></param>
+        /// <param name="transferAuthHdr">Whether or not auth header should be automatically transferred to outgoing request; when a custom auth header is provided it will always take precedence</param>
+        /// <param name="transferMhHdrs">Whether or not should auto transfer maphive request headers such as request src, lng, etc</param>
+        /// <param name="transferRequestHdrs">Whether or not should auto transfer request headers so they are sent out </param>
         /// <returns></returns>
         protected internal virtual async Task<ApiCallOutput<TOut>> RestApiCall<TOut>(string url, string route, Method method = Method.GET,
-            Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null)
+            Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null, bool transferAuthHdr = true, bool transferMhHdrs = true, bool transferRequestHdrs = true)
         {
             //because of some reason RestSharp is bitching around when deserializing the arr / list output...
             //using Newtonsoft.Json instead
 
             var output = default(TOut);
 
-            var resp = await RestApiCall(url, route, method, queryParams, data, authToken, customHeaders);
+            var resp = await RestApiCall(url, route, method, queryParams, data, authToken, customHeaders, transferAuthHdr, transferMhHdrs, transferRequestHdrs);
             if (resp.StatusCode == HttpStatusCode.OK)
             {
                 output = (TOut)Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content, typeof(TOut));

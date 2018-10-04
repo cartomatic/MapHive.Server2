@@ -16,18 +16,15 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Performs a standard PostAsync (obj) pass through against a maphive core api
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="route"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
         protected internal virtual async Task<IActionResult> CoreApiPostPassThroughAsync(
-            HttpRequestMessage request,
             string route,
             object obj
         )
         {
             var apiResponse = await CoreApiCall(
-                request,
                 route,
                 Method.POST,
                 queryParams: null,
@@ -41,18 +38,15 @@ namespace MapHive.Core.Api.ApiControllers
         /// Performs a standard PostAsync (obj) against a maphive core api; automatically deserializes the output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
         /// <param name="route"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
         protected internal virtual async Task<TOut> CoreApiPostAsync<TOut>(
-            HttpRequestMessage request,
             string route,
             object obj
         )
         {
             var apiResponse = await CoreApiCall<TOut>(
-                request,
                 route,
                 Method.POST,
                 queryParams: null,
@@ -65,20 +59,17 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Performs a standard PostAsync (obj) pass through against a rest api
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="url"></param>
         /// <param name="route"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
         protected internal virtual async Task<IActionResult> RestApiPostPassThroughAsync(
-            HttpRequestMessage request,
             string url,
             string route,
             object obj
         )
         {
             var apiResponse = await RestApiCall(
-                request,
                 url,
                 route,
                 Method.POST,
@@ -93,20 +84,17 @@ namespace MapHive.Core.Api.ApiControllers
         /// Performs a standard PostAsync (obj) against a rest api; automatically deserializes the output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
         /// <param name="url"></param>
         /// <param name="route"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
         protected internal virtual async Task<TOut> RestApiPostAsync<TOut>(
-            HttpRequestMessage request,
             string url,
             string route,
             object obj = null
         )
         {
             var apiResponse = await RestApiCall<TOut>(
-                request,
                 url,
                 route,
                 Method.POST,

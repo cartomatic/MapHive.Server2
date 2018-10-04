@@ -17,18 +17,15 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Performs a standard DeleteAsync (obj, uuid) pass through against a maphive core api
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="route"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<IActionResult> CoreApiDeletePassThroughAsync(
-            HttpRequestMessage request,
             string route,
             Guid? uuid = null
         )
         {
             var apiResponse = await CoreApiCall(
-                request,
                 uuid.HasValue ? $"{route}/{uuid}" :  route,
                 Method.DELETE
             );
@@ -40,18 +37,15 @@ namespace MapHive.Core.Api.ApiControllers
         /// Performs a standard DeleteAsync (obj, uuid) against a maphive core api; automatically deserializes the output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
         /// <param name="route"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<TOut> CoreApiDeleteAsync<TOut>(
-            HttpRequestMessage request,
             string route,
             Guid? uuid = null
         )
         {
             var apiResponse = await CoreApiCall<TOut>(
-                request,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.DELETE
             );
@@ -62,20 +56,17 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Performs a standard DeleteAsync (obj, uuid) through against a rest api
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="url"></param>
         /// <param name="route"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<IActionResult> RestApiDeletePassThroughAsync(
-            HttpRequestMessage request,
             string url,
             string route,
             Guid? uuid = null
         )
         {
             var apiResponse = await RestApiCall(
-                request,
                 url,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.DELETE
@@ -88,20 +79,17 @@ namespace MapHive.Core.Api.ApiControllers
         /// Performs a standard DeleteAsync (obj, uuid) against a rest api; automatically deserializes the output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
         /// <param name="url"></param>
         /// <param name="route"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<TOut> RestApiDeleteAsync<TOut>(
-            HttpRequestMessage request,
             string url,
             string route,
             Guid? uuid = null
         )
         {
             var apiResponse = await RestApiCall<TOut>(
-                request,
                 url,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.DELETE

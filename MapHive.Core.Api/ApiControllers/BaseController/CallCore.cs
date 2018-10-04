@@ -14,30 +14,6 @@ namespace MapHive.Core.Api.ApiControllers
     public abstract partial class BaseController
     {
         /// <summary>
-        /// Calls a core API and auto deserializes output; extracts authorization header off the request
-        /// </summary>
-        /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
-        /// <param name="route"></param>
-        /// <param name="method"></param>
-        /// <param name="queryParams"></param>
-        /// <param name="data"></param>
-        /// <param name="customHeaders"></param>
-        /// <returns></returns>
-        protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiCall<TOut>(HttpRequestMessage request, string route, Method method = Method.GET,
-            Dictionary<string, object> queryParams = null, object data = null, Dictionary<string, string> customHeaders = null)
-        {
-            return await CoreApiCall<TOut>(
-                route,
-                method,
-                queryParams,
-                data,
-                ExtractAuthorizationToken(request),
-                customHeaders
-            );
-        }
-
-        /// <summary>
         /// Calls a core api and auto deserializes output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
@@ -62,42 +38,22 @@ namespace MapHive.Core.Api.ApiControllers
             );
         }
 
-        /// <summary>
-        /// Calls a core api; extracts authorization header off a request
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="route"></param>
-        /// <param name="method"></param>
-        /// <param name="queryParams"></param>
-        /// <param name="data"></param>
-        /// <param name="customHeaders"></param>
-        /// <returns></returns>
-        protected internal virtual async Task<IRestResponse> CoreApiCall(HttpRequestMessage request, string route, Method method = Method.GET,
-            Dictionary<string, object> queryParams = null, object data = null, Dictionary<string, string> customHeaders = null)
-        {
-            return await CoreApiCall(
-                route,
-                method,
-                queryParams,
-                data,
-                ExtractAuthorizationToken(request),
-                customHeaders
-            );
-        }
 
         /// <summary>
         /// Calls a core api
         /// </summary>
-        /// <typeparam name="TOut"></typeparam>
         /// <param name="route"></param>
         /// <param name="method"></param>
         /// <param name="queryParams"></param>
         /// <param name="data"></param>
         /// <param name="authToken"></param>
         /// <param name="customHeaders"></param>
+        /// <param name="transferAuthHdr">Whether or not auth header should be automatically transferred to outgoing request; when a custom auth header is provided it will always take precedence</param>
+        /// <param name="transferMhHdrs">Whether or not should auto transfer maphive request headers such as request src, lng, etc</param>
+        /// <param name="transferRequestHdrs">Whether or not should auto transfer request headers so they are sent out </param>
         /// <returns></returns>
         protected internal virtual async Task<IRestResponse> CoreApiCall(string route, Method method = Method.GET,
-            Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null)
+            Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null, bool transferAuthHdr = true, bool transferMhHdrs = true, bool transferRequestHdrs = true)
         {
             return await RestApiCall(
                 Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig()["Endpoints:Core"],
@@ -106,7 +62,10 @@ namespace MapHive.Core.Api.ApiControllers
                 queryParams,
                 data,
                 authToken,
-                customHeaders
+                customHeaders,
+                transferAuthHdr,
+                transferMhHdrs,
+                transferRequestHdrs
             );
         }
     }

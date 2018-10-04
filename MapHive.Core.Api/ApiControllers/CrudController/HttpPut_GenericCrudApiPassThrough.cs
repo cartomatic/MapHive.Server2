@@ -17,20 +17,17 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Performs a standard PutAsync (obj, uuid) pass through against a maphive core api
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="route"></param>
         /// <param name="obj"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<IActionResult> CoreApiPutPassThroughAsync(
-            HttpRequestMessage request,
             string route,
             object obj,
             Guid? uuid = null
         )
         {
             var apiResponse = await CoreApiCall(
-                request,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.PUT,
                 queryParams: null,
@@ -44,20 +41,17 @@ namespace MapHive.Core.Api.ApiControllers
         /// Performs a standard PutAsync (obj, uuid) against a maphive core api; automatically deserializes the output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
         /// <param name="route"></param>
         /// <param name="obj"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<TOut> CoreApiPutAsync<TOut>(
-            HttpRequestMessage request,
             string route,
             object obj,
             Guid? uuid = null
         )
         {
             var apiResponse = await CoreApiCall<TOut>(
-                request,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.PUT,
                 queryParams: null,
@@ -70,14 +64,12 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Performs a standard PutAsync (obj, uuid) through against a rest api
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="url"></param>
         /// <param name="route"></param>
         /// <param name="obj"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<IActionResult> RestApiPutPassThroughAsync(
-            HttpRequestMessage request,
             string url,
             string route,
             object obj,
@@ -85,7 +77,6 @@ namespace MapHive.Core.Api.ApiControllers
         )
         {
             var apiResponse = await RestApiCall(
-                request,
                 url,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.PUT,
@@ -100,14 +91,12 @@ namespace MapHive.Core.Api.ApiControllers
         /// Performs a standard PutAsync (obj, uuid) against a rest api; automatically deserializes the output
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
-        /// <param name="request"></param>
         /// <param name="url"></param>
         /// <param name="route"></param>
         /// <param name="obj"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
         protected internal virtual async Task<TOut> RestApiPutAsync<TOut>(
-            HttpRequestMessage request,
             string url,
             string route,
             object obj,
@@ -115,7 +104,6 @@ namespace MapHive.Core.Api.ApiControllers
         )
         {
             var apiResponse = await RestApiCall<TOut>(
-                request,
                 url,
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.PUT,
