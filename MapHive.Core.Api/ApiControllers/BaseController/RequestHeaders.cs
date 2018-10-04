@@ -47,6 +47,11 @@ namespace MapHive.Core.Api.ApiControllers
                 if(hdr.Key.ToLower() == "authorization")
                     continue;
 
+                //always avoid passing host header as it means when DNS resolves url to ip and request hits the sever it will resolve back to the domain thie request has originated from - the initial api
+                //it would be pretty much ok, if the endpoints used different web servers or machines, but will casue problems when deployed from a single IIS!
+                if (hdr.Key.ToLower() == "host")
+                    continue;
+
                 //assume that custom headers overwrite whatever are the incoming headers
                 //this is done outside of this method
                 if(customHdrs?.ContainsKey(hdr.Key) == true)
