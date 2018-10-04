@@ -68,7 +68,7 @@ namespace MapHive.Core.DataModel
                 validationFailedException.ValidationErrors.Add(new ValidationError
                 {
                     Message = $"MapHiveUser slug already taken: {Slug}",
-                    Code = "slug_taken",
+                    Code = "user_slug_taken",
                     PropertyName = nameof(Slug)
                 });
 

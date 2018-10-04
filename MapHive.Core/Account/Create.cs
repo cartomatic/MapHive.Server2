@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils.JsonSerializableObjects;
 using MapHive.Core.DataModel;
+using MapHive.Core.DataModel.Validation;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -39,18 +40,6 @@ namespace MapHive.Core
                 ContactPhone = input.AccountDetails.ContactPhone
             };
 
-            //prepare the email template tokens known at this stage,
-            var tokens = new Dictionary<string, object>
-            {
-                {"UserName", $"{user.GetFullUserName()} ({user.Email})"},
-                {"Email", user.Email}
-            };
-
-            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user,
-                input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
-            user = accountCreateOutput.User;
-
-
 
             //now the org object
             var orgNameDesc = string.IsNullOrEmpty(input.AccountDetails.Company) ? input.AccountDetails.Email + "-org" : input.AccountDetails.Company;
@@ -77,6 +66,42 @@ namespace MapHive.Core
 
                 LicenseOptions = new OrganizationLicenseOptions()
             };
+
+
+            //got the user and org, o need to validate them now in order to ensure they are creatable
+            if (user.Slug == newOrg.Slug)
+            {
+                var ex = new ValidationFailedException();
+                ex.ValidationErrors.Add(new ValidationError
+                {
+                    Message = $"MapHiveUser slug already taken: {user.Slug}",
+                    Code = "user_org_slug_duplicate",
+                    PropertyName = nameof(MapHiveUser.Slug)
+                });
+
+                throw ex;
+            }
+                
+            //validate user and org - both should throw if a slug is already taken
+            await user.ValidateAsync(dbCtx);
+            await newOrg.ValidateAsync(dbCtx);
+
+
+            //prepare the email template tokens known at this stage,
+            var tokens = new Dictionary<string, object>
+            {
+                {"UserName", $"{user.GetFullUserName()} ({user.Email})"},
+                {"Email", user.Email}
+            };
+
+            //and create user
+            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user,
+                input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
+            user = accountCreateOutput.User;
+
+
+
+            //continue with the org setup
 
             //see what apps the client api wants to register
             var appIdentifiers = input.LicenseOptions.Keys.ToArray();
