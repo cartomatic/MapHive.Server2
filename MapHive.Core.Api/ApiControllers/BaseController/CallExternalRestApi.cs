@@ -52,16 +52,25 @@ namespace MapHive.Core.Api.ApiControllers
             }
 
             //looks like no content info was returned from the backend api
+            //this may be because not content has actually been sent out...
             if (string.IsNullOrWhiteSpace(contentType))
             {
-                contentType = "application/octet-stream";
+                //for such scenario pick the first content type accepted by the client.
+                //otherwise client (or kestrel?) will return 406 code as the accepted return content types do not match the one actually returned
+                contentType = apiResponse.Request.Parameters.FirstOrDefault(p => p.Name == "Accept")?.Value?.ToString().Split(',').FirstOrDefault();
+
+                //if the above did not work, default to octet-stream
+                if (string.IsNullOrEmpty(contentType))
+                {
+                    contentType = "application/octet-stream";
+                }
             }
             
             return new ObjectResult(
                 string.IsNullOrEmpty(apiResponse.Content)
                     ? (object)(apiResponse.RawBytes ?? new byte[0])
                     : contentType == "application/json"
-                        ? JsonConvert.DeserializeObject(apiResponse.Content) //so nicely serialize object is returned
+                        ? !string.IsNullOrEmpty(apiResponse.Content) ? JsonConvert.DeserializeObject(apiResponse.Content) : null //so nicely serialize object is returned
                         : contentType
             )
             {
