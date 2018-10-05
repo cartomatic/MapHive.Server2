@@ -18,16 +18,16 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             builder.ApplyIBaseConfiguration(nameof(Token), "tokens", "mh_meta");
 
-            builder.Property(en => en.OrganizationId).HasColumnName("organization_id");
-            builder.Property(en => en.ApplicationId).HasColumnName("application_id");
-            builder.Property(en => en.Name).HasColumnName("name");
-            builder.Property(en => en.Description).HasColumnName("description");
+            builder.Property(p => p.OrganizationId).HasColumnName("organization_id");
+            builder.Property(p => p.ApplicationId).HasColumnName("application_id");
+            builder.Property(p => p.Name).HasColumnName("name");
+            builder.Property(p => p.Description).HasColumnName("description");
 
-            builder.Ignore(en => en.Referrers);
-            builder.Property(en => en.ReferrersSerialized).HasColumnName("referrers");
+            builder.Ignore(p => p.Referrers);
+            builder.Property(p => p.ReferrersSerialized).HasColumnName("referrers");
 
-            builder.Property(en => en.CanIgnoreReferrer).HasColumnName("can_ignore_referrer");
-            builder.Property(en => en.IsMaster).HasColumnName("is_master");
+            builder.Property(p => p.CanIgnoreReferrer).HasColumnName("can_ignore_referrer");
+            builder.Property(p => p.IsMaster).HasColumnName("is_master");
         }
     }
 }

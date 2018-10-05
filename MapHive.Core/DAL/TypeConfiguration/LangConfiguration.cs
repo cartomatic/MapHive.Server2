@@ -16,10 +16,10 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             builder.ApplyIBaseConfiguration(nameof(Lang), "langs", "mh_localization");
 
-            builder.Property(en => en.LangCode).HasColumnName("lang_code");
-            builder.Property(en => en.Name).HasColumnName("name");
-            builder.Property(en => en.Description).HasColumnName("description");
-            builder.Property(en => en.IsDefault).HasColumnName("is_default");
+            builder.Property(p => p.LangCode).HasColumnName("lang_code");
+            builder.Property(p => p.Name).HasColumnName("name");
+            builder.Property(p => p.Description).HasColumnName("description");
+            builder.Property(p => p.IsDefault).HasColumnName("is_default");
 
         }
     }

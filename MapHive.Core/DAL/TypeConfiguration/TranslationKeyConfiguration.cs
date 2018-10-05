@@ -17,8 +17,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             builder.ApplyIBaseConfiguration(nameof(TranslationKey), "translation_keys", "mh_localization");
 
-            builder.Property(en => en.LocalizationClassUuid).HasColumnName("localization_class_uuid");
-            builder.Property(en => en.Key).HasColumnName("key");
+            builder.Property(p => p.LocalizationClassUuid).HasColumnName("localization_class_uuid");
+            builder.Property(p => p.Key).HasColumnName("key");
 
             //Stuff below would be true if the class derived from ILocalizationConfiguration; this does not seem to work though...
             //and need to set the mapping explicitly. Looks like EF is not always happy with the interfaces.

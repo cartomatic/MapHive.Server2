@@ -22,8 +22,8 @@ namespace MapHive.Core.DAL.TypeConfigs
 
             builder.HasKey(p => p.Uuid);
 
-            builder.Property(en => en.Uuid).HasColumnName("uuid");
-            builder.Property(en => en.Name).HasColumnName("name");
+            builder.Property(p => p.Uuid).HasColumnName("uuid");
+            builder.Property(p => p.Name).HasColumnName("name");
 
             builder.HasIndex(t => t.Name)
                 .HasName($"uq_name_{nameof(ObjectType).ToLower()}")

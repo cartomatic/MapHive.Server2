@@ -26,7 +26,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             builder.ApplyISimpleDictionaryConfiguration(entityName, tableName, schema);
 
-            builder.Property(en => en.Identifier).HasColumnName("identifier");
+            builder.Property(p => p.Identifier).HasColumnName("identifier");
 
             builder.HasIndex(p => p.Identifier)
                 .HasName($"idx_uq_identifier_{entityName.ToLower()}")
@@ -46,8 +46,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             builder.ApplyIBaseConfiguration(entityName, tableName, schema);
 
-            builder.Property(en => en.Name).HasColumnName("name");
-            builder.Property(en => en.Description).HasColumnName("description");
+            builder.Property(p => p.Name).HasColumnName("name");
+            builder.Property(p => p.Description).HasColumnName("description");
         }
     }
 

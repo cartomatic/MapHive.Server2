@@ -16,11 +16,11 @@ namespace MapHive.Core.DAL.TypeConfiguration
         {
             builder.ApplyIBaseConfiguration(nameof(EmailTemplateLocalization), "email_templates", "mh_localization");
 
-            builder.Property(en => en.ApplicationIdentifier).HasColumnName("application_identifier");
-            builder.Property(en => en.Name).HasColumnName("name");
-            builder.Property(en => en.Description).HasColumnName("description");
-            builder.Property(en => en.Identifier).HasColumnName("identifier");
-            builder.Property(en => en.IsBodyHtml).HasColumnName("is_body_html");
+            builder.Property(p => p.ApplicationIdentifier).HasColumnName("application_identifier");
+            builder.Property(p => p.Name).HasColumnName("name");
+            builder.Property(p => p.Description).HasColumnName("description");
+            builder.Property(p => p.Identifier).HasColumnName("identifier");
+            builder.Property(p => p.IsBodyHtml).HasColumnName("is_body_html");
 
             //Stuff below would be true if the class derived from ILocalizationConfiguration; this does not seem to work though...
             //Note: Translations dobe via ILocalizationConfiguration

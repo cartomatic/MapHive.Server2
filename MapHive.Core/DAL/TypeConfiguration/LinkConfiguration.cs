@@ -19,13 +19,13 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.ToTable(name: "links");
 
             builder.HasKey(p => p.Id);
-            builder.Property(en => en.Id).HasColumnName("id");
+            builder.Property(p => p.Id).HasColumnName("id");
 
-            builder.Property(en => en.ParentUuid).HasColumnName("parent_uuid");
-            builder.Property(en => en.ChildUuid).HasColumnName("child_uuid");
-            builder.Property(en => en.ParentTypeUuid).HasColumnName("parent_type_uuid");
-            builder.Property(en => en.ChildTypeUuid).HasColumnName("child_type_uuid");
-            builder.Property(en => en.SortOrder).HasColumnName("sort_order");
+            builder.Property(p => p.ParentUuid).HasColumnName("parent_uuid");
+            builder.Property(p => p.ChildUuid).HasColumnName("child_uuid");
+            builder.Property(p => p.ParentTypeUuid).HasColumnName("parent_type_uuid");
+            builder.Property(p => p.ChildTypeUuid).HasColumnName("child_type_uuid");
+            builder.Property(p => p.SortOrder).HasColumnName("sort_order");
 
             builder.Ignore(p => p.LinkData);
             builder.Property(p => p.LinkDataSerialized).HasColumnName("link_data");

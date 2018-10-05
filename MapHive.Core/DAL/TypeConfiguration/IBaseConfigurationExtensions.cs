@@ -38,12 +38,12 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
             builder.HasKey(t => t.Uuid).HasName($"pk_{tableName}");
 
-            builder.Property(en => en.Uuid).HasColumnName("uuid");
-            builder.Property(en => en.CreatedBy).HasColumnName("created_by");
-            builder.Property(en => en.LastModifiedBy).HasColumnName("last_modified_by");
-            builder.Property(en => en.CreateDateUtc).HasColumnName("create_date_utc");
-            builder.Property(en => en.ModifyDateUtc).HasColumnName("modify_date_utc");
-            builder.Property(en => en.EndDateUtc).HasColumnName("end_date_utc");
+            builder.Property(p => p.Uuid).HasColumnName("uuid");
+            builder.Property(p => p.CreatedBy).HasColumnName("created_by");
+            builder.Property(p => p.LastModifiedBy).HasColumnName("last_modified_by");
+            builder.Property(p => p.CreateDateUtc).HasColumnName("create_date_utc");
+            builder.Property(p => p.ModifyDateUtc).HasColumnName("modify_date_utc");
+            builder.Property(p => p.EndDateUtc).HasColumnName("end_date_utc");
 
             builder.Ignore(p => p.TypeUuid);
             builder.Ignore(p => p.Links);

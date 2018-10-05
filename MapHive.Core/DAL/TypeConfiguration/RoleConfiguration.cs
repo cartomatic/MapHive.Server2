@@ -18,12 +18,12 @@ namespace MapHive.Core.DAL.TypeConfiguration
             //roles take the default off the model builder, so can be reused in other schemas too!
             builder.ApplyIBaseConfiguration(nameof(Role), "roles");
 
-            builder.Property(en => en.Identifier).HasColumnName("identifier");
-            builder.Property(en => en.Name).HasColumnName("name");
-            builder.Property(en => en.Description).HasColumnName("description");
+            builder.Property(p => p.Identifier).HasColumnName("identifier");
+            builder.Property(p => p.Name).HasColumnName("name");
+            builder.Property(p => p.Description).HasColumnName("description");
 
-            builder.Ignore(en => en.Privileges);
-            builder.Property(en => en.PrivilegesSerialized).HasColumnName("privileges");
+            builder.Ignore(p => p.Privileges);
+            builder.Property(p => p.PrivilegesSerialized).HasColumnName("privileges");
         }
     }
 }

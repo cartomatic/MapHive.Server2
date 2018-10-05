@@ -17,9 +17,9 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
         public static void ApplyMapHiveUserBaseConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder) where TEntity : MapHiveUserBase
         {
-            builder.Property(en => en.Email).HasColumnName("email");
-            builder.Property(en => en.IsAccountClosed).HasColumnName("is_account_closed");
-            builder.Property(en => en.IsAccountVerified).HasColumnName("is_account_verified");
+            builder.Property(p => p.Email).HasColumnName("email");
+            builder.Property(p => p.IsAccountClosed).HasColumnName("is_account_closed");
+            builder.Property(p => p.IsAccountVerified).HasColumnName("is_account_verified");
 
             builder.HasIndex(p => p.Email)
                 .HasName($"uq_email_{typeof(TEntity).Name.ToLower()}")
