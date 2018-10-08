@@ -662,6 +662,26 @@ namespace MapHive.Core.DataModel
         }
 
         /// <summary>
+        /// Gets a collection of child links
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
+        public static async Task<IEnumerable<Link>> GetChildLinksAsync<T>(this T obj, DbContext dbCtx)
+            where T : Base
+        {
+            var iLinksDb = Base.GetLinksDbContext(dbCtx);
+            if (iLinksDb == null) return new Link[0];
+
+            return
+                await iLinksDb.Links.Where(
+                    l =>
+                        l.ParentTypeUuid == obj.TypeUuid && l.ParentUuid == obj.Uuid).ToListAsync();
+
+        }
+
+        /// <summary>
         /// Gets a collection of parent links of given type
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -683,6 +703,27 @@ namespace MapHive.Core.DataModel
                     l =>
                         l.ChildTypeUuid == obj.TypeUuid && l.ChildUuid == obj.Uuid &&
                         l.ParentTypeUuid == parent.TypeUuid).ToListAsync();
+
+        }
+
+        /// <summary>
+        /// Gets a collection of parent links
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TParent"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
+        public static async Task<IEnumerable<Link>> GetParentLinksAsync<T>(this T obj, DbContext dbCtx)
+            where T : Base
+        {
+            var iLinksDb = Base.GetLinksDbContext(dbCtx);
+            if (iLinksDb == null) return new Link[0];
+
+            return
+                await iLinksDb.Links.Where(
+                    l =>
+                        l.ChildTypeUuid == obj.TypeUuid && l.ChildUuid == obj.Uuid).ToListAsync();
 
         }
 
