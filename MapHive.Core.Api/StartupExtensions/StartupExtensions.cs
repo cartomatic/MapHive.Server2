@@ -101,6 +101,19 @@ namespace MapHive.Core.Api.StartupExtensions
                 options.RequireHttpsMetadata = false; //FIXME - should be true for production usage!
                 options.ApiName = bearerCfg.ApiName;
                 options.ApiSecret = bearerCfg.ApiSecret;
+                options.TokenRetriever = request =>
+                {
+                    //first try to obtain the bearer token off the header
+                    var authToken =
+                        IdentityModel.AspNetCore.OAuth2Introspection.TokenRetrieval.FromAuthorizationHeader()(request);
+
+                    //if no token in header, try to grab it off the url
+                    if (string.IsNullOrEmpty(authToken))
+                        authToken =
+                            IdentityModel.AspNetCore.OAuth2Introspection.TokenRetrieval.FromQueryString()(request);
+
+                    return authToken;
+                };
             }); ;
 
             //should investigate tokens???
