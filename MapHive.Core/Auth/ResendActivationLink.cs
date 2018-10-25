@@ -16,16 +16,17 @@ namespace MapHive.Core
         /// </summary>
         /// <param name="context"></param>
         /// <param name="userId"></param>
+        /// <param name="emailSender"></param>
         /// <param name="emailAccount"></param>
         /// <param name="emailTemplate"></param>
         /// <returns></returns>
-        public static async Task ResendActivationLink(DbContext context, Guid userId, IEmailAccount emailAccount = null, IEmailTemplate emailTemplate = null)
+        public static async Task ResendActivationLink(DbContext context, Guid userId, IEmailSender emailSender, IEmailAccount emailAccount = null, IEmailTemplate emailTemplate = null)
         {
             //grab a user first
             var user = await Base.ReadObjAsync<MapHiveUser>(context, userId, true);
 
             //and use the user method - implemented at user lvl even though applies to auth - need to send email
-            await user.ResendActivationLinkAsync(context, emailAccount, emailTemplate);
+            await user.ResendActivationLinkAsync(context, emailSender, emailAccount, emailTemplate);
         }
     }
 }

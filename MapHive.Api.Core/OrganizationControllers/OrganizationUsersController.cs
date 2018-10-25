@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Email;
 using MapHive.Core.Api;
 using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.Api.Extensions;
@@ -16,6 +17,13 @@ namespace MapHive.Api.Core.Controllers
     [Route("organizations/{" + OrganizationContextActionFilterAttribute.OrgIdPropertyName + "}/users")]
     public class OrganisationUsersController : OrganizationCrudController<MapHiveUser, MapHiveDbContext>
     {
+        private IEmailSender EmailSender { get; set; }
+
+        public OrganisationUsersController(IEmailSender emailSender)
+        {
+            EmailSender = emailSender;
+        }
+
         /// <summary>
         /// returns a list of organisation users
         /// </summary>
@@ -134,7 +142,7 @@ namespace MapHive.Api.Core.Controllers
                 //org users and org roles are created against mh meta db!
                 //This is where some env core objects are kept
 
-                var createdUser = await MapHiveUser.CreateUserAccountAsync(GetDefaultDbContext(), user, email.emailAccount, email.emailTemplate?.Prepare(replacementData));
+                var createdUser = await MapHiveUser.CreateUserAccountAsync(GetDefaultDbContext(), user, EmailSender, email.emailAccount, email.emailTemplate?.Prepare(replacementData));
 
                 if (createdUser != null)
                 {

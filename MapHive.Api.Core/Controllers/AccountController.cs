@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Email;
 using MapHive.Core;
 using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.DAL;
@@ -15,6 +16,13 @@ namespace MapHive.Api.Core.Controllers
     [ApiExplorerSettings(IgnoreApi = true)] //make sure this api is not visible in docs!!! it's kinda private and while should be available it should not be freely used really
     public class AccountController : DbCtxController<MapHiveDbContext>
     {
+        private IEmailSender EmailSender { get; set; }
+
+        public AccountController(IEmailSender emailSender)
+        {
+            EmailSender = emailSender;
+        }
+
         /// <summary>
         /// Creates an organization account
         /// </summary>
@@ -29,7 +37,7 @@ namespace MapHive.Api.Core.Controllers
             try
             {
                 Cartomatic.Utils.Identity.ImpersonateGhostUser();
-                var output = await MapHive.Core.Account.CreateAccountAsync(GetDefaultDbContext(), input);
+                var output = await MapHive.Core.Account.CreateAccountAsync(GetDefaultDbContext(), input, EmailSender);
                 return Ok(output);
             }
             catch (Exception ex)

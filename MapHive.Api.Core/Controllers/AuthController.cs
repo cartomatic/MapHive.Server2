@@ -19,6 +19,13 @@ namespace MapHive.Api.Core.Controllers
     [Route("auth")]
     public class AuthController : DbCtxController<MapHiveDbContext>
     {
+        private IEmailSender EmailSender { get; set; }
+
+        public AuthController(IEmailSender emailSender)
+        {
+            EmailSender = emailSender;
+        }
+
         /// <summary>
         /// Authenticates user; output returned, if successful contains access and refresh tokens
         /// </summary>
@@ -214,6 +221,7 @@ namespace MapHive.Api.Core.Controllers
 
                 await u.ResendActivationLinkAsync(
                     dbCtx,
+                    EmailSender,
                     emailAccount,
                     emailTemplate.Prepare(initialEmailData)
                 );

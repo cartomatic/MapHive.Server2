@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Email;
 using Cartomatic.Utils.JsonSerializableObjects;
 using MapHive.Core.DataModel;
 using MapHive.Core.DataModel.Validation;
@@ -22,10 +23,12 @@ namespace MapHive.Core
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="input"></param>
+        /// <param name="emailSender"></param>
         /// <returns></returns>
         public static async Task<AccountCreateOutput> CreateAccountAsync(
             MapHiveDbContext dbCtx,
-            AccountCreateInput input
+            AccountCreateInput input,
+            IEmailSender emailSender
         )
         {
             var user = new MapHive.Core.DataModel.MapHiveUser()
@@ -95,7 +98,7 @@ namespace MapHive.Core
             };
 
             //and create user
-            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user,
+            var accountCreateOutput = await MapHive.Core.DataModel.MapHiveUser.CreateUserAccountAsync(dbCtx, user, emailSender,
                 input.EmailAccount, input.EmailTemplate?.Prepare(tokens));
             user = accountCreateOutput.User;
 

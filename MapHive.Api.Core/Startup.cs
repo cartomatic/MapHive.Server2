@@ -1,4 +1,5 @@
-﻿using MapHive.Core.Api.StartupExtensions;
+﻿using Cartomatic.Utils.Email;
+using MapHive.Core.Api.StartupExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,8 @@ namespace MapHive.Core.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigurMapHiveApiServices(Settings);
+
+            services.AddSingleton<IEmailSender, Cartomatic.Utils.Email.MailKit.EmailSender>();
         }
 
         /// <summary>

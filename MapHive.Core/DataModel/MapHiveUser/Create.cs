@@ -14,12 +14,12 @@ namespace MapHive.Core.DataModel
     /// </summary>
     public partial class MapHiveUser
     {
-        protected internal override async Task<T> CreateAsync<T>(DbContext dbCtx, IEmailAccount emailAccount = null,
+        protected internal override async Task<T> CreateAsync<T>(DbContext dbCtx, IEmailSender emailSender, IEmailAccount emailAccount = null,
             IEmailTemplate emailTemplate = null)
         {
             EnsureSlug();
 
-            var user = await base.CreateAsync<T>(dbCtx, emailAccount, emailTemplate) as MapHiveUser;
+            var user = await base.CreateAsync<T>(dbCtx, emailSender, emailAccount, emailTemplate) as MapHiveUser;
 
             return (T)(Base)user;
         }

@@ -15,12 +15,24 @@ namespace MapHive.Core.DataModel
 {
     public partial class MapHiveUser
     {
+        /// <summary>
+        /// Create user account output
+        /// </summary>
         public class CreateUserAccountOutput
         {
+            /// <summary>
+            /// User object
+            /// </summary>
             public MapHiveUser User { get; set; }
 
+            /// <summary>
+            /// Initial password
+            /// </summary>
             public string InitialPassword { get; set; }
 
+            /// <summary>
+            /// verification key
+            /// </summary>
             public string VerificationKey { get; set; }
         }
 
@@ -31,12 +43,14 @@ namespace MapHive.Core.DataModel
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
         /// <param name="user"></param>
+        /// <param name="emailSender"></param>
         /// <param name="emailAccount"></param>
         /// <param name="emailTemplate"></param>
         /// <param name="password"></param>
         /// <returns></returns>
         public static async Task<CreateUserAccountOutput> CreateUserAccountAsync(DbContext dbCtx,
             MapHiveUser user,
+            IEmailSender emailSender,
             IEmailAccount emailAccount = null,
             IEmailTemplate emailTemplate = null, string password = null)
         {
@@ -72,7 +86,7 @@ namespace MapHive.Core.DataModel
 
                 if (emailTemplate != null && emailAccount != null)
                 {
-                    Cartomatic.Utils.Email.EmailSender.Send(
+                    emailSender.Send(
                         emailAccount,
                         emailTemplate,
                         user.Email

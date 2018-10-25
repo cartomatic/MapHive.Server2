@@ -21,7 +21,7 @@ namespace MapHive.Core.DataModel
         /// <inheritdoc />
         protected internal override async Task<T> CreateAsync<T>(DbContext dbCtx)
         {
-            return await CreateAsync<T>(dbCtx, null, null);
+            return await CreateAsync<T>(dbCtx, null, null, null);
         }
 
         /// <summary>
@@ -33,17 +33,18 @@ namespace MapHive.Core.DataModel
         [NonSerialized]
         public EventHandler<IOpFeedbackEventArgs> UserCreated;
 
-        
+
         /// <summary>
         /// Creates a new user account in both Identity database and in the MapHive meta database;
         /// sends out a confirmation email if email account and template are provided
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
+        /// <param name="emailSender"></param>
         /// <param name="emailAccount"></param>
         /// <param name="emailTemplate"></param>
         /// <returns></returns>
-        protected internal virtual async Task<T> CreateAsync<T>(DbContext dbCtx, IEmailAccount emailAccount, IEmailTemplate emailTemplate)
+        protected internal virtual async Task<T> CreateAsync<T>(DbContext dbCtx, IEmailSender emailSender, IEmailAccount emailAccount, IEmailTemplate emailTemplate)
             where T : Base
         {
             T output;
@@ -98,7 +99,7 @@ namespace MapHive.Core.DataModel
                 //if email related objects have been provided, send the account created email
                 if (emailAccount != null && emailTemplate != null)
                 {
-                    EmailSender.Send(
+                    emailSender.Send(
                         emailAccount, emailTemplate.Prepare(opFeedback), Email
                     );
                 }
