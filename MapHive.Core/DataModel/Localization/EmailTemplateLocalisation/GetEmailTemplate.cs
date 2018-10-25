@@ -19,7 +19,7 @@ namespace MapHive.Core.DataModel
         /// <param name="appIdentifier"></param>
         /// <param name="langCode"></param>
         /// <returns></returns>
-        public static async Task<EmailTemplate> GetEmailTemplate(ILocalizedDbContext dbCtx, string emailIdentifier,
+        public static async Task<Cartomatic.Utils.Email.EmailTemplate> GetEmailTemplate(ILocalizedDbContext dbCtx, string emailIdentifier,
             string appIdentifier, string langCode)
         {
             //ignore when there is no email identifier as it would be a bit pointless really...
@@ -60,7 +60,12 @@ namespace MapHive.Core.DataModel
                 }
             }
 
-            return et;
+            return new Cartomatic.Utils.Email.EmailTemplate
+            {
+                Title = et.Title,
+                Body = et.Body,
+                IsBodyHtml = emailTemplateLocalization.IsBodyHtml
+            };
         }
     }
 }

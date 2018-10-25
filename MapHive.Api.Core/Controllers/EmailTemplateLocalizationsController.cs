@@ -115,7 +115,7 @@ namespace MapHive.Api.Core.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("emailtemplate")]
-        [ProducesResponseType(typeof(EmailTemplate), 200)]
+        [ProducesResponseType(typeof(Cartomatic.Utils.Email.EmailTemplate), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
