@@ -87,8 +87,6 @@ namespace MapHive.Core.Api.UserConfiguration
                         //InvalidOperationException: If an IAsyncActionFilter provides a result value by setting the Result property of ActionExecutingContext to a non-null value, then it cannot call the next filter by invoking ActionExecutionDelegate
                         return;
                     }
-                    
-                    await next();
                 }
             }
 
