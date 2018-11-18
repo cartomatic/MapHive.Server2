@@ -81,6 +81,17 @@ namespace MapHive.Core.Api
         /// Set to true if user management APIs is to be used
         /// </summary>
         public bool UsesIdentityUserManagerUtils { get; set; }
+
+
+        /// <summary>
+        /// Whether or not api output should be compressed
+        /// </summary>
+        public bool EnableCompression { get; set; }
+
+        /// <summary>
+        /// custom mime types to be compressed. By default the following get coompressed: text/plain, text/css, application/javascript, text/html, application/xml, text/xml, application/json, text/json
+        /// </summary>
+        public string[] CompressedMimeTypes { get; set; }
     }
 
 }

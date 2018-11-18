@@ -10,7 +10,7 @@ use at your own risk...</Description>
     <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
     <Copyright>cartomatic</Copyright>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
-    <Version>1.0.4-dev0236</Version>
+    <Version>1.0.4-dev0273</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -19,7 +19,9 @@ use at your own risk...</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BrotliSharpLib" Version="0.3.1" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
+    <PackageReference Include="Ionic.Zip" Version="1.9.1.8" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.WebApiCompatShim" Version="2.1.3" />
     <PackageReference Include="msbump" Version="2.3.2">
@@ -32,11 +34,18 @@ use at your own risk...</Description>
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Compression\" />
     <Folder Include="_nuget-cmd\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MapHive.Core\MapHive.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.ResponseCompression">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.responsecompression\2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.ResponseCompression.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -8,6 +8,7 @@ using MapHive.Core.Api.UserConfiguration;
 using MapHive.Core.Api.Authorize;
 using MapHive.Core.Api.Filters;
 using MapHive.Core;
+using MapHive.Core.Api.Compression;
 using MapHive.Core.DataModel;
 using MapHive.Core.IdentityServer.SerializableConfig;
 using Microsoft.AspNetCore.Authorization;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -156,6 +158,22 @@ namespace MapHive.Core.Api.StartupExtensions
                 });
             }
 
+            if (settings.EnableCompression)
+            {
+                services.Configure<GzipCompressionProviderOptions>(cfgOpts => cfgOpts.Level = System.IO.Compression.CompressionLevel.Optimal);
+
+                services.AddResponseCompression(opts =>
+                {
+                    //custom brotli compression provider
+                    opts.Providers.Add<BrotliCompressionProvider>();
+
+                    //add customized mime
+                    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(settings.CompressedMimeTypes ?? new string[0]);
+                    opts.EnableForHttps = true;
+                });
+
+            }
+
             //customize cors settings - example using cors policy
             //services.AddCors(opts =>
             //{
@@ -222,6 +240,12 @@ namespace MapHive.Core.Api.StartupExtensions
             //this should give us the ability to check the request lng in a case it has not been explicitly provided by a callee
             app.UseRequestLocalization();
 
+            //enable outgoing compression when required
+            if (settings.EnableCompression)
+            {
+                app.UseResponseCompression();
+            }
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -231,6 +255,11 @@ namespace MapHive.Core.Api.StartupExtensions
             });
         }
 
+        /// <summary>
+        /// Customizes cors cfg
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static CorsPolicyBuilder CustomizeCors(this CorsPolicyBuilder builder)
         {
             var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
