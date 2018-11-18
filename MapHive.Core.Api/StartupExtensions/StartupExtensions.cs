@@ -63,6 +63,13 @@ namespace MapHive.Core.Api.StartupExtensions
                         ?? new UserConfigurationActionFilterAtribute()
                     );
 
+
+                    if (settings.EnableCompression)
+                    {
+                        //allow reading gzip/json
+                        opts.InputFormatters.Add(new GZippedJsonInputFormatter());
+                    }
+
                     //when auto migrators are specified wire them up via MapHive.Core.Api.DbMigratorActionFilterAtribute
                     if (settings?.DbMigrator != null || settings?.OrganizationDbMigrator != null)
                     {
@@ -171,6 +178,8 @@ namespace MapHive.Core.Api.StartupExtensions
                     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(settings.CompressedMimeTypes ?? new string[0]);
                     opts.EnableForHttps = true;
                 });
+
+                
 
             }
 

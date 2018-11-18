@@ -10,7 +10,7 @@ use at your own risk...</Description>
     <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
     <Copyright>cartomatic</Copyright>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
-    <Version>1.0.4-dev0273</Version>
+    <Version>1.0.4-dev0277</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -34,7 +34,6 @@ use at your own risk...</Description>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Compression\" />
     <Folder Include="_nuget-cmd\" />
   </ItemGroup>
 
