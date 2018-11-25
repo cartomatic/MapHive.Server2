@@ -19,6 +19,12 @@ namespace MapHive.Core.DataModel
         {
             EnsureSlug();
 
+            //need guid to properly tie up resources with the parent object
+            //so generating it here
+            Uuid = Guid.NewGuid();
+
+            await HandleResources(dbCtx, Uuid);
+
             var user = await base.CreateAsync<T>(dbCtx, emailSender, emailAccount, emailTemplate) as MapHiveUser;
 
             return (T)(Base)user;

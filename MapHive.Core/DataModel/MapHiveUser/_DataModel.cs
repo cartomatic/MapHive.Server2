@@ -8,10 +8,19 @@ namespace MapHive.Core.DataModel
 {
     public partial class MapHiveUser
     {
+        /// <summary>
+        /// Forename
+        /// </summary>
         public string Forename { get; set; }
 
+        /// <summary>
+        /// surname
+        /// </summary>
         public string Surname { get; set; }
         
+        /// <summary>
+        /// Contact phone
+        /// </summary>
         public string ContactPhone { get; set; }
 
         /// <summary>
@@ -48,17 +57,9 @@ namespace MapHive.Core.DataModel
 
 
         /// <summary>
-        /// Profile picture. When present it will be used in the profile editor and whenever user info is required (log on info, msngrs, etc).
-        /// This property is used to suck in the data when saving; pictures themselves are stored separately
+        /// Profile picture data. When parsable to guid it is simply an identifier of a resource. otherwise it is assumed it is base 64 encoded picture data
         /// </summary>
         public string ProfilePicture { get; set; }
-
-        /// <summary>
-        /// Id of a profile picture. When present a picture is available. When not present picture, if any, is deleted
-        /// </summary>
-        public Guid? ProfilePictureId { get; set; }
-
-        //TODO - maybe should have some sort of lightweight 100x100 or perhaps 250x250 thumb???? dunno
 
 
         /// <summary>

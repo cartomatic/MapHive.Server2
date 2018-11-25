@@ -66,6 +66,8 @@ namespace MapHive.Core.DAL
         //tokens
         public DbSet<Token> Tokens { get; set; }
 
+        //resources
+        public DbSet<Resource> Resources { get; set; }
 
         //ILocalizedDbContext
         public DbSet<LocalizationClass> LocalizationClasses { get; set; }
@@ -89,6 +91,9 @@ namespace MapHive.Core.DAL
 
             //token
             modelBuilder.ApplyConfiguration(new TokenConfiguration());
+
+            //resource
+            modelBuilder.ApplyConfiguration(new ResourceConfiguration());
 
             //Ilocalised type configs
             modelBuilder.ApplyConfiguration(new LocalizationClassConfiguration());

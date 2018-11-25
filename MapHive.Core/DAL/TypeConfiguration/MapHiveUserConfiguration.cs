@@ -29,8 +29,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(p => p.Location).HasColumnName("location");
             builder.Property(p => p.GravatarEmail).HasColumnName("gravatar_email");
 
-            builder.Ignore(p => p.ProfilePicture);
-            builder.Property(p => p.ProfilePictureId).HasColumnName("profile_picture_id");
+            builder.Property(p => p.ProfilePicture).HasColumnName("profile_picture");
+
 
             builder.Property(p => p.IsOrgUser).HasColumnName("is_org_user");
             builder.Property(p => p.UserOrgId).HasColumnName("user_org_id");

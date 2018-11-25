@@ -29,6 +29,8 @@ namespace MapHive.Core.DataModel
                 }
             }
 
+            await DestroyResource(dbCtx, uuid);
+
             return await base.DestroyAsync<T>(dbCtx, uuid);
         }
     }

@@ -100,7 +100,7 @@ namespace MapHive.Core.DataModel
             output.CanUseApp = output.IsAppAdmin;
 
 
-            //user is not granted app admin access via org owner / admin roles, so need to check if user can access the app as a 'normal' user, so via teams
+            //user is not granted app admin access via org owner / org admin roles, so need to check if user can access the app as a 'normal' user, so via teams
             //note: teams can also grant app admin role!
             if (!output.IsAppAdmin)
             {
