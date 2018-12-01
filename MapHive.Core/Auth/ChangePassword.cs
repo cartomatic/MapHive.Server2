@@ -42,14 +42,16 @@ namespace MapHive.Core
                     var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
                     var idUser = await userManager.FindByIdAsync(userId.ToString());
 
+                    
+
                     if (idUser != null)
                     {
-                        if (! await userManager.CheckPasswordAsync(idUser, oldPass))
+                        if (!await userManager.CheckPasswordAsync(idUser, oldPass))
                         {
                             output.FailureReason = "invalid_old_pass";
                             output.Success = false;
                         }
-                        if (await userManager.CheckPasswordAsync(idUser, newPass))
+                        else if (await userManager.CheckPasswordAsync(idUser, newPass))
                         {
                             output.FailureReason = "new_pass_same_as_old_pass";
                             output.Success = false;
@@ -57,8 +59,12 @@ namespace MapHive.Core
                         else
                         {
                             var passResetToken = await userManager.GeneratePasswordResetTokenAsync(idUser);
-                            await userManager.ResetPasswordAsync(idUser, passResetToken, newPass);
-                            output.Success = true;
+
+
+                            var result = await userManager.ResetPasswordAsync(idUser, passResetToken, newPass);
+
+                            output.Success = result.Succeeded;
+
                         }
                     }
                 }

@@ -183,6 +183,11 @@ namespace MapHive.Core.Api.StartupExtensions
 
             }
 
+            if (settings.UsesIdentityUserManagerUtils)
+            {
+                MapHive.Core.Identity.UserManagerUtils.Configure(services, "MapHiveIdentity");
+            }
+
             //customize cors settings - example using cors policy
             //services.AddCors(opts =>
             //{
@@ -203,11 +208,6 @@ namespace MapHive.Core.Api.StartupExtensions
 
             //store api short name
             CommonSettings.Set(nameof(settings.AppShortNames), settings?.AppShortNames);
-
-            if (settings.UsesIdentityUserManagerUtils)
-            {
-                MapHive.Core.Identity.UserManagerUtils.Configure("MapHiveIdentity");
-            }
 
 
             if (env.IsDevelopment())
