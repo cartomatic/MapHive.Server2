@@ -21,7 +21,7 @@ namespace MapHive.Core.DataModel
         {
             if (dbCtx is MapHive.Core.DAL.MapHiveDbContext mhDbCtx)
             {
-                //if prject template is empty - clean up a resource
+                //if picture empty - clean up a resource
                 if (string.IsNullOrEmpty(ProfilePicture))
                 {
                     await DestroyResource(dbCtx, uuid);
@@ -34,7 +34,7 @@ namespace MapHive.Core.DataModel
                     {
                         OwnerId = uuid,
                         OwnerTypeId = this.GetTypeIdentifier(),
-                        Identifier = ProfilePictureResourceIdentifier,
+                        Identifier = ProfilePictureResourceIdentifier
                     };
 
                     //if get here, the resource should really be an image
