@@ -192,5 +192,34 @@ namespace MapHive.Api.Core.Controllers
                 return HandleException(ex);
             }
         }
+
+        /// <summary>
+        /// Gets user name from id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("username/{userId}")]
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetUserNameAsync(Guid userId)
+        {
+            try
+            {
+                var user = await Base.ReadObjAsync<MapHiveUser>(_dbCtx, userId);
+
+                if (user == null)
+                    return NotFound();
+
+                return Ok(user.GetFullUserName());
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
     }
 }
