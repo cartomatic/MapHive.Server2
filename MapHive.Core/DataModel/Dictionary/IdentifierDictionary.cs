@@ -7,7 +7,7 @@ namespace MapHive.Core.DataModel.Dictionary
     /// <summary>
     /// Identifier dictionary - enforces a presence of a unique Identifier field
     /// </summary>
-    public class IdentifierDictionary : SimpleDictionary, IIdentifierDictionary
+    public abstract class IdentifierDictionary : SimpleDictionary, IIdentifierDictionary
     {
         /// <inheritdoc />
         public string Identifier { get; set; }

@@ -7,7 +7,7 @@ namespace MapHive.Core.DataModel.Dictionary
     /// <summary>
     /// Simple name / descriptin dictionary
     /// </summary>
-    public class SimpleDictionary : Base, ISimpleDictionary
+    public abstract class SimpleDictionary : Base, ISimpleDictionary
     {
         /// <inheritdoc />
         public string Name { get; set; }

@@ -76,18 +76,18 @@ namespace MapHive.Core.DAL
             if (context == null)
                 return;
 
-            foreach (var type in ObjectTypeExtensions.GetRegisteredTypes())
+            foreach (var type in BaseObjectTypeIdentifierExtensions.GetRegisteredBaseSubclassingTypes())
             {
                 if (VerifyObjectType(type, filter))
                 {
                     //context.ObjectTypes.AddOrUpdate(new ObjectType { Name = type.ToString(), Uuid = ObjectTypeExtensions.GetTypeUuid(type) });  
 
-                    if (!context.ObjectTypes.Any(o=>o.Uuid == ObjectTypeExtensions.GetTypeUuid(type)))
+                    if (!context.ObjectTypes.Any(o=>o.Uuid == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(type)))
                     {
                         context.ObjectTypes.Add(new ObjectType
                         {
                             Name = type.ToString(),
-                            Uuid = ObjectTypeExtensions.GetTypeUuid(type)
+                            Uuid = BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(type)
                         });
                     }
                 }

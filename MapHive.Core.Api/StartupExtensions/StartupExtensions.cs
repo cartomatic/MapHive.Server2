@@ -204,7 +204,7 @@ namespace MapHive.Core.Api.StartupExtensions
         public static void ConfigureMapHiveApi(this IApplicationBuilder app, IHostingEnvironment env, ApiConfigurationSettings settings)
         {
             //this makes sure all the types inheriting from object base auto register themselves
-            ObjectTypeExtensions.GetRegisteredTypes();
+            BaseObjectTypeIdentifierExtensions.AutoRegisterBaseTypes();
 
             //store api short name
             CommonSettings.Set(nameof(settings.AppShortNames), settings?.AppShortNames);

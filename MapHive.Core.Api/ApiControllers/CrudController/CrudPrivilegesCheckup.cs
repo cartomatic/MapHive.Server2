@@ -62,7 +62,7 @@ namespace MapHive.Core.Api.ApiControllers
             var roles = await GetUserRoles(dbCtx, Cartomatic.Utils.Identity.GetUserGuid());
 
             // Check if user roles have required permission
-            return roles.Any(r=> r.Privileges.Any(p => p.TypeId == ObjectTypeExtensions.GetTypeUuid(typeof(T)) && p.Read == true));
+            return roles.Any(r=> r.Privileges.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Read == true));
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace MapHive.Core.Api.ApiControllers
             var roles = await GetUserRoles(dbCtx, Cartomatic.Utils.Identity.GetUserGuid());
 
             // Check if user roles have required permission
-            return roles.Any(r => r.Privileges.Any(p => p.TypeId == ObjectTypeExtensions.GetTypeUuid(typeof(T)) && p.Create == true));
+            return roles.Any(r => r.Privileges.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Create == true));
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace MapHive.Core.Api.ApiControllers
             var roles = await GetUserRoles(dbCtx, Cartomatic.Utils.Identity.GetUserGuid());
 
             // Check if user roles have required permission
-            return roles.Any(r => r.Privileges.Any(p => p.TypeId == ObjectTypeExtensions.GetTypeUuid(typeof(T)) && p.Update == true));
+            return roles.Any(r => r.Privileges.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Update == true));
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace MapHive.Core.Api.ApiControllers
             var roles = await GetUserRoles(dbCtx, Cartomatic.Utils.Identity.GetUserGuid());
 
             // Check if user roles have required permission
-            return roles.Any(r => r.Privileges.Any(p => p.TypeId == ObjectTypeExtensions.GetTypeUuid(typeof(T)) && p.Destroy == true));
+            return roles.Any(r => r.Privileges.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Destroy == true));
         }
 
         /// <summary> == 
