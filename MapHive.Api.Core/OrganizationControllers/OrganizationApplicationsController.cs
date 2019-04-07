@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using MapHive.Core.Api;
+﻿using MapHive.Core.Api;
 using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.Api.Extensions;
-using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
+using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MapHive.Api.Core.Controllers
 {
@@ -43,7 +43,7 @@ namespace MapHive.Api.Core.Controllers
 
                 if (apps != null)
                 {
-                    Context.AppendTotalHeader(apps?.count ?? 0);
+                    HttpContext.AppendTotalHeader(apps?.count ?? 0);
                     return Ok(apps?.applications);
                 }
 
@@ -55,6 +55,6 @@ namespace MapHive.Api.Core.Controllers
             }
         }
 
-        
+
     }
 }

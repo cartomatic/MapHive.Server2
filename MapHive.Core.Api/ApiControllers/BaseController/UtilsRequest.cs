@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using MapHive.Core.Configuration;
+﻿using MapHive.Core.Configuration;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace MapHive.Core.Api.ApiControllers
 {
@@ -56,7 +51,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected string ExtractRequesToken(string tokenDelimiter)
         {
             var token = string.Empty;
-            foreach (var urlPart in GetRequestSource(Context).Split('#')[0].Split('/'))
+            foreach (var urlPart in GetRequestSource(HttpContext).Split('#')[0].Split('/'))
             {
                 if (urlPart.StartsWith(tokenDelimiter))
                 {
@@ -75,7 +70,7 @@ namespace MapHive.Core.Api.ApiControllers
         {
             //app url is pretty much the full path but without the hash and params
             //need to remove the app / org tokens too
-            var urlParts = GetRequestSource(Context).Split('#')[0].Split('?')[0].Split('/');
+            var urlParts = GetRequestSource(HttpContext).Split('#')[0].Split('?')[0].Split('/');
 
             return string.Join("/", urlParts.Where(str => !(str.StartsWith(UrlAppTokenDelimiter) || str.StartsWith(UrlOrgTokenDelimiter))));
         }

@@ -70,7 +70,7 @@ namespace MapHive.Core.Api.ApiControllers
                 Method.GET,
 
                 //add auth token
-                authToken: $"{Request.Headers.Authorization.Scheme} {Request.Headers.Authorization.Parameter}"
+                authToken: (Request.Headers.ContainsKey("Authorization") ? Request.Headers["Authorization"].First() : string.Empty).Replace("Bearer ", "")
             )).Output;
         }
 

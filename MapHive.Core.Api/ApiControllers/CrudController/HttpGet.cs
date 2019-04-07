@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Cartomatic.Utils.Filtering;
+﻿using Cartomatic.Utils.Filtering;
 using Cartomatic.Utils.Reflection;
 using Cartomatic.Utils.Sorting;
 using MapHive.Core.Api.Extensions;
 using MapHive.Core.DataModel;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace MapHive.Core.Api.ApiControllers
 {
@@ -32,7 +30,7 @@ namespace MapHive.Core.Api.ApiControllers
             if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
                 return NotAllowed();
 
-            return await ReadAsync<T,T>(db ?? _dbCtx, sort, filter, start, limit);
+            return await ReadAsync<T, T>(db ?? _dbCtx, sort, filter, start, limit);
         }
 
         /// <summary>
@@ -50,7 +48,7 @@ namespace MapHive.Core.Api.ApiControllers
             if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
                 return NotAllowed();
 
-            return await ReadAsync<T,TDto>(db ?? _dbCtx, sort, filter, start, limit);
+            return await ReadAsync<T, TDto>(db ?? _dbCtx, sort, filter, start, limit);
         }
 
         /// <summary>
@@ -85,7 +83,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> ReadAsync<TRead, TDto>(DbContext db, string sort = null, string filter = null,
             int start = 0, int limit = 25)
-            where TRead: Base
+            where TRead : Base
             where TDto : class
         {
             //all stuff is instance based, so need to obtain one first
@@ -101,7 +99,7 @@ namespace MapHive.Core.Api.ApiControllers
                 if (data.Any())
                 {
                     //got the data, so can get the count too.
-                    Context.AppendTotalHeader(await obj.ReadCountAsync(db, filters));
+                    HttpContext.AppendTotalHeader(await obj.ReadCountAsync(db, filters));
 
                     //Note: this could and should be done in a more elegant way. but had no smart ideas at a time.
                     //will come back to this at some stage...
@@ -260,7 +258,7 @@ namespace MapHive.Core.Api.ApiControllers
             catch (Exception ex)
             {
                 //if something goes wrong just fail
-                return InternalServerError();
+                return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
             }
         }
 
@@ -319,7 +317,7 @@ namespace MapHive.Core.Api.ApiControllers
             catch (Exception ex)
             {
                 //if something goes wrong just fail
-                return InternalServerError();
+                return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
             }
         }
 
@@ -379,7 +377,7 @@ namespace MapHive.Core.Api.ApiControllers
             catch (Exception ex)
             {
                 //if something goes wrong just fail
-                return InternalServerError();
+                return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
             }
         }
 
@@ -438,7 +436,7 @@ namespace MapHive.Core.Api.ApiControllers
             catch (Exception ex)
             {
                 //if something goes wrong just fail
-                return InternalServerError();
+                return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
             }
         }
     }

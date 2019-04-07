@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cartomatic.Utils.Email;
-using MapHive.Core.DAL;
+﻿using Cartomatic.Utils.Email;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MapHive.Core.Api.ApiControllers
 {
@@ -32,7 +27,7 @@ namespace MapHive.Core.Api.ApiControllers
                     { "emailIdentifier" , emailIdentifier},
                     { "appIdentifier" , string.IsNullOrEmpty(appName) ? "common" : appName },
                     {
-                        "langCode" , string.IsNullOrEmpty(langCode) ? GetRequestLangCode(Context) : langCode
+                        "langCode" , string.IsNullOrEmpty(langCode) ? GetRequestLangCode(HttpContext) : langCode
                     }
                 }
             );
@@ -61,6 +56,6 @@ namespace MapHive.Core.Api.ApiControllers
 
             return (ea, et);
         }
-        
+
     }
 }

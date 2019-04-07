@@ -1,15 +1,11 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
-using MapHive.Core.Api.ApiControllers;
+﻿using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.Api.Result;
 using MapHive.Core.Configuration;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace MapHive.Api.Core.Controllers
 {
@@ -35,7 +31,7 @@ namespace MapHive.Api.Core.Controllers
             {
                 scriptContent = await MapHive.Core.Configuration.WebClientConfiguration
                     .GetConfigurationScriptAsync(GetDefaultDbContext());
-                
+
             }
             catch (Exception ex)
             {
@@ -57,7 +53,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(UserConfiguration), 200)]
         [ProducesResponseType(500)]
         [ApiExplorerSettings(IgnoreApi = true)] //make sure this api is not visible in docs!!! it's kinda private and while should be available it should not be freely used really
-        public async Task<IActionResult> GetUserConfigurationAsync([FromUri] UserConfigurationQuery input)
+        public async Task<IActionResult> GetUserConfigurationAsync([FromQuery] UserConfigurationQuery input)
         {
             try
             {

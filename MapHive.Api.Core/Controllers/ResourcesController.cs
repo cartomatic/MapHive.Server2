@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using MapHive.Core.Api.ApiControllers;
-using MapHive.Core.DataModel;
+﻿using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.DAL;
+using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace MapHive.Api.Core.Controllers
 {

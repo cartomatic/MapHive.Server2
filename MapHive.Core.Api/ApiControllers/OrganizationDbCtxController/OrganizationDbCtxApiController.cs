@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Cartomatic.Utils.Ef;
+﻿using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace MapHive.Core.Api.ApiControllers
 {
@@ -28,18 +24,18 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Organization id from GetOrganizationDatabasesbActionFilterAttribute action filter
         /// </summary>
-        protected Guid OrganizationId => OrganizationContextActionFilterAttribute.GetOrganizationId(Context);
+        protected Guid OrganizationId => OrganizationContextActionFilterAttribute.GetOrganizationId(HttpContext);
 
-        Guid IOrganizationApiController<TDbContext>.OrganizationId => OrganizationContextActionFilterAttribute.GetOrganizationId(Context);
+        Guid IOrganizationApiController<TDbContext>.OrganizationId => OrganizationContextActionFilterAttribute.GetOrganizationId(HttpContext);
 
         /// <summary>
         /// Organization database object from GetOrganizationDatabasesbActionFilterAttribute action filter
         /// </summary>
         protected OrganizationDatabase GetOrganizationDatabase(string dbIdentifier = null) =>
-            OrganizationContextActionFilterAttribute.GetOrganisationDatabase(Context, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
+            OrganizationContextActionFilterAttribute.GetOrganisationDatabase(HttpContext, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
 
         OrganizationDatabase IOrganizationApiController<TDbContext>.GetOrganizationDatabase(string dbIdentifier = null) =>
-            OrganizationContextActionFilterAttribute.GetOrganisationDatabase(Context, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
+            OrganizationContextActionFilterAttribute.GetOrganisationDatabase(HttpContext, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
 
         /// <summary>
         /// Gets a default db context for an organisation
@@ -58,7 +54,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="dbIdentifier"></param>
         /// <returns></returns>
         protected TDbCtx GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null)
-            where TDbCtx: DbContext, IProvideDbContextFactory, new() => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
+            where TDbCtx : DbContext, IProvideDbContextFactory, new() => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
 
         TDbCtx IOrganizationApiController<TDbContext>.GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null) => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
 

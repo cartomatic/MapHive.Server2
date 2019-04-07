@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Cartomatic.Utils.Dto;
+﻿using Cartomatic.Utils.Dto;
 using MapHive.Core;
 using MapHive.Core.Api.ApiControllers;
-using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
+using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MapHive.Api.Core.Controllers
 {
@@ -105,7 +104,7 @@ namespace MapHive.Api.Core.Controllers
                 Cartomatic.Utils.Identity.ImpersonateGhostUserViaHttpContext();
                 Cartomatic.Utils.Identity.ImpersonateGhostUser();
 
-                var appIds = apps.Select(a=> a.Uuid).ToArray();
+                var appIds = apps.Select(a => a.Uuid).ToArray();
                 var dbApps = await _db.Applications.Where(a => appIds.Contains(a.Uuid)).ToListAsync();
 
                 //good to go
@@ -195,7 +194,7 @@ namespace MapHive.Api.Core.Controllers
                     return BadRequest("Org not found");
 
                 var shortNames = (appShortNames ?? string.Empty).Split(',');
-                var apps = await _db.Applications.Where(app=> shortNames.Contains(app.ShortName)).ToListAsync();
+                var apps = await _db.Applications.Where(app => shortNames.Contains(app.ShortName)).ToListAsync();
 
                 if (!apps.Any())
                     return BadRequest("Apps not found");
@@ -275,7 +274,7 @@ namespace MapHive.Api.Core.Controllers
                     //create an org with owner; if morg, then register masterofpuppets
                     var apps = new string[0];
                     if (morg)
-                        apps = new[] {"masterofpuppets"};
+                        apps = new[] { "masterofpuppets" };
 
                     await newOrg.CreateAsync(_db, user, apps);
 
@@ -287,7 +286,7 @@ namespace MapHive.Api.Core.Controllers
                 {
                     await org.AddAdminAsync(_db, user);
                 }
-                
+
                 return Ok();
             }
             catch (Exception ex)
@@ -306,7 +305,7 @@ namespace MapHive.Api.Core.Controllers
         [Route("droporg")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DropOrgAsync([FromUri]Guid orgId, [FromUri] bool clean)
+        public async Task<IActionResult> DropOrgAsync([FromQuery]Guid orgId, [FromQuery] bool clean)
         {
             try
             {
@@ -354,7 +353,7 @@ namespace MapHive.Api.Core.Controllers
                         urlOk = true;
 #endif
 
-                        if(!urlOk)
+                        if (!urlOk)
                             continue;
 
                         //calls must be performed with proper scope - need to set the same authorization header!
@@ -376,7 +375,7 @@ namespace MapHive.Api.Core.Controllers
                                 { "orgId", orgId.ToString() }
                             },
                             //add auth token
-                            authToken: $"{Request.Headers.Authorization.Scheme} {Request.Headers.Authorization.Parameter}"
+                            authToken: (Request.Headers.ContainsKey("Authorization") ? Request.Headers["Authorization"].First() : string.Empty).Replace("Bearer ", "")
                         );
                     }
                 }
@@ -408,9 +407,9 @@ namespace MapHive.Api.Core.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("createuser")]
-        [ProducesResponseType(typeof(MapHiveUser),200)]
+        [ProducesResponseType(typeof(MapHiveUser), 200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> CreateUserAsync([FromUri] string email, [FromUri] string pass, [FromUri]bool destroy)
+        public async Task<IActionResult> CreateUserAsync([FromQuery] string email, [FromQuery] string pass, [FromQuery]bool destroy)
         {
             try
             {
@@ -438,7 +437,7 @@ namespace MapHive.Api.Core.Controllers
         [Route("destroyuser")]
         [ProducesResponseType(typeof(MapHiveUser), 200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> DestroyUserAsync([FromUri] string email)
+        public async Task<IActionResult> DestroyUserAsync([FromQuery] string email)
         {
             try
             {
@@ -503,7 +502,7 @@ namespace MapHive.Api.Core.Controllers
                 //also apply pass!
                 await Auth.ForceResetPasswordAsync(idUser.Id, pass);
             }
-            
+
             return user;
         }
 
@@ -582,7 +581,7 @@ namespace MapHive.Api.Core.Controllers
 
                 //good to go
                 var emailTemplateIds = emailTemplates.Select(et => et.Uuid).ToArray();
-                var dbEmailTemplates = await _db.EmailTemplates.Where(et=>emailTemplateIds.Contains(et.Uuid)).ToListAsync();
+                var dbEmailTemplates = await _db.EmailTemplates.Where(et => emailTemplateIds.Contains(et.Uuid)).ToListAsync();
 
                 //good to go
                 foreach (var emailTemplate in emailTemplates)

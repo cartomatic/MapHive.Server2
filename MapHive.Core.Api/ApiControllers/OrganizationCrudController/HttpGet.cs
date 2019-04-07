@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Cartomatic.Utils.Ef;
-using Cartomatic.Utils.Filtering;
-using Cartomatic.Utils.Reflection;
-using Cartomatic.Utils.Sorting;
-using MapHive.Core.Api.Extensions;
+﻿using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace MapHive.Core.Api.ApiControllers
 {
@@ -35,7 +27,7 @@ namespace MapHive.Core.Api.ApiControllers
             if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? GetOrganizationDbContext()))
                 return NotAllowed();
 
-            return await ReadAsync<T,T>(db ?? GetOrganizationDbContext(), sort, filter, start, limit);
+            return await ReadAsync<T, T>(db ?? GetOrganizationDbContext(), sort, filter, start, limit);
         }
 
         /// <summary>
@@ -53,7 +45,7 @@ namespace MapHive.Core.Api.ApiControllers
             if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? GetOrganizationDbContext()))
                 return NotAllowed();
 
-            return await ReadAsync<T,TDto>(db ?? GetOrganizationDbContext(), sort, filter, start, limit);
+            return await ReadAsync<T, TDto>(db ?? GetOrganizationDbContext(), sort, filter, start, limit);
         }
 
         /// <summary>

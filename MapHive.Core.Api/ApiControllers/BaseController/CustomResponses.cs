@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
-using MapHive.Core.DataModel.Validation;
+﻿using MapHive.Core.DataModel.Validation;
+using System.Web.Http.Results;
 
 namespace MapHive.Core.Api.ApiControllers
 {

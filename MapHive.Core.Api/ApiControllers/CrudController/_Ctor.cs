@@ -1,15 +1,5 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Cartomatic.Utils.Data;
+﻿using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
-using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -72,12 +62,11 @@ namespace MapHive.Core.Api.ApiControllers
             }
         }
 
-        protected override void Dispose(bool disposing)
+        public override void Dispose()
         {
-            if (disposing)
-                _dbCtx.Dispose();
+            _dbCtx.Dispose();
 
-            base.Dispose(disposing);
+            base.Dispose();
         }
     }
 }

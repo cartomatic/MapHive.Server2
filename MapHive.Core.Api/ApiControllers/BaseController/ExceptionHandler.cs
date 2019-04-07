@@ -1,12 +1,9 @@
-﻿using System;
+﻿using MapHive.Core.DataModel.Validation;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
-using MapHive.Core.DataModel.Validation;
-using Microsoft.AspNetCore.Mvc;
 
 namespace MapHive.Core.Api.ApiControllers
 {
@@ -51,7 +48,7 @@ namespace MapHive.Core.Api.ApiControllers
                 (e) =>
                 {
                     if (e is ValidationFailedException && ((ValidationFailedException)e).ValidationErrors.Any())
-                        return new NegotiatedContentResult<object>(HttpStatusCode.BadRequest, ((ValidationFailedException)e).ValidationErrors);
+                        return new ObjectResult(((ValidationFailedException)e).ValidationErrors){StatusCode = (int)HttpStatusCode.BadRequest};
                     else return null;
                 },
 
@@ -59,9 +56,9 @@ namespace MapHive.Core.Api.ApiControllers
                 (e) =>
                 {
                     #if DEBUG
-                    return new NegotiatedContentResult<object>(HttpStatusCode.InternalServerError, e.Message);
+                    return new ObjectResult(e.Message){StatusCode = (int)HttpStatusCode.InternalServerError};
                     #endif
-                    return new NegotiatedContentResult<object>(HttpStatusCode.InternalServerError, string.Empty);
+                    return new ObjectResult(string.Empty){StatusCode = (int)HttpStatusCode.InternalServerError};
                 }
             };
     }

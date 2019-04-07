@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using MapHive.Core.Api.ApiControllers;
+﻿using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.Api.Result;
-using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
+using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MapHive.Api.Core.Controllers
 {
@@ -93,7 +92,7 @@ namespace MapHive.Api.Core.Controllers
             /// Whether or not data in db should be overwritten; set to false when this is a differential import!
             /// </summary>
             public bool? Overwrite { get; set; }
-            
+
             /// <summary>
             /// What languages should be imported; in a case localization data contains more langs, it will filter out specified langs;
             /// comma delimited list

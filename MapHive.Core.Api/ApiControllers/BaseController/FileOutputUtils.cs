@@ -27,7 +27,7 @@ namespace MapHive.Core.Api.ApiControllers
             try
             {
                 response.StatusCode = HttpStatusCode.OK;
-                response.Content = new ByteArrayContent(File.ReadAllBytes(fPath));
+                response.Content = new ByteArrayContent(System.IO.File.ReadAllBytes(fPath));
                 response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
                 {
@@ -37,7 +37,7 @@ namespace MapHive.Core.Api.ApiControllers
                 //file has been read and will be output so can get rid of it now
                 try
                 {
-                    File.Delete(fPath);
+                    System.IO.File.Delete(fPath);
                 }
                 catch
                 {

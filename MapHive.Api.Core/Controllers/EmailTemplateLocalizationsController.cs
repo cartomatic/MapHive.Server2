@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using MapHive.Core.Api.ApiControllers;
-using MapHive.Core.DataModel;
+﻿using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.DAL;
+using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MapHive.Api.Core.Controllers
 {
@@ -127,8 +121,8 @@ namespace MapHive.Api.Core.Controllers
                     return BadRequest();
 
                 var et = await EmailTemplateLocalization.GetEmailTemplate(GetDefaultDbContext(), emailIdentifier, appIdentifier, langCode);
-                
-                if(et != null)
+
+                if (et != null)
                     return Ok(et);
 
                 return NotFound();

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Cartomatic.Utils.Email;
+﻿using Cartomatic.Utils.Email;
 using MapHive.Core.Api;
 using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.Api.Extensions;
-using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
+using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MapHive.Api.Core.Controllers
 {
@@ -58,14 +58,14 @@ namespace MapHive.Api.Core.Controllers
                     user.OrganizationRole = OrganizationContext.GetUserOrgRole(roles2users, user.Uuid);
                 }
 
-                Context.AppendTotalHeader(users?.count ?? 0);
+                HttpContext.AppendTotalHeader(users?.count ?? 0);
                 return Ok(users?.assets);
             }
             catch (Exception ex)
             {
                 return HandleException(ex);
             }
-            
+
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace MapHive.Api.Core.Controllers
                 {
                     {"UserName", $"{user.GetFullUserName()} ({user.Email})"},
                     {"Email", user.Email},
-                    {"RedirectUrl", this.GetRequestSource(Context).Split('#')[0]}
+                    {"RedirectUrl", this.GetRequestSource(HttpContext).Split('#')[0]}
                 };
 
                 var email = await GetEmailStuffAsync("user_created", applicationContext);
@@ -151,7 +151,7 @@ namespace MapHive.Api.Core.Controllers
 
                     //at this stage user should have had a member role assigned
                     //mkae sure to assign the one that has been asked for
-                    if(user.OrganizationRole.HasValue && user.OrganizationRole != Organization.OrganizationRole.Member)
+                    if (user.OrganizationRole.HasValue && user.OrganizationRole != Organization.OrganizationRole.Member)
                         await this.OrganizationContext.ChangeOrganizationUserRoleAsync(GetDefaultDbContext(), user);
 
                     return Ok(createdUser.User);
@@ -301,7 +301,7 @@ namespace MapHive.Api.Core.Controllers
                     || user.UserOrgId == organizationuuid //also avoid removing own org of a user!
                 )
                     throw MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException(nameof(MapHiveUser), MapHive.Core.DataModel.Validation.ValidationErrors.OrgOwnerDestroyError);
-                        
+
                 //not providing a user role will effectively wipe out user assignment
                 user.OrganizationRole = null;
                 await this.OrganizationContext.ChangeOrganizationUserRoleAsync(GetDefaultDbContext(), user);

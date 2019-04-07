@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Cartomatic.Utils.Ef;
+﻿using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace MapHive.Core.Api.ApiControllers
 {
@@ -34,21 +29,21 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Organization id from OrganizationContextActionFilterAttribute action filter
         /// </summary>
-        protected Guid OrganizationId => OrganizationContextActionFilterAttribute.GetOrganizationId(Context);
+        protected Guid OrganizationId => OrganizationContextActionFilterAttribute.GetOrganizationId(HttpContext);
 
-        Guid IOrganizationApiController<TDbContext>.OrganizationId => OrganizationContextActionFilterAttribute.GetOrganizationId(Context);
+        Guid IOrganizationApiController<TDbContext>.OrganizationId => OrganizationContextActionFilterAttribute.GetOrganizationId(HttpContext);
 
 
-        protected Organization OrganizationContext => OrganizationContextActionFilterAttribute.GetOrganizationContext(Context);
+        protected Organization OrganizationContext => OrganizationContextActionFilterAttribute.GetOrganizationContext(HttpContext);
 
         /// <summary>
         /// Organization database object from GetOrganizationDatabasesbActionFilterAttribute action filter
         /// </summary>
         protected OrganizationDatabase GetOrganizationDatabase(string dbIdentifier = null) =>
-            OrganizationContextActionFilterAttribute.GetOrganisationDatabase(Context, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
+            OrganizationContextActionFilterAttribute.GetOrganisationDatabase(HttpContext, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
 
         OrganizationDatabase IOrganizationApiController<TDbContext>.GetOrganizationDatabase(string dbIdentifier = null) =>
-            OrganizationContextActionFilterAttribute.GetOrganisationDatabase(Context, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
+            OrganizationContextActionFilterAttribute.GetOrganisationDatabase(HttpContext, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
 
 
         /// <summary>

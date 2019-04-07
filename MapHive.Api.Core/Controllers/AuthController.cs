@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Email;
 using MapHive.Core;
@@ -7,6 +8,7 @@ using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,7 +56,7 @@ namespace MapHive.Api.Core.Controllers
         public async Task<IActionResult> LetMeOutOfHereAsync()
         {
             //extract access token off the request
-            var accessToken = Request.Headers.Authorization.Parameter.Replace("Bearer ", "");
+            var accessToken = (Request.Headers.ContainsKey("Authorization") ? Request.Headers["Authorization"].First() : string.Empty).Replace("Bearer ", "");
 
             await Auth.LetMeOutOfHereAsync(accessToken);
             return Ok();
@@ -153,7 +155,7 @@ namespace MapHive.Api.Core.Controllers
                     {
                         {"UserName", $"{user.GetFullUserName()} ({user.Email})"},
                         {"Email", user.Email},
-                        {"RedirectUrl", this.GetRequestSource(Context).Split('#')[0]},
+                        {"RedirectUrl", this.GetRequestSource(HttpContext).Split('#')[0]},
                         {"VerificationKey", activationOutput.VerificationKey},
                         {"InitialPassword", ""}
                     };
@@ -216,7 +218,7 @@ namespace MapHive.Api.Core.Controllers
                 {
                     {"UserName", $"{u.GetFullUserName()} ({u.Email})"},
                     {"Email", u.Email},
-                    {"RedirectUrl", GetRequestSource(Context).Split('#')[0]}
+                    {"RedirectUrl", GetRequestSource(HttpContext).Split('#')[0]}
                 };
 
                 await u.ResendActivationLinkAsync(
@@ -285,7 +287,7 @@ namespace MapHive.Api.Core.Controllers
                 {
                         {"UserName", $"{user.GetFullUserName()} ({user.Email})"},
                         {"Email", user.Email},
-                        {"RedirectUrl", this.GetRequestSource(Context).Split('#')[0]},
+                        {"RedirectUrl", this.GetRequestSource(HttpContext).Split('#')[0]},
                         {"VerificationKey", requestPassResetOutput.VerificationKey}
                     };
 

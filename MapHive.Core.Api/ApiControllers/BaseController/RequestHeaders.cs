@@ -21,9 +21,9 @@ namespace MapHive.Core.Api.ApiControllers
             //grab the auth token used by the requestee
             var authToken = string.Empty;
 
-            if (Request.Headers.Authorization != null)
+            if (Request.Headers.ContainsKey("Authorization"))
             {
-                authToken = $"{Request.Headers.Authorization.Scheme} {Request.Headers.Authorization.Parameter}";
+                authToken = Request.Headers["Authorization"].First();
             }
 
             return authToken;
