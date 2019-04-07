@@ -11,15 +11,15 @@ namespace MapHive.Core.DataModel
     public partial class Organization
     {
         /// <summary>
-        /// DB identifier - key that allows specifying different dbs for one organisation. identifier has a unique constraint per org uuid
+        /// Creates org db 
         /// </summary>
         /// <param name="dbCtx"></param>
-        /// <param name="identifier"></param>
+        /// <param name="identifier">DB identifier - key that allows specifying different dbs for one organization. identifier has a unique constraint per org uuid</param>
         /// <returns></returns>
         public async Task CreateDataBaseAsync(DbContext dbCtx, string identifier)
         {
             //once org is created, create its database
-            var orgDb = OrganizationDatabase.CreateInstanceWithDefaultCredentials(Uuid, identifier);
+            var orgDb = GetDatabase(identifier);
             await orgDb.CreateAsync(dbCtx);
             
             //create the physical db

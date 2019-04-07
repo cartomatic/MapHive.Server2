@@ -16,7 +16,7 @@ namespace MapHive.Core.DataModel
     public partial class OrganizationDatabase
     {
         /// <summary>
-        /// Creates a default isntance of org db object and reads the orgs dbs credentials off the config (if present)
+        /// Creates a default instance of org db object and reads the orgs dbs credentials off the config (if present)
         /// </summary>
         /// <param name="orgId"></param>
         /// <param name="dbIdentifier"></param>
