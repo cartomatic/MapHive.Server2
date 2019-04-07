@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MapHive.Core.Identity.DataModel
 {
+#pragma warning disable 1591
     public class MapHiveIdentityRoleStore : RoleStore<MapHiveIdentityRole, MapHiveIdentityDbContext, Guid, MapHiveIdentityUserRole, MapHiveIdentityRoleClaim>
     {
         /// <inheritdoc />

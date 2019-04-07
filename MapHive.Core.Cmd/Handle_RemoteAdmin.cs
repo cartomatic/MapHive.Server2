@@ -13,6 +13,9 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
+        /// <summary>
+        /// remote admin credentials
+        /// </summary>
         protected Dictionary<string, string> RemoteAdmin { get; set; }
 
         /// <summary>

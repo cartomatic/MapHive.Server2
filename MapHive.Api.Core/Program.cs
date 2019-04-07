@@ -1,10 +1,11 @@
-﻿using System;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
 
 namespace MapHive.Core.Api
 {
+#pragma warning disable 1591
     public class Program
     {
         public static void Main(string[] args)

@@ -10,8 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MapHive.Core.Identity
 {
+#pragma warning disable 1591
     public static class Extensions
     {
+        /// <summary>
+        /// Configures identity opts
+        /// </summary>
+        /// <param name="opts"></param>
+        /// <returns></returns>
         public static IdentityOptions ConfigureIdentityOptions(this IdentityOptions opts)
         {
             var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();

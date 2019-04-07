@@ -99,6 +99,10 @@ namespace MapHive.Core.IdentityServer.SerializableConfig
         /// </summary>
         public bool RequireConsent { get; set; }
 
+        /// <summary>
+        /// returns this class converted to IdentityServer4.Models.Client
+        /// </summary>
+        /// <returns></returns>
         public IdentityServer4.Models.Client ToClient()
         {
             return new IdentityServer4.Models.Client

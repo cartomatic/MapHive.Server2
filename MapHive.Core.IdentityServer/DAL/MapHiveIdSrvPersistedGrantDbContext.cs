@@ -8,6 +8,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 
+#pragma warning disable 1591
 namespace MapHive.Core.IdentityServer.DAL
 {
     public class MapHiveIdSrvPersistedGrantDbContext : PersistedGrantDbContext, IProvideDbContextFactory

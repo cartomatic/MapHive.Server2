@@ -9,8 +9,12 @@ using Cartomatic.CmdPrompt.Core;
 
 namespace MapHive.Core.Cmd
 {
+    /// <summary>
+    /// main command handler
+    /// </summary>
     public partial class CommandHandler : Cartomatic.CmdPrompt.Core.DefaultCmdCommandHandler
     {
+#pragma warning disable 1591
         public CommandHandler(string handlerInfo)
             : base(handlerInfo)
         {
@@ -52,6 +56,12 @@ namespace MapHive.Core.Cmd
             Cartomatic.Utils.Identity.ImpersonateGhostUser();
         }
 
+        /// <summary>
+        /// Prints command
+        /// </summary>
+        /// <param name="cmdType"></param>
+        /// <param name="commandName"></param>
+        /// <param name="args"></param>
         protected void PrintCommand(string cmdType, string commandName, IDictionary<string, string> args)
         {
             var prms = args.Select(kv => $"{kv.Key}" + (string.IsNullOrEmpty(kv.Value) ? "" : $":{kv.Value}"));

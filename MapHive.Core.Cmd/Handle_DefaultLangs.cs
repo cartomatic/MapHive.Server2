@@ -12,6 +12,11 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
+        /// <summary>
+        /// Handles default langs
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected virtual async Task Handle_DefaultLangs(IDictionary<string, string> args)
         {
             var cmd = GetCallerName();

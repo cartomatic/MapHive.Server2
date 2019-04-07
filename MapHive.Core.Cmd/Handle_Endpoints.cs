@@ -13,6 +13,9 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
+        /// <summary>
+        /// collection of available endpoints
+        /// </summary>
         protected Dictionary<string, string> Endpoints { get; set; }
 
         /// <summary>

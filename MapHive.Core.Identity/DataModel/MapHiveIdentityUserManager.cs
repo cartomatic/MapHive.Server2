@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace MapHive.Core.Identity.DataModel
 {
+#pragma warning disable 1591
     public class MapHiveIdentityUserManager : UserManager<MapHiveIdentityUser>
     {
         /// <inheritdoc />

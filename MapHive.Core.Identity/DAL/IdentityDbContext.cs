@@ -11,6 +11,7 @@ namespace MapHive.Core.Identity.DAL
 {
     //public class MapHiveIdentityDbContext : IdentityDbContext<MapHiveIdentityUser, MapHiveIdentityRole, Guid>
     //need a full declaration in order to make use of it by idsrv!
+#pragma warning disable 1591
     public class MapHiveIdentityDbContext : IdentityDbContext<MapHiveIdentityUser, MapHiveIdentityRole, Guid, MapHiveIdentityUserClaim, MapHiveIdentityUserRole, MapHiveIdentityUserLogin, MapHiveIdentityRoleClaim, MapHiveIdentityUserToken>, IProvideDbContextFactory
     {
         /// <summary>

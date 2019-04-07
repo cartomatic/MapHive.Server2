@@ -12,6 +12,11 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
+        /// <summary>
+        /// Handles upgrading dbs
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected virtual async Task Handle_UpgradeDbs(IDictionary<string, string> args)
         {
             //so warnings dissapear from async method when not using await

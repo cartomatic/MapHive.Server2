@@ -10,6 +10,11 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
+        /// <summary>
+        /// Handles exception
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <param name="skipIntro"></param>
         protected virtual void HandleException(Exception ex, bool skipIntro = false)
         {
 

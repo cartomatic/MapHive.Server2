@@ -19,6 +19,10 @@ namespace MapHive.Core.IdentityServer.SerializableConfig
         /// </summary>
         public new List<string> UserClaims { get; set; }
 
+        /// <summary>
+        /// converts this class to IdentityServer4.Models.Scope
+        /// </summary>
+        /// <returns></returns>
         public IdentityServer4.Models.Scope ToScope()
         {
             var scope = (this).CopyPublicPropertiesToNew<IdentityServer4.Models.Scope>();

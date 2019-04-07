@@ -5,6 +5,9 @@ using System.Web;
 
 namespace MapHive.Core.IdentityServer.Cryptography
 {
+    /// <summary>
+    /// Certificate configuration
+    /// </summary>
     public class CertificateConfig
     {
         /// <summary>

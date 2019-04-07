@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
+#pragma warning disable 1591
 namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
 {
     public partial class InitialIdentityServerConfigurationDbMigration : Migration

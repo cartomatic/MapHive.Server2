@@ -15,6 +15,9 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
+        /// <summary>
+        /// data source credentials
+        /// </summary>
         protected Cartomatic.Utils.Data.DataSourceCredentials Dsc { get; set; }
 
         /// <summary>

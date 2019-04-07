@@ -13,6 +13,9 @@ using MapHive.Core.Identity.DataModel;
 
 namespace MapHive.Core.Identity
 {
+    /// <summary>
+    /// User manager utils
+    /// </summary>
     public class UserManagerUtils
     {
         //private static UserManager<MapHiveIdentityUser> _userManager;

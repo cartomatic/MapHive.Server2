@@ -12,6 +12,11 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
+        /// <summary>
+        /// handles destroying user
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected virtual async Task Handle_DestroyUser(Dictionary<string, string> args)
         {
             var cmd = GetCallerName();

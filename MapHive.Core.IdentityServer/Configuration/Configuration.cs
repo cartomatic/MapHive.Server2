@@ -7,6 +7,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Core.IdentityServer
 {
+    /// <summary>
+    /// Configuration 
+    /// </summary>
     public class Configuration
     {
         /// <summary>

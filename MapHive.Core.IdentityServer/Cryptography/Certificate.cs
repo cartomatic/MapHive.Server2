@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Core.IdentityServer.Cryptography
 {
+    /// <summary>
+    /// Certificate related stuff
+    /// </summary>
     public class Certificate
     {
 

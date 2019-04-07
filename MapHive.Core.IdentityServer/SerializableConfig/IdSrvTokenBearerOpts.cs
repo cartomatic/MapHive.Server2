@@ -10,6 +10,9 @@ using Newtonsoft.Json;
 
 namespace MapHive.Core.IdentityServer.SerializableConfig
 {
+    /// <summary>
+    /// IdSrv token bearer options
+    /// </summary>
     public class IdSrvTokenBearerOpts
     {
         /// <summary>

@@ -30,6 +30,10 @@ namespace MapHive.Core.IdentityServer.SerializableConfig
         /// </summary>
         public new List<Scope> Scopes { get; set; }
 
+        /// <summary>
+        /// Converts this class to IdentityServer4.Models.ApiResource
+        /// </summary>
+        /// <returns></returns>
         public IdentityServer4.Models.ApiResource ToApiResource()
         {
             var apiResource = this.CopyPublicPropertiesToNew<IdentityServer4.Models.ApiResource>();

@@ -11,6 +11,11 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
+        /// <summary>
+        /// Handles adding user
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected virtual async Task Handle_AddUser(Dictionary<string, string> args)
         {
             var cmd = GetCallerName();

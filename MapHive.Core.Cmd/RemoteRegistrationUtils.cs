@@ -230,6 +230,7 @@ namespace MapHive.Core.Cmd
         /// Drops an organisation with the remote core api
         /// </summary>
         /// <param name="orgId"></param>
+        /// <param name="clean"></param>
         /// <returns></returns>
         protected async Task DropOrgRemoteAsync(Guid orgId, bool clean)
         {
@@ -279,6 +280,11 @@ namespace MapHive.Core.Cmd
             );
         }
 
+        /// <summary>
+        /// Destroys user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         protected async Task<MapHiveUser> DestroyUserRemoteAsync(string email)
         {
             if (RemoteAdmin["Email"] == email)
@@ -319,9 +325,14 @@ namespace MapHive.Core.Cmd
         //------------------------
 
         
-
+        /// <summary>
+        /// snapshot of an access token
+        /// </summary>
         protected static string AccessToken { get; set; }
 
+        /// <summary>
+        /// resets access token
+        /// </summary>
         protected void ResetRemoteAuth()
         {
             AccessToken = null;
@@ -330,8 +341,6 @@ namespace MapHive.Core.Cmd
         /// <summary>
         /// Gets access token
         /// </summary>
-        /// <param name="email"></param>
-        /// <param name="pass"></param>
         /// <returns></returns>
         private async Task AuthenticateAsync()
         {
