@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Serilog;
 
 namespace MapHive.Core.Api.ApiControllers
 {
@@ -49,12 +50,15 @@ namespace MapHive.Core.Api.ApiControllers
                 {
                     if (e is ValidationFailedException && ((ValidationFailedException)e).ValidationErrors.Any())
                         return new ObjectResult(((ValidationFailedException)e).ValidationErrors){StatusCode = (int)HttpStatusCode.BadRequest};
-                    else return null;
+
+                    return null;
                 },
 
                 //all the unfiltered end up as 500
                 (e) =>
                 {
+                    Log.Error(e, e.Message);
+
                     #if DEBUG
                     return new ObjectResult(e.Message){StatusCode = (int)HttpStatusCode.InternalServerError};
                     #endif
