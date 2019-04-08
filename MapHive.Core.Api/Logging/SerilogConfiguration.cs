@@ -31,10 +31,10 @@ namespace MapHive.Core.Api.Logging
                 .Enrich.WithProperty("App", "MapHive.Api.Core")
                 .WriteTo.File(
                     "_logs\\log.txt",
-                    restrictedToMinimumLevel: logLvls.ContainsKey(nameof(Serilog.Sinks.File)) ? logLvls[nameof(Serilog.Sinks.File)] ?? LogEventLevel.Warning : LogEventLevel.Warning, rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromMinutes(5)
+                    restrictedToMinimumLevel: logLvls != null && logLvls.ContainsKey(nameof(Serilog.Sinks.File)) ? logLvls[nameof(Serilog.Sinks.File)] ?? LogEventLevel.Warning : LogEventLevel.Warning, rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromMinutes(5)
                 )
                 .WriteTo.LiterateConsole(
-                    restrictedToMinimumLevel: logLvls.ContainsKey(nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)) ? logLvls[nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)] ?? LogEventLevel.Verbose : LogEventLevel.Verbose
+                    restrictedToMinimumLevel: logLvls != null && logLvls.ContainsKey(nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)) ? logLvls[nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)] ?? LogEventLevel.Verbose : LogEventLevel.Verbose
                 )
                 .CreateLogger();
         }
