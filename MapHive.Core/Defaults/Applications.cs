@@ -43,17 +43,6 @@ namespace MapHive.Core.Defaults
                     RequiresAuth = true,
                     IsApi = true
                 },
-                new Application
-                {
-                    Uuid = Guid.Parse("cb354aa5-074b-45a7-adba-4717b76c394a"),
-                    ShortName = "auth-api",
-                    Name = "Auth API",
-                    Description = "Auth API @ MapHive",
-                    Urls = "https://auth-api.maphive.local/|https://auth-api.maphive.net/|https://core-api.maphive.local/auth/|https://core-api.maphive.net/auth/",
-                    IsCommon = true,
-                    RequiresAuth = true,
-                    IsApi = true
-                },
 
                 //default apps
                 //----------------------------------------------------------------------------
