@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
@@ -52,20 +53,6 @@ namespace MapHive.Core.Api.Compression
         }
 
 
-        ///// <inheritdoc />
-        //public override async Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger,
-        //    CancellationToken cancellationToken)
-        //{
-        //    using (var decompressedStream = DecompressToStream(await content.ReadAsStreamAsync()))
-        //    using (var sr = new StreamReader(decompressedStream))
-        //    {
-        //        decompressedStream.Position = 0;
-        //        var jsonData = sr.ReadToEnd();
-
-        //        return !string.IsNullOrEmpty(jsonData) ? Newtonsoft.Json.JsonConvert.DeserializeObject(jsonData, type) : null;
-        //    }
-        //}
-
         /// <summary>
         /// Decompresses gzip stream to data stream
         /// </summary>
@@ -73,10 +60,16 @@ namespace MapHive.Core.Api.Compression
         /// <returns></returns>
         private Stream DecompressToStream(Stream dataStr)
         {
-            using (var gzipStream = new Ionic.Zlib.GZipStream(dataStr, Ionic.Zlib.CompressionMode.Decompress))
+            using (var gzipStream = new System.IO.Compression.GZipStream(dataStr, CompressionMode.Decompress))
             {
                 return gzipStream.CopyStream();
             }
+
+            //Ionic.Zlib example. ionic seems to not be available for net core though and restores for net 462
+            //using (var gzipStream = new Ionic.Zlib.GZipStream(dataStr, Ionic.Zlib.CompressionMode.Decompress))
+            //{
+            //    return gzipStream.CopyStream();
+            //}
         }
 
     }
