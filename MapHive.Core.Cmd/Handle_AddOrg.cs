@@ -116,10 +116,15 @@ namespace MapHive.Core.Cmd
             var orgDescription = string.Empty;
             var orgIdStr = ExtractParam<string>("oid", args);
             var orgId = string.IsNullOrEmpty(orgIdStr) ? (Guid?) null : Guid.Parse(orgIdStr);
+
+            //use default org name + description when not provided
             if (string.IsNullOrWhiteSpace(orgName))
             {
                 orgName = MasterOrgName;
                 orgDescription = MasterOrgDesc;
+
+                //also guid!
+                orgId = Guid.Parse(MasterOrgId);
             }
 
             //use the default account if email and pass not provided

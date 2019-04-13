@@ -13,6 +13,7 @@ namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {
+        protected internal virtual string MasterOrgId { get; set; }
         /// <summary>
         /// Master org name
         /// </summary>
@@ -54,6 +55,7 @@ namespace MapHive.Core.Cmd
                 )
                     throw new Exception();
 
+                MasterOrgId = morg["Id"];
                 MasterOrgName = morg["Name"];
                 MasterOrgDesc = morg["Description"];
                 MasterOrgEmail = morg["Email"];
@@ -101,6 +103,7 @@ namespace MapHive.Core.Cmd
                 var pass = ExtractParam("p", args);
                 var name = ExtractParam("n", args);
                 var desc = ExtractParam("d", args);
+                var oid = ExtractParam("oid", args);
 
 
                 if (!string.IsNullOrEmpty(email))
@@ -115,6 +118,9 @@ namespace MapHive.Core.Cmd
                 if (!string.IsNullOrEmpty(desc))
                     MasterOrgDesc = desc;
 
+                if (!string.IsNullOrEmpty(oid))
+                    MasterOrgId = oid;
+
             }
 
             PrintMorg();
@@ -128,6 +134,9 @@ namespace MapHive.Core.Cmd
             Console.WriteLine("Master org:");
 
             var cl = ConsoleColor.DarkMagenta;
+
+            Console.Write("id: ");
+            ConsoleEx.Write(MasterOrgId + Environment.NewLine, cl);
 
             Console.Write("name: ");
             ConsoleEx.Write(MasterOrgName + Environment.NewLine, cl);
