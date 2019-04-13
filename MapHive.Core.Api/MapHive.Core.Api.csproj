@@ -18,15 +18,15 @@ use at your own risk...</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BrotliSharpLib" Version="0.3.1" />
+    <PackageReference Include="BrotliSharpLib" Version="0.3.3" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
     <PackageReference Include="Ionic.Zip" Version="1.9.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="msbump" Version="2.3.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="RestSharp" Version="106.5.4" />
+    <PackageReference Include="RestSharp" Version="106.6.9" />
     <PackageReference Include="serilog" Version="2.8.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
