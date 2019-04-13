@@ -195,12 +195,13 @@ namespace MapHive.Core.Cmd
         /// <param name="orgName"></param>
         /// <param name="orgDescription"></param>
         /// <param name="orgSlug"></param>
+        /// <param name="orgId"></param>
         /// <param name="clean"></param>
         /// <param name="morg"></param>
         /// <param name="email"></param>
         /// <param name="pass"></param>
         /// <returns></returns>
-        protected async Task CreateOrgRemoteAsync(string orgName, string orgDescription, string orgSlug, bool clean, bool morg, string email, string pass)
+        protected async Task CreateOrgRemoteAsync(string orgName, string orgDescription, string orgSlug, Guid? orgId, bool clean, bool morg, string email, string pass)
         {
             //authenticate user
             await AuthenticateAsync();
@@ -212,6 +213,7 @@ namespace MapHive.Core.Cmd
                     { "orgName", orgName },
                     { "orgDescription", orgDescription },
                     { "orgSlug", orgSlug ?? MapHive.Core.Utils.Slug.GetOrgSlug(orgName, email) },
+                    { "orgId", orgId },
                     { "clean", clean.ToString() },
                     { "morg", morg.ToString() },
                     { "email", email },

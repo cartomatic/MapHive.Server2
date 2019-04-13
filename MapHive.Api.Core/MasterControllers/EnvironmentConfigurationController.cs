@@ -218,6 +218,7 @@ namespace MapHive.Api.Core.Controllers
         /// </summary>
         /// <param name="orgSlug"></param>
         /// <param name="orgName"></param>
+        /// <param name="orgId"></param>
         /// <param name="orgDescription"></param>
         /// <param name="clean"></param>
         /// <param name="morg"></param>
@@ -228,7 +229,7 @@ namespace MapHive.Api.Core.Controllers
         [Route("createorg")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> CreateOrgAsync([FromQuery]string orgSlug, [FromQuery] string orgName, [FromQuery]string orgDescription, [FromQuery]bool clean, [FromQuery]bool morg, [FromQuery]string email, [FromQuery]string pass)
+        public async Task<IActionResult> CreateOrgAsync([FromQuery]string orgSlug, [FromQuery] Guid? orgId, [FromQuery] string orgName, [FromQuery]string orgDescription, [FromQuery]bool clean, [FromQuery]bool morg, [FromQuery]string email, [FromQuery]string pass)
         {
             try
             {
@@ -266,6 +267,7 @@ namespace MapHive.Api.Core.Controllers
                     //now the org object
                     var newOrg = new Organization
                     {
+                        Uuid = orgId ?? default,
                         DisplayName = orgName,
                         Slug = orgSlug,
                         Description = orgDescription
