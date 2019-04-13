@@ -42,14 +42,10 @@ namespace MapHive.Core.DAL
             dbCtx.Database.Migrate();
 
             //pass the dbctx to extended views creator and seeder.
-            //thei will take care of them if required
-            if (output.Created)
-            {
-                Seeder.SeedAll(dbCtx);
-            }
-
+            //they will take care of them if required
             if (output.Created || output.Updated)
             {
+                Seeder.SeedAll(dbCtx);
                 ExtendedViewsCreator.CreateAll(dbCtx);
             }
 

@@ -6,7 +6,7 @@
     <AssemblyName>MapHive.Core.Cmd</AssemblyName>
     <RootNamespace>MapHive.Core.Cmd</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.4-dev0336</Version>
+    <Version>1.0.4-dev0342</Version>
     <Description>.net core cmd implementation of of MapHive.Core via MapHive.Core.Cmd</Description>
     <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>

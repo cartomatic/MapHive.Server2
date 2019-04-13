@@ -14,37 +14,34 @@ namespace MapHive.Core.DAL
     public class Seeder
     {
         /// <summary>
-        /// Executes all the configured seed procedures
+        /// Executes all the configured seed procedures. Seed procedures should be CreateIfNotExists or CreateOrUpdate as they are executed whenever a database has been either created or updated
         /// </summary>
         /// <param name="dbCtx"></param>
-        /// <param name="filter"></param>
-        public static void SeedAll(DbContext dbCtx, IEnumerable<string> filter = null)
+        public static void SeedAll(DbContext dbCtx)
         {
             if (dbCtx is IProvideSeeder seedDbCtx && seedDbCtx is BaseDbContext baseExtViewsDbContext)
                 SeedAll(baseExtViewsDbContext, seedDbCtx.SeedProvider);
         }
 
         /// <summary>
-        /// Executes all the configured seed procedures
+        /// Executes all the configured seed procedures. Seed procedures should be CreateIfNotExists or CreateOrUpdate as they are executed whenever a database has been either created or updated
         /// </summary>
         /// <typeparam name="TDbCtx"></typeparam>
         /// <typeparam name="TSeed"></typeparam>
         /// <param name="dbCtx"></param>
-        /// <param name="filter">Fully qualified namespaces to be taken into account when auto seeding object types</param>
-        public static void SeedAll<TDbCtx, TSeed>(TDbCtx dbCtx, IEnumerable<string> filter = null)
+        public static void SeedAll<TDbCtx, TSeed>(TDbCtx dbCtx)
             where TDbCtx : BaseDbContext
         {
             SeedAll(dbCtx, typeof(TSeed));
         }
 
         /// <summary>
-        /// Executes all the configured seed procedures
+        /// Executes all the configured seed procedures. Seed procedures should be CreateIfNotExists or CreateOrUpdate as they are executed whenever a database has been either created or updated
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
         /// <param name="t">type to execute seed for</param>
-        /// <param name="filter">Fully qualified namespaces to be taken into account when auto seeding object types</param>
-        public static void SeedAll<T>(T dbCtx, Type t, IEnumerable<string> filter = null)
+        public static void SeedAll<T>(T dbCtx, Type t)
             where T : BaseDbContext
         {
             var mi = t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
