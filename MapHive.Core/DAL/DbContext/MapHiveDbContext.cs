@@ -11,6 +11,7 @@ using MapHive.Core.DataModel;
 using MapHive.Core.DAL.TypeConfiguration;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MapHive.Core.DAL
 {
@@ -100,6 +101,12 @@ namespace MapHive.Core.DAL
             modelBuilder.ApplyConfiguration(new EmailTemplateLocalizationConfiguration());
             modelBuilder.ApplyConfiguration(new LangConfiguration());
             modelBuilder.ApplyConfiguration(new TranslationKeyConfiguration());
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.ReplaceService<IHistoryRepository, MapHiveDbContextHistoryRepository>();
         }
     }
 }
