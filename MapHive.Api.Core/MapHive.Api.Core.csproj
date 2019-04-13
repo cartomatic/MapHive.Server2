@@ -40,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Cartomatic\Utils\MsBuildUtils\Cartomatic.MsBuildUtils.csproj" />
     <ProjectReference Include="..\MapHive.Core.Api\MapHive.Core.Api.csproj" />
     <ProjectReference Include="..\MapHive.Core\MapHive.Core.csproj" />
   </ItemGroup>
