@@ -149,6 +149,8 @@ namespace MapHive.Core.Cmd
                     }
 
                     ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                    ConsoleEx.WriteLine("INFO:", ConsoleColor.DarkMagenta);
+                    ConsoleEx.WriteLine("With EF Core dropping schema is not enough! You will reset the migrations too. They should be located in the public schema.", ConsoleColor.DarkMagenta);
                 }
 
             }
