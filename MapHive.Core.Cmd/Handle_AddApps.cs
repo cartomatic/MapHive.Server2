@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
 using Cartomatic.Utils.Data;
+using Cartomatic.Utils.Dto;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -57,6 +58,7 @@ namespace MapHive.Core.Cmd
             //print remote mode, so it is explicitly communicated
             PrintRemoteMode();
 
+            var reload = ContainsParam("reload", args);
 
             var appsToAdd = (ExtractParam<string>("a", args) ?? "").Split(',');
 
@@ -66,7 +68,7 @@ namespace MapHive.Core.Cmd
             }
 
             //just a regular register apps call
-            await RegisterAppsAsync(appsToAdd);
+            await RegisterAppsAsync(appsToAdd, reload);
 
 
             var orgIdentifier = ExtractParam<string>("o", args);
@@ -162,7 +164,7 @@ namespace MapHive.Core.Cmd
         /// </summary>
         /// <param name="appsToAdd"></param>
         /// <returns></returns>
-        protected async Task RegisterAppsAsync(string[] appsToAdd)
+        protected async Task RegisterAppsAsync(string[] appsToAdd, bool reload)
         {
             using (var dbCtx = GetMapHiveDbContext())
             {
@@ -178,19 +180,29 @@ namespace MapHive.Core.Cmd
                     {
                         if (RemoteMode)
                         {
-                            if (!await IsAppRegisteredRemoteAsync(app.ShortName))
+                            if (!await IsAppRegisteredRemoteAsync(app.ShortName) || reload)
                             {
                                 ConsoleEx.Write($"Registering {app.ShortName} app... ", ConsoleColor.DarkYellow);
-                                await RegisterAppsRemoteAsync(app);
+                                await RegisterAppsRemoteAsync(app); //Note: backend does UPSERT already, no reload param is actually required
                                 ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                             }
                         }
                         else
                         {
-                            if (!await dbCtx.Applications.AnyAsync(a => a.Uuid == app.Uuid))
+                            if (!await dbCtx.Applications.AnyAsync(a => a.Uuid == app.Uuid) || reload)
                             {
                                 ConsoleEx.Write($"Registering {app.ShortName} app... ", ConsoleColor.DarkYellow);
-                                dbCtx.Applications.Add(app);
+                                if (reload && await dbCtx.Applications.AnyAsync(a => a.Uuid == app.Uuid))
+                                {
+                                    var currentApp = await dbCtx.Applications.Where(a => a.Uuid == app.Uuid)
+                                        .FirstOrDefaultAsync();
+                                    currentApp.CopyPublicPropertiesFrom(app);
+                                }
+                                else
+                                {
+                                    dbCtx.Applications.Add(app);
+                                }
+                                
                                 ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
                             }
                         }
