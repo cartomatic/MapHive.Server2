@@ -73,7 +73,7 @@ namespace MapHive.Core.Cmd
                 apps.Add("masterofpuppets");
 
             //ensure the site apps are present in the system!!!
-            await RegisterAppsAsync(apps.ToArray());
+            await RegisterAppsAsync(apps.ToArray(), true);
 
             //todo - allow specifying apps via param??? dunno, maybe so
 
@@ -141,7 +141,7 @@ namespace MapHive.Core.Cmd
             apps.Add("masterofpuppets");
 
             //ensure the site apps are present in the system!!!
-            await RegisterAppsAsync(apps.ToArray());
+            await RegisterAppsAsync(apps.ToArray(), true);
 
             await CreateOrganisationAsync(orgName, orgDescription, email, pass, apps, orgId, clean);
 

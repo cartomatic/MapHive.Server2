@@ -4,7 +4,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.1-dev0334</Version>
+    <Version>1.0.1-dev0339</Version>
     <Copyright>cartomatic</Copyright>
     <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
