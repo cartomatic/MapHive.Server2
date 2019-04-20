@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 using MapHive.Core.DataModel.Dictionary;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(p => p.Identifier).HasColumnName("identifier");
 
             builder.HasIndex(p => p.Identifier)
-                .HasName($"idx_uq_identifier_{entityName.ToLower()}")
+                .HasName($"idx_{entityName.ToColumnName()}_uq_identifier")
                 .IsUnique();
         }
 

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MapHive.Core.DAL.Migrations
 {
     [DbContext(typeof(MapHiveDbContext))]
-    [Migration("20180715052917_InitialCreate")]
+    [Migration("20190420044921_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,7 +19,7 @@ namespace MapHive.Core.DAL.Migrations
             modelBuilder
                 .HasDefaultSchema("mh_meta")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("MapHive.Core.DataModel.Application", b =>
@@ -33,6 +33,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
 
                     b.Property<string>("Description")
                         .HasColumnName("description");
@@ -86,11 +89,12 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_applications");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_application");
+                        .IsUnique()
+                        .HasName("idx_application_create_date");
 
                     b.HasIndex("ShortName")
                         .IsUnique()
-                        .HasName("uq_short_name_application");
+                        .HasName("idx_application_uq_short_name");
 
                     b.ToTable("applications","mh_meta");
                 });
@@ -109,6 +113,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
 
                     b.Property<string>("Description")
                         .HasColumnName("description");
@@ -138,14 +145,15 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_email_templates");
 
                     b.HasIndex("ApplicationIdentifier")
-                        .HasName("idx_app_identifier_emailtemplatelocalization");
+                        .HasName("idx_email_template_localization_app_identifier");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_emailtemplatelocalization");
+                        .IsUnique()
+                        .HasName("idx_email_template_localization_create_date");
 
                     b.HasIndex("ApplicationIdentifier", "Identifier")
                         .IsUnique()
-                        .HasName("uq_app_name_translation_identifier_emailtemplatelocalization");
+                        .HasName("idx_email_template_localization_uq_app_name_translation_identifier");
 
                     b.ToTable("email_templates","mh_localization");
                 });
@@ -161,6 +169,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
 
                     b.Property<string>("Description")
                         .HasColumnName("description");
@@ -187,7 +198,8 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_langs");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_lang");
+                        .IsUnique()
+                        .HasName("idx_lang_create_date");
 
                     b.ToTable("langs","mh_localization");
                 });
@@ -219,18 +231,18 @@ namespace MapHive.Core.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ChildTypeUuid")
-                        .HasName("idx_child_type_uuid_link");
+                        .HasName("idx_link_child_type_uuid");
 
                     b.HasIndex("ChildUuid")
-                        .HasName("idx_child_uuid_link");
+                        .HasName("idx_link_child_uuid");
 
                     b.HasIndex("ParentTypeUuid")
-                        .HasName("idx_parent_type_uuid_link");
+                        .HasName("idx_link_parent_type_uuid");
 
                     b.HasIndex("ParentUuid")
-                        .HasName("idx_parent_uuid_link");
+                        .HasName("idx_link_parent_uuid");
 
-                    b.ToTable("links","mh_meta");
+                    b.ToTable("links");
                 });
 
             modelBuilder.Entity("MapHive.Core.DataModel.LocalizationClass", b =>
@@ -251,6 +263,9 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
 
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
+
                     b.Property<DateTime?>("EndDateUtc")
                         .HasColumnName("end_date_utc");
 
@@ -267,11 +282,12 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_localization_classes");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_localizationclass");
+                        .IsUnique()
+                        .HasName("idx_localization_class_create_date");
 
                     b.HasIndex("ApplicationName", "ClassName")
                         .IsUnique()
-                        .HasName("uq_app_name_class_name_localizationclass");
+                        .HasName("idx_localization_class_uq_app_name_class_name");
 
                     b.ToTable("localization_classes","mh_localization");
                 });
@@ -296,6 +312,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
 
                     b.Property<string>("Department")
                         .HasColumnName("department");
@@ -333,8 +352,8 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<Guid?>("ParentOrganizationId")
                         .HasColumnName("parent_org_id");
 
-                    b.Property<Guid?>("ProfilePictureId")
-                        .HasColumnName("profile_picture_id");
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnName("profile_picture");
 
                     b.Property<string>("Slug")
                         .HasColumnName("slug");
@@ -352,15 +371,16 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_users");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_maphiveuser");
+                        .IsUnique()
+                        .HasName("idx_map_hive_user_create_date");
 
                     b.HasIndex("Email")
                         .IsUnique()
-                        .HasName("uq_email_maphiveuser");
+                        .HasName("idx_map_hive_user_uq_email");
 
                     b.HasIndex("Slug")
                         .IsUnique()
-                        .HasName("uq_slug_maphiveuser");
+                        .HasName("idx_map_hive_user_uq_slug");
 
                     b.ToTable("users","mh_meta");
                 });
@@ -378,9 +398,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.HasIndex("Name")
                         .IsUnique()
-                        .HasName("uq_name_objecttype");
+                        .HasName("idx_object_type_uq_name");
 
-                    b.ToTable("object_types","mh_meta");
+                    b.ToTable("object_types");
                 });
 
             modelBuilder.Entity("MapHive.Core.DataModel.Organization", b =>
@@ -403,6 +423,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
 
                     b.Property<string>("Description")
                         .HasColumnName("description");
@@ -444,11 +467,12 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_organizations");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_organization");
+                        .IsUnique()
+                        .HasName("idx_organization_create_date");
 
                     b.HasIndex("Slug")
                         .IsUnique()
-                        .HasName("uq_slug_organization");
+                        .HasName("idx_organization_uq_slug");
 
                     b.ToTable("organizations","mh_meta");
                 });
@@ -464,6 +488,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
 
                     b.Property<int>("DataSourceProvider")
                         .HasColumnName("provider");
@@ -513,13 +540,69 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_organization_databases");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_organizationdatabase");
+                        .IsUnique()
+                        .HasName("idx_organization_database_create_date");
 
                     b.HasIndex("OrganizationId", "Identifier")
                         .IsUnique()
-                        .HasName("uq_org_uuid_identifier_organizationdatabase");
+                        .HasName("idx_organization_database_uq_org_uuid_identifier");
 
                     b.ToTable("organization_databases","mh_meta");
+                });
+
+            modelBuilder.Entity("MapHive.Core.DataModel.Resource", b =>
+                {
+                    b.Property<Guid>("Uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("uuid");
+
+                    b.Property<DateTime?>("CreateDateUtc")
+                        .HasColumnName("create_date_utc");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
+
+                    b.Property<byte[]>("Data")
+                        .HasColumnName("data");
+
+                    b.Property<DateTime?>("EndDateUtc")
+                        .HasColumnName("end_date_utc");
+
+                    b.Property<string>("Identifier")
+                        .HasColumnName("identifier");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnName("last_modified_by");
+
+                    b.Property<string>("Mime")
+                        .HasColumnName("mime");
+
+                    b.Property<DateTime?>("ModifyDateUtc")
+                        .HasColumnName("modify_date_utc");
+
+                    b.Property<string>("OriginalFileName")
+                        .HasColumnName("original_file_name");
+
+                    b.Property<Guid?>("OwnerId")
+                        .HasColumnName("owner_id");
+
+                    b.Property<Guid?>("OwnerTypeId")
+                        .HasColumnName("owner_type_id");
+
+                    b.HasKey("Uuid")
+                        .HasName("pk_resources");
+
+                    b.HasIndex("CreateDateUtc")
+                        .IsUnique()
+                        .HasName("idx_resource_create_date");
+
+                    b.HasIndex("OwnerId")
+                        .HasName("idx_resource_owner_id");
+
+                    b.ToTable("resources");
                 });
 
             modelBuilder.Entity("MapHive.Core.DataModel.Role", b =>
@@ -533,6 +616,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
 
                     b.Property<string>("Description")
                         .HasColumnName("description");
@@ -559,9 +645,10 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_roles");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_role");
+                        .IsUnique()
+                        .HasName("idx_role_create_date");
 
-                    b.ToTable("roles","mh_meta");
+                    b.ToTable("roles");
                 });
 
             modelBuilder.Entity("MapHive.Core.DataModel.Team", b =>
@@ -575,6 +662,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
 
                     b.Property<string>("Description")
                         .HasColumnName("description");
@@ -595,7 +685,8 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_teams");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_team");
+                        .IsUnique()
+                        .HasName("idx_team_create_date");
 
                     b.ToTable("teams","mh_meta");
                 });
@@ -617,6 +708,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
 
                     b.Property<string>("Description")
                         .HasColumnName("description");
@@ -646,7 +740,8 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_tokens");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_token");
+                        .IsUnique()
+                        .HasName("idx_token_create_date");
 
                     b.ToTable("tokens","mh_meta");
                 });
@@ -662,6 +757,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
 
                     b.Property<DateTime?>("EndDateUtc")
                         .HasColumnName("end_date_utc");
@@ -685,11 +783,12 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_translation_keys");
 
                     b.HasIndex("CreateDateUtc")
-                        .HasName("idx_create_date_translationkey");
+                        .IsUnique()
+                        .HasName("idx_translation_key_create_date");
 
                     b.HasIndex("LocalizationClassUuid", "Key")
                         .IsUnique()
-                        .HasName("uq_localization_class_translation_key_translationkey");
+                        .HasName("idx_translation_key_uq_localization_class_translation_key");
 
                     b.ToTable("translation_keys","mh_localization");
                 });

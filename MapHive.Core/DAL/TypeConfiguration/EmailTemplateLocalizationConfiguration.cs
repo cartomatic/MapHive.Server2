@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 
 using Microsoft.EntityFrameworkCore;
@@ -29,10 +30,10 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
 
             builder.HasIndex(t => t.ApplicationIdentifier)
-                .HasName($"idx_app_identifier_{nameof(EmailTemplateLocalization).ToLower()}");
+                .HasName($"idx_{nameof(EmailTemplateLocalization).ToColumnName()}_app_identifier");
 
             builder.HasIndex(t => new { ApplicationName = t.ApplicationIdentifier, t.Identifier }) //this should create a unique composite field idx!
-                .HasName($"uq_app_name_translation_identifier_{nameof(EmailTemplateLocalization).ToLower()}")
+                .HasName($"idx_{nameof(EmailTemplateLocalization).ToColumnName()}_uq_app_name_translation_identifier")
                 .IsUnique();
         }
     }

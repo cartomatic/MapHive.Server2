@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(p => p.IsAccountVerified).HasColumnName("is_account_verified");
 
             builder.HasIndex(p => p.Email)
-                .HasName($"uq_email_{typeof(TEntity).Name.ToLower()}")
+                .HasName($"idx_{typeof(TEntity).Name.ToColumnName()}_uq_email")
                 .IsUnique();
         }
 

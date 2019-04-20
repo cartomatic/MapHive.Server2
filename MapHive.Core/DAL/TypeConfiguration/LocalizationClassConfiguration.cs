@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Ignore(p => p.TranslationKeys);
 
             builder.HasIndex(t => new { t.ApplicationName, t.ClassName }) //this should create a unique composite field idx!
-                .HasName($"uq_app_name_class_name_{nameof(LocalizationClass).ToLower()}")
+                .HasName($"idx_{nameof(LocalizationClass).ToColumnName()}_uq_app_name_class_name")
                 .IsUnique();
         }
     }

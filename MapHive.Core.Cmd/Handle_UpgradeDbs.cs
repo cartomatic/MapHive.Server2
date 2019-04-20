@@ -43,7 +43,7 @@ namespace MapHive.Core.Cmd
 
             if (RemoteMode)
             {
-                ConsoleEx.WriteLine($"{nameof(Handle_SetUpDb)} works only in direct db mode, skipping!", ConsoleColor.DarkGray);
+                ConsoleEx.WriteLine($"{nameof(Handle_UpgradeDbs)} works only in direct db mode, skipping!", ConsoleColor.DarkGray);
                 Console.WriteLine();
                 return;
             }

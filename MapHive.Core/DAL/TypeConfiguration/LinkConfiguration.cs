@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 
 using Microsoft.EntityFrameworkCore;
@@ -32,16 +33,16 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
 
             builder.HasIndex(t => t.ParentUuid)
-                .HasName($"idx_parent_uuid_{nameof(Link).ToLower()}");
+                .HasName($"idx_{nameof(Link).ToColumnName()}_parent_uuid");
 
             builder.HasIndex(t => t.ChildUuid)
-                .HasName($"idx_child_uuid_{nameof(Link).ToLower()}");
+                .HasName($"idx_{nameof(Link).ToColumnName()}_child_uuid");
 
             builder.HasIndex(t => t.ParentTypeUuid)
-                .HasName($"idx_parent_type_uuid_{nameof(Link).ToLower()}");
+                .HasName($"idx_{nameof(Link).ToColumnName()}_parent_type_uuid");
 
             builder.HasIndex(t => t.ChildTypeUuid)
-                .HasName($"idx_child_type_uuid_{nameof(Link).ToLower()}");
+                .HasName($"idx_{nameof(Link).ToColumnName()}_child_type_uuid");
         }
     }
 }

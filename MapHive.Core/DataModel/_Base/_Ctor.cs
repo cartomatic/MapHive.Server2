@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.JsonSerializableObjects;
 
 namespace MapHive.Core.DataModel
 {
     public abstract partial class Base : IBase, IValidate
     {
+        /// <inheritdoc />
         /// <summary>
         /// Type identifier - used to establish links between objects. not saved in a database;
         /// declared via class constructor.
@@ -31,6 +33,8 @@ namespace MapHive.Core.DataModel
         {
             if(TypeUuid == default (Guid))
                 throw new Exception($"When deriving from {nameof(MapHive)}.{nameof(MapHive.Core)}.{nameof(MapHive.Core.DataModel)}.{nameof(MapHive.Core.DataModel.Base)} make sure to provide a unique type identifier! A model causing problems: {this.GetType()}");
+
+            CustomData = new SerializableDictionaryOfObject();
         }
     }
 }

@@ -25,6 +25,7 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
                     application_identifier = table.Column<string>(nullable: true),
@@ -48,6 +49,7 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
                     lang_code = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
@@ -69,6 +71,7 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
                     application_name = table.Column<string>(nullable: true),
                     class_name = table.Column<string>(nullable: true),
                     inherited_class_name = table.Column<string>(nullable: true)
@@ -89,6 +92,7 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
                     localization_class_uuid = table.Column<Guid>(nullable: false),
                     key = table.Column<string>(nullable: true),
                     translations = table.Column<string>(nullable: true)
@@ -109,6 +113,7 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
                     short_name = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
@@ -171,6 +176,7 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
                     organization_id = table.Column<Guid>(nullable: false),
                     identifier = table.Column<string>(nullable: true),
                     provider = table.Column<int>(nullable: false),
@@ -200,6 +206,7 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
                     slug = table.Column<string>(nullable: true),
                     display_name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
@@ -219,6 +226,30 @@ namespace MapHive.Core.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "resources",
+                schema: "mh_meta",
+                columns: table => new
+                {
+                    uuid = table.Column<Guid>(nullable: false),
+                    created_by = table.Column<Guid>(nullable: true),
+                    last_modified_by = table.Column<Guid>(nullable: true),
+                    create_date_utc = table.Column<DateTime>(nullable: true),
+                    modify_date_utc = table.Column<DateTime>(nullable: true),
+                    end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
+                    owner_id = table.Column<Guid>(nullable: true),
+                    owner_type_id = table.Column<Guid>(nullable: true),
+                    identifier = table.Column<string>(nullable: true),
+                    original_file_name = table.Column<string>(nullable: true),
+                    mime = table.Column<string>(nullable: true),
+                    data = table.Column<byte[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_resources", x => x.uuid);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "roles",
                 schema: "mh_meta",
                 columns: table => new
@@ -229,6 +260,7 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
                     identifier = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
@@ -250,6 +282,7 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true)
                 },
@@ -269,6 +302,7 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
                     organization_id = table.Column<Guid>(nullable: true),
@@ -293,9 +327,10 @@ namespace MapHive.Core.DAL.Migrations
                     create_date_utc = table.Column<DateTime>(nullable: true),
                     modify_date_utc = table.Column<DateTime>(nullable: true),
                     end_date_utc = table.Column<DateTime>(nullable: true),
+                    custom_data = table.Column<string>(nullable: true),
+                    email = table.Column<string>(nullable: true),
                     is_account_closed = table.Column<bool>(nullable: false),
                     is_account_verified = table.Column<bool>(nullable: false),
-                    email = table.Column<string>(nullable: true),
                     forename = table.Column<string>(nullable: true),
                     surname = table.Column<string>(nullable: true),
                     contact_phone = table.Column<string>(nullable: true),
@@ -305,7 +340,7 @@ namespace MapHive.Core.DAL.Migrations
                     department = table.Column<string>(nullable: true),
                     location = table.Column<string>(nullable: true),
                     gravatar_email = table.Column<string>(nullable: true),
-                    profile_picture_id = table.Column<Guid>(nullable: true),
+                    profile_picture = table.Column<string>(nullable: true),
                     is_org_user = table.Column<bool>(nullable: false),
                     parent_org_id = table.Column<Guid>(nullable: true),
                     visible_in_catalogue = table.Column<bool>(nullable: false),
@@ -317,159 +352,183 @@ namespace MapHive.Core.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "idx_app_identifier_emailtemplatelocalization",
+                name: "idx_email_template_localization_app_identifier",
                 schema: "mh_localization",
                 table: "email_templates",
                 column: "application_identifier");
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_emailtemplatelocalization",
+                name: "idx_email_template_localization_create_date",
                 schema: "mh_localization",
                 table: "email_templates",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "uq_app_name_translation_identifier_emailtemplatelocalization",
+                name: "idx_email_template_localization_uq_app_name_translation_identifier",
                 schema: "mh_localization",
                 table: "email_templates",
                 columns: new[] { "application_identifier", "identifier" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_lang",
+                name: "idx_lang_create_date",
                 schema: "mh_localization",
                 table: "langs",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_localizationclass",
+                name: "idx_localization_class_create_date",
                 schema: "mh_localization",
                 table: "localization_classes",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "uq_app_name_class_name_localizationclass",
+                name: "idx_localization_class_uq_app_name_class_name",
                 schema: "mh_localization",
                 table: "localization_classes",
                 columns: new[] { "application_name", "class_name" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_translationkey",
+                name: "idx_translation_key_create_date",
                 schema: "mh_localization",
                 table: "translation_keys",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "uq_localization_class_translation_key_translationkey",
+                name: "idx_translation_key_uq_localization_class_translation_key",
                 schema: "mh_localization",
                 table: "translation_keys",
                 columns: new[] { "localization_class_uuid", "key" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_application",
+                name: "idx_application_create_date",
                 schema: "mh_meta",
                 table: "applications",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "uq_short_name_application",
+                name: "idx_application_uq_short_name",
                 schema: "mh_meta",
                 table: "applications",
                 column: "short_name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_child_type_uuid_link",
+                name: "idx_link_child_type_uuid",
                 schema: "mh_meta",
                 table: "links",
                 column: "child_type_uuid");
 
             migrationBuilder.CreateIndex(
-                name: "idx_child_uuid_link",
+                name: "idx_link_child_uuid",
                 schema: "mh_meta",
                 table: "links",
                 column: "child_uuid");
 
             migrationBuilder.CreateIndex(
-                name: "idx_parent_type_uuid_link",
+                name: "idx_link_parent_type_uuid",
                 schema: "mh_meta",
                 table: "links",
                 column: "parent_type_uuid");
 
             migrationBuilder.CreateIndex(
-                name: "idx_parent_uuid_link",
+                name: "idx_link_parent_uuid",
                 schema: "mh_meta",
                 table: "links",
                 column: "parent_uuid");
 
             migrationBuilder.CreateIndex(
-                name: "uq_name_objecttype",
+                name: "idx_object_type_uq_name",
                 schema: "mh_meta",
                 table: "object_types",
                 column: "name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_organizationdatabase",
+                name: "idx_organization_database_create_date",
                 schema: "mh_meta",
                 table: "organization_databases",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "uq_org_uuid_identifier_organizationdatabase",
+                name: "idx_organization_database_uq_org_uuid_identifier",
                 schema: "mh_meta",
                 table: "organization_databases",
                 columns: new[] { "organization_id", "identifier" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_organization",
+                name: "idx_organization_create_date",
                 schema: "mh_meta",
                 table: "organizations",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "uq_slug_organization",
+                name: "idx_organization_uq_slug",
                 schema: "mh_meta",
                 table: "organizations",
                 column: "slug",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_role",
+                name: "idx_resource_create_date",
+                schema: "mh_meta",
+                table: "resources",
+                column: "create_date_utc",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "idx_resource_owner_id",
+                schema: "mh_meta",
+                table: "resources",
+                column: "owner_id");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_role_create_date",
                 schema: "mh_meta",
                 table: "roles",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_team",
+                name: "idx_team_create_date",
                 schema: "mh_meta",
                 table: "teams",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_token",
+                name: "idx_token_create_date",
                 schema: "mh_meta",
                 table: "tokens",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "idx_create_date_maphiveuser",
+                name: "idx_map_hive_user_create_date",
                 schema: "mh_meta",
                 table: "users",
-                column: "create_date_utc");
+                column: "create_date_utc",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "uq_email_maphiveuser",
+                name: "idx_map_hive_user_uq_email",
                 schema: "mh_meta",
                 table: "users",
                 column: "email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "uq_slug_maphiveuser",
+                name: "idx_map_hive_user_uq_slug",
                 schema: "mh_meta",
                 table: "users",
                 column: "slug",
@@ -512,6 +571,10 @@ namespace MapHive.Core.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "organizations",
+                schema: "mh_meta");
+
+            migrationBuilder.DropTable(
+                name: "resources",
                 schema: "mh_meta");
 
             migrationBuilder.DropTable(

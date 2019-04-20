@@ -1,4 +1,5 @@
-﻿using MapHive.Core.DataModel;
+﻿using Cartomatic.Utils.Ef;
+using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,7 +19,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(p => p.Data).HasColumnName("data");
 
             builder.HasIndex(p => p.OwnerId)
-                .HasName($"idx_owner_id_{nameof(Resource).ToLower()}");
+                .HasName($"idx_{nameof(Resource).ToColumnName()}_owner_id");
         }
     }
 }

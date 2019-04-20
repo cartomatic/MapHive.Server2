@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +38,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Ignore(p => p.OrgUserAppAccessCredentials);
 
             builder.HasIndex(p => p.ShortName)
-                .HasName($"uq_short_name_{nameof(Application).ToLower()}")
+                .HasName($"idx_{nameof(Application).ToColumnName()}_uq_short_name")
                 .IsUnique();
         }
     }

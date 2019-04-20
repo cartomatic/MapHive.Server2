@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 
 using Microsoft.EntityFrameworkCore;
@@ -45,12 +46,17 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(p => p.ModifyDateUtc).HasColumnName("modify_date_utc");
             builder.Property(p => p.EndDateUtc).HasColumnName("end_date_utc");
 
+            builder.Ignore(p => p.CustomData);
+            builder.Property(p => p.CustomDataSerialized).HasColumnName("custom_data");
+
+
             builder.Ignore(p => p.TypeUuid);
             builder.Ignore(p => p.Links);
             builder.Ignore(p => p.LinkData);
 
             builder.HasIndex(p => p.CreateDateUtc)
-                .HasName($"idx_create_date_{entityName.ToLower()}");
+                .HasName($"idx_{entityName.ToColumnName()}_create_date")
+                .IsUnique();
         }
 
     }
