@@ -21,7 +21,8 @@ namespace MapHive.Core.Api
             ApiTitle = "MapHive.Api.Core",
             UseGitVersion = true,
             AllowApiTokenAccess = true,
-            UsesIdentityUserManagerUtils = true
+            UsesIdentityUserManagerUtils = true,
+            EnableCompression = true
         };
 
         /// <summary>

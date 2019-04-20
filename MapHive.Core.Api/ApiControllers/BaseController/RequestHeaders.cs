@@ -52,9 +52,14 @@ namespace MapHive.Core.Api.ApiControllers
                 if (hdr.Key.ToLower() == "host")
                     continue;
 
+                //ignore content type as it may have been compressed on input
+                if (hdr.Key.ToLower() == "content-type")
+                    continue;
+                //TODO-support re-compressing content.
+
                 //assume that custom headers overwrite whatever are the incoming headers
                 //this is done outside of this method
-                if(customHdrs?.ContainsKey(hdr.Key) == true)
+                if (customHdrs?.ContainsKey(hdr.Key) == true)
                     continue;
 
                 //should mh headers be transferred

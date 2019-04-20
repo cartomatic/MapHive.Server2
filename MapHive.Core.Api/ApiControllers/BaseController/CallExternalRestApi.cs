@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using BrotliSharpLib;
+using Cartomatic.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json;
@@ -65,12 +69,15 @@ namespace MapHive.Core.Api.ApiControllers
                     contentType = "application/octet-stream";
                 }
             }
-            
+
+            //return new ByteArrayContent();
+            var content = ExtractResponseContentAsString(apiResponse);
             return new ObjectResult(
-                string.IsNullOrEmpty(apiResponse.Content)
+                
+                string.IsNullOrEmpty(content)
                     ? (object)(apiResponse.RawBytes ?? new byte[0])
                     : contentType == "application/json"
-                        ? !string.IsNullOrEmpty(apiResponse.Content) ? JsonConvert.DeserializeObject(apiResponse.Content) : null //so nicely serialize object is returned
+                        ? !string.IsNullOrEmpty(content) ? JsonConvert.DeserializeObject(content) : null //so nicely serialize object is returned
                         : contentType
             )
             {
@@ -132,7 +139,7 @@ namespace MapHive.Core.Api.ApiControllers
                 //use custom serializer on output! This is important as the newtonsoft's json stuff is used for the object serialization!
                 request.RequestFormat = DataFormat.Json;
                 request.JsonSerializer = new Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer();
-                request.AddBody(data);
+                request.AddJsonBody(data);
             }
 
 
@@ -182,7 +189,7 @@ namespace MapHive.Core.Api.ApiControllers
             var resp = await RestApiCall(url, route, method, queryParams, data, authToken, customHeaders, transferAuthHdr, transferMhHdrs, transferRequestHdrs);
             if (resp.StatusCode == HttpStatusCode.OK)
             {
-                output = (TOut)Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content, typeof(TOut));
+                output = (TOut)Newtonsoft.Json.JsonConvert.DeserializeObject(ExtractResponseContentAsString(resp), typeof(TOut));
             }
 
             return new ApiCallOutput<TOut>
@@ -190,6 +197,32 @@ namespace MapHive.Core.Api.ApiControllers
                 Output = output,
                 Response = resp
             };
+        }
+
+        /// <summary>
+        /// Extracts response content as string
+        /// </summary>
+        /// <param name="resp"></param>
+        /// <returns></returns>
+        protected internal virtual string ExtractResponseContentAsString(IRestResponse resp)
+        {
+            var content = string.Empty;
+
+            if (resp.ContentEncoding == "br")
+            {
+                using (var ms = new MemoryStream(resp.RawBytes))
+                using (var bs = new BrotliStream(ms, CompressionMode.Decompress))
+                using (var sr = new StreamReader(bs))
+                {
+                    content = sr.ReadToEnd();
+                }
+            }
+            else
+            {
+                content = resp.Content;
+            }
+
+            return content;
         }
     }
 }
