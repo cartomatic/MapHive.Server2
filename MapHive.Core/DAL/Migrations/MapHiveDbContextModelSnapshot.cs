@@ -87,7 +87,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_applications");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_application_create_date");
 
                     b.HasIndex("ShortName")
@@ -146,7 +145,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("idx_email_template_localization_app_identifier");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_email_template_localization_create_date");
 
                     b.HasIndex("ApplicationIdentifier", "Identifier")
@@ -196,7 +194,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_langs");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_lang_create_date");
 
                     b.ToTable("langs","mh_localization");
@@ -280,7 +277,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_localization_classes");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_localization_class_create_date");
 
                     b.HasIndex("ApplicationName", "ClassName")
@@ -369,7 +365,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_users");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_map_hive_user_create_date");
 
                     b.HasIndex("Email")
@@ -465,7 +460,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_organizations");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_organization_create_date");
 
                     b.HasIndex("Slug")
@@ -538,7 +532,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_organization_databases");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_organization_database_create_date");
 
                     b.HasIndex("OrganizationId", "Identifier")
@@ -594,7 +587,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_resources");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_resource_create_date");
 
                     b.HasIndex("OwnerId")
@@ -643,7 +635,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_roles");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_role_create_date");
 
                     b.ToTable("roles");
@@ -683,7 +674,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_teams");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_team_create_date");
 
                     b.ToTable("teams","mh_meta");
@@ -738,7 +728,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_tokens");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_token_create_date");
 
                     b.ToTable("tokens","mh_meta");
@@ -781,7 +770,6 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("pk_translation_keys");
 
                     b.HasIndex("CreateDateUtc")
-                        .IsUnique()
                         .HasName("idx_translation_key_create_date");
 
                     b.HasIndex("LocalizationClassUuid", "Key")

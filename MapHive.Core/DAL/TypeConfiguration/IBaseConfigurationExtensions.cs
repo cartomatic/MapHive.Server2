@@ -55,8 +55,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Ignore(p => p.LinkData);
 
             builder.HasIndex(p => p.CreateDateUtc)
-                .HasName($"idx_{entityName.ToColumnName()}_create_date")
-                .IsUnique();
+                .HasName($"idx_{entityName.ToColumnName()}_create_date");
         }
 
     }

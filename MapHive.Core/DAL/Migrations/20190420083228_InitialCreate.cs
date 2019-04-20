@@ -361,8 +361,7 @@ namespace MapHive.Core.DAL.Migrations
                 name: "idx_email_template_localization_create_date",
                 schema: "mh_localization",
                 table: "email_templates",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_email_template_localization_uq_app_name_translation_identifier",
@@ -375,15 +374,13 @@ namespace MapHive.Core.DAL.Migrations
                 name: "idx_lang_create_date",
                 schema: "mh_localization",
                 table: "langs",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_localization_class_create_date",
                 schema: "mh_localization",
                 table: "localization_classes",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_localization_class_uq_app_name_class_name",
@@ -396,8 +393,7 @@ namespace MapHive.Core.DAL.Migrations
                 name: "idx_translation_key_create_date",
                 schema: "mh_localization",
                 table: "translation_keys",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_translation_key_uq_localization_class_translation_key",
@@ -410,8 +406,7 @@ namespace MapHive.Core.DAL.Migrations
                 name: "idx_application_create_date",
                 schema: "mh_meta",
                 table: "applications",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_application_uq_short_name",
@@ -455,8 +450,7 @@ namespace MapHive.Core.DAL.Migrations
                 name: "idx_organization_database_create_date",
                 schema: "mh_meta",
                 table: "organization_databases",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_organization_database_uq_org_uuid_identifier",
@@ -469,8 +463,7 @@ namespace MapHive.Core.DAL.Migrations
                 name: "idx_organization_create_date",
                 schema: "mh_meta",
                 table: "organizations",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_organization_uq_slug",
@@ -483,8 +476,7 @@ namespace MapHive.Core.DAL.Migrations
                 name: "idx_resource_create_date",
                 schema: "mh_meta",
                 table: "resources",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_resource_owner_id",
@@ -496,29 +488,25 @@ namespace MapHive.Core.DAL.Migrations
                 name: "idx_role_create_date",
                 schema: "mh_meta",
                 table: "roles",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_team_create_date",
                 schema: "mh_meta",
                 table: "teams",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_token_create_date",
                 schema: "mh_meta",
                 table: "tokens",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_map_hive_user_create_date",
                 schema: "mh_meta",
                 table: "users",
-                column: "create_date_utc",
-                unique: true);
+                column: "create_date_utc");
 
             migrationBuilder.CreateIndex(
                 name: "idx_map_hive_user_uq_email",
