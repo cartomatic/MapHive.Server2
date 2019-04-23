@@ -76,7 +76,7 @@ namespace MapHive.Core.Api.ApiControllers
             string sort = null, string filter = null, int start = 0, int limit = 25
         )
         {
-            return (await CoreApiGetRawAsync<TOut>(route, sort, filter, start, limit)).Output;
+            return (await CoreApiGetWithRawOutputAsync<TOut>(route, sort, filter, start, limit)).Output;
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="start"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiGetRawAsync<TOut>(
+        protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiGetWithRawOutputAsync<TOut>(
             string route,
             string sort = null, string filter = null, int start = 0, int limit = 25
         )
@@ -207,12 +207,26 @@ namespace MapHive.Core.Api.ApiControllers
             Guid? uuid = null
         )
         {
+            return (await CoreApiGetWithRawOutputAsync<TOut>(route, uuid)).Output;
+        }
+
+        /// <summary>
+        /// Performs a standard GetAsync (uuid) against a maphive core api; automatically deserializes the output; returns a complete ApiCallOutput object
+        /// </summary>
+        /// <typeparam name="TOut"></typeparam>
+        /// <param name="route"></param>
+        /// <param name="uuid"></param>
+        /// <returns></returns>
+        protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiGetWithRawOutputAsync<TOut>(
+            string route,
+            Guid? uuid = null)
+        {
             var apiResponse = await CoreApiCall<TOut>(
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.GET
             );
 
-            return apiResponse.Output;
+            return apiResponse;
         }
 
         /// <summary>

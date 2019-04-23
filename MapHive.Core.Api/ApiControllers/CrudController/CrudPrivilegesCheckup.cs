@@ -124,6 +124,7 @@ namespace MapHive.Core.Api.ApiControllers
             if(!userId.HasValue)
                 return new Role[0];
 
+            //TODO / FIXME - make it possible to specify the model used for retrieving roles. roles can be saved and linked in apis too, not only in maphive core; therefore need to be able to specify the parent model too! This also applies to identifier...
             return await new MapHiveUser
             {
                 Uuid = userId.Value

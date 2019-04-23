@@ -53,7 +53,33 @@ namespace MapHive.Core.Api.ApiControllers
                 data: obj
             );
 
-            return apiResponse.Output;
+            return (await CoreApiPostWithRawOutputAsync<TOut>(
+                route,
+                obj: obj
+            )).Output;
+        }
+
+        /// <summary>
+        /// Performs a standard PostAsync (obj) against a maphive core api; automatically deserializes the output; returns a complete ApiCallOutput object
+        /// </summary>
+        /// <typeparam name="TOut"></typeparam>
+        /// <param name="route"></param>
+        /// <param name="queryParams"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiPostWithRawOutputAsync<TOut>(
+            string route,
+            object obj
+        )
+        {
+            var apiResponse = await CoreApiCall<TOut>(
+                route,
+                Method.POST,
+                queryParams: null,
+                data: obj
+            );
+
+            return apiResponse;
         }
 
         /// <summary>

@@ -51,6 +51,23 @@ namespace MapHive.Core.Api.ApiControllers
             Guid? uuid = null
         )
         {
+            return (await CoreApiPutWithRawOutputAsync<TOut>(route, obj, uuid)).Output;
+        }
+
+        /// <summary>
+        /// Performs a standard PutAsync (obj, uuid) against a maphive core api; automatically deserializes the output; returns a full ApiCallOutput object
+        /// </summary>
+        /// <typeparam name="TOut"></typeparam>
+        /// <param name="route"></param>
+        /// <param name="obj"></param>
+        /// <param name="uuid"></param>
+        /// <returns></returns>
+        protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiPutWithRawOutputAsync<TOut>(
+            string route,
+            object obj,
+            Guid? uuid = null
+        )
+        {
             var apiResponse = await CoreApiCall<TOut>(
                 uuid.HasValue ? $"{route}/{uuid}" : route,
                 Method.PUT,
@@ -58,7 +75,7 @@ namespace MapHive.Core.Api.ApiControllers
                 data: obj
             );
 
-            return apiResponse.Output;
+            return apiResponse;
         }
 
         /// <summary>
