@@ -39,6 +39,16 @@ namespace MapHive.Core.Api.ApiControllers
         }
 
         /// <summary>
+        /// Whether or not user is self
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        protected virtual bool UserIsSelf(Guid? userId)
+        {
+            return userId == Cartomatic.Utils.Identity.GetUserGuid();
+        }
+
+        /// <summary>
         /// Whether or not request can perform a read action
         /// </summary>
         /// <returns></returns>

@@ -123,6 +123,11 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> PostAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user, string applicationContext = null)
         {
+            //only owners or admins should be allowed to perform this action
+            var callerId = Cartomatic.Utils.Identity.GetUserGuid();
+            if (!(UserIsOrgOwner(callerId) || UserIsOrgAdmin(callerId)))
+                return NotAllowed();
+
             //this is an org user, so needs to be flagged as such!
             user.IsOrgUser = true;
             user.ParentOrganizationId = organizationuuid;
@@ -179,6 +184,11 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> LinkAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user)
         {
+            //only owners or admins should be allowed to perform this action
+            var callerId = Cartomatic.Utils.Identity.GetUserGuid();
+            if (!(UserIsOrgOwner(callerId) || UserIsOrgAdmin(callerId)))
+                return NotAllowed();
+
             try
             {
                 //note:
@@ -216,16 +226,31 @@ namespace MapHive.Api.Core.Controllers
                 //org users and org roles are modified against mh meta db!
                 //This is where some env core objects are kept
 
+
+                //can modify user only if org admin or owner or self
+                var callerId = Cartomatic.Utils.Identity.GetUserGuid();
+                if (!(UserIsOrgOwner(callerId) || UserIsOrgAdmin(callerId) || UserIsSelf(uuid)))
+                    return NotAllowed();
+
+
                 //make sure user 'belongs' to an org
                 if (!await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
                     return BadRequest("Not an org user.");
 
+                
+
+                //note: perhaps should disallow editing some properties such as parentOrgId, etc. 
                 var entity = await user.UpdateAsync(GetDefaultDbContext(), uuid);
 
                 if (entity != null)
                 {
-                    //once the user has been updated, need to update its role within an org too
-                    await this.OrganizationContext.ChangeOrganizationUserRoleAsync(GetDefaultDbContext(), user);
+                    //once the user has been updated, need to update his role within an org too
+                    //making sure though not to change own roles.
+                    //this is so only other users with enough credentials are allowed to modify stuff such as roles
+                    if (!UserIsSelf(uuid))
+                    {
+                        await this.OrganizationContext.ChangeOrganizationUserRoleAsync(GetDefaultDbContext(), user);
+                    }
 
                     return Ok(entity);
                 }
@@ -256,10 +281,17 @@ namespace MapHive.Api.Core.Controllers
         {
             try
             {
+                //only owners or admins should be allowed to perform this action
+                var callerId = Cartomatic.Utils.Identity.GetUserGuid();
+                if (!(UserIsOrgOwner(callerId) || UserIsOrgAdmin(callerId)))
+                    return NotAllowed();
+
+
                 //make sure user 'belongs' to an org
                 if (!await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
                     return BadRequest("Not an org user.");
 
+                
                 //just need to update its role within an org too
                 user.Uuid = uuid; //in put no uuid in the model!
                 await this.OrganizationContext.ChangeOrganizationUserRoleAsync(GetDefaultDbContext(), user);
@@ -287,6 +319,11 @@ namespace MapHive.Api.Core.Controllers
         {
             try
             {
+                //only owners or admins should be allowed to perform this action
+                var callerId = Cartomatic.Utils.Identity.GetUserGuid();
+                if (!(UserIsOrgOwner(callerId) || UserIsOrgAdmin(callerId)))
+                    return NotAllowed();
+
                 //note:
                 //org users and org roles are modified against mh meta db!
                 //This is where some env core objects are kept
@@ -341,6 +378,17 @@ namespace MapHive.Api.Core.Controllers
                 //org users and org roles are modified against mh meta db!
                 //This is where some env core objects are kept
 
+
+                //only owners or admins should be allowed to perform this action
+                var callerId = Cartomatic.Utils.Identity.GetUserGuid();
+                var callerIsOrgOwner = UserIsOrgOwner(callerId);
+                var callerIsOrgAdmin = UserIsOrgAdmin(callerId);
+
+                //only owners and admins should be able to delete users!
+                if (!(callerIsOrgOwner || callerIsOrgAdmin))
+                    return NotAllowed();
+
+
                 //make sure user 'belongs' to an org
                 if (!await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
                     return BadRequest("Not an org user.");
@@ -354,14 +402,7 @@ namespace MapHive.Api.Core.Controllers
                 if (isOrgOwner)
                     return BadRequest("Cannot remove org owner.");
 
-                var callerId = Cartomatic.Utils.Identity.GetUserGuid().Value;
-
-                var callerIsOrgOwner = await OrganizationContext.IsOrgOwnerAsync(GetDefaultDbContext(), callerId);
-                var callerIsOrgAdmin = await OrganizationContext.IsOrgAdminAsync(GetDefaultDbContext(), callerId);
-
-                //only owners and admins should be able to delete users!
-                if (!(callerIsOrgOwner || callerIsOrgAdmin))
-                    return NotAllowed();
+                
 
                 var user = await Base.ReadObjAsync<MapHiveUser>(GetDefaultDbContext(), uuid);
 
@@ -399,6 +440,17 @@ namespace MapHive.Api.Core.Controllers
                 //note:
                 //org users and org roles are modified against mh meta db!
                 //This is where some env core objects are kept
+                
+
+                //only owners or admins should be allowed to perform this action
+                var callerId = Cartomatic.Utils.Identity.GetUserGuid();
+                var callerIsOrgOwner = UserIsOrgOwner(callerId);
+                var callerIsOrgAdmin = UserIsOrgAdmin(callerId);
+
+                //only owners and admins should be able to delete users!
+                if (!(callerIsOrgOwner || callerIsOrgAdmin))
+                    return NotAllowed();
+
 
                 //make sure user 'belongs' to an org
                 if (!await OrganizationContext.IsOrgMemberAsync(GetDefaultDbContext(), uuid))
@@ -413,15 +465,6 @@ namespace MapHive.Api.Core.Controllers
                 if (isOrgOwner)
                     return BadRequest("Cannot remove org owner.");
 
-
-                var callerId = Cartomatic.Utils.Identity.GetUserGuid().Value;
-
-                var callerIsOrgOwner = await OrganizationContext.IsOrgOwnerAsync(GetDefaultDbContext(), callerId);
-                var callerIsOrgAdmin = await OrganizationContext.IsOrgAdminAsync(GetDefaultDbContext(), callerId);
-
-                //only owners and admins should be able to delete users!
-                if (!(callerIsOrgOwner || callerIsOrgAdmin))
-                    return NotAllowed();
 
                 var user = await Base.ReadObjAsync<MapHiveUser>(GetDefaultDbContext(), uuid);
 
