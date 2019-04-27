@@ -1,4 +1,5 @@
-﻿using Cartomatic.Utils.Email;
+﻿using System.Threading.Tasks;
+using Cartomatic.Utils.Email;
 using MapHive.Core.Api.StartupExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,13 +17,17 @@ namespace MapHive.Core.Api
         /// </summary>
         protected static ApiConfigurationSettings Settings => new ApiConfigurationSettings
         {
-            AppShortNames = "core-api,auth-api", //so far aurth api not split into a separate service
+            AppShortNames = "core-api,auth-api", //so far auth api not split into a separate service
             XmlCommentsPath = @"MapHive.Api.Core.xml",
             ApiTitle = "MapHive.Api.Core",
             UseGitVersion = true,
             AllowApiTokenAccess = true,
             UsesIdentityUserManagerUtils = true,
-            EnableCompression = true
+            EnableCompression = true,
+
+            //this will ensure the api migrates DB upon a very first call after deploy.
+            //this way, will not have to run cmd db setup when deploying to server
+            DbMigrator = MapHive.Core.DAL.DbMigrator.MapHiveMetaDbMigrator
         };
 
         /// <summary>
