@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MapHive.Core.DAL.Migrations
 {
     [DbContext(typeof(MapHiveDbContext))]
-    [Migration("20190420083228_InitialCreate")]
+    [Migration("20190427153150_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -323,6 +323,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<string>("Forename")
                         .HasColumnName("forename");
+
+                    b.Property<string>("FullName")
+                        .HasColumnName("full_name");
 
                     b.Property<string>("GravatarEmail")
                         .HasColumnName("gravatar_email");

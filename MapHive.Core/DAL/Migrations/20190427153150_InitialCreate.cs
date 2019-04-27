@@ -333,6 +333,7 @@ namespace MapHive.Core.DAL.Migrations
                     is_account_verified = table.Column<bool>(nullable: false),
                     forename = table.Column<string>(nullable: true),
                     surname = table.Column<string>(nullable: true),
+                    full_name = table.Column<string>(nullable: true),
                     contact_phone = table.Column<string>(nullable: true),
                     slug = table.Column<string>(nullable: true),
                     bio = table.Column<string>(nullable: true),

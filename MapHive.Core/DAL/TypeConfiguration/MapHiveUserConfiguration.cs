@@ -22,6 +22,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
 
             builder.Property(p => p.Forename).HasColumnName("forename");
             builder.Property(p => p.Surname).HasColumnName("surname");
+            builder.Property(p => p.FullName).HasColumnName("full_name");
             builder.Property(p => p.ContactPhone).HasColumnName("contact_phone");
             builder.Property(p => p.Slug).HasColumnName("slug");
             builder.Property(p => p.Bio).HasColumnName("bio");

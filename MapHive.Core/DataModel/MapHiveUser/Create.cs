@@ -25,6 +25,8 @@ namespace MapHive.Core.DataModel
 
             await HandleResources(dbCtx, Uuid);
 
+            FullName = this.GetFullUserName();
+
             var user = await base.CreateAsync<T>(dbCtx, emailSender, emailAccount, emailTemplate) as MapHiveUser;
 
             return (T)(Base)user;

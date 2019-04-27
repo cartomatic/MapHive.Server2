@@ -322,6 +322,9 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("Forename")
                         .HasColumnName("forename");
 
+                    b.Property<string>("FullName")
+                        .HasColumnName("full_name");
+
                     b.Property<string>("GravatarEmail")
                         .HasColumnName("gravatar_email");
 
