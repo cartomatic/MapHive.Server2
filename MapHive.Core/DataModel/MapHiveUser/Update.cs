@@ -19,7 +19,7 @@ namespace MapHive.Core.DataModel
         protected internal override async Task<T> UpdateAsync<T>(DbContext dbCtx, Guid uuid)
         {
             await HandleResources(dbCtx, Uuid);
-            FullName = this.GetFullUserName();
+            Fullname = this.GetFullUserName();
             return await base.UpdateAsync<T>(dbCtx, uuid);
         }
     }

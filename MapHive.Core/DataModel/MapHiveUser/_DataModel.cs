@@ -21,7 +21,7 @@ namespace MapHive.Core.DataModel
         /// <summary>
         /// redundant field with full user name, so can filter & sort on one field encapsulating both - user first name, last name or email
         /// </summary>
-        public string FullName { get; set; }
+        public string Fullname { get; set; }
 
         /// <summary>
         /// Contact phone
