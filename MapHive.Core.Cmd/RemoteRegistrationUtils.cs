@@ -404,21 +404,23 @@ namespace MapHive.Core.Cmd
 
             var output = default(TOut);
 
-#if DEBUG
             var debugUrl = client.BuildUri(request);
-#endif
 
+            
+            ConsoleEx.Write($"{method} @ {debugUrl}... ", ConsoleColor.DarkGray);
+            
             var resp = await client.ExecuteTaskAsync(request);
             if (resp.StatusCode == HttpStatusCode.OK)
             {
                 output = (TOut)Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content, typeof(TOut));
+                ConsoleEx.Write("OK", ConsoleColor.DarkGreen);
+                Console.WriteLine();
             }
             else
             {
-                var st = new StackTrace();
-
-                Console.WriteLine();
-                ConsoleEx.WriteErr($"{new StackTrace().GetFrame(1).GetMethod().Name}; HTTP Code: {resp.StatusCode}; ErrorMsg: {resp.ErrorMessage}");
+                //var st = new StackTrace();
+                //ConsoleEx.Write($"{new StackTrace().GetFrame(1).GetMethod().Name}; HTTP Code: {resp.StatusCode}; ErrorMsg: {resp.ErrorMessage}", ConsoleColor.DarkRed);
+                ConsoleEx.Write($"HTTP Code: {resp.StatusCode}; ErrorMsg: {(!string.IsNullOrEmpty(resp.ErrorMessage) ? $"{resp.ErrorMessage}{(!string.IsNullOrEmpty(resp.Content) ? $" ({resp.Content})" : string.Empty)}" : resp.Content)}", ConsoleColor.DarkRed);
                 Console.WriteLine();
             }
 

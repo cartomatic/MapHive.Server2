@@ -173,7 +173,7 @@ namespace MapHive.Core.Cmd
             }
 
             //and create an org
-            ConsoleEx.Write("Creating organization database and stuff... ", ConsoleColor.DarkYellow);
+            ConsoleEx.WriteLine("Creating organization database and stuff... ", ConsoleColor.DarkYellow);
 
             
 
@@ -215,7 +215,7 @@ namespace MapHive.Core.Cmd
             //accessed for the first time.
 
 
-            ConsoleEx.Write("Done" + Environment.NewLine, ConsoleColor.DarkGreen);
+            ConsoleEx.Write("Org stuff created!" + Environment.NewLine, ConsoleColor.DarkGreen);
 
             return true;
         }

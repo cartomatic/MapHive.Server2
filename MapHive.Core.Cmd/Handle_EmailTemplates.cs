@@ -48,9 +48,9 @@ namespace MapHive.Core.Cmd
         {
             if (RemoteMode)
             {
-                ConsoleEx.Write($"Registering email template: {string.Join(", ", ets.Select(x=>x.Identifier))}... ", ConsoleColor.DarkYellow);
+                ConsoleEx.WriteLine($"Registering email template: {string.Join(", ", ets.Select(x=>x.Identifier))}... ", ConsoleColor.DarkYellow);
                 await RegisterEmailTemplatesRemoteAsync(ets);
-                ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                ConsoleEx.WriteLine("Email templates registered!" + Environment.NewLine, ConsoleColor.DarkGreen);
             }
             else
             {

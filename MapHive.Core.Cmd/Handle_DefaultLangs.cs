@@ -47,9 +47,9 @@ namespace MapHive.Core.Cmd
         {
             if (RemoteMode)
             {
-                ConsoleEx.Write($"Registering langs: {string.Join(", ", langs.Select(l => l.LangCode))}... ", ConsoleColor.DarkYellow);
+                ConsoleEx.WriteLine($"Registering langs: {string.Join(", ", langs.Select(l => l.LangCode))}... ", ConsoleColor.DarkYellow);
                 await RegisterLangsRemoteAsync(langs.ToArray());
-                ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                ConsoleEx.Write("Langs registered!" + Environment.NewLine, ConsoleColor.DarkGreen);
             }
             else
             {

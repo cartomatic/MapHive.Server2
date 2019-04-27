@@ -135,8 +135,8 @@ namespace MapHive.Core.Cmd
 
             var apps = GetApps().Where(a => appsToAdd.Contains(a.ShortName));
 
-            ConsoleEx.Write(
-                $"Registering apps: {string.Join(",", apps.Select(a => a.ShortName))} with an org: {org.DisplayName} ({org.Slug})... ",
+            ConsoleEx.WriteLine(
+                $"Registering apps: {string.Join(", ", apps.Select(a => a.ShortName))} with an org: {org.DisplayName} ({org.Slug})... ",
                 ConsoleColor.DarkYellow);
 
             if (RemoteMode)
@@ -156,7 +156,7 @@ namespace MapHive.Core.Cmd
                 }
             }
 
-            ConsoleEx.WriteOk("Done!" + Environment.NewLine);
+            ConsoleEx.WriteOk($"{string.Join(", ", apps.Select(a => a.ShortName))} registered!" + Environment.NewLine);
         }
 
         /// <summary>
@@ -182,9 +182,9 @@ namespace MapHive.Core.Cmd
                         {
                             if (!await IsAppRegisteredRemoteAsync(app.ShortName) || reload)
                             {
-                                ConsoleEx.Write($"Registering {app.ShortName} app... ", ConsoleColor.DarkYellow);
+                                ConsoleEx.WriteLine($"Registering {app.ShortName} app... ", ConsoleColor.DarkYellow);
                                 await RegisterAppsRemoteAsync(app); //Note: backend does UPSERT already, no reload param is actually required
-                                ConsoleEx.Write("Done!" + Environment.NewLine, ConsoleColor.DarkGreen);
+                                ConsoleEx.WriteLine($"{app.ShortName} app registered!" + Environment.NewLine, ConsoleColor.DarkGreen);
                             }
                         }
                         else
@@ -213,7 +213,8 @@ namespace MapHive.Core.Cmd
                     }
                 }
 
-                ConsoleEx.WriteLine("Done!", ConsoleColor.DarkGreen);
+                ConsoleEx.WriteLine("App's presence verified!", ConsoleColor.DarkGreen);
+                Console.WriteLine();
 
                 await dbCtx.SaveChangesAsync();
             }
