@@ -64,6 +64,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredUpdate]
         public async Task<IActionResult> PutAsync([FromBody] MapHiveUser obj, [FromRoute] Guid uuid)
         {
             return await base.PutAsync(obj, uuid);

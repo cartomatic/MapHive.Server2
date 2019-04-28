@@ -114,6 +114,7 @@ namespace MapHive.Api.Core.Controllers
         [Route("bulksave")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredCreate]
         public async Task<IActionResult> BulkSaveAppLocalizations([FromBody] BulkSaveInput data)
         {
             try

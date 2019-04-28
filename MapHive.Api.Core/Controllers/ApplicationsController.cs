@@ -63,6 +63,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredUpdate]
         public async Task<IActionResult> PutAsync([FromBody] Application obj, [FromRoute] Guid uuid)
         {
             return await base.PutAsync(obj, uuid);
@@ -78,6 +79,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(Application), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredCreate]
         public async Task<IActionResult> PostAsync([FromBody] Application obj)
         {
             return await base.PostAsync(obj);
@@ -93,6 +95,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(Application), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredDestroy]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid uuid)
         {
             return await base.DeleteAsync(uuid);

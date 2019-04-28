@@ -122,6 +122,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredCreate]
         public async Task<IActionResult> PostAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user, string applicationContext = null, [FromQuery] EmailAccount ea = null)
         {
             //only owners or admins should be allowed to perform this action
@@ -186,6 +187,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredCreate]
         public async Task<IActionResult> LinkAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user)
         {
             //only owners or admins should be allowed to perform this action
@@ -222,6 +224,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredUpdate]
         public async Task<IActionResult> PutAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user, [FromRoute] Guid uuid)
         {
             try
@@ -281,6 +284,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredUpdate]
         public async Task<IActionResult> UpdateLinkAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user, [FromRoute] Guid uuid)
         {
             try
@@ -319,6 +323,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(MapHiveUser), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredDestroy]
         public async Task<IActionResult> UnLinkAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             try
@@ -374,6 +379,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredDestroy]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             try
@@ -437,6 +443,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredDestroy]
         public async Task<IActionResult> ForceDeleteAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             try
