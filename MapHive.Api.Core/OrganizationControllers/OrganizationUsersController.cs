@@ -114,6 +114,7 @@ namespace MapHive.Api.Core.Controllers
         /// <param name="organizationuuid"></param>
         /// <param name="user"></param>
         /// <param name="applicationContext">Application context to be used when sending out emails; when not provided, default emails are sent out; if no emails should be sent out simply provide a non-existent context</param>
+        /// <param name="ea">Email account details if need to send out emails using a custom account</param>
         /// <returns></returns>
         [HttpPost]
         [Route("{applicationContext?}")]
@@ -121,7 +122,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> PostAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user, string applicationContext = null)
+        public async Task<IActionResult> PostAsync([FromRoute] Guid organizationuuid, [FromBody] MapHiveUser user, string applicationContext = null, [FromQuery] EmailAccount ea = null)
         {
             //only owners or admins should be allowed to perform this action
             var callerId = Cartomatic.Utils.Identity.GetUserGuid();
@@ -142,13 +143,16 @@ namespace MapHive.Api.Core.Controllers
                     {"RedirectUrl", this.GetRequestSource(HttpContext).Split('#')[0]}
                 };
 
-                var email = await GetEmailStuffAsync("user_created", applicationContext);
+                var (emailAccount, emailTemplate) = await GetEmailStuffAsync("user_created", applicationContext);
+                //use custom email account if provided
+                if (ea != null)
+                    emailAccount = ea;
 
                 //note:
                 //org users and org roles are created against mh meta db!
                 //This is where some env core objects are kept
 
-                var createdUser = await MapHiveUser.CreateUserAccountAsync(GetDefaultDbContext(), user, EmailSender, email.emailAccount, email.emailTemplate?.Prepare(replacementData));
+                var createdUser = await MapHiveUser.CreateUserAccountAsync(GetDefaultDbContext(), user, EmailSender, emailAccount, emailTemplate?.Prepare(replacementData));
 
                 if (createdUser != null)
                 {

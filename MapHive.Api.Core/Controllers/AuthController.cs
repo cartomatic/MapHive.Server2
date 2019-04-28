@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Email;
+using IdentityServer4.Models;
 using MapHive.Core;
 using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.DataModel;
@@ -118,6 +119,7 @@ namespace MapHive.Api.Core.Controllers
         /// </summary>
         /// <param name="activationInput"></param>
         /// <param name="app"></param>
+        /// <param name="ea">Email account details if need to send out emails using a custom account</param>
         /// <returns></returns>
         [Route("accountactivation/{app?}")]
         [HttpPut]
@@ -125,7 +127,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(Auth.AccountActivationOutput), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(typeof(object), 500)]
-        public async Task<IActionResult> ActivateAccountAsync([FromBody] AccountActivationInput activationInput, [FromRoute] string app = null)
+        public async Task<IActionResult> ActivateAccountAsync([FromBody] AccountActivationInput activationInput, [FromRoute] string app = null, [FromQuery] EmailAccount ea = null)
         {
             try
             {
@@ -152,6 +154,10 @@ namespace MapHive.Api.Core.Controllers
                 {
 
                     var (emailAccount, emailTemplate) = await GetEmailStuffAsync("activate_account_stale", app);
+
+                    //use custom email account if provided
+                    if (ea != null)
+                        emailAccount = ea;
 
                     //prepare the email template tokens
                     var tokens = new Dictionary<string, object>
@@ -195,13 +201,14 @@ namespace MapHive.Api.Core.Controllers
         /// </summary>
         /// <param name="uuid"></param>
         /// <param name="app">application (app short name) to use for the email localization</param>
+        /// <param name="ea">Email account details if need to send out emails using a custom account</param>
         /// <returns></returns>
         [HttpPost]
         [Route("resendactivation/{uuid}/{app?}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(typeof(object), 500)]
-        public async Task<IActionResult> ResendActivationLinkAsync([FromRoute] Guid uuid, [FromRoute] string app = null)
+        public async Task<IActionResult> ResendActivationLinkAsync([FromRoute] Guid uuid, [FromRoute] string app = null, [FromQuery] EmailAccount ea = null)
         {
             try
             {
@@ -216,6 +223,10 @@ namespace MapHive.Api.Core.Controllers
 
                 //get the request lang without re-setting a cookie. will be used to get a proper email template later
                 var (emailAccount, emailTemplate) = await GetEmailStuffAsync("user_created", app);
+
+                //use custom email account if provided
+                if (ea != null)
+                    emailAccount = ea;
 
                 var initialEmailData = new Dictionary<string, object>
                 {
@@ -256,12 +267,13 @@ namespace MapHive.Api.Core.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <param name="app">Application context to send appropriately translated emails</param>
+        /// <param name="ea">Email account details if need to send out emails using a custom account</param>
         /// <returns></returns>
         [Route("passresetrequest/{app?}")]
         [HttpPut]
         [AllowAnonymous]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> PassResetRequestAsync([FromBody] PassResetRequestInput input, [FromRoute] string app = null)
+        public async Task<IActionResult> PassResetRequestAsync([FromBody] PassResetRequestInput input, [FromRoute] string app = null, [FromQuery] EmailAccount ea = null)
         {
             //Note: basically this is a pass reset request, so NO need to inform a potential attacker about exceptions - always return ok!
 
@@ -274,6 +286,10 @@ namespace MapHive.Api.Core.Controllers
 
                 
                 var (emailAccount, emailTemplate) = await GetEmailStuffAsync("pass_reset_request", app);
+
+                //use custom email account if provided
+                if (ea != null)
+                    emailAccount = ea;
 
                 //basically need to send an email the verification key has expired and send a new one
                 var user = await GetDefaultDbContext().Users.FirstOrDefaultAsync(u => u.Email == input.Email);
