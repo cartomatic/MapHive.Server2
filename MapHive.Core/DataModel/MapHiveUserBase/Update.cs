@@ -85,13 +85,19 @@ namespace MapHive.Core.DataModel
                 //btw. destroy just adjust the model's property and delegates the work to update
                 if (currentStateOfUser.IsAccountClosed != IsAccountClosed)
                 {
+                    //Note:
+                    //account lockout is just a flag that indicates whether or not user account can be locked. 
+                    //Therefore need to set lockout as enabled and a lockout end date
+
+                    await userManager.SetLockoutEnabledAsync(idUser, true);
+
                     if (IsAccountClosed)
                     {
-                        await userManager.SetLockoutEnabledAsync(idUser, true);
+                        await userManager.SetLockoutEndDateAsync(idUser, DateTimeOffset.MaxValue);
                     }
                     else
                     {
-                        await userManager.SetLockoutEnabledAsync(idUser, false);
+                        await userManager.SetLockoutEndDateAsync(idUser, null);
                     }
                 }
 
