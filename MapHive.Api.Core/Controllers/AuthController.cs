@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Email;
 using MapHive.Core;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Api.Core.Controllers
 {
@@ -385,6 +387,56 @@ namespace MapHive.Api.Core.Controllers
                     await Auth.ChangePasswordAsync(input.NewPass, input.OldPass);
 
                 return Ok(resetPassSuccess);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        public class ForceChangePassInput
+        {
+            /// <summary>
+            /// Security token that makes it possible to call this api
+            /// </summary>
+            public string Token { get; set; }
+
+            /// <summary>
+            /// Identifier of a user to change the pass for
+            /// </summary>
+            public Guid UserId { get; set;}
+
+            /// <summary>
+            /// New password to be set for a user
+            /// </summary>
+            public string NewPass { get; set; }
+        }
+
+        /// <summary>
+        /// Allows changing password for an arbitrary user. Requires an extra security token in order to be used.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [Route("forcechangepass")]
+        [HttpPut]
+        [ProducesResponseType(typeof(bool), 200)]
+        [ProducesResponseType(typeof(object), 500)]
+        public async Task<IActionResult> ForceChangePasswordAsync([FromBody] ForceChangePassInput input)
+        {
+            try
+            {
+                //IMPORTANT
+                //make sure the extra security token is allowed, as this api can change pass for any user
+                var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+                var token = cfg.GetSection("AccessTokens:Auth").Get<string>();
+
+                if (token != input.Token)
+                    return StatusCode((int) HttpStatusCode.Unauthorized);
+
+
+                var output = await Auth.ForceResetPasswordAsync(input.UserId, input.NewPass);
+
+                return Ok(output);
             }
             catch (Exception ex)
             {

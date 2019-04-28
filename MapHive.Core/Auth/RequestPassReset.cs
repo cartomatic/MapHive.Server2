@@ -38,5 +38,30 @@ namespace MapHive.Core
                 VerificationKey = passResetToken
             };
         }
+
+        /// <summary>
+        /// Generates a pass reset token
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static async Task<PassResetRequestOutput> RequestPassResetAsync(Guid userId)
+        {
+            var passResetToken = string.Empty;
+
+            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
+            var idUser = await userManager.FindByIdAsync(userId.ToString());
+            if (idUser != null)
+            {
+                passResetToken = Auth.MergeIdWithToken(
+                    idUser.Id,
+                    await userManager.GeneratePasswordResetTokenAsync(idUser)
+                );
+            }
+
+            return new PassResetRequestOutput
+            {
+                VerificationKey = passResetToken
+            };
+        }
     }
 }
