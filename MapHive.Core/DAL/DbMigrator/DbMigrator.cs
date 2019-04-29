@@ -8,7 +8,7 @@ namespace MapHive.Core.DAL
 {
     public class DbMigrator
     {
-        public static async Task MapHiveMetaDbMigrator(DbContext dbctx)
+        public static async Task<DbContextMigrator.CreateOrUpdateDatabaseOutput> MapHiveMetaDbMigrator(DbContext dbctx)
         {
 
             var dbFeedback = dbctx.CreateOrUpdateDatabase();
@@ -22,6 +22,8 @@ namespace MapHive.Core.DAL
             {
                 //nothing really
             }
+
+            return dbFeedback;
         }
     }
 }

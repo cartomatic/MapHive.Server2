@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MapHive.Core.Api.UserConfiguration;
 using MapHive.Core.DataModel;
+using MapHive.Core.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.Api
@@ -68,13 +69,13 @@ namespace MapHive.Core.Api
         /// A migrator function to be executed automatically when api requires automated db migrations in org context;
         /// When present it will be passed to the <see cref="DbMigratorActionFilterAtribute"/>
         /// </summary>
-        public Func<Organization, Task> OrganizationDbMigrator { get; set; }
+        public Func<Organization, Task<DbContextMigrator.CreateOrUpdateDatabaseOutput>> OrganizationDbMigrator { get; set; }
 
         /// <summary>
         /// A migrator function for non-org contexted dbs to be executed automatically when automated non-org context db migrations are required;
         /// When present it will be passed to the <see cref="DbMigratorActionFilterAtribute"/>
         /// </summary>
-        public Func<DbContext, Task> DbMigrator { get; set; }
+        public Func<DbContext, Task<DbContextMigrator.CreateOrUpdateDatabaseOutput>> DbMigrator { get; set; }
 
         /// <summary>
         /// Whether or not a configuration call to MapHive.Core.Identity.UserManagerUtils.Configure("MapHiveIdentity") should be performed upon startup;
