@@ -78,6 +78,15 @@ namespace MapHive.Core.DataModel
         /// </summary>
         public bool IsApi { get; set; }
 
+        /// <summary>
+        /// Whether or not application has a desktop version
+        /// </summary>
+        public bool HasDesktopVersion { get; set; }
+
+        /// <summary>
+        /// Whether or not application has a mobile version
+        /// </summary>
+        public bool HasMobileVersion { get; set; }
 
         /// <summary>
         /// Identifier of the app provider. It is assumed that a provider will have its account and be able to register and publish the apps via its dashboard.
