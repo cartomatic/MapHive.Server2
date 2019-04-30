@@ -35,6 +35,9 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Ignore(p => p.LicenseOptions);
             builder.Property(p => p.LicenseOptionsSerialized).HasColumnName("license_options");
 
+            builder.Ignore(p => p.VisualIdentification);
+            builder.Property(p => p.VisualIdentificationSerialized).HasColumnName("visual_identification");
+
             builder.Ignore(p => p.OrgUserAppAccessCredentials);
 
             builder.HasIndex(p => p.ShortName)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.JsonSerializableObjects;
 using Newtonsoft.Json;
 
 namespace MapHive.Core.DataModel
@@ -53,7 +54,7 @@ namespace MapHive.Core.DataModel
         /// a default app is only meaningful in the context of an organization.
         /// This means a default app should be an app that provides some dashboard like functionality
         /// for a user.
-        /// Only one appliation can be flagged as Default
+        /// Only one application can be flagged as Default
         /// </summary>
         public bool IsDefault { get; set; }
 
@@ -83,6 +84,20 @@ namespace MapHive.Core.DataModel
         /// </summary>
         public Guid? ProviderId { get; set; }
 
+        /// <summary>
+        /// Visual identification artifacts such as: AppSwitcherIcon, BaseColor, etc.
+        /// </summary>
+        public SerializableDictionaryOfObject VisualIdentification { get; set; }
+
+        /// <summary>
+        /// Visual identification serialized for db storage
+        /// </summary>
+        [JsonIgnore]
+        public string VisualIdentificationSerialized
+        {
+            get => VisualIdentification.Serialized;
+            set => VisualIdentification.Serialized = value;
+        }
 
         /// <summary>
         /// Application's license options with default values

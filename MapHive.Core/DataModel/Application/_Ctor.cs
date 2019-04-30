@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.JsonSerializableObjects;
 
 namespace MapHive.Core.DataModel
 {
@@ -17,6 +18,7 @@ namespace MapHive.Core.DataModel
         public Application()
         {
             LicenseOptions = new LicenseOptions();
+            VisualIdentification = new SerializableDictionaryOfObject();
         }
     }
 }
