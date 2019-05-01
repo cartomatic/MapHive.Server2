@@ -13,7 +13,7 @@ namespace MapHive.Core.IdentityServer
     public class Configuration
     {
         /// <summary>
-        /// Gets confogured identity resources
+        /// Gets configured identity resources
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<IdentityResource> GetIdentityResources()
@@ -55,7 +55,7 @@ namespace MapHive.Core.IdentityServer
         }
 
         /// <summary>
-        /// Gets confogured api clients
+        /// Gets configured api clients
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<Client> GetApiClients()

@@ -3,15 +3,17 @@ using System;
 using MapHive.Core.IdentityServer.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MapHive.Core.IdentityServer.DAL.Migrations.PersistedGrantDb
 {
     [DbContext(typeof(MapHiveIdSrvPersistedGrantDbContext))]
-    partial class MapHiveIdSrvPersistedGrantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190501052744_UpdateAfterVersionUpgradeTo240")]
+    partial class UpdateAfterVersionUpgradeTo240
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

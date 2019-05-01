@@ -3,15 +3,17 @@ using System;
 using MapHive.Core.Identity.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MapHive.Core.Identity.DAL.Migrations
 {
     [DbContext(typeof(MapHiveIdentityDbContext))]
-    partial class MapHiveIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190501053423_UpdateAfterVersionUpgradeTo220")]
+    partial class UpdateAfterVersionUpgradeTo220
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

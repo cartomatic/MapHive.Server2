@@ -1,4 +1,8 @@
 ﻿
-dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration --project MapHive.Core.IdentityServer --startup-project MapHive.Core.IdentityServer -c MapHiveIdSrvPersistedGrantDbContext -o DAL/Migrations/PersistedGrantDb
+dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration --project MapHive.Core.IdentityServer --startup-project MapHive.Cmd -c MapHiveIdSrvPersistedGrantDbContext -o DAL/Migrations/PersistedGrantDb
 
-dotnet ef migrations add InitialIdentityServerConfigurationDbMigration --project MapHive.Core.IdentityServer --startup-project MapHive.Core.IdentityServer -c MapHiveIdSrvConfigurationDbContext -o DAL/Migrations/ConfigurationDb
+dotnet ef migrations add UpdateAfterVersionUpgradeTo240 --project MapHive.Core.IdentityServer --startup-project MapHive.Cmd -c MapHiveIdSrvPersistedGrantDbContext -o DAL/Migrations/PersistedGrantDb
+
+dotnet ef migrations add InitialIdentityServerConfigurationDbMigration --project MapHive.Core.IdentityServer --startup-project MapHive.Cmd -c MapHiveIdSrvConfigurationDbContext -o DAL/Migrations/ConfigurationDb
+
+dotnet ef migrations add UpdateAfterVersionUpgradeTo240 --project MapHive.Core.IdentityServer --startup-project MapHive.Cmd -c MapHiveIdSrvConfigurationDbContext -o DAL/Migrations/ConfigurationDb
