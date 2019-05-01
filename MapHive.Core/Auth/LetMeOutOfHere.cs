@@ -15,9 +15,7 @@ namespace MapHive.Core
         /// <returns></returns>
         public static async Task LetMeOutOfHereAsync(string accessToken)
         {
-            //TODO
-            //https://identityserver.github.io/Documentation/docs/endpoints/endSession.html
-            //https://identityserver.github.io/Documentation/docs/configuration/authenticationOptions.html
+            //TODO - use new IdentityModel and the token revocation endpoint or end session endpoint
         }
     }
 }
