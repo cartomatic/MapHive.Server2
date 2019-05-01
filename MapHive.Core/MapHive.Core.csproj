@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>1.0.4-dev0652</Version>
+    <Version>1.0.4-dev0661</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
 aimed at working with pgsql initially</Description>
@@ -19,7 +19,7 @@ aimed at working with pgsql initially</Description>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="8.2.3" />
-    <PackageReference Include="IdentityModel" Version="3.10.7" />
+    <PackageReference Include="IdentityModel" Version="3.10.10" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
