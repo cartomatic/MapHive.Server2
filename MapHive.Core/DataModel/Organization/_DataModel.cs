@@ -163,5 +163,20 @@ namespace MapHive.Core.DataModel
                 }
             }
         }
+
+        /// <summary>
+        /// Visual identification artifacts such as: OrgSwitcherIcon, BaseColor, etc.
+        /// </summary>
+        public SerializableDictionaryOfObject VisualIdentification { get; set; }
+
+        /// <summary>
+        /// Visual identification serialized for db storage
+        /// </summary>
+        [JsonIgnore]
+        public string VisualIdentificationSerialized
+        {
+            get => VisualIdentification.Serialized;
+            set => VisualIdentification.Serialized = value;
+        }
     }
 }

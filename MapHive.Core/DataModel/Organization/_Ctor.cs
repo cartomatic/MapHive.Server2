@@ -19,6 +19,7 @@ namespace MapHive.Core.DataModel
         {
             BillingExtraInfo = new SerializableDictionaryOfString();
             LicenseOptions = new OrganizationLicenseOptions();
+            VisualIdentification = new SerializableDictionaryOfObject();
         }
     }
 }
