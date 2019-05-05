@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MapHive.Core.DAL.Migrations
 {
     [DbContext(typeof(MapHiveDbContext))]
-    [Migration("20190430124451_ExtendAppModelToIncludeVisualIdentification")]
-    partial class ExtendAppModelToIncludeVisualIdentification
+    [Migration("20190505003051_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,6 +42,12 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<DateTime?>("EndDateUtc")
                         .HasColumnName("end_date_utc");
+
+                    b.Property<bool>("HasDesktopVersion")
+                        .HasColumnName("has_desktop");
+
+                    b.Property<bool>("HasMobileVersion")
+                        .HasColumnName("has_mobile");
 
                     b.Property<bool>("IsApi")
                         .HasColumnName("is_api");
@@ -463,6 +469,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<string>("Url")
                         .HasColumnName("url");
+
+                    b.Property<string>("VisualIdentificationSerialized")
+                        .HasColumnName("visual_identification");
 
                     b.HasKey("Uuid")
                         .HasName("pk_organizations");

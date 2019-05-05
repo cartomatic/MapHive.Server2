@@ -125,7 +125,10 @@ namespace MapHive.Core.DAL.Migrations
                     is_home = table.Column<bool>(nullable: false),
                     is_hive = table.Column<bool>(nullable: false),
                     is_api = table.Column<bool>(nullable: false),
+                    has_desktop = table.Column<bool>(nullable: false),
+                    has_mobile = table.Column<bool>(nullable: false),
                     provider_id = table.Column<Guid>(nullable: true),
+                    visual_identification = table.Column<string>(nullable: true),
                     license_options = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -218,7 +221,8 @@ namespace MapHive.Core.DAL.Migrations
                     billing_email = table.Column<string>(nullable: true),
                     billing_address = table.Column<string>(nullable: true),
                     billing_extra_info = table.Column<string>(nullable: true),
-                    license_options = table.Column<string>(nullable: true)
+                    license_options = table.Column<string>(nullable: true),
+                    visual_identification = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
