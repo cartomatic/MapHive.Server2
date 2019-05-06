@@ -42,6 +42,7 @@ namespace MapHive.Core.Api
             new WebHostBuilder()
                 .UseSerilog()
                 .UseKestrel()
+                .ConfigureKestrel((context, options) => { })
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureAppConfiguration(AddAppConfiguration)
                 .ConfigureLogging(
@@ -49,6 +50,7 @@ namespace MapHive.Core.Api
                 .UseIISIntegration()
                 .UseDefaultServiceProvider((context, options) => { })
                 .UseStartup<Startup>()
+                
                 .Build();
 
         public static void AddAppConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder config)
