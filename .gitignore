@@ -11,7 +11,6 @@
 MapHive.Core.Api/Properties/PublishProfiles/WebDebug.pubxml
 MapHive.Core.Api/Properties/PublishProfiles/WebRelease.pubxml
 #ignore production config
-MapHive.Core.Api/appsettings.Production.json
 #################
 
 #MapHive.IdentityServer
@@ -20,7 +19,6 @@ MapHive.Core.Api/appsettings.Production.json
 MapHive.IdentityServer/Properties/PublishProfiles/WebDebug.pubxml
 MapHive.IdentityServer/Properties/PublishProfiles/WebRelease.pubxml
 #ignore production config
-MapHive.IdentityServer/appsettings.Production.json
 #################
 
 
@@ -318,4 +316,3 @@ MapHive.Core.IdentityServer/MapHive.Core.IdentityServer.xml
 MapHive.Core.Identity/MapHive.Core.Identity.xml
 MapHive.Core.Api/MapHive.Core.Api.xml
 MapHive.Core.Cmd/MapHive.Core.Cmd.xml
-MapHive.Api.Core/appsettings.Production.json
