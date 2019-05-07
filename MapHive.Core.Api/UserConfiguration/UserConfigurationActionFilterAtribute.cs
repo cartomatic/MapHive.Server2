@@ -145,7 +145,9 @@ namespace MapHive.Core.Api.UserConfiguration
                                     {nameof(q.Referrer), q.Referrer},
                                     {nameof(q.TokenId), q.TokenId},
                                     {nameof(q.OrganizationId), q.OrganizationId}
-                        }
+                        },
+
+                        transferRequestHdrs: false
                     );
 
             //because the db encryption does actually depend on the query sent to the usercfg, need to decrypt it as it is only known here...

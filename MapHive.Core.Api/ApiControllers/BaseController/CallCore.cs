@@ -23,9 +23,12 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="data"></param>
         /// <param name="authToken"></param>
         /// <param name="customHeaders"></param>
+        /// <param name="transferAuthHdr"></param>
+        /// <param name="transferMhHdrs"></param>
+        /// <param name="transferRequestHdrs"></param>
         /// <returns></returns>
         protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiCall<TOut>(string route, Method method = Method.GET,
-            Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null)
+            Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null, bool transferAuthHdr = true, bool transferMhHdrs = true, bool transferRequestHdrs = true)
         {
             return await RestApiCall<TOut>(
                 Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig()["Endpoints:Core"],
@@ -34,7 +37,10 @@ namespace MapHive.Core.Api.ApiControllers
                 queryParams,
                 data,
                 authToken,
-                customHeaders
+                customHeaders,
+                transferAuthHdr: transferAuthHdr,
+                transferMhHdrs: transferMhHdrs,
+                transferRequestHdrs: transferRequestHdrs
             );
         }
 
