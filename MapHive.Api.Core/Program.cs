@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using MapHive.Core.Api.Extensions;
 using Serilog;
 using Serilog.Events;
@@ -15,6 +16,10 @@ namespace MapHive.Core.Api
     {
         public static int Main(string[] args)
         {
+            //make sure to set the current dir to app's dir rather than worker process dir:
+            //https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/aspnet-core-module?view=aspnetcore-2.2
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+
             MapHive.Core.Api.Logging.SerilogConfiguration.Configure();
 
             try
