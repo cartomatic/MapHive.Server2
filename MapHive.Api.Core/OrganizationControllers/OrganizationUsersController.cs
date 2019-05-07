@@ -146,7 +146,7 @@ namespace MapHive.Api.Core.Controllers
 
                 var (emailAccount, emailTemplate) = await GetEmailStuffAsync("user_created", applicationContext);
                 //use custom email account if provided
-                if (ea != null)
+                if (ea != null && ea.SeemsComplete())
                     emailAccount = ea;
 
                 //note:

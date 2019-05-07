@@ -156,7 +156,7 @@ namespace MapHive.Api.Core.Controllers
                     var (emailAccount, emailTemplate) = await GetEmailStuffAsync("activate_account_stale", app);
 
                     //use custom email account if provided
-                    if (ea != null)
+                    if (ea != null && ea.SeemsComplete())
                         emailAccount = ea;
 
                     //prepare the email template tokens
@@ -217,6 +217,9 @@ namespace MapHive.Api.Core.Controllers
                 //grab a user first
                 var u = await new MapHiveUser().ReadAsync(dbCtx, uuid);
 
+                if (u == null)
+                    return BadRequest("Unknown user.");
+
                 //and make sure there is point in resending a link
                 if (u.IsAccountVerified)
                     return BadRequest("User has already activated his account.");
@@ -225,7 +228,7 @@ namespace MapHive.Api.Core.Controllers
                 var (emailAccount, emailTemplate) = await GetEmailStuffAsync("user_created", app);
 
                 //use custom email account if provided
-                if (ea != null)
+                if (ea != null && ea.SeemsComplete())
                     emailAccount = ea;
 
                 var initialEmailData = new Dictionary<string, object>
@@ -288,7 +291,7 @@ namespace MapHive.Api.Core.Controllers
                 var (emailAccount, emailTemplate) = await GetEmailStuffAsync("pass_reset_request", app);
 
                 //use custom email account if provided
-                if (ea != null)
+                if (ea != null && ea.SeemsComplete())
                     emailAccount = ea;
 
                 //basically need to send an email the verification key has expired and send a new one
