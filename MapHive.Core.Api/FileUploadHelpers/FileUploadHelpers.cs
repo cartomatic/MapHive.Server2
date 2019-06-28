@@ -8,6 +8,7 @@ using Cartomatic.Utils;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Core.Api
@@ -18,19 +19,39 @@ namespace MapHive.Core.Api
     public class FileUploadHelpers
     {
         /// <summary>
+        /// Gets file upload configurations
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string, FileUploadConfiguration> GetFileUploadConfigurations()
+        {
+            var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+            return cfg.GetSection("FileUploadConfiguration")
+                .Get<Dictionary<string, FileUploadConfiguration>>();
+        }
+
+        /// <summary>
+        /// Returns a file upload configuration by key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static FileUploadConfiguration GetFileUploadConfiguration(string key)
+        {
+            var uploadConfig = GetFileUploadConfigurations();
+            return uploadConfig?[key];
+        }
+
+        /// <summary>
         /// Saves files passed as multi part upload to the folder specified by the key in the FileUploadConfiguration
         /// </summary>
         /// <param name="request"></param>
         /// <param name="fileUploadConfigKey"></param>
         /// <returns></returns>
-        public static async Task<(Guid, Dictionary<string, string>)> SaveFiles(HttpRequest request,
+        public static async Task<(Guid uploadId, Dictionary<string, string> formData)> SaveFiles(HttpRequest request,
             string fileUploadConfigKey)
         {
-            var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
-            var uploadConfig = cfg.GetSection("FileUploadConfiguration")
-                .Get<Dictionary<string, FileUploadConfiguration>>();
+            var uploadConfig = GetFileUploadConfigurations();
 
-            if(uploadConfig == null)
+            if (uploadConfig == null)
                 throw new InvalidOperationException("FileUploadConfiguration has not been found.");
 
             if (!uploadConfig.ContainsKey(fileUploadConfigKey))
@@ -45,7 +66,7 @@ namespace MapHive.Core.Api
         /// <param name="request"></param>
         /// <param name="fileUploadConfig"></param>
         /// <returns></returns>
-        public static async Task<(Guid, Dictionary<string, string>)> SaveFiles(HttpRequest request,
+        public static async Task<(Guid uploadId, Dictionary<string, string> formData)> SaveFiles(HttpRequest request,
             FileUploadConfiguration fileUploadConfig)
         {
             var saveFileMeta = await SaveMultiPartData(request, fileUploadConfig.Path);
@@ -120,7 +141,7 @@ namespace MapHive.Core.Api
         /// <param name="request"></param>
         /// <param name="saveDir"></param>
         /// <returns></returns>
-        public static async Task<(Guid, Dictionary<string, string>)> SaveMultiPartData(HttpRequest request, string saveDir)
+        public static async Task<(Guid uploadId, Dictionary<string, string> formData)> SaveMultiPartData(HttpRequest request, string saveDir)
         {
             //make the dir absolute
             saveDir = saveDir.SolvePath();
