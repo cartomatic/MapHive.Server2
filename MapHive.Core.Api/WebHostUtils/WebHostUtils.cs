@@ -34,7 +34,7 @@ namespace MapHive.Core.Api
                 BuildWebHost<TStartup>(args).Run();
 
                 Log.Information("App shut down.");
-
+                
                 return 0;
             }
             catch (Exception ex)
