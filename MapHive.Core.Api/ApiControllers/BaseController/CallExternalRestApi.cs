@@ -120,7 +120,7 @@ namespace MapHive.Core.Api.ApiControllers
                 }
             }
 
-            //sice the api call is done in scope of a maphive controller try to attach the default custom maphive headers
+            //since the api call is done in scope of a maphive controller try to attach the default custom maphive headers
             TransferRequestHeaders(request, customHeaders, transferMhHdrs, transferRequestHdrs);
 
 
