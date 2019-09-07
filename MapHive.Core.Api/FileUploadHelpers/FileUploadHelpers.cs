@@ -41,6 +41,18 @@ namespace MapHive.Core.Api
         }
 
         /// <summary>
+        /// Ensures dir presence
+        /// </summary>
+        /// <param name="cfg"></param>
+        public static void EnsureUpload(FileUploadConfiguration cfg)
+        {
+            var dir = cfg.Path.SolvePath();
+
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+        }
+
+        /// <summary>
         /// Saves files passed as multi part upload to the folder specified by the key in the FileUploadConfiguration
         /// </summary>
         /// <param name="request"></param>
