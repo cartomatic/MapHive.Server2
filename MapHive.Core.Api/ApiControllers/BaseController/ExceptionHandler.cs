@@ -62,7 +62,7 @@ namespace MapHive.Core.Api.ApiControllers
                     Log.Error(e, e.Message);
 
                     //custom exception logger
-                    LogExceptions(e);
+                    Cartomatic.Utils.Logging.LogExceptions(e);
 
                     #if DEBUG
                     return new ObjectResult(e.Message){StatusCode = (int)HttpStatusCode.InternalServerError};
@@ -71,44 +71,5 @@ namespace MapHive.Core.Api.ApiControllers
                 }
             };
 
-        /// <summary>
-        /// Custom exception logger that also dumps all the inner exceptions along with their stack trace
-        /// </summary>
-        /// <param name="e"></param>
-        protected void LogExceptions(Exception e)
-        {
-            try
-            {
-                var dir = "_logs".SolvePath();
-                if (!Directory.Exists(dir))
-                {
-                    Directory.CreateDirectory(dir);
-                }
-
-                var errs = new List<string>{
-                    DateTime.Now.ToLongTimeString()
-                };
-
-                while (e != null)
-                {
-                    errs.Add(e.Message);
-                    errs.Add(e.StackTrace);
-                    errs.Add(new string('-', 50));
-                    errs.Add(Environment.NewLine);
-
-                    e = e.InnerException;
-                }
-
-                errs.Add(new string('=', 150));
-                errs.Add(Environment.NewLine);
-                errs.Add(Environment.NewLine);
-
-                System.IO.File.AppendAllLines(Path.Combine(dir, $"{DateTime.Now:yyyyMMdd}.custom.log"), errs);
-            }
-            catch
-            {
-                //ignore
-            }
-        }
     }
 }
