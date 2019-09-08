@@ -80,8 +80,12 @@ namespace MapHive.Core.DataModel
                     var localizationClassesIdentifiers = localizationClasses.Select(lc => lc.Uuid);
 
                     var translationKeys = await
-                        dbCtx.TranslationKeys.Where(
-                            tk => localizationClassesIdentifiers.Contains(tk.LocalizationClassUuid)).ToListAsync();
+                        dbCtx.TranslationKeys
+                            .Where(tk =>
+                                localizationClassesIdentifiers.Contains(tk.LocalizationClassUuid)
+                                && (tk.Inherited != true || tk.Inherited == true && tk.Overwrites == true) //only output not inherited or inherited overwrites!
+                            )
+                            .ToListAsync();
 
                     AppLocalizationsCache[appName] = localizationClasses.GroupJoin(
                         translationKeys,
@@ -116,7 +120,7 @@ namespace MapHive.Core.DataModel
                             classTranslations[tk.Key] = new Dictionary<string, string>();
                         }
 
-                        foreach (var translation in tk.Translations.Where(t => t.Key == defaultLang.LangCode || langCodes.Contains(t.Key)))
+                        foreach (var translation in (tk.Translations ?? new Translations()).Where(t => t.Key == defaultLang.LangCode || langCodes.Contains(t.Key)))
                         {
                             classTranslations[tk.Key].Add(translation.Key, translation.Value);
                         }

@@ -8,7 +8,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace MapHive.Core.DataModel
 {
-    public partial class TranslationKey : Base, ILocalization
+    public partial class TranslationKeyBase : Base, ILocalization
     {
         /// <summary>
         /// Identifier of a Localization class name a translation applies to;
@@ -21,6 +21,16 @@ namespace MapHive.Core.DataModel
         public string Key { get; set; }
 
         /// <summary>
+        /// Whether or not a key is inherited; if so then in order to customize it user needs to tick Overwrite on and change it
+        /// </summary>
+        public bool? Inherited { get; set; }
+
+        /// <summary>
+        /// Whether or not this kwy should overwrite the inherited translations
+        /// </summary>
+        public bool? Overwrites { get; set; }
+
+        /// <summary>
         /// Set of translations for a particular key
         /// </summary>
         public Translations Translations { get; set; }
@@ -31,10 +41,10 @@ namespace MapHive.Core.DataModel
             get => Translations?.Serialized;
             set
             {
-                if (Translations != null)
-                {
-                    Translations.Serialized = value;
-                }
+                if(Translations == null)
+                    Translations = new Translations();
+
+                Translations.Serialized = value;
             }
         }
 
@@ -45,5 +55,6 @@ namespace MapHive.Core.DataModel
             set => Translations = (Translations)value;
         }
     }
+
     
 }

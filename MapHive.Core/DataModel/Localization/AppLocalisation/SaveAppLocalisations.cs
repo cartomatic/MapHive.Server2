@@ -61,6 +61,8 @@ namespace MapHive.Core.DataModel
                         {
                             LocalizationClassUuid = lc.Uuid,
                             Key = translationKey.Key,
+                            Inherited = translationKey.Inherited,
+                            Overwrites = translationKey.Overwrites,
                             Translations = translations ?? new Translations()
                         };
                         await tk.CreateAsync(dbCtx);

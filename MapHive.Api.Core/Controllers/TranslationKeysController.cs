@@ -25,14 +25,14 @@ namespace MapHive.Api.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        [ProducesResponseType(typeof(IEnumerable<TranslationKey>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<TranslationKeyExtended>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetAsync([FromQuery] string sort = null, [FromQuery] string filter = null, [FromQuery] int start = 0,
             [FromQuery] int limit = 25)
         {
-            return await base.GetAsync(sort, filter, start, limit);
+            return await base.GetExtendedAsync<TranslationKeyExtended>(sort, filter, start, limit);
         }
 
         /// <summary>

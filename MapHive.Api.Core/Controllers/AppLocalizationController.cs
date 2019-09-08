@@ -42,7 +42,7 @@ namespace MapHive.Api.Core.Controllers
         }
 
         /// <summary>
-        /// Gets app loclaizations in a form of a script that can be consumed by web clients
+        /// Gets app localizations in a form of a script that can be consumed by web clients
         /// </summary>
         /// <param name="langCodes"></param>
         /// <param name="appIdentifiers"></param>
@@ -94,8 +94,7 @@ namespace MapHive.Api.Core.Controllers
             public bool? Overwrite { get; set; }
 
             /// <summary>
-            /// What languages should be imported; in a case localization data contains more langs, it will filter out specified langs;
-            /// comma delimited list
+            /// What languages should be imported; in a case localization data contains more langs, it will filter out specified langs
             /// </summary>
             public string[] LangsToImport { get; set; }
 
