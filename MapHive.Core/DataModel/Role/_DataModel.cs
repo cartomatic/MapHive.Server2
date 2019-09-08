@@ -42,9 +42,17 @@ namespace MapHive.Core.DataModel
             get => Privileges?.Serialized;
             set
             {
-                if (Privileges != null)
+                if (value != null)
                 {
+                    if (Privileges == null)
+                    {
+                        Privileges = new SerializableListOfPrivilege();
+                    }
                     Privileges.Serialized = value;
+                }
+                else
+                {
+                    Privileges = null;
                 }
             }
         }
