@@ -127,7 +127,7 @@ namespace MapHive.Core.DataModel
                                 tk.Translations[lng] = translations[lng];
                             }
                         }
-                        await tk.UpdateAsync(dbCtx, tk.Uuid);
+                        await tk.SilentUpdateAsync<TranslationKey>(dbCtx);
                     }
                 }
             }
