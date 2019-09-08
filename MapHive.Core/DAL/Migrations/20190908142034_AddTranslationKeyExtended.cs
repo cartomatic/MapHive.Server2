@@ -1,9 +1,10 @@
 ﻿using System;
+using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MapHive.Core.DAL.Migrations
 {
-    public partial class ExtendTranslationKeyModel : Migration
+    public partial class AddTranslationKeyExtended : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,7 +39,8 @@ namespace MapHive.Core.DAL.Migrations
             //        translations = table.Column<string>(nullable: true),
             //        application_name = table.Column<string>(nullable: true),
             //        class_name = table.Column<string>(nullable: true),
-            //        inherited_class_name = table.Column<string>(nullable: true)
+            //        inherited_class_name = table.Column<string>(nullable: true),
+            //        full_key = table.Column<string>(nullable: true)
             //    },
             //    constraints: table =>
             //    {
@@ -64,6 +66,7 @@ namespace MapHive.Core.DAL.Migrations
             //migrationBuilder.DropTable(
             //    name: "translation_keys_extended",
             //    schema: "mh_localization");
+            migrationBuilder.Sql($"DROP VIEW IF EXISTS mh_localization.{TranslationKeyExtended.ViewName};");
 
             migrationBuilder.DropColumn(
                 name: "inherited",

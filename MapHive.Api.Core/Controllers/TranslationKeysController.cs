@@ -69,37 +69,37 @@ namespace MapHive.Api.Core.Controllers
             return await base.PutAsync(obj, uuid);
         }
 
-        /// <summary>
-        /// Creates a new TranslationKey
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("")]
-        [ProducesResponseType(typeof(TranslationKey), 200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(500)]
-        [CrudPrivilegeRequiredCreate]
-        public async Task<IActionResult> PostAsync([FromBody] TranslationKey obj)
-        {
-            return await base.PostAsync(obj);
-        }
+        ///// <summary>
+        ///// Creates a new TranslationKey
+        ///// </summary>
+        ///// <param name="obj"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[Route("")]
+        //[ProducesResponseType(typeof(TranslationKey), 200)]
+        //[ProducesResponseType(400)]
+        //[ProducesResponseType(500)]
+        //[CrudPrivilegeRequiredCreate]
+        //public async Task<IActionResult> PostAsync([FromBody] TranslationKey obj)
+        //{
+        //    return await base.PostAsync(obj);
+        //}
 
-        /// <summary>
-        /// Deletes a TranslationKey
-        /// </summary>
-        /// <param name="uuid"></param>
-        /// <returns></returns>
-        [HttpDelete]
-        [Route("{uuid}")]
-        [ProducesResponseType(typeof(TranslationKey), 200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(500)]
-        [CrudPrivilegeRequiredDestroy]
-        public async Task<IActionResult> DeleteAsync([FromRoute] Guid uuid)
-        {
-            return await base.DeleteAsync(uuid);
-        }
+        ///// <summary>
+        ///// Deletes a TranslationKey
+        ///// </summary>
+        ///// <param name="uuid"></param>
+        ///// <returns></returns>
+        //[HttpDelete]
+        //[Route("{uuid}")]
+        //[ProducesResponseType(typeof(TranslationKey), 200)]
+        //[ProducesResponseType(400)]
+        //[ProducesResponseType(500)]
+        //[CrudPrivilegeRequiredDestroy]
+        //public async Task<IActionResult> DeleteAsync([FromRoute] Guid uuid)
+        //{
+        //    return await base.DeleteAsync(uuid);
+        //}
 
     }
 }

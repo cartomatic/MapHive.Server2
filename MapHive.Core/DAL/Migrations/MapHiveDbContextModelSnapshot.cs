@@ -824,6 +824,9 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<DateTime?>("EndDateUtc")
                         .HasColumnName("end_date_utc");
 
+                    b.Property<string>("FullKey")
+                        .HasColumnName("full_key");
+
                     b.Property<bool?>("Inherited")
                         .HasColumnName("inherited");
 

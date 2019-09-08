@@ -63,7 +63,8 @@ SELECT
     tk.*,
     lc.{dbCtx.GetTableColumnName(lc, nameof(LocalizationClass.ApplicationName))} as {dbCtx.GetTableColumnName(tkExt, nameof(TranslationKeyExtended.ApplicationName))},
     lc.{dbCtx.GetTableColumnName(lc, nameof(LocalizationClass.ClassName))} as {dbCtx.GetTableColumnName(tkExt, nameof(TranslationKeyExtended.ClassName))},
-    lc.{dbCtx.GetTableColumnName(lc, nameof(LocalizationClass.InheritedClassName))} as {dbCtx.GetTableColumnName(tkExt, nameof(TranslationKeyExtended.InheritedClassName))}
+    lc.{dbCtx.GetTableColumnName(lc, nameof(LocalizationClass.InheritedClassName))} as {dbCtx.GetTableColumnName(tkExt, nameof(TranslationKeyExtended.InheritedClassName))},
+    lc.{dbCtx.GetTableColumnName(lc, nameof(LocalizationClass.ApplicationName))} || '.' || lc.{dbCtx.GetTableColumnName(lc, nameof(LocalizationClass.ClassName))} || '.' || tk.{dbCtx.GetTableColumnName(tk, nameof(TranslationKey.Key))} as {dbCtx.GetTableColumnName(tkExt, nameof(TranslationKeyExtended.FullKey))}
 FROM
     ""{schema}"".""{dbCtx.GetTableName(tk)}"" tk
     left outer join ""{schema}"".""{dbCtx.GetTableName(lc)}"" lc on lc.{dbCtx.GetTableColumnName(lc, nameof(LocalizationClass.Uuid))} = tk.{dbCtx.GetTableColumnName(tk, nameof(TranslationKey.LocalizationClassUuid))}

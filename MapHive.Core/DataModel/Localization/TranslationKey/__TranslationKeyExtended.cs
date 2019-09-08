@@ -36,6 +36,10 @@ namespace MapHive.Core.DataModel
         /// </summary>
         public string InheritedClassName { get; set; }
 
+        /// <summary>
+        /// Fully qualified key - application.className.translationKey
+        /// </summary>
+        public string FullKey { get; set; }
 
         //make the write methods fail for this object
         //-------------------------------------------

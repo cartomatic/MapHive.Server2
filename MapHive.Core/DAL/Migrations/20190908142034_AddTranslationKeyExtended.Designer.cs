@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MapHive.Core.DAL.Migrations
 {
     [DbContext(typeof(MapHiveDbContext))]
-    [Migration("20190908104714_ExtendTranslationKeyModel")]
-    partial class ExtendTranslationKeyModel
+    [Migration("20190908142034_AddTranslationKeyExtended")]
+    partial class AddTranslationKeyExtended
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -825,6 +825,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<DateTime?>("EndDateUtc")
                         .HasColumnName("end_date_utc");
+
+                    b.Property<string>("FullKey")
+                        .HasColumnName("full_key");
 
                     b.Property<bool?>("Inherited")
                         .HasColumnName("inherited");

@@ -56,6 +56,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(p => p.ApplicationName).HasColumnName("application_name");
             builder.Property(p => p.ClassName).HasColumnName("class_name");
             builder.Property(p => p.InheritedClassName).HasColumnName("inherited_class_name");
+            builder.Property(p => p.FullKey).HasColumnName("full_key");
+
         }
     }
 }
