@@ -36,7 +36,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected bool IsCrudPrivilegeRequiredForDestroy => CheckAttributePresence<CrudPrivilegeRequiredDestroy>();
 
         /// <summary>
-        /// Checs if either a controller or an action is decorated with given attribute
+        /// Checks if either a controller or an action is decorated with given attribute
         /// </summary>
         /// <typeparam name="TAttribute"></typeparam>
         /// <returns></returns>
@@ -62,7 +62,7 @@ namespace MapHive.Core.Api.ApiControllers
             var roles = await GetUserRoles(dbCtx, Cartomatic.Utils.Identity.GetUserGuid());
 
             // Check if user roles have required permission
-            return roles.Any(r=> r.Privileges.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Read == true));
+            return roles.Any(r=> r.Privileges?.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Read == true) == true);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace MapHive.Core.Api.ApiControllers
             var roles = await GetUserRoles(dbCtx, Cartomatic.Utils.Identity.GetUserGuid());
 
             // Check if user roles have required permission
-            return roles.Any(r => r.Privileges.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Create == true));
+            return roles.Any(r => r.Privileges?.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Create == true) == true);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace MapHive.Core.Api.ApiControllers
             var roles = await GetUserRoles(dbCtx, Cartomatic.Utils.Identity.GetUserGuid());
 
             // Check if user roles have required permission
-            return roles.Any(r => r.Privileges.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Update == true));
+            return roles.Any(r => r.Privileges?.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Update == true) == true);
         }
 
         /// <summary>
@@ -110,25 +110,37 @@ namespace MapHive.Core.Api.ApiControllers
             var roles = await GetUserRoles(dbCtx, Cartomatic.Utils.Identity.GetUserGuid());
 
             // Check if user roles have required permission
-            return roles.Any(r => r.Privileges.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Destroy == true));
+            return roles.Any(r => r.Privileges?.Any(p => p.TypeId == BaseObjectTypeIdentifierExtensions.GetTypeIdentifier(typeof(T)) && p.Destroy == true) == true);
         }
 
-        /// <summary> == 
-        /// Gets roles linked to a usr with the specified id
+        /// <summary>
+        /// Gets roles linked to a user with the specified id
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
         protected async Task<IEnumerable<Role>> GetUserRoles(DbContext dbCtx, Guid? userId)
         {
-            if(!userId.HasValue)
+            return await GetRoles<MapHiveUser>(dbCtx, userId);
+        }
+
+        /// <summary>
+        /// Gets roles linked to an object wof specified type and id
+        /// </summary>
+        /// <typeparam name="TOwner"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <param name="ownerId"></param>
+        /// <returns></returns>
+        protected async Task<IEnumerable<Role>> GetRoles<TOwner>(DbContext dbCtx, Guid? ownerId)
+            where TOwner : Base
+        {
+            if (!ownerId.HasValue)
                 return new Role[0];
 
-            //TODO / FIXME - make it possible to specify the model used for retrieving roles. roles can be saved and linked in apis too, not only in maphive core; therefore need to be able to specify the parent model too! This also applies to identifier...
-            return await new MapHiveUser
-            {
-                Uuid = userId.Value
-            }.GetChildrenAsync<MapHiveUser, Role>(dbCtx);
+            var obj = (TOwner)Activator.CreateInstance(typeof(TOwner));
+            obj.Uuid = ownerId.Value;
+
+            return await obj.GetChildrenAsync<TOwner, Role>(dbCtx);
         }
 
         /// <summary>
