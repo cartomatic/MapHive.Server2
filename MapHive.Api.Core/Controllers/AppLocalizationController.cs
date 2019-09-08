@@ -94,6 +94,11 @@ namespace MapHive.Api.Core.Controllers
             public bool? Overwrite { get; set; }
 
             /// <summary>
+            /// Whether or not should perform upsert rather than insert missing keys
+            /// </summary>
+            public bool? Upsert { get; set; }
+
+            /// <summary>
             /// What languages should be imported; in a case localization data contains more langs, it will filter out specified langs
             /// </summary>
             public string[] LangsToImport { get; set; }
@@ -119,7 +124,7 @@ namespace MapHive.Api.Core.Controllers
             try
             {
                 await
-                    AppLocalization.SaveLocalizationsAsync(GetDefaultDbContext(), data.AppLocalizations, data.Overwrite, data.LangsToImport);
+                    AppLocalization.SaveLocalizationsAsync(GetDefaultDbContext(), data.AppLocalizations, data.Overwrite, data.Upsert, data.LangsToImport);
 
                 return Ok();
             }

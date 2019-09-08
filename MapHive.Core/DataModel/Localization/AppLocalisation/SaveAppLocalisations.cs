@@ -12,7 +12,7 @@ namespace MapHive.Core.DataModel
     public static partial class AppLocalization
     {
         public static async Task SaveLocalizationsAsync(DbContext dbCtx, IEnumerable<LocalizationClass> localizations,
-            bool? overwrite, IEnumerable<string> langsToImport)
+            bool? overwrite, bool? upsert, IEnumerable<string> langsToImport)
         {
 
             var localisedDbCtx = (ILocalizedDbContext) dbCtx;
@@ -106,6 +106,9 @@ namespace MapHive.Core.DataModel
                             await tk.CreateAsync(dbCtx);
                         }
 
+                        tk.Inherited = translationKey.Inherited;
+                        tk.Overwrites = translationKey.Overwrites;
+
                         //filter out translations that are about to be saved
                         var translations = new Translations();
                         foreach (var lng in translationKey.Translations.Keys)
@@ -119,7 +122,7 @@ namespace MapHive.Core.DataModel
                         //check translations
                         foreach (var lng in translations.Keys)
                         {
-                            if (!tk.Translations.ContainsKey(lng))
+                            if (upsert == true || !tk.Translations.ContainsKey(lng))
                             {
                                 tk.Translations[lng] = translations[lng];
                             }

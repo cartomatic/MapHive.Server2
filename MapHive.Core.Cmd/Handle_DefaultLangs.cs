@@ -93,6 +93,12 @@ namespace MapHive.Core.Cmd
                     Uuid = Guid.Parse("ece753c3-f079-4772-8aa2-0960aeabc94d"),
                     LangCode = "pl",
                     Name = "Polski"
+                },
+                new Lang
+                {
+                    Uuid = Guid.Parse("fc937360-c740-4b71-b737-a566ef4aacfe"),
+                    LangCode = "nl",
+                    Name = "Nederlands"
                 }
             };
         }
