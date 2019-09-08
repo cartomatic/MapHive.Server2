@@ -52,7 +52,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromQuery] Guid uuid)
+        public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             //Note:
             //main mh env objects are kept in the maphive_meta db!

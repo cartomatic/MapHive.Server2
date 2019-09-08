@@ -47,7 +47,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAsync([FromQuery] Guid uuid)
+        public async Task<IActionResult> GetAsync([FromRoute] Guid uuid)
         {
             return await base.GetAsync(uuid);
         }

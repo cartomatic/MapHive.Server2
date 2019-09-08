@@ -42,13 +42,13 @@ namespace MapHive.Api.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{uuid}")]
-        [ProducesResponseType(typeof(TranslationKey), 200)]
+        [ProducesResponseType(typeof(TranslationKeyExtended), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAsync([FromQuery] Guid uuid)
+        public async Task<IActionResult> GetAsync([FromRoute] Guid uuid)
         {
-            return await base.GetAsync(uuid);
+            return await base.GetExtendedAsync<TranslationKeyExtended>(uuid);
         }
 
         /// <summary>
