@@ -127,8 +127,9 @@ namespace MapHive.Core.Api.ApiControllers
             }
         }
 
+
         /// <summary>
-        /// Defualt get by id action
+        /// Default get by id action
         /// </summary>
         /// <param name="uuid"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
@@ -138,7 +139,7 @@ namespace MapHive.Core.Api.ApiControllers
             if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
                 return NotAllowed();
 
-            return await ReadAsync<T>(db ?? _dbCtx, uuid);
+            return await ReadAsync<T,T>(db ?? _dbCtx, uuid);
         }
 
         /// <summary>
@@ -153,7 +154,23 @@ namespace MapHive.Core.Api.ApiControllers
             if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
                 return NotAllowed();
 
-            return await ReadAsync<TDto>(db ?? _dbCtx, uuid);
+            return await ReadAsync<T, TDto>(db ?? _dbCtx, uuid);
+        }
+
+        /// <summary>
+        /// Get by Id for an extended model
+        /// </summary>
+        /// <typeparam name="TExtended"></typeparam>
+        /// <param name="uuid"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        protected virtual async Task<IActionResult> GetExtendedAsync<TExtended>(Guid uuid, DbContext db = null)
+            where TExtended : Base
+        {
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
+                return NotAllowed();
+
+            return await ReadAsync<TExtended, TExtended>(db ?? _dbCtx, uuid);
         }
 
         /// <summary>
@@ -163,10 +180,12 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="uuid"></param>
         /// <typeparam name="TDto">Type to convert to; must implement IDTO of DTO</typeparam>
         /// <returns></returns>
-        protected virtual async Task<IActionResult> ReadAsync<TDto>(DbContext db, Guid uuid) where TDto : class
+        protected virtual async Task<IActionResult> ReadAsync<TRead, TDto>(DbContext db, Guid uuid)
+            where TRead : Base
+            where TDto : class
         {
             //all stuff is instance based, so need to obtain one first
-            T obj = (T)Activator.CreateInstance(typeof(T));
+            TRead obj = (TRead)Activator.CreateInstance(typeof(TRead));
 
             try
             {
@@ -176,7 +195,7 @@ namespace MapHive.Core.Api.ApiControllers
                 {
                     //Note: this could and should be done in a more elegant way. but had no smart ideas at a time. will come back to this at some stage...
                     //do dto hocus pocus if needed
-                    if (typeof(T) != typeof(TDto))
+                    if (typeof(TRead) != typeof(TDto))
                     {
                         //Note: IDTO is on the DTO and is implemented on instance obviously. so need one
                         var inst = Cartomatic.Utils.Dto.IDtoUtils.CrateIDtoInstance<TDto>();

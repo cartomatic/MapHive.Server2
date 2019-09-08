@@ -77,7 +77,7 @@ namespace MapHive.Core.Api.ApiControllers
             if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? GetOrganizationDbContext()))
                 return NotAllowed();
 
-            return await ReadAsync<T>(db ?? GetOrganizationDbContext(), uuid);
+            return await ReadAsync<T, T>(db ?? GetOrganizationDbContext(), uuid);
         }
 
         /// <summary>
@@ -92,9 +92,23 @@ namespace MapHive.Core.Api.ApiControllers
             if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? GetOrganizationDbContext()))
                 return NotAllowed();
 
-            return await ReadAsync<TDto>(db ?? GetOrganizationDbContext(), uuid);
+            return await ReadAsync<T, TDto>(db ?? GetOrganizationDbContext(), uuid);
         }
 
+        /// <summary>
+        /// Get by Id for an extended model
+        /// </summary>
+        /// <typeparam name="TExtended"></typeparam>
+        /// <param name="uuid"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        protected override async Task<IActionResult> GetExtendedAsync<TExtended>(Guid uuid, DbContext db = null)
+        {
+            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? GetOrganizationDbContext()))
+                return NotAllowed();
+
+            return await ReadAsync<TExtended, TExtended>(db ?? GetOrganizationDbContext(), uuid);
+        }
 
         /// <summary>
         /// Reads links for given property
