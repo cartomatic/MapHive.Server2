@@ -8,7 +8,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace MapHive.Core.DataModel
 {
-    public partial class TranslationKeyBase : Base, ILocalization
+    public abstract class TranslationKeyBase : Base, ILocalization
     {
         /// <summary>
         /// Identifier of a Localization class name a translation applies to;
