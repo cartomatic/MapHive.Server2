@@ -69,7 +69,7 @@ namespace MapHive.Core.Cmd
                 Console.WriteLine("\t[u:user]");
                 Console.WriteLine("\t[P:pass]");
                 Console.WriteLine();
-                Console.WriteLine($"example: {cmd} h:localhost n: p:5434 d:postgres u:postgres P:postgres");
+                Console.WriteLine($"example: {cmd} h:localhost n: p:5432 d:postgres u:postgres P:postgres");
                 Console.WriteLine();
                 Console.WriteLine("The order of params is not important; required params are: host, port, user, pass;");
                 Console.WriteLine("In most cases database is also a required param, although not always ie: dropping a db");
