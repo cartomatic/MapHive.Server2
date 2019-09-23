@@ -14,7 +14,7 @@ namespace MapHive.Core.Api.Extensions
         /// </summary>
         /// <param name="context"></param>
         /// <param name="total"></param>
-        public static void AppendTotalHeader(this HttpContext context, int total)
+        public static void AppendTotalHeader(this HttpContext context, long total)
         {
             context.Response.Headers.Append(WebClientConfiguration.HeaderTotal, $"{total}");
             context.Response.Headers.Append("Access-Control-Expose-Headers", WebClientConfiguration.HeaderTotal);
