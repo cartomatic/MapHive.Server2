@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils;
@@ -51,6 +52,55 @@ namespace MapHive.Core.Api
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
         }
+
+
+        /// <summary>
+        /// Downloads a given web resource to a file
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="fileName"></param>
+        /// <param name="extension"></param>
+        /// <param name="fileUploadConfigKey"></param>
+        /// <returns></returns>
+        public static async Task<Guid> DownloadResource(string url, string fileName, string extension, string fileUploadConfigKey)
+        {
+            var uploadConfig = GetFileUploadConfigurations();
+
+            if (uploadConfig == null)
+                throw new InvalidOperationException("FileUploadConfiguration has not been found.");
+
+            if (!uploadConfig.ContainsKey(fileUploadConfigKey))
+                throw new ArgumentException($"Could not find the {fileUploadConfigKey} key in FileUploadConfiguration.");
+
+
+            var saveCfg = uploadConfig[fileUploadConfigKey];
+
+            var uploadId = Guid.NewGuid();
+            var uploadDir = Path.Combine(saveCfg.Path.SolvePath(), uploadId.ToString());
+
+            Directory.CreateDirectory(uploadDir);
+
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.33 Safari/537.36");
+                    client.DownloadFile(new Uri(url), Path.Combine(uploadDir, fileName ?? uploadId.ToString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException("RemoteResource", "remote_download_failure",
+                    $"Failed to download a remote resource to a file: {url}");
+            }
+            
+
+            FileCleanup(saveCfg);
+
+            return uploadId;
+        }
+
+
 
         /// <summary>
         /// Saves files passed as multi part upload to the folder specified by the key in the FileUploadConfiguration
@@ -236,5 +286,6 @@ namespace MapHive.Core.Api
             } while (bytesRead > 0);
             return totalBytes;
         }
+        
     }
 }
