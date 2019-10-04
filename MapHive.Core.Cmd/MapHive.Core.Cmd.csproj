@@ -2,11 +2,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>MapHive.Core.Cmd</AssemblyName>
     <RootNamespace>MapHive.Core.Cmd</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.4-dev0446</Version>
+    <Version>1.0.4-dev0458</Version>
     <Description>.net core cmd implementation of of MapHive.Core via MapHive.Core.Cmd</Description>
     <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
