@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using IdentityModel.Client;
@@ -31,15 +32,36 @@ namespace MapHive.Core
         {
             var idSrvTokenClientOpts = IdSrvTokenClientOpts.InitDefault();
 
-            var tokenClient = new TokenClient(
-                $"{idSrvTokenClientOpts.Authority}/connect/token",
-                idSrvTokenClientOpts.ClientId,
-                idSrvTokenClientOpts.ClientSecret
-            );
+            //netcoreapp2.2
+            //var tokenClient = new TokenClient(
+            //    $"{idSrvTokenClientOpts.Authority}/connect/token",
+            //    idSrvTokenClientOpts.ClientId,
+            //    idSrvTokenClientOpts.ClientSecret
+            //);
+
+            //try
+            //{
+            //    return await tokenClient.RequestRefreshTokenAsync(refreshToken);
+            //}
+            //catch
+            //{
+            //    return null;
+            //}
+
 
             try
             {
-                return await tokenClient.RequestRefreshTokenAsync(refreshToken);
+                var client = new HttpClient();
+
+                return await client.RequestRefreshTokenAsync(new RefreshTokenRequest
+                {
+                    Address = $"{idSrvTokenClientOpts.Authority}/connect/token",
+
+                    ClientId = idSrvTokenClientOpts.ClientId,
+                    ClientSecret = idSrvTokenClientOpts.ClientSecret,
+
+                    RefreshToken = refreshToken
+                });
             }
             catch
             {

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation.Validators;
 using IdentityModel.Client;
 using MapHive.Core.IdentityServer.SerializableConfig;
+using Microsoft.Extensions.Http.Logging;
 
 namespace MapHive.Core
 {
@@ -34,25 +36,51 @@ namespace MapHive.Core
         {
             var idSrvTokenClientOpts = IdSrvTokenClientOpts.InitDefault();
 
-            var tokenClient = new TokenClient(
-                 $"{idSrvTokenClientOpts.Authority}/connect/token",
-                idSrvTokenClientOpts.ClientId,
-                idSrvTokenClientOpts.ClientSecret
-            );
+            //netcreapp2.2
+            //var tokenClient = new TokenClient(
+            //     $"{idSrvTokenClientOpts.Authority}/connect/token",
+            //    idSrvTokenClientOpts.ClientId,
+            //    idSrvTokenClientOpts.ClientSecret
+            //);
 
+            //try
+            //{
+            //    return
+            //        await
+            //            tokenClient.RequestResourceOwnerPasswordAsync(email, password,
+            //                idSrvTokenClientOpts.RequiredScopes);
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    return null;
+            //}
+
+
+            //netcore 3.0
             try
             {
-                return
-                    await
-                        tokenClient.RequestResourceOwnerPasswordAsync(email, password,
-                            idSrvTokenClientOpts.RequiredScopes);
+                var client = new HttpClient();
+
+                return await client.RequestPasswordTokenAsync(new PasswordTokenRequest
+                    {
+                        Address = $"{idSrvTokenClientOpts.Authority}/connect/token",
+
+                        ClientId = idSrvTokenClientOpts.ClientId,
+                        ClientSecret = idSrvTokenClientOpts.ClientSecret,
+                        Scope = idSrvTokenClientOpts.RequiredScopes,
+
+                        UserName = email,
+                        Password = password
+                    });
             }
             catch (Exception ex)
             {
-
                 return null;
             }
-            
+
+
+
         }
     }
 }

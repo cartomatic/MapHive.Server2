@@ -55,7 +55,7 @@ namespace MapHive.Core.IdentityServer
         }
 
         /// <summary>
-        /// Gets confogured api clients
+        /// Gets configured api clients
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<Client> GetApiClients()
