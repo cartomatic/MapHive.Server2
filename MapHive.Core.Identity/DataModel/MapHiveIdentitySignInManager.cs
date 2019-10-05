@@ -13,8 +13,8 @@ namespace MapHive.Core.Identity.DataModel
         public MapHiveIdentitySignInManager(UserManager<MapHiveIdentityUser> userManager,
             IHttpContextAccessor contextAccessor, IUserClaimsPrincipalFactory<MapHiveIdentityUser> claimsFactory,
             IOptions<IdentityOptions> optionsAccessor, ILogger<SignInManager<MapHiveIdentityUser>> logger,
-            IAuthenticationSchemeProvider schemes) : base(userManager, contextAccessor, claimsFactory, optionsAccessor,
-            logger, schemes)
+            IAuthenticationSchemeProvider schemes, IUserConfirmation<MapHiveIdentityUser> confirmation) : base(userManager, contextAccessor, claimsFactory, optionsAccessor,
+            logger, schemes, confirmation)
         {
         }
     }

@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using MapHive.Core.DataModel.Validation;
 using Microsoft.AspNetCore.Mvc;
 

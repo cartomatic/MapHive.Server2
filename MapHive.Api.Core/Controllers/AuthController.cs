@@ -10,7 +10,6 @@ using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

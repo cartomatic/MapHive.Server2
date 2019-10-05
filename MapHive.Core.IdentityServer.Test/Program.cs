@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel;
 using IdentityModel.Client;
@@ -22,8 +23,21 @@ namespace MapHive.Core.IdentityServer.Test
             Console.Write("Testing obtaining client credentials...");
 
             // request the token from the Auth server
-            var tokenClient = new TokenClient("http://localhost:5000/connect/token", "maphive-apis-client", "maphive-apis-client-test-secret");
-            var clientCredentials = await tokenClient.RequestClientCredentialsAsync("maphive_apis");
+
+
+            //netcoreapp2.2
+            //var tokenClient = new TokenClient("http://localhost:5000/connect/token", "maphive-apis-client", "maphive-apis-client-test-secret");
+            //var clientCredentials = await tokenClient.RequestClientCredentialsAsync("maphive_apis");
+
+            var client = new HttpClient();
+            var clientCredentials = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = "http://localhost:5000/connect/token",
+
+                ClientId = "maphive-apis-client",
+                ClientSecret = "maphive-apis-client-test-secret",
+                Scope = "maphive_apis"
+            });
 
             //note: client needs to support client credentials flow for the above
             Console.Write($"Done!" + Environment.NewLine);

@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -80,7 +81,11 @@ namespace MapHive.Core.Api.StartupExtensions
                     }
 
                 })
-                .AddJsonOptions(opts =>
+                .AddJsonOptions(opts => { })
+
+                //using newtonsoft so far, so need to opt in!
+                .AddNewtonsoftJson(opts =>
+                    
                 {
                     opts.SerializerSettings.Formatting = Formatting.None;
 #if DEBUG
@@ -149,7 +154,7 @@ namespace MapHive.Core.Api.StartupExtensions
             {
                 services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc(settings.UseGitVersion ? Cartomatic.Utils.Git.GetRepoVersion() : settings.ApiVersion, new Info
+                    c.SwaggerDoc(settings.UseGitVersion ? Cartomatic.Utils.Git.GetRepoVersion() : settings.ApiVersion, new OpenApiInfo
                     {
                         Title = settings?.ApiTitle ?? "unknown-api",
                         Version = settings.UseGitVersion ? Cartomatic.Utils.Git.GetRepoVersion() : settings.ApiVersion
@@ -172,7 +177,8 @@ namespace MapHive.Core.Api.StartupExtensions
                 services.AddResponseCompression(opts =>
                 {
                     //custom brotli compression provider
-                    opts.Providers.Add<BrotliCompressionProvider>();
+                    //MapHive.Core.Api.Compression.BrotliCompressionProvider - used prior to 3.x when brotli was not provided by the framework
+                    opts.Providers.Add<Microsoft.AspNetCore.ResponseCompression.BrotliCompressionProvider>();
 
                     //add customized mime
                     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(settings.CompressedMimeTypes ?? new string[0]);
@@ -255,12 +261,11 @@ namespace MapHive.Core.Api.StartupExtensions
                 app.UseResponseCompression();
             }
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action}"
-                );
+                endpoints.MapControllerRoute("default", "{controller}/{action}");
             });
         }
 
