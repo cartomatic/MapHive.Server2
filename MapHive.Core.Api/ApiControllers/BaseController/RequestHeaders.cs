@@ -74,6 +74,11 @@ namespace MapHive.Core.Api.ApiControllers
                 if(!transferHdrs)
                     continue;
 
+                //avoid headers starting with ':'
+                //looks like they may be added to a request by the framework when processing it
+                if(hdr.Key.StartsWith(":"))
+                    continue;
+
 
                 foreach (var hdrValue in hdr.Value)
                 {
