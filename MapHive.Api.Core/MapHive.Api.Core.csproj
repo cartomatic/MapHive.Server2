@@ -6,11 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.2\MapHive.Api.Core.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.2\MapHive.Api.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp3.0\MapHive.Api.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,7 +33,7 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
     <PackageReference Include="Serilog.Sinks.Literate" Version="3.0.0" />
-    <PackageReference Include="System.IO.Pipelines" Version="4.5.3" />
+    <PackageReference Include="System.IO.Pipelines" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>

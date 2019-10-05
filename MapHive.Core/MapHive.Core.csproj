@@ -2,10 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>1.0.4-dev0261</Version>
     <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
-    <Version>1.0.4-dev0702</Version>
+    <Version>1.0.4-dev0707</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
 aimed at working with pgsql initially</Description>
@@ -20,8 +18,6 @@ aimed at working with pgsql initially</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="8.2.3" />
-    <PackageReference Include="IdentityModel" Version="3.10.10" />
     <PackageReference Include="FluentValidation" Version="8.5.0" />
     <PackageReference Include="IdentityModel" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
