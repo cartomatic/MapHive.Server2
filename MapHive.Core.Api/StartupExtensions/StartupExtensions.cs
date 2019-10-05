@@ -83,7 +83,7 @@ namespace MapHive.Core.Api.StartupExtensions
                 })
                 .AddJsonOptions(opts => { })
 
-                //using newtonsoft so far, so need to opt in!
+                //in 3.x using newtonsoft so far, so need to opt in!
                 .AddNewtonsoftJson(opts =>
                     
                 {
@@ -112,7 +112,7 @@ namespace MapHive.Core.Api.StartupExtensions
             authBuilder.AddIdentityServerAuthentication(options =>
             {
                 options.Authority = bearerCfg.Authority;
-                options.RequireHttpsMetadata = false; //FIXME - should be true for production usage!
+                options.RequireHttpsMetadata = true;
                 options.ApiName = bearerCfg.ApiName;
                 options.ApiSecret = bearerCfg.ApiSecret;
                 options.TokenRetriever = request =>
@@ -128,7 +128,7 @@ namespace MapHive.Core.Api.StartupExtensions
 
                     return authToken;
                 };
-            }); ;
+            });
 
             //should investigate tokens???
             if (settings?.AllowApiTokenAccess == true)
