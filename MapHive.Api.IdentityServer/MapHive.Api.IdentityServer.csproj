@@ -27,6 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="appsettings.Production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="appsettings.ProductionLocal.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
