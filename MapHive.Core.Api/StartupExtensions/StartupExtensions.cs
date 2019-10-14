@@ -65,11 +65,12 @@ namespace MapHive.Core.Api.StartupExtensions
                     );
 
 
-                    if (settings.EnableCompression)
-                    {
-                        //allow reading gzip/json
-                        opts.InputFormatters.Add(new GZippedJsonInputFormatter());
-                    }
+                    //used to work nicely up to 2.2, stopped working in 3.0 - using middleware instead now
+                    //if (settings.EnableCompression)
+                    //{
+                    //    //allow reading gzip/json
+                    //    opts.InputFormatters.Insert(0,new GZippedJsonInputFormatter());
+                    //}
 
                     //when auto migrators are specified wire them up via MapHive.Core.Api.DbMigratorActionFilterAtribute
                     if (settings?.DbMigrator != null || settings?.OrganizationDbMigrator != null)
@@ -81,6 +82,7 @@ namespace MapHive.Core.Api.StartupExtensions
                     }
 
                 })
+
                 .AddJsonOptions(opts => { })
 
                 //in 3.x using newtonsoft so far, so need to opt in!
@@ -215,6 +217,11 @@ namespace MapHive.Core.Api.StartupExtensions
             //store api short name
             CommonSettings.Set(nameof(settings.AppShortNames), settings?.AppShortNames);
 
+            //plug in early, so can watch compressed input
+            if (settings?.EnableCompression == true)
+            {
+                app.UseInputGzipEncodingMiddleware();
+            }
 
             if (env.IsDevelopment())
             {

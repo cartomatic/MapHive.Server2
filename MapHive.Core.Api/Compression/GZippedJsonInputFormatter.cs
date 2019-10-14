@@ -19,6 +19,8 @@ namespace MapHive.Core.Api.Compression
     {
         public GZippedJsonInputFormatter()
         {
+            SupportedMediaTypes.Clear();
+
             // Add the supported media type.
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("gzip/json"));
         }
