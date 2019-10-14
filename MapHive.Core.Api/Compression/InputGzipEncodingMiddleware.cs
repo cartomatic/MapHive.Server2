@@ -49,25 +49,27 @@ namespace MapHive.Core.Api.Authorize
         {
             if (context.Request.Headers["Encoding"].FirstOrDefault() == "gzip")
             {
-                context.Request.Body = DecompressToStream(context.Request.Body);
+                try
+                {
+                    context.Request.Body = await DecompressToStream(context.Request.Body);
+                }
+                catch (Exception ex)
+                {
+                    context.Response.StatusCode = 500;
+                    await context.Response.WriteAsync(ex.Message);
+                }
             }
 
             //let all the middleware do the job
             await _next.Invoke(context);
         }
 
-        private Stream DecompressToStream(Stream dataStr)
+        private async Task<Stream> DecompressToStream(Stream dataStr)
         {
             using (var gzipStream = new System.IO.Compression.GZipStream(dataStr, CompressionMode.Decompress))
             {
-                return gzipStream.CopyStream();
+                return await gzipStream.CopyStreamAsync();
             }
-
-            //Ionic.Zlib example. ionic seems to not be available for net core though and restores for net 462
-            //using (var gzipStream = new Ionic.Zlib.GZipStream(dataStr, Ionic.Zlib.CompressionMode.Decompress))
-            //{
-            //    return gzipStream.CopyStream();
-            //}
         }
     }
 }
