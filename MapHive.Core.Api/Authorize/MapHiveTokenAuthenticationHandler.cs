@@ -20,7 +20,7 @@ namespace MapHive.Core.Api.Authorize
 
     public class MapHiveTokenAuthenticationHandler : AuthenticationHandler<MapHiveTokenAuthenticationOptions>
     {
-        public const string Scheme = "MapHiveApiPickLock";
+        public const string Scheme = "MhApiKey";
 
         private readonly ILogger _logger;
 

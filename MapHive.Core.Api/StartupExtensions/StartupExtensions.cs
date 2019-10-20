@@ -48,6 +48,7 @@ namespace MapHive.Core.Api.StartupExtensions
                         .AddAuthenticationSchemes(authSchemes.ToArray())
                         .RequireAuthenticatedUser()
                         .Build();
+
                     opts.Filters.Add(new AuthorizeFilter(globalAuthorizePolicy));
 
                     //so can keep on using Cartomatic.Utils.Identity...
