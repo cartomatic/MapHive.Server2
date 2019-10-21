@@ -366,7 +366,7 @@ namespace MapHive.Core.Api.UserConfiguration
             }
 
 
-            //org uuid if any - in such case access is via org api: organizations/orgUuid/conntroller
+            //org uuid if any - in such case access is via org api: organizations/orgUuid/controller
             Organization org = null;
             if (CheckAttributePresence<OrganizationContextActionFilterAttribute>(actionContext))
             {

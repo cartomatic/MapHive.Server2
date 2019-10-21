@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Cartomatic.Utils;
-using MapHive.Core.Api.UserConfiguration;
+﻿using Cartomatic.Utils;
 using MapHive.Core.Api.Authorize;
 using MapHive.Core.Api.Filters;
-using MapHive.Core;
-using MapHive.Core.Api.Compression;
+using MapHive.Core.Api.UserConfiguration;
 using MapHive.Core.DataModel;
 using MapHive.Core.IdentityServer.SerializableConfig;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +15,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace MapHive.Core.Api.StartupExtensions
 {
@@ -88,7 +84,7 @@ namespace MapHive.Core.Api.StartupExtensions
 
                 //in 3.x using newtonsoft so far, so need to opt in!
                 .AddNewtonsoftJson(opts =>
-                    
+
                 {
                     opts.SerializerSettings.Formatting = Formatting.None;
 #if DEBUG
@@ -143,8 +139,8 @@ namespace MapHive.Core.Api.StartupExtensions
                     opts => { }
                 );
             }
-                
-            
+
+
 
             services.Configure<IISOptions>(opts =>
             {
@@ -188,7 +184,7 @@ namespace MapHive.Core.Api.StartupExtensions
                     opts.EnableForHttps = true;
                 });
 
-                
+
 
             }
 
@@ -295,7 +291,7 @@ namespace MapHive.Core.Api.StartupExtensions
             {
                 builder.AllowAnyOrigin();
             }
-            else if(origins.Any())
+            else if (origins.Any())
             {
                 if (origins.Any(o => o.IndexOf("*") > -1))
                     builder.SetIsOriginAllowedToAllowWildcardSubdomains();
@@ -316,7 +312,7 @@ namespace MapHive.Core.Api.StartupExtensions
             {
                 builder.AllowAnyMethod();
             }
-            else if(methods.Any())
+            else if (methods.Any())
             {
                 builder.WithMethods(methods);
             }

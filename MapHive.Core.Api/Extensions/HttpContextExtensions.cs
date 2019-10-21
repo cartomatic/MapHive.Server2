@@ -54,7 +54,7 @@ namespace MapHive.Core.Api.Extensions
         /// <returns></returns>
         public static Uri ExtractReferrerHeader(this HttpContext context)
         {
-            context.Request.Headers.TryGetValue("Referrer", out var referrerValues);
+            context.Request.Headers.TryGetValue("Referer", out var referrerValues);
 
             return referrerValues.Count == 1 ? new Uri(referrerValues[0]) : null;
         }
