@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MapHive.Core.Api.ApiControllers;
+using MapHive.Core.Api.UserConfiguration;
 using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Authorization;
@@ -156,7 +157,16 @@ namespace MapHive.Api.Core.Controllers
 
             try
             {
-                var orgs = await MapHiveUser.GetUserOrganizationsAsync(_dbCtx, uuid.Value);
+                IEnumerable<Organization> orgs = null;
+
+                var userCfg = UserConfigurationActionFilterAtribute.GetUserConfiguration(HttpContext);
+                if(userCfg.IsUser)
+                    orgs = await MapHiveUser.GetUserOrganizationsAsync(_dbCtx, uuid.Value);
+
+                //make it possible to return orgs for a token too.
+                if (userCfg.IsToken)
+                    orgs = new[] {await userCfg.Token.GetOrganizationAsync(_dbCtx)};
+
 
                 if (!orgs.Any())
                 {

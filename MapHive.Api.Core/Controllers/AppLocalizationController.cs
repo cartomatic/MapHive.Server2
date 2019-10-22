@@ -86,6 +86,7 @@ namespace MapHive.Api.Core.Controllers
         /// <summary>
         /// Bulk localizations save input
         /// </summary>
+        [ApiExplorerSettings(IgnoreApi = true)]
         public class BulkSaveInput
         {
             /// <summary>
@@ -114,6 +115,7 @@ namespace MapHive.Api.Core.Controllers
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        [ApiExplorerSettings(IgnoreApi = true)] //so not visible in std docs
         [HttpPost]
         [Route("bulksave")]
         [ProducesResponseType(200)]

@@ -27,10 +27,10 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public async Task<Application> GetApplicationsAsync(MapHiveDbContext dbCtx)
+        public async Task<List<Application>> GetApplicationsAsync(MapHiveDbContext dbCtx)
         {
             ApplicationIds ??= new SerializableListOfGuid();
-            return await dbCtx.Applications.FirstOrDefaultAsync(app => ApplicationIds.Contains(app.Uuid));
+            return await dbCtx.Applications.Where(app => ApplicationIds.Contains(app.Uuid)).ToListAsync();
         }
     }
 }

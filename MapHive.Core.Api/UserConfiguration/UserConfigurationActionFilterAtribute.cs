@@ -269,7 +269,7 @@ namespace MapHive.Core.Api.UserConfiguration
         }
 
         /// <summary>
-        /// Tries to obrain user confoguration off a context
+        /// Tries to obtain user configuration off a context
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
@@ -398,7 +398,7 @@ namespace MapHive.Core.Api.UserConfiguration
             var ok = orgs.Any(o => o?.Applications?.Any(a => appNames.Contains(a.ShortName)) ?? false);
             if (!ok)
             {
-                failureReason = $"Org(s): '{string.Join(",", orgs.AsEnumerable())}' have no access to the '{string.Join(", ", appNames)}' app(s) granted.";
+                failureReason = $"Org(s): '{string.Join(",", orgs.AsEnumerable().Select(o=>o.Slug))}' have no access to the '{string.Join(", ", appNames)}' app(s) granted.";
             }
             return ok;
         }
