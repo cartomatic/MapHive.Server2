@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.JsonSerializableObjects;
 using MapHive.Core.DAL;
 
 using Microsoft.EntityFrameworkCore;
@@ -17,17 +18,19 @@ namespace MapHive.Core.DataModel
         /// <param name="apps"></param>
         public void SetApplication(Application app)
         {
-            this.ApplicationId = app.Uuid;
+            ApplicationIds ??= new SerializableListOfGuid();
+            ApplicationIds.Add(app.Uuid);
         }
 
         /// <summary>
-        /// Gets application assigned to token
+        /// Gets applications assigned to token
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public async Task<Application> GetApplicationAsync(MapHiveDbContext dbCtx)
+        public async Task<Application> GetApplicationsAsync(MapHiveDbContext dbCtx)
         {
-            return await dbCtx.Applications.FirstOrDefaultAsync(app => app.Uuid == ApplicationId);
+            ApplicationIds ??= new SerializableListOfGuid();
+            return await dbCtx.Applications.FirstOrDefaultAsync(app => ApplicationIds.Contains(app.Uuid));
         }
     }
 }

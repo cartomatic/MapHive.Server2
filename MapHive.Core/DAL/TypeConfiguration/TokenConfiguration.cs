@@ -19,7 +19,8 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.ApplyIBaseConfiguration(nameof(Token), "tokens", "mh_meta");
 
             builder.Property(p => p.OrganizationId).HasColumnName("organization_id");
-            builder.Property(p => p.ApplicationId).HasColumnName("application_id");
+            builder.Ignore(p => p.ApplicationIds);
+            builder.Property(p => p.ApplicationIdsSerialized).HasColumnName("application_ids");
             builder.Property(p => p.Name).HasColumnName("name");
             builder.Property(p => p.Description).HasColumnName("description");
 

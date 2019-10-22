@@ -121,7 +121,7 @@ Note: this description is only visible in DEBUG mode.";
                     var tmpOrgs = orgs?.ToList() ?? new List<Organization>();
 
                     //get an app token grants access too
-                    var tokenApp = await token.GetApplicationAsync(dbCtx);
+                    var tokenApp = await token.GetApplicationsAsync(dbCtx);
                     if (tokenApp != null)
                     {
                         tokenOrg.Applications = new List<Application>
