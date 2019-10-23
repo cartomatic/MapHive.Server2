@@ -163,7 +163,7 @@ namespace MapHive.Api.Core.Controllers
                 if(userCfg.IsUser)
                     orgs = await MapHiveUser.GetUserOrganizationsAsync(_dbCtx, uuid.Value);
 
-                //make it possible to return orgs for a token too.
+                //make it possible to return orgs for a token too
                 if (userCfg.IsToken)
                     orgs = new[] {await userCfg.Token.GetOrganizationAsync(_dbCtx)};
 
