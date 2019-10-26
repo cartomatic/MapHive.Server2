@@ -15,7 +15,7 @@ namespace MapHive.Core.Api.ApiControllers
         where TDbContext : DbContext, IProvideDbContextFactory, new()
     {
         /// <summary>
-        /// Defualt put action
+        /// Default put action
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="uuid"></param>
@@ -23,8 +23,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> PutAsync(T obj, Guid uuid, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForUpdateAsync(db ?? GetOrganizationDbContext()))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
+            if(db != null && db != GetOrganizationDbContext())
+                if (!await IsCrudPrivilegeGrantedForUpdateAsync(db))
+                    return NotAllowed();
 
             return await UpdateAsync(db ?? GetOrganizationDbContext(), obj, uuid);
         }
@@ -39,8 +41,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> PutAsync<TDto>(TDto obj, Guid uuid, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForUpdateAsync(db ?? GetOrganizationDbContext()))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
+            if (db != null && db != GetOrganizationDbContext())
+                if (!await IsCrudPrivilegeGrantedForUpdateAsync(db))
+                    return NotAllowed();
 
             return await UpdateAsync(db ?? GetOrganizationDbContext(), obj, uuid);
         }

@@ -12,15 +12,17 @@ namespace MapHive.Core.Api.ApiControllers
         where TDbContext : DbContext, IProvideDbContextFactory, new()
     {
         /// <summary>
-        /// Defualt delete action
+        /// Default delete action
         /// </summary>
         /// <param name="uuid"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
         protected override async Task<IActionResult> DeleteAsync(Guid uuid, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForDestroyAsync(db ?? GetOrganizationDbContext()))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
+            if (db != null && db != GetOrganizationDbContext())
+                if (!await IsCrudPrivilegeGrantedForDestroyAsync(db))
+                    return NotAllowed();
 
             return await DestroyAsync(db ?? GetOrganizationDbContext(), uuid);
         }

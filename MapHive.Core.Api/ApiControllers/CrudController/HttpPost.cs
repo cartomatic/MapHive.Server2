@@ -9,21 +9,23 @@ namespace MapHive.Core.Api.ApiControllers
     public abstract partial class CrudController<T, TDbCtx>
     {
         /// <summary>
-        /// Defualt post action
+        /// Default post action
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
         protected virtual async Task<IActionResult> PostAsync(T obj, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForCreateAsync(db ?? _dbCtx))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from _dbCtx so just testing if passed dbCtx is different
+            if (db != null && db != _dbCtx)
+                if (!await IsCrudPrivilegeGrantedForCreateAsync(db))
+                    return NotAllowed();
 
             return await CreateAsync(db ?? _dbCtx, obj);
         }
 
         /// <summary>
-        /// Defualt post action with automated conversion from DTO
+        /// Default post action with automated conversion from DTO
         /// </summary>
         /// <typeparam name="DTO">DTO type to convert from to the core type</typeparam>
         /// <param name="obj"></param>
@@ -31,8 +33,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> PostAsync<DTO>(DTO obj, DbContext db = null) where DTO : class
         {
-            if (!await IsCrudPrivilegeGrantedForCreateAsync(db ?? _dbCtx))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from _dbCtx so just testing if passed dbCtx is different
+            if (db != null && db != _dbCtx)
+                if (!await IsCrudPrivilegeGrantedForCreateAsync(db))
+                    return NotAllowed();
 
             return await CreateAsync(db ?? _dbCtx, obj);
         }

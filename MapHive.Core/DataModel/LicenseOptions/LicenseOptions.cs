@@ -9,7 +9,7 @@ using Newtonsoft.Json.Serialization;
 namespace MapHive.Core.DataModel
 {
     /// <summary>
-    /// License options used to specify defualt opts for an application, module, data source
+    /// License options used to specify default opts for an application, module, data source
     /// </summary>
     public partial class LicenseOptions : Dictionary<string, LicenseOption>
     {

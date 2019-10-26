@@ -27,8 +27,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> GetAsync(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from _dbCtx so just testing if passed dbCtx is different
+            if (db != null && db != _dbCtx)
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
             return await ReadAsync<T, T>(db ?? _dbCtx, sort, filter, start, limit);
         }
@@ -36,7 +38,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Default get all action
         /// </summary>
-        /// <typeparam name="TDto">Defualt get by id action with automated DTO operation output</typeparam>
+        /// <typeparam name="TDto">Default get by id action with automated DTO operation output</typeparam>
         /// <param name="sort"></param>
         /// <param name="filter"></param>
         /// <param name="start"></param>
@@ -45,8 +47,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> GetAsync<TDto>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null) where TDto : class
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from _dbCtx so just testing if passed dbCtx is different
+            if (db != null && db != _dbCtx)
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
             return await ReadAsync<T, TDto>(db ?? _dbCtx, sort, filter, start, limit);
         }
@@ -64,14 +68,16 @@ namespace MapHive.Core.Api.ApiControllers
         protected virtual async Task<IActionResult> GetExtendedAsync<TExtended>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         where TExtended : Base
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from _dbCtx so just testing if passed dbCtx is different
+            if (db != null && db != _dbCtx)
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
             return await ReadAsync<TExtended, TExtended>(db ?? _dbCtx, sort, filter, start, limit);
         }
 
         /// <summary>
-        /// Gets alist of objects; performs automated conversion of output into specified DTO
+        /// Gets a list of objects; performs automated conversion of output into specified DTO
         /// </summary>
         /// <typeparam name="TRead">Type to read</typeparam>
         /// <typeparam name="TDto">DTO Type to convert the output into</typeparam>
@@ -136,14 +142,16 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> GetAsync(Guid uuid, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from _dbCtx so just testing if passed dbCtx is different
+            if (db != null && db != _dbCtx)
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
             return await ReadAsync<T,T>(db ?? _dbCtx, uuid);
         }
 
         /// <summary>
-        /// Defualt get by id action with automated DTO operation output
+        /// Default get by id action with automated DTO operation output
         /// </summary>
         /// <typeparam name="TDto">DTO Type to convert the output into</typeparam>
         /// <param name="uuid"></param>
@@ -151,8 +159,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual async Task<IActionResult> GetAsync<TDto>(Guid uuid, DbContext db = null) where TDto : class
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from _dbCtx so just testing if passed dbCtx is different
+            if (db != null && db != _dbCtx)
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
             return await ReadAsync<T, TDto>(db ?? _dbCtx, uuid);
         }
@@ -167,8 +177,10 @@ namespace MapHive.Core.Api.ApiControllers
         protected virtual async Task<IActionResult> GetExtendedAsync<TExtended>(Guid uuid, DbContext db = null)
             where TExtended : Base
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? _dbCtx))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from _dbCtx so just testing if passed dbCtx is different
+            if (db != null && db != _dbCtx)
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
             return await ReadAsync<TExtended, TExtended>(db ?? _dbCtx, uuid);
         }
