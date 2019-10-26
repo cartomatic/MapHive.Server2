@@ -19,6 +19,7 @@ using RestSharp;
 
 namespace MapHive.Core.Api.Authorize
 {
+
     public static class InputGzipEncodingMiddlewareExtensions
     {
         /// <summary>
@@ -72,4 +73,5 @@ namespace MapHive.Core.Api.Authorize
             }
         }
     }
+
 }

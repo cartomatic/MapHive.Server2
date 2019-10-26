@@ -7,7 +7,7 @@ using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-#pragma warning disable 1591
+
 namespace MapHive.Core.IdentityServer.DAL
 {
     public class MapHiveIdSrvPersistedGrantDbContextDesignTimeFactory : IDesignTimeDbContextFactory<MapHiveIdSrvPersistedGrantDbContext>

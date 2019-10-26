@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.Api.ApiControllers
 {
+
     public class CrudPrivilegeRequired : ActionFilterAttribute
     {
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -136,4 +137,5 @@ namespace MapHive.Core.Api.ApiControllers
     public class CrudPrivilegeRequiredDestroy : CrudPrivilegeRequired
     {
     }
+
 }

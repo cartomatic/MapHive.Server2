@@ -11,7 +11,7 @@ using Serilog.Events;
 
 namespace MapHive.Core.Api
 {
-#pragma warning disable 1591
+
     public class Program
     {
         public static int Main(string[] args)

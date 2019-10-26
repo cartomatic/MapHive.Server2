@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Core.Api.Extensions
 {
+
     public static class IConfigurationBuilderExtensions
     {
         /// <summary>
@@ -20,4 +21,5 @@ namespace MapHive.Core.Api.Extensions
             return config;
         }
     }
+
 }

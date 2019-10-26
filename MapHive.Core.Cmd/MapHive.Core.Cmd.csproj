@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RootNamespace>MapHive.Core.Cmd</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.4-dev0532</Version>
+    <Version>1.0.4-dev0535</Version>
     <Description>.net core cmd implementation of of MapHive.Core via MapHive.Core.Cmd</Description>
     <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
@@ -15,6 +15,10 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>E:\MapHive\MapHive.Server2\MapHive.Core.Cmd\MapHive.Core.Cmd.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

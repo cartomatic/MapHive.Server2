@@ -16,6 +16,7 @@ using RestSharp;
 
 namespace MapHive.Core.Api.Authorize
 {
+
     public static class TokenAuthorizeMiddlewareExtensions
     {
         /// <summary>
@@ -46,6 +47,7 @@ namespace MapHive.Core.Api.Authorize
             if (Cache == null)
                 Cache = CacheFactory.CreateCache<bool>(cacheType, cacheTimeout);
         }
+
 
 
         public async Task Invoke(HttpContext context)
@@ -112,4 +114,5 @@ namespace MapHive.Core.Api.Authorize
             return false;
         }
     }
+
 }

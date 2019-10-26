@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MapHive.Core.Identity.DAL.Migrations
 {
-#pragma warning disable 1591
+
     public partial class InitialCreate : Migration
     {
 

@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace MapHive.Core.Api.UserConfiguration
 {
+
     /// <summary>
     /// Extracts organization context off a request
     /// </summary>
@@ -325,6 +326,7 @@ namespace MapHive.Core.Api.UserConfiguration
         /// Whether or now the action is allowed via user config
         /// </summary>
         /// <param name="actionContext"></param>
+        /// <param name="failureReason"></param>
         /// <returns></returns>
         protected static bool AllowViaUserConfig(ActionExecutingContext actionContext, out string failureReason)
         {
@@ -414,4 +416,5 @@ namespace MapHive.Core.Api.UserConfiguration
             return GetUserConfiguration(context)?.Orgs?.FirstOrDefault(o => o.Uuid == orgnizationId);
         }
     }
+
 }

@@ -390,7 +390,7 @@ namespace MapHive.Core.Cmd
                 //use custom serializer on output! This is important as the newtonsoft's json stuff is used for the object serialization!
                 request.RequestFormat = DataFormat.Json;
                 request.JsonSerializer = new Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer();
-                request.AddBody(data);
+                request.AddJsonBody(data);
             }
 
             if (!string.IsNullOrEmpty(AccessToken))

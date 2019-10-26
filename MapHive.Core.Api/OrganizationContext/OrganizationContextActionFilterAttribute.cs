@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace MapHive.Core.Api
 {
+
     /// <summary>
     /// Action is run before every api request and gets databases data for organization
     /// It is assumed to work along with the UserConfigAttribute that is defined globally and therefore its data is present already when
@@ -16,6 +17,7 @@ namespace MapHive.Core.Api
     public class OrganizationContextActionFilterAttribute : ActionFilterAttribute
     {
         public const string OrgIdPropertyName = "organizationuuid";
+
 
         public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
@@ -98,4 +100,5 @@ namespace MapHive.Core.Api
             return orgDb;
         }
     }
+
 }

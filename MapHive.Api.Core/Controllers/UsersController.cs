@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.Api.UserConfiguration;
@@ -7,7 +8,6 @@ using MapHive.Core.DataModel;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace MapHive.Api.Core.Controllers
 {

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace MapHive.Core.Api.Extensions
 {
+
     public static class HttpContextExtensions
     {
         /// <summary>
@@ -59,4 +60,5 @@ namespace MapHive.Core.Api.Extensions
             return referrerValues.Count == 1 ? new Uri(referrerValues[0]) : null;
         }
     }
+
 }

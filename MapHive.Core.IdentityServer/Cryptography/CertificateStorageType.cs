@@ -10,7 +10,7 @@ namespace MapHive.Core.IdentityServer
     /// </summary>
     public enum CertificateStorageType
     {
-#pragma warning disable 1591
+
         File,
         Embedded,
         Store

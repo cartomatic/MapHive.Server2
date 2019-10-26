@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 
 namespace MapHive.Core.Api.Compression
 {
+
     public class BrotliCompressionProvider : ICompressionProvider
     {
 
@@ -17,4 +18,5 @@ namespace MapHive.Core.Api.Compression
         public Stream CreateStream(Stream outputStream) => new BrotliStream(outputStream, CompressionMode.Compress);
 
     }
+
 }

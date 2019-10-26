@@ -2,6 +2,9 @@
 
 namespace MapHive.Core.Api.ApiControllers
 {
+    /// <summary>
+    /// enforces ability to provide org db ctx
+    /// </summary>
     public interface IOrganizationDbCtxApiController
     {
         /// <summary>

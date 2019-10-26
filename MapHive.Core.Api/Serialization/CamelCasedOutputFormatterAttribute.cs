@@ -13,6 +13,10 @@ using Newtonsoft.Json.Serialization;
 namespace MapHive.Core.Api.Serialization
 {
 
+
+    /// <summary>
+    /// Enforces formatting output in CamelCase
+    /// </summary>
     public class CamelCasedOutputFormatterAttribute : IAsyncResultFilter
     {
         public async Task OnResultExecutionAsync(
@@ -29,4 +33,5 @@ namespace MapHive.Core.Api.Serialization
             await next();
         }
     }
+
 }

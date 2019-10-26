@@ -10,6 +10,10 @@ using Serilog;
 
 namespace MapHive.Core.Api
 {
+
+    /// <summary>
+    /// maphive specific web host utils
+    /// </summary>
     public class WebHostUtils
     {
         /// <summary>
@@ -79,4 +83,5 @@ namespace MapHive.Core.Api
             config.ConfigureConfigSources();
         }
     }
+
 }

@@ -22,8 +22,14 @@ using System.Linq;
 
 namespace MapHive.Core.Api.StartupExtensions
 {
+
     public static class StartupExtensions
     {
+        /// <summary>
+        /// Configures maphive api services
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="settings"></param>
         public static void ConfigurMapHiveApiServices(this IServiceCollection services, ApiConfigurationSettings settings)
         {
             services
@@ -320,4 +326,5 @@ namespace MapHive.Core.Api.StartupExtensions
             return builder;
         }
     }
+
 }

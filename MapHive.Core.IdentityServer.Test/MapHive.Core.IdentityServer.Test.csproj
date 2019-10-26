@@ -5,6 +5,10 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\MapHive.Core.IdentityServer\MapHive.Core.IdentityServer.csproj" />
     <ProjectReference Include="..\MapHive.Core.Identity\MapHive.Core.Identity.csproj" />

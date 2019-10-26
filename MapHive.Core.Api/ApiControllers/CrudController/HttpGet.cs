@@ -191,6 +191,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <param name="uuid"></param>
         /// <typeparam name="TDto">Type to convert to; must implement IDTO of DTO</typeparam>
+        /// <typeparam name="TRead"></typeparam>
         /// <returns></returns>
         protected virtual async Task<IActionResult> ReadAsync<TRead, TDto>(DbContext db, Guid uuid)
             where TRead : Base
@@ -286,7 +287,7 @@ namespace MapHive.Core.Api.ApiControllers
                 }
 
             }
-            catch (Exception ex)
+            catch
             {
                 //if something goes wrong just fail
                 return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
@@ -345,7 +346,7 @@ namespace MapHive.Core.Api.ApiControllers
                 }
 
             }
-            catch (Exception ex)
+            catch
             {
                 //if something goes wrong just fail
                 return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
@@ -405,7 +406,7 @@ namespace MapHive.Core.Api.ApiControllers
                 }
 
             }
-            catch (Exception ex)
+            catch
             {
                 //if something goes wrong just fail
                 return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
@@ -464,7 +465,7 @@ namespace MapHive.Core.Api.ApiControllers
                 }
 
             }
-            catch (Exception ex)
+            catch
             {
                 //if something goes wrong just fail
                 return new StatusCodeResult((int)HttpStatusCode.InternalServerError);

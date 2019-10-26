@@ -84,10 +84,12 @@ namespace MapHive.Core.Api
                 using (var client = new WebClient())
                 {
                     client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.33 Safari/537.36");
-                    client.DownloadFile(new Uri(url), Path.Combine(uploadDir, fileName ?? uploadId.ToString()));
+
+                    await Task.Run(() =>
+                        client.DownloadFile(new Uri(url), Path.Combine(uploadDir, fileName ?? uploadId.ToString())));
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 throw MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException("RemoteResource", "remote_download_failure",
                     $"Failed to download a remote resource to a file: {url}");

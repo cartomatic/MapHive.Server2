@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.IdentityServer.DAL
 {
-#pragma warning disable 1591
+
     public static class StoreOptions
     {
         public const string DefaultConnStrName = "MapHiveIdSrv";

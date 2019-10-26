@@ -38,7 +38,7 @@ namespace MapHive.Core.DAL
             try
             {
                 var dropTableSql = $@"DROP TABLE IF EXISTS ""{schema}"".""{viewName}"" CASCADE;";
-                dbCtx.Database.ExecuteSqlCommand(dropTableSql);
+                dbCtx.Database.ExecuteSqlRaw(dropTableSql);
             }
             catch
             {
@@ -46,7 +46,7 @@ namespace MapHive.Core.DAL
             }
 
             var dropViewSql = $@"DROP VIEW IF EXISTS ""{schema}"".""{viewName}"" CASCADE;";
-            dbCtx.Database.ExecuteSqlCommand(dropViewSql);
+            dbCtx.Database.ExecuteSqlRaw(dropViewSql);
 
 
 
@@ -71,7 +71,7 @@ FROM
 ;
 ";
 
-            dbCtx.Database.ExecuteSqlCommand(viewSql);
+            dbCtx.Database.ExecuteSqlRaw(viewSql);
 
         }
     }

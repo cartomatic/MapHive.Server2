@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace MapHive.Core.Api.Filters
 {
+
+    /// <summary>
+    /// Impersonates user the old way; a bit not in line with aspnet core though, but these utils are used in many places and passing identity explicitly doesn't seem to be a viable option. at least at this stage
+    /// </summary>
     public class OldSchoolUserImpersonationViaClaimsPrincipalAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext actionContext)
@@ -17,4 +21,5 @@ namespace MapHive.Core.Api.Filters
             Cartomatic.Utils.Identity.ImpersonateUser(sub?.Value);
         }
     }
+
 }

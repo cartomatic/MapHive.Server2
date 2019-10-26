@@ -34,18 +34,18 @@ namespace MapHive.Core.Api.ApiControllers
         protected OrganizationDatabase GetOrganizationDatabase(string dbIdentifier = null) =>
             OrganizationContextActionFilterAttribute.GetOrganisationDatabase(HttpContext, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
 
-        OrganizationDatabase IOrganizationApiController<TDbContext>.GetOrganizationDatabase(string dbIdentifier = null) =>
+        OrganizationDatabase IOrganizationApiController<TDbContext>.GetOrganizationDatabase(string dbIdentifier) =>
             OrganizationContextActionFilterAttribute.GetOrganisationDatabase(HttpContext, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
 
         /// <summary>
-        /// Gets a default db context for an organisation
+        /// Gets a default db context for an organization
         /// </summary>
         /// <returns></returns>
         protected TDbContext GetOrganizationDbContext(string dbIdentifier = null) =>
-            _organizationDb ?? (_organizationDb = GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbContext>());
+            _organizationDb ??= GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbContext>();
 
-        TDbContext IOrganizationApiController<TDbContext>.GetOrganizationDbContext(string dbIdentifier = null) =>
-            _organizationDb ?? (_organizationDb = GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbContext>());
+        TDbContext IOrganizationApiController<TDbContext>.GetOrganizationDbContext(string dbIdentifier) =>
+            _organizationDb ??= GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbContext>();
 
         /// <summary>
         /// Grets a specified db ctx
@@ -56,7 +56,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected TDbCtx GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null)
             where TDbCtx : DbContext, IProvideDbContextFactory, new() => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
 
-        TDbCtx IOrganizationApiController<TDbContext>.GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null) => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
+        TDbCtx IOrganizationApiController<TDbContext>.GetOrganizationDbContext<TDbCtx>(string dbIdentifier) => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
 
 
         /// <summary>

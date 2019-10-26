@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.Api.ApiControllers
 {
+
     /// <summary>
     /// Provides the base for the Web APIs that expose IBase like objects via RESTful like API
     /// </summary>
@@ -69,4 +70,5 @@ namespace MapHive.Core.Api.ApiControllers
             base.Dispose();
         }
     }
+
 }

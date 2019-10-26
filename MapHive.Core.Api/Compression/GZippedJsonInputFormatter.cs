@@ -34,7 +34,7 @@ namespace MapHive.Core.Api.Compression
                 using (var sr = new StreamReader(decompressedStream))
                 {
                     decompressedStream.Position = 0;
-                    var jsonData = sr.ReadToEnd();
+                    var jsonData = await sr.ReadToEndAsync();
 
                     return InputFormatterResult.Success(!string.IsNullOrEmpty(jsonData)
                         ? Newtonsoft.Json.JsonConvert.DeserializeObject(jsonData, context.ModelType)

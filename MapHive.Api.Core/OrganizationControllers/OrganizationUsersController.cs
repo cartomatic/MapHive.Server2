@@ -19,7 +19,7 @@ namespace MapHive.Api.Core.Controllers
     {
         private IEmailSender EmailSender { get; set; }
 
-#pragma warning disable 1591
+
         public OrganisationUsersController(IEmailSender emailSender)
         {
             EmailSender = emailSender;
