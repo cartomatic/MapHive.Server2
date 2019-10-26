@@ -23,7 +23,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected override async Task<IActionResult> PostAsync(T obj, DbContext db = null)
         {
             //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
-            if (db != null && db != GetOrganizationDbContext())
+            if (db != null && db != GetOrganizationDbContextSafe())
                 if (!await IsCrudPrivilegeGrantedForCreateAsync(db))
                     return NotAllowed();
 
@@ -40,7 +40,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected override async Task<IActionResult> PostAsync<DTO>(DTO obj, DbContext db = null)
         {
             //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
-            if (db != null && db != GetOrganizationDbContext())
+            if (db != null && db != GetOrganizationDbContextSafe())
                 if (!await IsCrudPrivilegeGrantedForCreateAsync(db))
                     return NotAllowed();
 

@@ -28,15 +28,24 @@ namespace MapHive.Core.Api.ApiControllers
             var getOrganizationDbContextMethodInfo = cType.GetMethods(bindingFlags).FirstOrDefault(m => m.Name == "GetOrganizationDbContext");
             if (getOrganizationDbContextMethodInfo != null)
             {
-                dbCtx = (DbContext) getOrganizationDbContextMethodInfo.Invoke(context.Controller, new object []{null});
+                try
+                {
+                    dbCtx = (DbContext) getOrganizationDbContextMethodInfo.Invoke(context.Controller,
+                        new object[] {null});
+                }
+                catch
+                {
+                    //ignore
+                }
             }
-            else
+            
+            if(dbCtx == null)
             {
                 var getDefaultDbContextMethodInfo = cType.GetMethods(bindingFlags).FirstOrDefault(m=>m.Name == "GetDefaultDbContext");
 
                 if (getDefaultDbContextMethodInfo != null)
                 {
-                    dbCtx = (DbContext)getDefaultDbContextMethodInfo.Invoke(context.Controller, new object[] { null });
+                    dbCtx = (DbContext)getDefaultDbContextMethodInfo.Invoke(context.Controller, null);
                 }
             }
 

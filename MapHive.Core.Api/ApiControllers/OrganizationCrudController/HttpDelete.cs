@@ -20,7 +20,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected override async Task<IActionResult> DeleteAsync(Guid uuid, DbContext db = null)
         {
             //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
-            if (db != null && db != GetOrganizationDbContext())
+            if (db != null && db != GetOrganizationDbContextSafe())
                 if (!await IsCrudPrivilegeGrantedForDestroyAsync(db))
                     return NotAllowed();
 

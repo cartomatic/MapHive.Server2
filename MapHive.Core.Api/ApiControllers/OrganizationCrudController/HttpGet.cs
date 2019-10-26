@@ -25,7 +25,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected override async Task<IActionResult> GetAsync(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         {
             //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
-            if (db != null && db != GetOrganizationDbContext())
+            if (db != null && db != GetOrganizationDbContextSafe())
                 if (!await IsCrudPrivilegeGrantedForReadAsync(db))
                     return NotAllowed();
 
@@ -45,7 +45,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected override async Task<IActionResult> GetAsync<TDto>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         {
             //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
-            if (db != null && db != GetOrganizationDbContext())
+            if (db != null && db != GetOrganizationDbContextSafe())
                 if (!await IsCrudPrivilegeGrantedForReadAsync(db))
                     return NotAllowed();
 
@@ -65,7 +65,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected override async Task<IActionResult> GetExtendedAsync<TExtended>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         {
             //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
-            if (db != null && db != GetOrganizationDbContext())
+            if (db != null && db != GetOrganizationDbContextSafe())
                 if (!await IsCrudPrivilegeGrantedForReadAsync(db))
                     return NotAllowed();
 
@@ -81,7 +81,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected override async Task<IActionResult> GetAsync(Guid uuid, DbContext db = null)
         {
             //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
-            if (db != null && db != GetOrganizationDbContext())
+            if (db != null && db != GetOrganizationDbContextSafe())
                 if (!await IsCrudPrivilegeGrantedForReadAsync(db))
                     return NotAllowed();
 
@@ -98,7 +98,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected override async Task<IActionResult> GetAsync<TDto>(Guid uuid, DbContext db = null)
         {
             //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
-            if (db != null && db != GetOrganizationDbContext())
+            if (db != null && db != GetOrganizationDbContextSafe())
                 if (!await IsCrudPrivilegeGrantedForReadAsync(db))
                     return NotAllowed();
 
@@ -115,7 +115,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected override async Task<IActionResult> GetExtendedAsync<TExtended>(Guid uuid, DbContext db = null)
         {
             //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
-            if (db != null && db != GetOrganizationDbContext())
+            if (db != null && db != GetOrganizationDbContextSafe())
                 if (!await IsCrudPrivilegeGrantedForReadAsync(db))
                     return NotAllowed();
 
