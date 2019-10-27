@@ -58,6 +58,7 @@ namespace MapHive.Core.Api.Authorize
                 {
                     context.Response.StatusCode = 500;
                     await context.Response.WriteAsync(ex.Message);
+                    return;
                 }
             }
 
