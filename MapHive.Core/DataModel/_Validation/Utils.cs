@@ -29,7 +29,7 @@ namespace MapHive.Core.DataModel.Validation
         }
 
         /// <summary>
-        /// Generates a ValidationFailedException with one validation error
+        /// Generates a ValidationFailedException for one validation error
         /// </summary>
         /// <param name="property"></param>
         /// <param name="e"></param>
@@ -40,10 +40,9 @@ namespace MapHive.Core.DataModel.Validation
         }
 
         /// <summary>
-        /// Generates a ValidationFailedException with one validation error
+        /// Generates a ValidationFailedException with unknown_error err code for a single validation error
         /// </summary>
-        /// <param name="property"></param>
-        /// <param name="e"></param>
+        /// <param name="msg"></param>
         /// <returns></returns>
         public static ValidationFailedException GenerateValidationFailedException(string msg)
         {
@@ -51,7 +50,28 @@ namespace MapHive.Core.DataModel.Validation
         }
 
         /// <summary>
-        /// Generates a ValidationFailedException with one validation error; tries to collect an error message combined with the inner exception messages
+        /// Generates a ValidationFailedException with invalid_argument err code for a single validation error; 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public static ValidationFailedException GenerateValidationFailedInvalidArgumentException(string msg)
+        {
+            return GenerateValidationFailedException(ValidationErrors.InvalidArgumentError.PropertyName, ValidationErrors.InvalidArgumentError.Code, msg);
+        }
+
+        /// <summary>
+        /// Generates a ValidationFailedException with invalid_argument err code for a single validation error; 
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public static ValidationFailedException GenerateValidationFailedInvalidArgumentException(string property, string msg)
+        {
+            return GenerateValidationFailedException(property, ValidationErrors.InvalidArgumentError.Code, msg);
+        }
+
+        /// <summary>
+        /// Generates a ValidationFailedException with unknown_error err code for a single exception; tries to collect an error message combined with the inner exception messages
         /// </summary>
         /// <param name="ex"></param>
         /// <returns></returns>
