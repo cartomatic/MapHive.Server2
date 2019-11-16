@@ -103,7 +103,7 @@ namespace MapHive.Core.DataModel
             if (localizationClass != null && !string.IsNullOrWhiteSpace(localizationClass.InheritedClassName))
             {
                 var inheritedLocalizationClass = await localizedDbCtx.LocalizationClasses.AsNoTracking()
-                    .FirstOrDefaultAsync(x => $"{x.ApplicationName}.{x.ClassName}Localization" == localizationClass.InheritedClassName);
+                    .FirstOrDefaultAsync(x => x.ApplicationName + x.ClassName + "Localization" == localizationClass.InheritedClassName);
 
                 if (inheritedLocalizationClass == null)
                     return;
