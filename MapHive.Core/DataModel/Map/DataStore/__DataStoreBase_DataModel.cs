@@ -3,7 +3,7 @@ using System;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public partial class DataStore
+    public abstract partial class DataStoreBase
     {
         /// <summary>
         /// A source name / file name when known
@@ -103,6 +103,6 @@ namespace MapHive.Core.DataModel.Map
         /// A helper runtime only property; not stored in the DB
         /// </summary>
         [JsonIgnore]
-        public virtual DataStore[] LinkedDataStores { get; set; }
+        public virtual DataStoreBase[] LinkedDataStores { get; set; }
     }
 }

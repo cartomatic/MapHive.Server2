@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MapHive.Core.DAL.TypeConfiguration
 {
-    public static class LayerConfigurationExtensions
+    public static class MapLayerConfigurationExtensions
     {
-        public static void ApplyLayerBaseConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder, string entityName, string tableName, string schema = null)
+        public static void ApplyMapLayerBaseConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder, string entityName, string tableName, string schema = null)
             where TEntity : LayerBase
         {
             builder.ApplyIBaseConfiguration(entityName, tableName);
@@ -36,7 +36,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Ignore(p => p.SourceLayer);
         }
 
-        public static void ApplyLayerBaseExtendedConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder)
+        public static void ApplyMapLayerBaseExtendedConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder)
             where TEntity : LayerBase
         {
             builder.Property(p => p.MetadataSerialized).HasColumnName("metadata");
@@ -53,20 +53,20 @@ namespace MapHive.Core.DAL.TypeConfiguration
         }
     }
 
-    public class LayerConfiguration : IEntityTypeConfiguration<Layer>
+    public class MapLayerConfiguration : IEntityTypeConfiguration<Layer>
     {
         public void Configure(EntityTypeBuilder<Layer> builder)
         {
-            builder.ApplyLayerBaseConfiguration(nameof(Layer), "layers");
-            builder.ApplyLayerBaseExtendedConfiguration();
+            builder.ApplyMapLayerBaseConfiguration(nameof(Layer), "layers");
+            builder.ApplyMapLayerBaseExtendedConfiguration();
         }
     }
 
-    public class LayerTruncatedConfiguration : IEntityTypeConfiguration<LayerTruncated>
+    public class MapLayerTruncatedConfiguration : IEntityTypeConfiguration<LayerTruncated>
     {
         public void Configure(EntityTypeBuilder<LayerTruncated> builder)
         {
-            builder.ApplyLayerBaseConfiguration(nameof(LayerTruncated), LayerTruncated.ViewName);
+            builder.ApplyMapLayerBaseConfiguration(nameof(LayerTruncated), LayerTruncated.ViewName);
         }
     }
 }

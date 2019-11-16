@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public partial class DataStore
+    public abstract partial class DataStoreBase
     {
         public override IEnumerable<IValidator> GetValidators()
         {
@@ -13,16 +13,16 @@ namespace MapHive.Core.DataModel.Map
             {
                 validators.AddRange(baseValidators);
             }
-            validators.Add(new ShapeFileValidator());
+            validators.Add(new DataStoreBaseValidator());
             return validators;
         }
 
         /// <summary>
         /// DataStore validator
         /// </summary>
-        public class ShapeFileValidator : AbstractValidator<DataStore>
+        public class DataStoreBaseValidator : AbstractValidator<DataStoreBase>
         {
-            public ShapeFileValidator()
+            public DataStoreBaseValidator()
             {
 
             }
