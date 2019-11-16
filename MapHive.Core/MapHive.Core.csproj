@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
-    <Version>1.0.4-dev0125</Version>
+    <Version>1.0.4-dev0126</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
 aimed at working with pgsql initially</Description>
@@ -22,12 +22,16 @@ aimed at working with pgsql initially</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="csvhelper" Version="12.2.1" />
     <PackageReference Include="FluentValidation" Version="8.5.0" />
+    <PackageReference Include="GeoJSON.Net" Version="1.1.73" />
     <PackageReference Include="IdentityModel" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
     <PackageReference Include="msbump" Version="2.3.2" />
+    <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="2.0.1" />
+    <PackageReference Include="NetTopologySuite.IO.ShapeFile" Version="2.0.0" />
     <PackageReference Include="newtonsoft.json" Version="12.0.2" />
     <PackageReference Include="npgsql" Version="4.1.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
