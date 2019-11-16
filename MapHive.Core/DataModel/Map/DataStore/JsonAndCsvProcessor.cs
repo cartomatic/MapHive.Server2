@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public abstract partial class DataStoreBase
+    public partial class DataStore
     {
         /// <summary>
         /// Processes a flat json file; file has got to have numeric lon / longitude & lat / latitude properties; coords are assumed to be in lon/lat
@@ -20,7 +20,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="dbCtx"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static async Task<DataStoreBase> ProcessJson(DbContext dbCtx, string path)
+        public static async Task<DataStore> ProcessJson(DbContext dbCtx, string path)
         {
             //assuming a single zip can only be present in a directory, as uploading data for a single layer
 
@@ -130,7 +130,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="dbCtx"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static async Task<DataStoreBase> ProcessCsv(DbContext dbCtx, string path)
+        public static async Task<DataStore> ProcessCsv(DbContext dbCtx, string path)
         {
             //assuming a single zip can only be present in a directory, as uploading data for a single layer
 
@@ -172,9 +172,9 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="hasHeader"></param>
         /// <param name="colNamesRemap">A dictionary used to remap column names to required names</param>
         /// <param name="colTypesMap">map of safe column names to column types to enforce a specified csv data parsing</param>
-        protected static void ExtractCsvColumns(
+        public static void ExtractCsvColumns(
             string file,
-            DataStoreBase dataStore,
+            DataStore dataStore,
             string delimiter = ";",
             bool hasHeader = true,
             Dictionary<string, string> colNamesRemap = null,
@@ -228,7 +228,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="delimiter"></param>
         /// <param name="hasHeader"></param>
         /// <returns></returns>
-        protected static List<Dictionary<string, object>> ExtractCsvData(string file, DataStoreBase dataStore, string delimiter = ";", bool hasHeader = true, bool hasGeo = true)
+        public static List<Dictionary<string, object>> ExtractCsvData(string file, DataStore dataStore, string delimiter = ";", bool hasHeader = true, bool hasGeo = true)
         {
             var data = new List<Dictionary<string, object>>();
 
@@ -379,7 +379,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="upsert"></param>
         /// <param name="key">key to perform conflict testing when upserting</param>
         /// <returns></returns>
-        protected static async Task<DataStoreBase> ProcessFlatData(DbContext dbCtx, DataStoreBase dataStore, List<Dictionary<string, object>> flatData, bool hasGeom = true, bool upsert = false, IEnumerable<string> key = null)
+        public static async Task<DataStore> ProcessFlatData(DbContext dbCtx, DataStore dataStore, List<Dictionary<string, object>> flatData, bool hasGeom = true, bool upsert = false, IEnumerable<string> key = null)
         {
             if (flatData == null || flatData.Count == 0)
                 throw MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException("FlatData", "no_data",
@@ -566,7 +566,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="updateMode"></param>
         /// <param name="hasGeom"></param>
         /// <returns></returns>
-        protected static async Task<DataStoreBase> UpdateFlatData(DbContext dbCtx, DataStoreBase dataStoreToUpdate, DataStoreBase newDataStore,
+        public static async Task<DataStore> UpdateFlatData(DbContext dbCtx, DataStore dataStoreToUpdate, DataStore newDataStore,
             List<Dictionary<string, object>> flatData, string updateMode, bool hasGeom = true, IEnumerable<string> key = null)
         {
             if (updateMode == "overwrite")

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public abstract partial class DataStoreBase
+    public partial class DataStore
     {
         /// <summary>
         /// Processes a shp file and uploads it to a db
@@ -17,7 +17,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="dbCtx"></param>
         /// <param name="path">Path to a directory a shapefile has been uploaded to</param>
         /// <returns></returns>
-        public static async Task<DataStoreBase> ProcessShp(DbContext dbCtx, string path)
+        public static async Task<DataStore> ProcessShp(DbContext dbCtx, string path)
         {
             //assuming a single zip can only be present in a directory, as uploading data for a single layer
 
@@ -60,7 +60,7 @@ namespace MapHive.Core.DataModel.Map
         /// Validates presence of all the required shp format files
         /// </summary>
         /// <param name="path"></param>
-        protected static void ValidateShpFilePresence(string path, out string shpPath)
+        public static void ValidateShpFilePresence(string path, out string shpPath)
         {
             var shp = Directory.GetFiles(path, "*.shp").FirstOrDefault();
             if (string.IsNullOrEmpty(shp))
@@ -87,7 +87,7 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         /// <param name="shp"></param>
         /// <param name="dataStore"></param>
-        protected static void ExtractShpDataBbox(string shp, DataStoreBase dataStore)
+        public static void ExtractShpDataBbox(string shp, DataStore dataStore)
         {
             //need this for a proper code page handling when reading dbf
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -103,7 +103,7 @@ namespace MapHive.Core.DataModel.Map
         /// </summary> 
         /// <param name="shpReader"></param>
         /// <param name="dataStore"></param>
-        protected static void ExtractShpDataBbox(NetTopologySuite.IO.ShapefileDataReader shpReader, DataStoreBase dataStore)
+        public static void ExtractShpDataBbox(NetTopologySuite.IO.ShapefileDataReader shpReader, DataStore dataStore)
         {
             var shpHdr = shpReader.ShapeHeader;
 
@@ -119,7 +119,7 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         /// <param name="shp"></param>
         /// <param name="dataStore"></param>
-        protected static void ExtractShpColumns(string shp, DataStoreBase dataStore)
+        public static void ExtractShpColumns(string shp, DataStore dataStore)
         {
             //need this for a proper code page handling when reading dbf
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -136,7 +136,7 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         /// <param name="shpReader"></param>
         /// <param name="dataStore"></param>
-        protected static void ExtractShpColumns(NetTopologySuite.IO.ShapefileDataReader shpReader, DataStoreBase dataStore)
+        public static void ExtractShpColumns(NetTopologySuite.IO.ShapefileDataReader shpReader, DataStore dataStore)
         {
             var dBaseHdr = shpReader.DbaseHeader;
 
@@ -172,7 +172,7 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         /// <param name="shp"></param>
         /// <param name="dataStore"></param>
-        protected static async Task ReadAndLoadShpData(string shp, DataStoreBase dataStore)
+        public static async Task ReadAndLoadShpData(string shp, DataStore dataStore)
         {
             //need this for a proper code page handling when reading dbf
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -191,7 +191,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="newDataStore"></param>
         /// <param name="updateMode"></param>
         /// <returns></returns>
-        protected static async Task ReadAndUpdateShpData(string shp, DataStoreBase dataStoreToUpdate, DataStoreBase newDataStore, string updateMode, IEnumerable<string> key = null)
+        public static async Task ReadAndUpdateShpData(string shp, DataStore dataStoreToUpdate, DataStore newDataStore, string updateMode, IEnumerable<string> key = null)
         {
             if (updateMode == "overwrite")
                 await ExecuteTableDropAsync(dataStoreToUpdate);
@@ -213,7 +213,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="dataStore"></param>
         /// <param name="upsert">Whether or not should perform upsert rather than insert</param>
         /// <returns></returns>
-        protected static async Task ReadAndLoadShpData(NetTopologySuite.IO.ShapefileDataReader shpReader, DataStoreBase dataStore, bool upsert = false, IEnumerable<string> key = null)
+        protected static async Task ReadAndLoadShpData(NetTopologySuite.IO.ShapefileDataReader shpReader, DataStore dataStore, bool upsert = false, IEnumerable<string> key = null)
         {
             var dBaseHdr = shpReader.DbaseHeader;
 

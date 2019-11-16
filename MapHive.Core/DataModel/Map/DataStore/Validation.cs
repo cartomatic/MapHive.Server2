@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public abstract partial class DataStoreBase
+    public partial class DataStore
     {
         public override IEnumerable<IValidator> GetValidators()
         {
@@ -20,7 +20,7 @@ namespace MapHive.Core.DataModel.Map
         /// <summary>
         /// DataStore validator
         /// </summary>
-        public class DataStoreBaseValidator : AbstractValidator<DataStoreBase>
+        public class DataStoreBaseValidator : AbstractValidator<DataStore>
         {
             public DataStoreBaseValidator()
             {

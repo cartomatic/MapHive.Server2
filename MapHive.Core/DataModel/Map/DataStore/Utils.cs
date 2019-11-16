@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public abstract partial class DataStoreBase
+    public partial class DataStore
     {
         /// <summary>
         /// Extracts first zip archive found in the path
         /// </summary>
         /// <param name="path"></param>
-        protected static void ExtractZip(string path)
+        public static void ExtractZip(string path)
         {
             var zip = Directory.GetFiles(path, "*.zip").FirstOrDefault();
             if (!string.IsNullOrEmpty(zip))
@@ -202,7 +202,7 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         /// <param name="ds"></param>
         /// <returns></returns>
-        protected internal static string GetEnsureSchemaSql(DataStoreBase ds)
+        protected internal static string GetEnsureSchemaSql(DataStore ds)
         {
             return $"CREATE SCHEMA IF NOT EXISTS {ds.DataSource.Schema};";
         }
@@ -212,7 +212,7 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         /// <param name="ds"></param>
         /// <returns></returns>
-        protected internal static string GetCreateTableSql(DataStoreBase ds)
+        protected internal static string GetCreateTableSql(DataStore ds)
         {
             return $@"CREATE TABLE {ds.DataSource.Schema}.{ds.DataSource.Table} (
                 td_id serial not null,
@@ -226,7 +226,7 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         /// <param name="ds"></param>
         /// <returns></returns>
-        protected internal static string GetDropTableSql(DataStoreBase ds)
+        protected internal static string GetDropTableSql(DataStore ds)
         {
             return $@"DROP TABLE IF EXISTS {ds.DataSource.Schema}.{ds.DataSource.Table} CASCADE;";
         }
@@ -248,7 +248,7 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         /// <param name="ds"></param>
         /// <returns></returns>
-        protected internal static string GetCreateGeomIdxSql(DataStoreBase ds)
+        protected internal static string GetCreateGeomIdxSql(DataStore ds)
         {
             return $@"CREATE INDEX {GetBaseIndexName(ds.DataSource.Table)}_geom_idx
                 ON {ds.DataSource.Schema}.{ds.DataSource.Table} USING gist (geom);";
@@ -260,7 +260,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="ds"></param>
         /// <param name="cols"></param>
         /// <returns></returns>
-        protected internal static string GetCreateUqIdxSql(DataStoreBase ds, params string[] cols)
+        public static string GetCreateUqIdxSql(DataStore ds, params string[] cols)
         {
             return $@"CREATE UNIQUE INDEX {GetBaseIndexName(ds.DataSource.Table)}_uq_{string.Join("_", cols)}_idx
                 ON {ds.DataSource.Schema}.{ds.DataSource.Table} USING btree ({string.Join(", ", cols)});";
@@ -272,7 +272,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="ds"></param>
         /// <param name="cols"></param>
         /// <returns></returns>
-        protected internal static string GetCreateIdxSql(DataStoreBase ds, params string[] cols)
+        public static string GetCreateIdxSql(DataStore ds, params string[] cols)
         {
             return $@"CREATE INDEX {GetBaseIndexName(ds.DataSource.Table)}_{string.Join("_", cols)}_idx
                 ON {ds.DataSource.Schema}.{ds.DataSource.Table} USING btree ({string.Join(", ", cols)});";
@@ -283,7 +283,7 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         /// <param name="ds"></param>
         /// <returns></returns>
-        protected internal static string GetGeomBBoxSql(DataStoreBase ds)
+        protected internal static string GetGeomBBoxSql(DataStore ds)
         {
             return $@"select min(ST_XMin(geom)) as l, min(ST_YMin(geom)) as b, max(ST_XMax(geom)) as r, max(ST_YMax(geom)) as t
 from {ds.DataSource.Schema}.{ds.DataSource.Table}";
@@ -295,7 +295,7 @@ from {ds.DataSource.Schema}.{ds.DataSource.Table}";
         /// <param name="cmd"></param>
         /// <param name="ds"></param>
         /// <returns></returns>
-        protected static async Task CreateLocationIndex(Npgsql.NpgsqlCommand cmd, DataStoreBase ds)
+        protected static async Task CreateLocationIndex(Npgsql.NpgsqlCommand cmd, DataStore ds)
         {
             //location col indexing as required
             var locationCol = ds.DataSource.Columns.FirstOrDefault(c => c.Name == "location");
@@ -313,7 +313,7 @@ from {ds.DataSource.Schema}.{ds.DataSource.Table}";
         /// <param name="ds"></param>
         /// <param name="insertData"></param>
         /// <returns></returns>
-        protected internal static async Task ExecuteInsertBatch(Npgsql.NpgsqlCommand cmd, DataStoreBase ds, List<string> insertData)
+        protected internal static async Task ExecuteInsertBatch(Npgsql.NpgsqlCommand cmd, DataStore ds, List<string> insertData)
         {
             cmd.CommandText = $@"INSERT INTO {ds.DataSource.Schema}.{ds.DataSource.Table}
 ({string.Join(",", ds.DataSource.Columns.Select(c => c.Name))})
@@ -334,7 +334,7 @@ from {ds.DataSource.Schema}.{ds.DataSource.Table}";
         /// <param name="key"></param>
         /// <param name="skipCols"></param>
         /// <returns></returns>
-        protected internal static async Task ExecuteUpsertBatch(Npgsql.NpgsqlCommand cmd, DataStoreBase ds, List<string> insertData, IEnumerable<string> key, IEnumerable<string> skipCols)
+        protected internal static async Task ExecuteUpsertBatch(Npgsql.NpgsqlCommand cmd, DataStore ds, List<string> insertData, IEnumerable<string> key, IEnumerable<string> skipCols)
         {
             cmd.CommandText = $@"INSERT INTO {ds.DataSource.Schema}.{ds.DataSource.Table}
 ({string.Join(",", ds.DataSource.Columns.Select(c => c.Name))})
@@ -356,7 +356,7 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
         /// <param name="key"></param>
         /// <param name="skipCols"></param>
         /// <returns></returns>
-        protected internal static string GetDoUpdateCols(DataStoreBase ds, IEnumerable<string> key, IEnumerable<string> skipCols)
+        protected internal static string GetDoUpdateCols(DataStore ds, IEnumerable<string> key, IEnumerable<string> skipCols)
         {
             var updates = new List<string>();
 
@@ -379,7 +379,7 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
         /// </summary>
         /// <param name="ds"></param>
         /// <returns></returns>
-        protected internal static async Task ExecuteTableDropAsync(DataStoreBase ds)
+        protected internal static async Task ExecuteTableDropAsync(DataStore ds)
         {
             using (var conn = new NpgsqlConnection(ds.DataSource.DataSourceCredentials.GetConnectionString()))
             using (var cmd = new NpgsqlCommand())
@@ -402,7 +402,7 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
         /// <param name="type"></param>
         /// <param name="schema"></param>
         /// <returns></returns>
-        protected internal static DataStore GetDataStore(string fName, string type, string schema = "imported_geodata")
+        public static DataStore GetDataStore(string fName, string type, string schema = "imported_geodata")
         {
             if (!CheckIfObjectSafe(fName))
                 throw MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException("FileName", "bad_file_name",
@@ -428,7 +428,7 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
         /// <param name="cmd"></param>
         /// <param name="ds"></param>
         /// <returns></returns>
-        protected internal static async Task CalculateBBox(Npgsql.NpgsqlCommand cmd, DataStoreBase ds)
+        protected internal static async Task CalculateBBox(Npgsql.NpgsqlCommand cmd, DataStore ds)
         {
 
             cmd.CommandText = GetGeomBBoxSql(ds);

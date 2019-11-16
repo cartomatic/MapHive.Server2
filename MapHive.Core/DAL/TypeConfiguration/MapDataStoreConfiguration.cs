@@ -10,7 +10,7 @@ namespace MapHive.Core.DAL.TypeConfiguration
     {
         public static void ApplyMapDataStoreBaseConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder,
             string entityName, string tableName, string schema = null)
-            where TEntity : DataStoreBase
+            where TEntity : DataStore
         {
             builder.ApplyIBaseConfiguration(entityName, tableName);
 

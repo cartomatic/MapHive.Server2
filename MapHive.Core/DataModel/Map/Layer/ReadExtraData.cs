@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public abstract partial class LayerBase
+    public partial class Layer
     {
         /// <summary>
         /// Reads a source layer for this layer
@@ -17,12 +17,7 @@ namespace MapHive.Core.DataModel.Map
         /// <returns></returns>
         public async Task ReadSourceLayer(DbContext dbCtx)
         {
-            if (!(dbCtx is IMapDbContext))
-                throw new ArgumentException($"DbCtx is expected to implement {nameof(IMapDbContext)}");
-
-            var mapDbCtx = (IMapDbContext)dbCtx;
-
-            if (SourceLayerId.HasValue)
+            if (SourceLayerId.HasValue && dbCtx is IMapDbContext mapDbCtx)
             {
                 SourceLayer = await mapDbCtx.Layers.AsNoTracking().FirstOrDefaultAsync(l => l.Uuid == SourceLayerId);
             }
