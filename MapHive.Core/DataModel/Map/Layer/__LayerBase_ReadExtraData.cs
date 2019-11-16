@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public partial class Layer
+    public abstract partial class LayerBase
     {
         /// <summary>
         /// Reads a source layer for this layer

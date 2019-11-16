@@ -11,7 +11,7 @@ namespace MapHive.Core.DataModel.Map
     {
         static Layer()
         {
-            BaseObjectTypeIdentifierExtensions.RegisterTypeIdentifier(MethodInfo.GetCurrentMethod().DeclaringType, Guid.Parse("45869968-574a-4eac-9353-3a13766108be"));
+            BaseObjectTypeIdentifierExtensions.RegisterTypeIdentifier(MethodInfo.GetCurrentMethod().DeclaringType, Guid.Parse("e40ad645-cdf7-44ed-8691-40f9b6cd4504"));
         }
 
         public Layer()

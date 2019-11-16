@@ -6,7 +6,7 @@ namespace MapHive.Core.DataModel.Map
     /// <summary>
     /// basic model for the layer objects
     /// </summary>
-    public abstract class LayerBase : MapHive.Core.DataModel.Base
+    public abstract partial class LayerBase : MapHive.Core.DataModel.Base
     {
         /// <summary>
         /// Layer identifier - a key based on which a client app can provide customized UI
@@ -217,7 +217,7 @@ namespace MapHive.Core.DataModel.Map
         /// cleans up layer metadata credentials
         /// </summary>
         /// <param name="m"></param>
-        protected void CleanMetadataCredentialsUserInfo(LayerMetadata m)
+        protected internal void CleanMetadataCredentialsUserInfo(LayerMetadata m)
         {
             if (m == null)
                 return;
