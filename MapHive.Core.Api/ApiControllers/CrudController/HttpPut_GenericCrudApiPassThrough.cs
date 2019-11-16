@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils;
 using IdentityModel.Client;
 using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Mvc;
@@ -62,7 +63,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="obj"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiPutWithRawOutputAsync<TOut>(
+        protected internal virtual async Task<RestApi.ApiCallOutput<TOut>> CoreApiPutWithRawOutputAsync<TOut>(
             string route,
             object obj,
             Guid? uuid = null

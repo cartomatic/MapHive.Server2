@@ -30,9 +30,23 @@ namespace MapHive.Core.DataModel
         public Guid? OrganizationId { get; set; }
 
         /// <summary>
-        /// Application identifier this tokens grants asccess to
+        /// Application identifiers this tokens grants access to; one token can grant access to multiple apps - this allows using a single token
+        /// for anonymous access to web apps (client + api) when required
         /// </summary>
-        public Guid? ApplicationId { get; set; }
+        public SerializableListOfGuid ApplicationIds { get; set; }
+
+        [JsonIgnore]
+        public string ApplicationIdsSerialized
+        {
+            get => ApplicationIds?.Serialized;
+            set
+            {
+                if(ApplicationIds == null)
+                    ApplicationIds = new SerializableListOfGuid();
+
+                ApplicationIds.Serialized = value;
+            }
+        }
 
         /// <summary>
         /// Referrers that are granted access via this token
@@ -45,10 +59,10 @@ namespace MapHive.Core.DataModel
             get => Referrers?.Serialized;
             set
             {
-                if (Referrers != null)
-                {
-                    Referrers.Serialized = value;
-                }
+                if (Referrers == null)
+                    Referrers = new SerializableListOfString();
+                
+                Referrers.Serialized = value;
             }
         }
 

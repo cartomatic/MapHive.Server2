@@ -33,7 +33,9 @@ namespace MapHive.Core.Api.ApiControllers
 
         Guid IOrganizationApiController<TDbContext>.OrganizationId => OrganizationContextActionFilterAttribute.GetOrganizationId(HttpContext);
 
-
+        /// <summary>
+        /// gets organization that is a context for given action
+        /// </summary>
         protected Organization OrganizationContext => OrganizationContextActionFilterAttribute.GetOrganizationContext(HttpContext);
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace MapHive.Core.Api.ApiControllers
         protected OrganizationDatabase GetOrganizationDatabase(string dbIdentifier = null) =>
             OrganizationContextActionFilterAttribute.GetOrganisationDatabase(HttpContext, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
 
-        OrganizationDatabase IOrganizationApiController<TDbContext>.GetOrganizationDatabase(string dbIdentifier = null) =>
+        OrganizationDatabase IOrganizationApiController<TDbContext>.GetOrganizationDatabase(string dbIdentifier) =>
             OrganizationContextActionFilterAttribute.GetOrganisationDatabase(HttpContext, string.IsNullOrWhiteSpace(dbIdentifier) ? DbIdentifier : dbIdentifier);
 
 
@@ -51,11 +53,27 @@ namespace MapHive.Core.Api.ApiControllers
         /// </summary>
         /// <returns></returns>
         protected TDbContext GetOrganizationDbContext(string dbIdentifier = null) =>
-            _organizationDb ?? (_organizationDb = GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbContext>());
+            _organizationDb ??= GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbContext>();
 
-        TDbContext IOrganizationApiController<TDbContext>.GetOrganizationDbContext(string dbIdentifier = null) =>
-            _organizationDb ?? (_organizationDb = GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbContext>());
+        TDbContext IOrganizationApiController<TDbContext>.GetOrganizationDbContext(string dbIdentifier) =>
+            _organizationDb ??= GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbContext>();
 
+        /// <summary>
+        /// Gets OrganizationDbContext in a safe manner - does not throw if the org dbCtx cannot be worked out
+        /// </summary>
+        /// <param name="dbIdentifier"></param>
+        /// <returns></returns>
+        protected TDbContext GetOrganizationDbContextSafe(string dbIdentifier = null)
+        {
+            try
+            {
+                return GetOrganizationDbContext(dbIdentifier);
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// Grets a specified db ctx
@@ -66,6 +84,6 @@ namespace MapHive.Core.Api.ApiControllers
         protected TDbCtx GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null)
             where TDbCtx : DbContext, IProvideDbContextFactory, new() => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
 
-        TDbCtx IOrganizationApiController<TDbContext>.GetOrganizationDbContext<TDbCtx>(string dbIdentifier = null) => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
+        TDbCtx IOrganizationApiController<TDbContext>.GetOrganizationDbContext<TDbCtx>(string dbIdentifier) => GetOrganizationDatabase(dbIdentifier)?.GetDbContext<TDbCtx>();
     }
 }

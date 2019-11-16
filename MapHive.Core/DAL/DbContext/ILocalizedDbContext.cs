@@ -16,6 +16,7 @@ namespace MapHive.Core.DAL
     {
         DbSet<LocalizationClass> LocalizationClasses { get; set; }
         DbSet<TranslationKey> TranslationKeys { get; set; }
+        DbSet<TranslationKeyExtended> TranslationKeysExtended { get; set; }
         DbSet<EmailTemplateLocalization> EmailTemplates { get; set; }
         DbSet<Lang> Langs { get; set; }
     }

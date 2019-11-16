@@ -29,6 +29,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredRead]
         public async Task<IActionResult> GetAsync([FromQuery] string sort = null, [FromQuery] string filter = null, [FromQuery] int start = 0,
             [FromQuery] int limit = 25)
         {
@@ -46,7 +47,8 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAsync([FromQuery] Guid uuid)
+        [CrudPrivilegeRequiredRead]
+        public async Task<IActionResult> GetAsync([FromRoute] Guid uuid)
         {
             return await base.GetAsync(uuid);
         }
@@ -129,6 +131,7 @@ namespace MapHive.Api.Core.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         [Route("xwindoworigins")]
         [ProducesResponseType(typeof(IEnumerable<string>), 200)]
         [ProducesResponseType(404)]

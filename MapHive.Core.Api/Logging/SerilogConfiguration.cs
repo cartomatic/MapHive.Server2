@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cartomatic.Utils;
 using MapHive.Core.Api.Extensions;
 using Microsoft.Extensions.Configuration;
 using Serilog;
@@ -13,6 +14,12 @@ namespace MapHive.Core.Api.Logging
     /// </summary>
     public class SerilogConfiguration
     {
+        class SerilogCfg
+        {
+            public string AppName { get; set; }
+            public Dictionary<string, LogEventLevel?> Sinks { get; set; }
+        }
+
         /// <summary>
         /// Configures serilog in a generic way for maphive apis
         /// </summary>
@@ -22,19 +29,20 @@ namespace MapHive.Core.Api.Logging
                 .ConfigureConfigSources()
                 .Build();
 
-            var logLvls = config.GetSection("SerilogConfiguration").Get<Dictionary<string, LogEventLevel?>>();
+            var logCfg = config.GetSection("SerilogConfiguration").Get<SerilogCfg>();
 
             Log.Logger = new LoggerConfiguration()
 
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
 
-                .Enrich.WithProperty("App", "MapHive.Api.Core")
+                .Enrich.WithProperty("App", string.IsNullOrEmpty(logCfg.AppName) ? "Uknown MapHiveApi" : logCfg.AppName)
+                
                 .WriteTo.File(
-                    "_logs\\log.txt",
-                    restrictedToMinimumLevel: logLvls != null && logLvls.ContainsKey(nameof(Serilog.Sinks.File)) ? logLvls[nameof(Serilog.Sinks.File)] ?? LogEventLevel.Warning : LogEventLevel.Warning, rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromMinutes(5)
+                    $"_logs\\{DateTime.Now:yyyyMMdd}.serilog.log".SolvePath(),
+                    restrictedToMinimumLevel: logCfg?.Sinks != null && logCfg.Sinks.ContainsKey(nameof(Serilog.Sinks.File)) ? logCfg.Sinks[nameof(Serilog.Sinks.File)] ?? LogEventLevel.Warning : LogEventLevel.Warning, rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromMinutes(5)
                 )
                 .WriteTo.LiterateConsole(
-                    restrictedToMinimumLevel: logLvls != null && logLvls.ContainsKey(nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)) ? logLvls[nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)] ?? LogEventLevel.Verbose : LogEventLevel.Verbose
+                    restrictedToMinimumLevel: logCfg?.Sinks != null && logCfg.Sinks.ContainsKey(nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)) ? logCfg.Sinks[nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)] ?? LogEventLevel.Verbose : LogEventLevel.Verbose
                 )
                 .CreateLogger();
         }

@@ -31,6 +31,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredRead]
         public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromQuery] string sort = null, [FromQuery] string filter = null, [FromQuery] int start = 0,
             [FromQuery] int limit = 25)
         {
@@ -52,7 +53,8 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromQuery] Guid uuid)
+        [CrudPrivilegeRequiredRead]
+        public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             //Note:
             //main mh env objects are kept in the maphive_meta db!
@@ -135,6 +137,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(IEnumerable<MapHiveUser>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredRead]
         public async Task<IActionResult> GetTeamUsers([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             try
@@ -170,6 +173,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(IEnumerable<Application>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredRead]
         public async Task<IActionResult> GetTeamApplications([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             try

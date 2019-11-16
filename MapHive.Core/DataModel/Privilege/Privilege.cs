@@ -10,7 +10,7 @@ namespace MapHive.Core.DataModel
     public class Privilege
     {
         /// <summary>
-        /// type identifier this privilege 
+        /// type identifier this privilege controls access to
         /// </summary>
         public Guid? TypeId { get; set; }
 

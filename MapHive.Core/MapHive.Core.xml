@@ -801,7 +801,7 @@
         </member>
         <member name="T:MapHive.Core.DataModel.LicenseOptions">
             <summary>
-            License options used to specify defualt opts for an application, module, data source
+            License options used to specify default opts for an application, module, data source
             </summary>
         </member>
         <member name="P:MapHive.Core.DataModel.LicenseOptions.Serialized">

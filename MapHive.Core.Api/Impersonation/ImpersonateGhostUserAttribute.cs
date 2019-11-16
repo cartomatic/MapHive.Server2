@@ -19,4 +19,5 @@ namespace MapHive.Core.Api.Filters
             Cartomatic.Utils.Identity.ImpersonateGhostUserViaHttpContext();
         }
     }
+
 }

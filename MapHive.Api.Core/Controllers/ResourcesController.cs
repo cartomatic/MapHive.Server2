@@ -25,6 +25,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        //[CrudPrivilegeRequiredRead] //not that important as need to know resource uuid
         public async Task<IActionResult> GetAsWebResourceAsync([FromRoute] Guid uuid)
         {
             try

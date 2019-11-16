@@ -24,8 +24,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> GetAsync(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? GetOrganizationDbContext()))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
+            if (db != null && db != GetOrganizationDbContextSafe())
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
             return await ReadAsync<T, T>(db ?? GetOrganizationDbContext(), sort, filter, start, limit);
         }
@@ -33,7 +35,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <summary>
         /// Default get all action
         /// </summary>
-        /// <typeparam name="TDto">Defualt get by id action with automated DTO operation output</typeparam>
+        /// <typeparam name="TDto">Default get by id action with automated DTO operation output</typeparam>
         /// <param name="sort"></param>
         /// <param name="filter"></param>
         /// <param name="start"></param>
@@ -42,8 +44,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> GetAsync<TDto>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? GetOrganizationDbContext()))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
+            if (db != null && db != GetOrganizationDbContextSafe())
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
             return await ReadAsync<T, TDto>(db ?? GetOrganizationDbContext(), sort, filter, start, limit);
         }
@@ -60,28 +64,32 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> GetExtendedAsync<TExtended>(string sort = null, string filter = null, int start = 0, int limit = 25, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? GetOrganizationDbContext()))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
+            if (db != null && db != GetOrganizationDbContextSafe())
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
             return await ReadAsync<TExtended, TExtended>(db ?? GetOrganizationDbContext(), sort, filter, start, limit);
         }
 
         /// <summary>
-        /// Defualt get by id action
+        /// Default get by id action
         /// </summary>
         /// <param name="uuid"></param>
         /// <param name="db">DbContext to be used; when not provided a default instance of TDbCtx will be used</param>
         /// <returns></returns>
         protected override async Task<IActionResult> GetAsync(Guid uuid, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? GetOrganizationDbContext()))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
+            if (db != null && db != GetOrganizationDbContextSafe())
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
-            return await ReadAsync<T>(db ?? GetOrganizationDbContext(), uuid);
+            return await ReadAsync<T, T>(db ?? GetOrganizationDbContext(), uuid);
         }
 
         /// <summary>
-        /// Defualt get by id action with automated DTO operation output
+        /// Default get by id action with automated DTO operation output
         /// </summary>
         /// <typeparam name="TDto">DTO Type to convert the output into</typeparam>
         /// <param name="uuid"></param>
@@ -89,12 +97,30 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected override async Task<IActionResult> GetAsync<TDto>(Guid uuid, DbContext db = null)
         {
-            if (!await IsCrudPrivilegeGrantedForReadAsync(db ?? GetOrganizationDbContext()))
-                return NotAllowed();
+            //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
+            if (db != null && db != GetOrganizationDbContextSafe())
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
 
-            return await ReadAsync<TDto>(db ?? GetOrganizationDbContext(), uuid);
+            return await ReadAsync<T, TDto>(db ?? GetOrganizationDbContext(), uuid);
         }
 
+        /// <summary>
+        /// Get by Id for an extended model
+        /// </summary>
+        /// <typeparam name="TExtended"></typeparam>
+        /// <param name="uuid"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        protected override async Task<IActionResult> GetExtendedAsync<TExtended>(Guid uuid, DbContext db = null)
+        {
+            //enforced at the filter action attribute level for db ctx obtained from GetOrganizationDbContext() so just testing if passed dbCtx is different
+            if (db != null && db != GetOrganizationDbContextSafe())
+                if (!await IsCrudPrivilegeGrantedForReadAsync(db))
+                    return NotAllowed();
+
+            return await ReadAsync<TExtended, TExtended>(db ?? GetOrganizationDbContext(), uuid);
+        }
 
         /// <summary>
         /// Reads links for given property

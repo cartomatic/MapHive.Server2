@@ -30,7 +30,8 @@ namespace MapHive.Core.DataModel
             public TokenValidator()
             {
                 RuleFor(x => x.OrganizationId).NotNull();
-                RuleFor(x => x.ApplicationId).NotNull();
+                RuleFor(x => x.ApplicationIds).NotNull();
+                RuleFor(x => x.ApplicationIds.Count).GreaterThan(0);
             }
         }
     }

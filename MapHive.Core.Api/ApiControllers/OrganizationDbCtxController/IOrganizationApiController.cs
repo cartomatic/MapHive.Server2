@@ -26,7 +26,7 @@ namespace MapHive.Core.Api.ApiControllers
         OrganizationDatabase GetOrganizationDatabase(string dbIdentifier = null);
 
         /// <summary>
-        /// Gets a default organisation db context configured for the controller
+        /// Gets a default organization db context configured for the controller
         /// </summary>
         /// <param name="dbIdentifier"></param>
         /// <returns></returns>

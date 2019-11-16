@@ -16,81 +16,104 @@ namespace MapHive.Core.DAL.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("mh_meta")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("MapHive.Core.DataModel.Application", b =>
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("HasDesktopVersion")
-                        .HasColumnName("has_desktop");
+                        .HasColumnName("has_desktop")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("HasMobileVersion")
-                        .HasColumnName("has_mobile");
+                        .HasColumnName("has_mobile")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsApi")
-                        .HasColumnName("is_api");
+                        .HasColumnName("is_api")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsCommon")
-                        .HasColumnName("is_common");
+                        .HasColumnName("is_common")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsDefault")
-                        .HasColumnName("is_default");
+                        .HasColumnName("is_default")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsHive")
-                        .HasColumnName("is_hive");
+                        .HasColumnName("is_hive")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsHome")
-                        .HasColumnName("is_home");
+                        .HasColumnName("is_home")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("LicenseOptionsSerialized")
-                        .HasColumnName("license_options");
+                        .HasColumnName("license_options")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name");
+                        .HasColumnName("name")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("ProviderId")
-                        .HasColumnName("provider_id");
+                        .HasColumnName("provider_id")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("RequiresAuth")
-                        .HasColumnName("requires_auth");
+                        .HasColumnName("requires_auth")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ShortName")
-                        .HasColumnName("short_name");
+                        .HasColumnName("short_name")
+                        .HasColumnType("text");
 
                     b.Property<string>("Urls")
-                        .HasColumnName("urls");
+                        .HasColumnName("urls")
+                        .HasColumnType("text");
 
                     b.Property<bool>("UseSplashscreen")
-                        .HasColumnName("use_splashscreen");
+                        .HasColumnName("use_splashscreen")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("VisualIdentificationSerialized")
-                        .HasColumnName("visual_identification");
+                        .HasColumnName("visual_identification")
+                        .HasColumnType("text");
 
                     b.HasKey("Uuid")
                         .HasName("pk_applications");
@@ -109,43 +132,56 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ApplicationIdentifier")
-                        .HasColumnName("application_identifier");
+                        .HasColumnName("application_identifier")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Identifier")
-                        .HasColumnName("identifier");
+                        .HasColumnName("identifier")
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsBodyHtml")
-                        .HasColumnName("is_body_html");
+                        .HasColumnName("is_body_html")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name");
+                        .HasColumnName("name")
+                        .HasColumnType("text");
 
                     b.Property<string>("TranslationsSerialized")
-                        .HasColumnName("translations");
+                        .HasColumnName("translations")
+                        .HasColumnType("text");
 
                     b.HasKey("Uuid")
                         .HasName("pk_email_templates");
@@ -167,37 +203,48 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDefault")
-                        .HasColumnName("is_default");
+                        .HasColumnName("is_default")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LangCode")
-                        .HasColumnName("lang_code");
+                        .HasColumnName("lang_code")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name");
+                        .HasColumnName("name")
+                        .HasColumnType("text");
 
                     b.HasKey("Uuid")
                         .HasName("pk_langs");
@@ -212,25 +259,33 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<Guid>("ChildTypeUuid")
-                        .HasColumnName("child_type_uuid");
+                        .HasColumnName("child_type_uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ChildUuid")
-                        .HasColumnName("child_uuid");
+                        .HasColumnName("child_uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("LinkDataSerialized")
-                        .HasColumnName("link_data");
+                        .HasColumnName("link_data")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ParentTypeUuid")
-                        .HasColumnName("parent_type_uuid");
+                        .HasColumnName("parent_type_uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ParentUuid")
-                        .HasColumnName("parent_uuid");
+                        .HasColumnName("parent_uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<int?>("SortOrder")
-                        .HasColumnName("sort_order");
+                        .HasColumnName("sort_order")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -253,34 +308,44 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ApplicationName")
-                        .HasColumnName("application_name");
+                        .HasColumnName("application_name")
+                        .HasColumnType("text");
 
                     b.Property<string>("ClassName")
-                        .HasColumnName("class_name");
+                        .HasColumnName("class_name")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("InheritedClassName")
-                        .HasColumnName("inherited_class_name");
+                        .HasColumnName("inherited_class_name")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Uuid")
                         .HasName("pk_localization_classes");
@@ -299,79 +364,104 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Bio")
-                        .HasColumnName("bio");
+                        .HasColumnName("bio")
+                        .HasColumnType("text");
 
                     b.Property<string>("Company")
-                        .HasColumnName("company");
+                        .HasColumnName("company")
+                        .HasColumnType("text");
 
                     b.Property<string>("ContactPhone")
-                        .HasColumnName("contact_phone");
+                        .HasColumnName("contact_phone")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<string>("Department")
-                        .HasColumnName("department");
+                        .HasColumnName("department")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .HasColumnName("email");
+                        .HasColumnName("email")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Forename")
-                        .HasColumnName("forename");
+                        .HasColumnName("forename")
+                        .HasColumnType("text");
 
                     b.Property<string>("Fullname")
-                        .HasColumnName("full_name");
+                        .HasColumnName("full_name")
+                        .HasColumnType("text");
 
                     b.Property<string>("GravatarEmail")
-                        .HasColumnName("gravatar_email");
+                        .HasColumnName("gravatar_email")
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsAccountClosed")
-                        .HasColumnName("is_account_closed");
+                        .HasColumnName("is_account_closed")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsAccountVerified")
-                        .HasColumnName("is_account_verified");
+                        .HasColumnName("is_account_verified")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsOrgUser")
-                        .HasColumnName("is_org_user");
+                        .HasColumnName("is_org_user")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Location")
-                        .HasColumnName("location");
+                        .HasColumnName("location")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("ParentOrganizationId")
-                        .HasColumnName("parent_org_id");
+                        .HasColumnName("parent_org_id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ProfilePicture")
-                        .HasColumnName("profile_picture");
+                        .HasColumnName("profile_picture")
+                        .HasColumnType("text");
 
                     b.Property<string>("Slug")
-                        .HasColumnName("slug");
+                        .HasColumnName("slug")
+                        .HasColumnType("text");
 
                     b.Property<string>("Surname")
-                        .HasColumnName("surname");
+                        .HasColumnName("surname")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("UserOrgId")
-                        .HasColumnName("user_org_id");
+                        .HasColumnName("user_org_id")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("VisibleInCatalogue")
-                        .HasColumnName("visible_in_catalogue");
+                        .HasColumnName("visible_in_catalogue")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Uuid")
                         .HasName("pk_users");
@@ -394,10 +484,12 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name");
+                        .HasColumnName("name")
+                        .HasColumnType("text");
 
                     b.HasKey("Uuid");
 
@@ -412,61 +504,84 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("BillingAddress")
-                        .HasColumnName("billing_address");
+                        .HasColumnName("billing_address")
+                        .HasColumnType("text");
 
                     b.Property<string>("BillingEmail")
-                        .HasColumnName("billing_email");
+                        .HasColumnName("billing_email")
+                        .HasColumnType("text");
 
                     b.Property<string>("BillingExtraInfoSerialized")
-                        .HasColumnName("billing_extra_info");
+                        .HasColumnName("billing_extra_info")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
-                        .HasColumnName("display_name");
+                        .HasColumnName("display_name")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .HasColumnName("email");
+                        .HasColumnName("email")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("GravatarEmail")
-                        .HasColumnName("gravatar_email");
+                        .HasColumnName("gravatar_email")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("LicenseOptionsSerialized")
-                        .HasColumnName("license_options");
+                        .HasColumnName("license_options")
+                        .HasColumnType("text");
 
                     b.Property<string>("Location")
-                        .HasColumnName("location");
+                        .HasColumnName("location")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("ProfilePictureId")
-                        .HasColumnName("profile_picture_id");
+                        .HasColumnName("profile_picture_id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Slug")
-                        .HasColumnName("slug");
+                        .HasColumnName("slug")
+                        .HasColumnType("text");
 
                     b.Property<string>("Url")
-                        .HasColumnName("url");
+                        .HasColumnName("url")
+                        .HasColumnType("text");
+
+                    b.Property<string>("VisualIdentificationSerialized")
+                        .HasColumnName("visual_identification")
+                        .HasColumnType("text");
 
                     b.HasKey("Uuid")
                         .HasName("pk_organizations");
@@ -485,60 +600,79 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<int>("DataSourceProvider")
-                        .HasColumnName("provider");
+                        .HasColumnName("provider")
+                        .HasColumnType("integer");
 
                     b.Property<string>("DbName")
-                        .HasColumnName("db_name");
+                        .HasColumnName("db_name")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Identifier")
-                        .HasColumnName("identifier");
+                        .HasColumnName("identifier")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("OrganizationId")
-                        .HasColumnName("organization_id");
+                        .HasColumnName("organization_id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Pass")
-                        .HasColumnName("password");
+                        .HasColumnName("password")
+                        .HasColumnType("text");
 
                     b.Property<string>("ServerHost")
-                        .HasColumnName("server_host");
+                        .HasColumnName("server_host")
+                        .HasColumnType("text");
 
-                    b.Property<string>("ServerName");
+                    b.Property<string>("ServerName")
+                        .HasColumnType("text");
 
                     b.Property<int?>("ServerPort")
-                        .HasColumnName("server_port");
+                        .HasColumnName("server_port")
+                        .HasColumnType("integer");
 
                     b.Property<string>("ServiceDb")
-                        .HasColumnName("service_db_name");
+                        .HasColumnName("service_db_name")
+                        .HasColumnType("text");
 
                     b.Property<string>("ServiceUserName")
-                        .HasColumnName("service_user_name");
+                        .HasColumnName("service_user_name")
+                        .HasColumnType("text");
 
                     b.Property<string>("ServiceUserPass")
-                        .HasColumnName("service_user_password");
+                        .HasColumnName("service_user_password")
+                        .HasColumnType("text");
 
                     b.Property<string>("UserName")
-                        .HasColumnName("user_name");
+                        .HasColumnName("user_name")
+                        .HasColumnType("text");
 
                     b.HasKey("Uuid")
                         .HasName("pk_organization_databases");
@@ -557,43 +691,56 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<byte[]>("Data")
-                        .HasColumnName("data");
+                        .HasColumnName("data")
+                        .HasColumnType("bytea");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Identifier")
-                        .HasColumnName("identifier");
+                        .HasColumnName("identifier")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Mime")
-                        .HasColumnName("mime");
+                        .HasColumnName("mime")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("OriginalFileName")
-                        .HasColumnName("original_file_name");
+                        .HasColumnName("original_file_name")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("OwnerId")
-                        .HasColumnName("owner_id");
+                        .HasColumnName("owner_id")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("OwnerTypeId")
-                        .HasColumnName("owner_type_id");
+                        .HasColumnName("owner_type_id")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Uuid")
                         .HasName("pk_resources");
@@ -611,37 +758,48 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Identifier")
-                        .HasColumnName("identifier");
+                        .HasColumnName("identifier")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name");
+                        .HasColumnName("name")
+                        .HasColumnType("text");
 
                     b.Property<string>("PrivilegesSerialized")
-                        .HasColumnName("privileges");
+                        .HasColumnName("privileges")
+                        .HasColumnType("text");
 
                     b.HasKey("Uuid")
                         .HasName("pk_roles");
@@ -656,31 +814,40 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name");
+                        .HasColumnName("name")
+                        .HasColumnType("text");
 
                     b.HasKey("Uuid")
                         .HasName("pk_teams");
@@ -695,46 +862,60 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ApplicationId")
-                        .HasColumnName("application_id");
+                    b.Property<string>("ApplicationIdsSerialized")
+                        .HasColumnName("application_ids")
+                        .HasColumnType("text");
 
                     b.Property<bool>("CanIgnoreReferrer")
-                        .HasColumnName("can_ignore_referrer");
+                        .HasColumnName("can_ignore_referrer")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasColumnName("description");
+                        .HasColumnName("description")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsMaster")
-                        .HasColumnName("is_master");
+                        .HasColumnName("is_master")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name");
+                        .HasColumnName("name")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("OrganizationId")
-                        .HasColumnName("organization_id");
+                        .HasColumnName("organization_id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ReferrersSerialized")
-                        .HasColumnName("referrers");
+                        .HasColumnName("referrers")
+                        .HasColumnType("text");
 
                     b.HasKey("Uuid")
                         .HasName("pk_tokens");
@@ -749,34 +930,52 @@ namespace MapHive.Core.DAL.Migrations
                 {
                     b.Property<Guid>("Uuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("uuid");
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CreateDateUtc")
-                        .HasColumnName("create_date_utc");
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("CreatedBy")
-                        .HasColumnName("created_by");
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CustomDataSerialized")
-                        .HasColumnName("custom_data");
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDateUtc")
-                        .HasColumnName("end_date_utc");
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool?>("Inherited")
+                        .HasColumnName("inherited")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Key")
-                        .HasColumnName("key");
+                        .HasColumnName("key")
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnName("last_modified_by");
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("LocalizationClassUuid")
-                        .HasColumnName("localization_class_uuid");
+                        .HasColumnName("localization_class_uuid")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ModifyDateUtc")
-                        .HasColumnName("modify_date_utc");
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool?>("Overwrites")
+                        .HasColumnName("overwrites")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("TranslationsSerialized")
-                        .HasColumnName("translations");
+                        .HasColumnName("translations")
+                        .HasColumnType("text");
 
                     b.HasKey("Uuid")
                         .HasName("pk_translation_keys");
@@ -789,6 +988,86 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("idx_translation_key_uq_localization_class_translation_key");
 
                     b.ToTable("translation_keys","mh_localization");
+                });
+
+            modelBuilder.Entity("MapHive.Core.DataModel.TranslationKeyExtended", b =>
+                {
+                    b.Property<Guid>("Uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("uuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ApplicationName")
+                        .HasColumnName("application_name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClassName")
+                        .HasColumnName("class_name")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreateDateUtc")
+                        .HasColumnName("create_date_utc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnName("created_by")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("EndDateUtc")
+                        .HasColumnName("end_date_utc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("FullKey")
+                        .HasColumnName("full_key")
+                        .HasColumnType("text");
+
+                    b.Property<bool?>("Inherited")
+                        .HasColumnName("inherited")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("InheritedClassName")
+                        .HasColumnName("inherited_class_name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Key")
+                        .HasColumnName("key")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnName("last_modified_by")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LocalizationClassUuid")
+                        .HasColumnName("localization_class_uuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ModifyDateUtc")
+                        .HasColumnName("modify_date_utc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool?>("Overwrites")
+                        .HasColumnName("overwrites")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("TranslationsSerialized")
+                        .HasColumnName("translations")
+                        .HasColumnType("text");
+
+                    b.HasKey("Uuid")
+                        .HasName("pk_translation_keys_extended");
+
+                    b.HasIndex("CreateDateUtc")
+                        .HasName("idx_translation_key_extended_create_date");
+
+                    b.HasIndex("LocalizationClassUuid", "Key")
+                        .IsUnique()
+                        .HasName("idx_translation_key_uq_localization_class_translation_key");
+
+                    b.ToTable("translation_keys_extended","mh_localization");
                 });
 #pragma warning restore 612, 618
         }

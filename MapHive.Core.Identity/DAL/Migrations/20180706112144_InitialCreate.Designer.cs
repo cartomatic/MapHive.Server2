@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-#pragma warning disable 1591
+
 namespace MapHive.Core.Identity.DAL.Migrations
 {
     [DbContext(typeof(MapHiveIdentityDbContext))]

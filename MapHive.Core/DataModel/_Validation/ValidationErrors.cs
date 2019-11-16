@@ -54,6 +54,12 @@ namespace MapHive.Core.DataModel.Validation
             Message = "Unknown error."
         };
 
+        public static IValidationError InvalidArgumentError { get; } = new ValidationError
+        {
+            Code = "invalid_argument",
+            Message = "Invalid argument."
+        };
+
         public static IValidationError OrgOwnerDestroyError { get; } = new ValidationError
         {
             Code = "org_owner_destroy",

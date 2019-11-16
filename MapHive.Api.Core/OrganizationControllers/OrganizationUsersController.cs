@@ -19,7 +19,7 @@ namespace MapHive.Api.Core.Controllers
     {
         private IEmailSender EmailSender { get; set; }
 
-#pragma warning disable 1591
+
         public OrganisationUsersController(IEmailSender emailSender)
         {
             EmailSender = emailSender;
@@ -40,6 +40,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredRead]
         public async Task<IActionResult> GetAsync([FromRoute]Guid organizationuuid, [FromQuery]string sort = null, [FromQuery]string filter = null, [FromQuery]int start = 0, [FromQuery] int limit = 25)
         {
             try
@@ -80,6 +81,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(MapHiveUser), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredRead]
         public async Task<IActionResult> GetAsync([FromRoute] Guid organizationuuid, [FromRoute] Guid uuid)
         {
             //note:
@@ -146,7 +148,7 @@ namespace MapHive.Api.Core.Controllers
 
                 var (emailAccount, emailTemplate) = await GetEmailStuffAsync("user_created", applicationContext);
                 //use custom email account if provided
-                if (ea != null)
+                if (ea != null && ea.SeemsComplete())
                     emailAccount = ea;
 
                 //note:

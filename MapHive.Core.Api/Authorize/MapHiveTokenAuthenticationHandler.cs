@@ -14,13 +14,15 @@ using Microsoft.Extensions.Options;
 
 namespace MapHive.Core.Api.Authorize
 {
+
+
     public class MapHiveTokenAuthenticationOptions : AuthenticationSchemeOptions
     {
     }
 
     public class MapHiveTokenAuthenticationHandler : AuthenticationHandler<MapHiveTokenAuthenticationOptions>
     {
-        public const string Scheme = "MapHiveApiPickLock";
+        public new const string Scheme = "MhApiKey";
 
         private readonly ILogger _logger;
 
@@ -33,7 +35,7 @@ namespace MapHive.Core.Api.Authorize
 #endif
         }
 
-        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
+        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var authToken = Context.ExtractAuthHeader();
             if (authToken?.scheme == Scheme)
@@ -52,20 +54,20 @@ namespace MapHive.Core.Api.Authorize
                         Cartomatic.Utils.Identity.ImpersonateUserViaHttpContext(parsedToken);
                     }
 
-                    return AuthenticateResult.Success(
+                    return Task.FromResult(AuthenticateResult.Success(
                         new AuthenticationTicket(
                             Cartomatic.Utils.Identity.GetBasicClaimsPrincipal(parsedToken, Scheme),
                             Scheme
                         )
-                    );
+                    ));
                 }
                 else
                 {
-                    return AuthenticateResult.Fail("Invalid token.");
+                    return Task.FromResult(AuthenticateResult.Fail("Invalid token."));
                 }
             }
 
-            return AuthenticateResult.NoResult();
+            return Task.FromResult(AuthenticateResult.NoResult());
         }
 
         ///// <inheritdoc />
@@ -74,4 +76,6 @@ namespace MapHive.Core.Api.Authorize
         //    await Context.ChallengeAsync("Bearer");
         //}
     }
+
+
 }

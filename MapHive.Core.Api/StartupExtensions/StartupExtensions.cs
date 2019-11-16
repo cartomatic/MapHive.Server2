@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Cartomatic.Utils;
-using MapHive.Core.Api.UserConfiguration;
+﻿using Cartomatic.Utils;
 using MapHive.Core.Api.Authorize;
 using MapHive.Core.Api.Filters;
-using MapHive.Core;
-using MapHive.Core.Api.Compression;
+using MapHive.Core.Api.UserConfiguration;
 using MapHive.Core.DataModel;
 using MapHive.Core.IdentityServer.SerializableConfig;
 using Microsoft.AspNetCore.Authorization;
@@ -19,14 +12,24 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace MapHive.Core.Api.StartupExtensions
 {
+
     public static class StartupExtensions
     {
+        /// <summary>
+        /// Configures maphive api services
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="settings"></param>
         public static void ConfigurMapHiveApiServices(this IServiceCollection services, ApiConfigurationSettings settings)
         {
             services
@@ -47,6 +50,7 @@ namespace MapHive.Core.Api.StartupExtensions
                         .AddAuthenticationSchemes(authSchemes.ToArray())
                         .RequireAuthenticatedUser()
                         .Build();
+
                     opts.Filters.Add(new AuthorizeFilter(globalAuthorizePolicy));
 
                     //so can keep on using Cartomatic.Utils.Identity...
@@ -64,11 +68,12 @@ namespace MapHive.Core.Api.StartupExtensions
                     );
 
 
-                    if (settings.EnableCompression)
-                    {
-                        //allow reading gzip/json
-                        opts.InputFormatters.Add(new GZippedJsonInputFormatter());
-                    }
+                    //used to work nicely up to 2.2, stopped working in 3.0 - using middleware instead now
+                    //if (settings.EnableCompression)
+                    //{
+                    //    //allow reading gzip/json
+                    //    opts.InputFormatters.Insert(0,new GZippedJsonInputFormatter());
+                    //}
 
                     //when auto migrators are specified wire them up via MapHive.Core.Api.DbMigratorActionFilterAtribute
                     if (settings?.DbMigrator != null || settings?.OrganizationDbMigrator != null)
@@ -80,7 +85,12 @@ namespace MapHive.Core.Api.StartupExtensions
                     }
 
                 })
-                .AddJsonOptions(opts =>
+
+                .AddJsonOptions(opts => { })
+
+                //in 3.x using newtonsoft so far, so need to opt in!
+                .AddNewtonsoftJson(opts =>
+
                 {
                     opts.SerializerSettings.Formatting = Formatting.None;
 #if DEBUG
@@ -107,7 +117,7 @@ namespace MapHive.Core.Api.StartupExtensions
             authBuilder.AddIdentityServerAuthentication(options =>
             {
                 options.Authority = bearerCfg.Authority;
-                options.RequireHttpsMetadata = false; //FIXME - should be true for production usage!
+                options.RequireHttpsMetadata = true;
                 options.ApiName = bearerCfg.ApiName;
                 options.ApiSecret = bearerCfg.ApiSecret;
                 options.TokenRetriever = request =>
@@ -123,7 +133,7 @@ namespace MapHive.Core.Api.StartupExtensions
 
                     return authToken;
                 };
-            }); ;
+            });
 
             //should investigate tokens???
             if (settings?.AllowApiTokenAccess == true)
@@ -135,8 +145,8 @@ namespace MapHive.Core.Api.StartupExtensions
                     opts => { }
                 );
             }
-                
-            
+
+
 
             services.Configure<IISOptions>(opts =>
             {
@@ -149,7 +159,7 @@ namespace MapHive.Core.Api.StartupExtensions
             {
                 services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc(settings.UseGitVersion ? Cartomatic.Utils.Git.GetRepoVersion() : settings.ApiVersion, new Info
+                    c.SwaggerDoc(settings.UseGitVersion ? Cartomatic.Utils.Git.GetRepoVersion() : settings.ApiVersion, new OpenApiInfo
                     {
                         Title = settings?.ApiTitle ?? "unknown-api",
                         Version = settings.UseGitVersion ? Cartomatic.Utils.Git.GetRepoVersion() : settings.ApiVersion
@@ -172,14 +182,15 @@ namespace MapHive.Core.Api.StartupExtensions
                 services.AddResponseCompression(opts =>
                 {
                     //custom brotli compression provider
-                    opts.Providers.Add<BrotliCompressionProvider>();
+                    //MapHive.Core.Api.Compression.BrotliCompressionProvider - used prior to 3.x when brotli was not provided by the framework
+                    opts.Providers.Add<Microsoft.AspNetCore.ResponseCompression.BrotliCompressionProvider>();
 
                     //add customized mime
                     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(settings.CompressedMimeTypes ?? new string[0]);
                     opts.EnableForHttps = true;
                 });
 
-                
+
 
             }
 
@@ -209,6 +220,11 @@ namespace MapHive.Core.Api.StartupExtensions
             //store api short name
             CommonSettings.Set(nameof(settings.AppShortNames), settings?.AppShortNames);
 
+            //plug in early, so can watch compressed input
+            if (settings?.EnableCompression == true)
+            {
+                app.UseInputGzipEncodingMiddleware();
+            }
 
             if (env.IsDevelopment())
             {
@@ -255,12 +271,11 @@ namespace MapHive.Core.Api.StartupExtensions
                 app.UseResponseCompression();
             }
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action}"
-                );
+                endpoints.MapControllerRoute("default", "{controller}/{action}");
             });
         }
 
@@ -282,7 +297,7 @@ namespace MapHive.Core.Api.StartupExtensions
             {
                 builder.AllowAnyOrigin();
             }
-            else if(origins.Any())
+            else if (origins.Any())
             {
                 if (origins.Any(o => o.IndexOf("*") > -1))
                     builder.SetIsOriginAllowedToAllowWildcardSubdomains();
@@ -303,7 +318,7 @@ namespace MapHive.Core.Api.StartupExtensions
             {
                 builder.AllowAnyMethod();
             }
-            else if(methods.Any())
+            else if (methods.Any())
             {
                 builder.WithMethods(methods);
             }
@@ -311,4 +326,5 @@ namespace MapHive.Core.Api.StartupExtensions
             return builder;
         }
     }
+
 }

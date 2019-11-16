@@ -25,14 +25,15 @@ namespace MapHive.Api.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("")]
-        [ProducesResponseType(typeof(IEnumerable<TranslationKey>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<TranslationKeyExtended>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [CrudPrivilegeRequiredRead]
         public async Task<IActionResult> GetAsync([FromQuery] string sort = null, [FromQuery] string filter = null, [FromQuery] int start = 0,
             [FromQuery] int limit = 25)
         {
-            return await base.GetAsync(sort, filter, start, limit);
+            return await base.GetExtendedAsync<TranslationKeyExtended>(sort, filter, start, limit);
         }
 
         /// <summary>
@@ -42,13 +43,14 @@ namespace MapHive.Api.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{uuid}")]
-        [ProducesResponseType(typeof(TranslationKey), 200)]
+        [ProducesResponseType(typeof(TranslationKeyExtended), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAsync([FromQuery] Guid uuid)
+        [CrudPrivilegeRequiredRead]
+        public async Task<IActionResult> GetAsync([FromRoute] Guid uuid)
         {
-            return await base.GetAsync(uuid);
+            return await base.GetExtendedAsync<TranslationKeyExtended>(uuid);
         }
 
         /// <summary>
@@ -69,37 +71,37 @@ namespace MapHive.Api.Core.Controllers
             return await base.PutAsync(obj, uuid);
         }
 
-        /// <summary>
-        /// Creates a new TranslationKey
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("")]
-        [ProducesResponseType(typeof(TranslationKey), 200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(500)]
-        [CrudPrivilegeRequiredCreate]
-        public async Task<IActionResult> PostAsync([FromBody] TranslationKey obj)
-        {
-            return await base.PostAsync(obj);
-        }
+        ///// <summary>
+        ///// Creates a new TranslationKey
+        ///// </summary>
+        ///// <param name="obj"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[Route("")]
+        //[ProducesResponseType(typeof(TranslationKey), 200)]
+        //[ProducesResponseType(400)]
+        //[ProducesResponseType(500)]
+        //[CrudPrivilegeRequiredCreate]
+        //public async Task<IActionResult> PostAsync([FromBody] TranslationKey obj)
+        //{
+        //    return await base.PostAsync(obj);
+        //}
 
-        /// <summary>
-        /// Deletes a TranslationKey
-        /// </summary>
-        /// <param name="uuid"></param>
-        /// <returns></returns>
-        [HttpDelete]
-        [Route("{uuid}")]
-        [ProducesResponseType(typeof(TranslationKey), 200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(500)]
-        [CrudPrivilegeRequiredDestroy]
-        public async Task<IActionResult> DeleteAsync([FromRoute] Guid uuid)
-        {
-            return await base.DeleteAsync(uuid);
-        }
+        ///// <summary>
+        ///// Deletes a TranslationKey
+        ///// </summary>
+        ///// <param name="uuid"></param>
+        ///// <returns></returns>
+        //[HttpDelete]
+        //[Route("{uuid}")]
+        //[ProducesResponseType(typeof(TranslationKey), 200)]
+        //[ProducesResponseType(400)]
+        //[ProducesResponseType(500)]
+        //[CrudPrivilegeRequiredDestroy]
+        //public async Task<IActionResult> DeleteAsync([FromRoute] Guid uuid)
+        //{
+        //    return await base.DeleteAsync(uuid);
+        //}
 
     }
 }

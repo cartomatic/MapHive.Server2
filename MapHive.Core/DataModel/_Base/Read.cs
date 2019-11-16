@@ -77,7 +77,9 @@ namespace MapHive.Core.DataModel
         {
             var dbSet = dbCtx.Set<T>();
 
-            var query = dbSet.ApplyReadFilters(filters);
+            //WARNING - with the default ef tracking the query throws. seems to be a bug
+            //therefore enforcing AsNoTracking!
+            var query = dbSet.AsNoTracking().ApplyReadFilters(filters);
 
             return await query.CountAsync();
         }

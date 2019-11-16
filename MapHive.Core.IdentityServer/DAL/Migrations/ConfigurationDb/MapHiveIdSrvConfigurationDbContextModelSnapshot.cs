@@ -17,13 +17,15 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
             modelBuilder
                 .HasDefaultSchema("configuration")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000);
@@ -33,9 +35,15 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
 
                     b.Property<bool>("Enabled");
 
+                    b.Property<DateTime?>("LastAccessed");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200);
+
+                    b.Property<bool>("NonEditable");
+
+                    b.Property<DateTime?>("Updated");
 
                     b.HasKey("Id");
 
@@ -50,8 +58,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ApiResourceId")
-                        .IsRequired();
+                    b.Property<int>("ApiResourceId");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -64,13 +71,34 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.ToTable("ApiClaims");
                 });
 
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceProperty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ApiResourceId");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(250);
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(2000);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiResourceId");
+
+                    b.ToTable("ApiProperties");
+                });
+
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScope", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ApiResourceId")
-                        .IsRequired();
+                    b.Property<int>("ApiResourceId");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000);
@@ -103,8 +131,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ApiScopeId")
-                        .IsRequired();
+                    b.Property<int>("ApiScopeId");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -122,8 +149,9 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ApiResourceId")
-                        .IsRequired();
+                    b.Property<int>("ApiResourceId");
+
+                    b.Property<DateTime>("Created");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000);
@@ -131,10 +159,12 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<DateTime?>("Expiration");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasMaxLength(250);
 
                     b.Property<string>("Value")
-                        .HasMaxLength(2000);
+                        .IsRequired()
+                        .HasMaxLength(4000);
 
                     b.HasKey("Id");
 
@@ -188,8 +218,12 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
 
                     b.Property<int?>("ConsentLifetime");
 
+                    b.Property<DateTime>("Created");
+
                     b.Property<string>("Description")
                         .HasMaxLength(1000);
+
+                    b.Property<int>("DeviceCodeLifetime");
 
                     b.Property<bool>("EnableLocalLogin");
 
@@ -204,8 +238,12 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
 
                     b.Property<bool>("IncludeJwtId");
 
+                    b.Property<DateTime?>("LastAccessed");
+
                     b.Property<string>("LogoUri")
                         .HasMaxLength(2000);
+
+                    b.Property<bool>("NonEditable");
 
                     b.Property<string>("PairWiseSubjectSalt")
                         .HasMaxLength(200);
@@ -228,6 +266,13 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
 
                     b.Property<bool>("UpdateAccessTokenClaimsOnRefresh");
 
+                    b.Property<DateTime?>("Updated");
+
+                    b.Property<string>("UserCodeType")
+                        .HasMaxLength(100);
+
+                    b.Property<int?>("UserSsoLifetime");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId")
@@ -241,8 +286,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ClientId")
-                        .IsRequired();
+                    b.Property<int>("ClientId");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -264,8 +308,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ClientId")
-                        .IsRequired();
+                    b.Property<int>("ClientId");
 
                     b.Property<string>("Origin")
                         .IsRequired()
@@ -283,8 +326,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ClientId")
-                        .IsRequired();
+                    b.Property<int>("ClientId");
 
                     b.Property<string>("GrantType")
                         .IsRequired()
@@ -302,8 +344,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ClientId")
-                        .IsRequired();
+                    b.Property<int>("ClientId");
 
                     b.Property<string>("Provider")
                         .IsRequired()
@@ -321,8 +362,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ClientId")
-                        .IsRequired();
+                    b.Property<int>("ClientId");
 
                     b.Property<string>("PostLogoutRedirectUri")
                         .IsRequired()
@@ -340,8 +380,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ClientId")
-                        .IsRequired();
+                    b.Property<int>("ClientId");
 
                     b.Property<string>("Key")
                         .IsRequired()
@@ -363,8 +402,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ClientId")
-                        .IsRequired();
+                    b.Property<int>("ClientId");
 
                     b.Property<string>("RedirectUri")
                         .IsRequired()
@@ -382,8 +420,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ClientId")
-                        .IsRequired();
+                    b.Property<int>("ClientId");
 
                     b.Property<string>("Scope")
                         .IsRequired()
@@ -401,8 +438,9 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ClientId")
-                        .IsRequired();
+                    b.Property<int>("ClientId");
+
+                    b.Property<DateTime>("Created");
 
                     b.Property<string>("Description")
                         .HasMaxLength(2000);
@@ -410,11 +448,12 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<DateTime?>("Expiration");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasMaxLength(250);
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasMaxLength(2000);
+                        .HasMaxLength(4000);
 
                     b.HasKey("Id");
 
@@ -428,8 +467,7 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("IdentityResourceId")
-                        .IsRequired();
+                    b.Property<int>("IdentityResourceId");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -447,6 +485,8 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("Created");
+
                     b.Property<string>("Description")
                         .HasMaxLength(1000);
 
@@ -461,9 +501,13 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                         .IsRequired()
                         .HasMaxLength(200);
 
+                    b.Property<bool>("NonEditable");
+
                     b.Property<bool>("Required");
 
                     b.Property<bool>("ShowInDiscoveryDocument");
+
+                    b.Property<DateTime?>("Updated");
 
                     b.HasKey("Id");
 
@@ -473,10 +517,40 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                     b.ToTable("IdentityResources");
                 });
 
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.IdentityResourceProperty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("IdentityResourceId");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(250);
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(2000);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityResourceId");
+
+                    b.ToTable("IdentityProperties");
+                });
+
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceClaim", b =>
                 {
                     b.HasOne("IdentityServer4.EntityFramework.Entities.ApiResource", "ApiResource")
                         .WithMany("UserClaims")
+                        .HasForeignKey("ApiResourceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceProperty", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.ApiResource", "ApiResource")
+                        .WithMany("Properties")
                         .HasForeignKey("ApiResourceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -581,6 +655,14 @@ namespace MapHive.Core.IdentityServer.DAL.Migrations.ConfigurationDb
                 {
                     b.HasOne("IdentityServer4.EntityFramework.Entities.IdentityResource", "IdentityResource")
                         .WithMany("UserClaims")
+                        .HasForeignKey("IdentityResourceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.IdentityResourceProperty", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.IdentityResource", "IdentityResource")
+                        .WithMany("Properties")
                         .HasForeignKey("IdentityResourceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

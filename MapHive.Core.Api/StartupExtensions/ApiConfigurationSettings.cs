@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.Api
 {
+    /// <summary>
+    /// Api configuration settings
+    /// </summary>
     public class ApiConfigurationSettings
     {
         /// <summary>

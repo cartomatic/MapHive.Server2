@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +13,10 @@ using Newtonsoft.Json.Serialization;
 namespace MapHive.Core.Api.Serialization
 {
 
+
+    /// <summary>
+    /// Enforces formatting output in CamelCase
+    /// </summary>
     public class CamelCasedOutputFormatterAttribute : IAsyncResultFilter
     {
         public async Task OnResultExecutionAsync(
@@ -30,4 +33,5 @@ namespace MapHive.Core.Api.Serialization
             await next();
         }
     }
+
 }

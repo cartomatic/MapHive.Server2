@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MapHive.Core.Api.Extensions
 {
+
     public static class IActionResultExtensions
     {
         /// <summary>
@@ -19,4 +20,5 @@ namespace MapHive.Core.Api.Extensions
             return (r as OkObjectResult)?.Value as T;
         }
     }
+
 }

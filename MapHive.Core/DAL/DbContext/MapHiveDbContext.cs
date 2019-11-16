@@ -18,7 +18,7 @@ namespace MapHive.Core.DAL
     /// <summary>
     /// Maphive db ctx
     /// </summary>
-    public class MapHiveDbContext : ApplicationDbContext, ILinksDbContext, IMapHiveAppsDbContext, ILocalizedDbContext, IMapHiveUsersDbContext<MapHiveUser>, IProvideDbContextFactory
+    public class MapHiveDbContext : ApplicationDbContext, ILinksDbContext, IMapHiveAppsDbContext, ILocalizedDbContext, IMapHiveUsersDbContext<MapHiveUser>, IProvideDbContextFactory, IProvideExtendedViews, IProvideSeeder
     {
         /// <summary>
         /// Creates instance with the default conn str name
@@ -54,6 +54,16 @@ namespace MapHive.Core.DAL
             return new MapHiveDbContext();
         }
 
+        /// <summary>
+        /// Extended views provider
+        /// </summary>
+        public Type ExtendedViewsProvider => typeof(ExtendedViews);
+
+        /// <summary>
+        /// Seed provider
+        /// </summary>
+        public Type SeedProvider => typeof(Seed);
+
 
         //common types
         public DbSet<Application> Applications { get; set; }
@@ -73,6 +83,7 @@ namespace MapHive.Core.DAL
         //ILocalizedDbContext
         public DbSet<LocalizationClass> LocalizationClasses { get; set; }
         public DbSet<TranslationKey> TranslationKeys { get; set; }
+        public DbSet<TranslationKeyExtended> TranslationKeysExtended { get; set; }
         public DbSet<EmailTemplateLocalization> EmailTemplates { get; set; }
         public DbSet<Lang> Langs { get; set; }
 
@@ -101,6 +112,7 @@ namespace MapHive.Core.DAL
             modelBuilder.ApplyConfiguration(new EmailTemplateLocalizationConfiguration());
             modelBuilder.ApplyConfiguration(new LangConfiguration());
             modelBuilder.ApplyConfiguration(new TranslationKeyConfiguration());
+            modelBuilder.ApplyConfiguration(new TranslationKeyExtendedConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

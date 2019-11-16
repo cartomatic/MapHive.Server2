@@ -28,7 +28,7 @@ namespace MapHive.Api.Core.Controllers
         {
             try
             {
-                return Ok(Cartomatic.Utils.Git.GetRepoVersion());
+                return Ok(await Task.Run(()=> Cartomatic.Utils.Git.GetRepoVersion()));
             }
             catch (Exception ex)
             {

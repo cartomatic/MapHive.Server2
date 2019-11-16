@@ -9,7 +9,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace MapHive.Core.DataModel
 {
-    public partial class TranslationKey : Base, ILocalization
+    public partial class TranslationKey : TranslationKeyBase
     {
         static TranslationKey()
         {

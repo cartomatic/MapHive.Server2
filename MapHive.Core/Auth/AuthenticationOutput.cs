@@ -17,6 +17,11 @@ namespace MapHive.Core
             public bool Success { get; set; }
 
             /// <summary>
+            /// Authentication scheme to be used when communicating using the supplied tokens 
+            /// </summary>
+            public string Scheme { get; set; } = "Bearer"; //Bearer is the default scheme!
+
+            /// <summary>
             /// Access token
             /// </summary>
             public string AccessToken { get; set; }

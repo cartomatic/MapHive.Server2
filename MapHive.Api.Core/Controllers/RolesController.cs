@@ -27,6 +27,7 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(typeof(object), 500)]
+        [CrudPrivilegeRequiredRead]
         public async Task<IActionResult> GetRoleByIdentifierAsync([FromRoute] Guid orgid, [FromRoute] string identifier)
         {
             try

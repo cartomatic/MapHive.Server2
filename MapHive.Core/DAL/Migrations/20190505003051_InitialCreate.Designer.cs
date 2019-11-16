@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MapHive.Core.DAL.Migrations
 {
     [DbContext(typeof(MapHiveDbContext))]
-    [Migration("20190430131331_ExtendAppModelToIncludeDtpMobFlags")]
-    partial class ExtendAppModelToIncludeDtpMobFlags
+    [Migration("20190505003051_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -469,6 +469,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<string>("Url")
                         .HasColumnName("url");
+
+                    b.Property<string>("VisualIdentificationSerialized")
+                        .HasColumnName("visual_identification");
 
                     b.HasKey("Uuid")
                         .HasName("pk_organizations");

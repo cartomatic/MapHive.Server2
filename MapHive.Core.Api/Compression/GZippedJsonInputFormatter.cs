@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +19,8 @@ namespace MapHive.Core.Api.Compression
     {
         public GZippedJsonInputFormatter()
         {
+            SupportedMediaTypes.Clear();
+
             // Add the supported media type.
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("gzip/json"));
         }
@@ -33,7 +34,7 @@ namespace MapHive.Core.Api.Compression
                 using (var sr = new StreamReader(decompressedStream))
                 {
                     decompressedStream.Position = 0;
-                    var jsonData = sr.ReadToEnd();
+                    var jsonData = await sr.ReadToEndAsync();
 
                     return InputFormatterResult.Success(!string.IsNullOrEmpty(jsonData)
                         ? Newtonsoft.Json.JsonConvert.DeserializeObject(jsonData, context.ModelType)

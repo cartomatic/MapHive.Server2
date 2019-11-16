@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.IdentityServer.DAL
 {
-#pragma warning disable 1591
+
     public static class StoreOptions
     {
         public const string DefaultConnStrName = "MapHiveIdSrv";
@@ -26,7 +26,7 @@ namespace MapHive.Core.IdentityServer.DAL
             // this enables automatic token cleanup. this is optional.
             opts.EnableTokenCleanup = true;
             opts.TokenCleanupInterval = 3600; //seconds; same as dfault...
-            opts.TokenCleanupBatchSize = 100; //same as defualt...
+            opts.TokenCleanupBatchSize = 100; //same as default...
             //TODO - could make it confogurable via app settings...
 
             opts.DefaultSchema = "operations";

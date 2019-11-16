@@ -2,6 +2,7 @@
 
 namespace MapHive.Core.Api.ApiControllers
 {
+
     /// <summary>
     /// Base controller with db ctx access; the provided db context must be initialable via paramless ctor
     /// </summary>
@@ -9,6 +10,7 @@ namespace MapHive.Core.Api.ApiControllers
     public abstract partial class DbCtxController<TDbContext> : BaseController, IDbCtxController
         where TDbContext : DbContext, new()
     {
+
         protected readonly TDbContext _db;
 
 
@@ -17,11 +19,20 @@ namespace MapHive.Core.Api.ApiControllers
             _db = GetNewDefaultDbContext();
         }
 
+
+        /// <summary>
+        /// gets tge default db ctx
+        /// </summary>
+        /// <returns></returns>
         protected TDbContext GetDefaultDbContext()
         {
             return _db;
         }
 
+        /// <summary>
+        /// Gets a new instance of default db ctx
+        /// </summary>
+        /// <returns></returns>
         protected TDbContext GetNewDefaultDbContext()
         {
             return new TDbContext();
@@ -32,4 +43,5 @@ namespace MapHive.Core.Api.ApiControllers
             return GetDefaultDbContext();
         }
     }
+
 }

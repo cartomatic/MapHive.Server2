@@ -42,7 +42,7 @@ namespace MapHive.Api.Core.Controllers
         }
 
         /// <summary>
-        /// Gets app loclaizations in a form of a script that can be consumed by web clients
+        /// Gets app localizations in a form of a script that can be consumed by web clients
         /// </summary>
         /// <param name="langCodes"></param>
         /// <param name="appIdentifiers"></param>
@@ -86,6 +86,7 @@ namespace MapHive.Api.Core.Controllers
         /// <summary>
         /// Bulk localizations save input
         /// </summary>
+        [ApiExplorerSettings(IgnoreApi = true)]
         public class BulkSaveInput
         {
             /// <summary>
@@ -94,8 +95,12 @@ namespace MapHive.Api.Core.Controllers
             public bool? Overwrite { get; set; }
 
             /// <summary>
-            /// What languages should be imported; in a case localization data contains more langs, it will filter out specified langs;
-            /// comma delimited list
+            /// Whether or not should perform upsert rather than insert missing keys
+            /// </summary>
+            public bool? Upsert { get; set; }
+
+            /// <summary>
+            /// What languages should be imported; in a case localization data contains more langs, it will filter out specified langs
             /// </summary>
             public string[] LangsToImport { get; set; }
 
@@ -110,6 +115,7 @@ namespace MapHive.Api.Core.Controllers
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        [ApiExplorerSettings(IgnoreApi = true)] //so not visible in std docs
         [HttpPost]
         [Route("bulksave")]
         [ProducesResponseType(200)]
@@ -120,7 +126,7 @@ namespace MapHive.Api.Core.Controllers
             try
             {
                 await
-                    AppLocalization.SaveLocalizationsAsync(GetDefaultDbContext(), data.AppLocalizations, data.Overwrite, data.LangsToImport);
+                    AppLocalization.SaveLocalizationsAsync(GetDefaultDbContext(), data.AppLocalizations, data.Overwrite, data.Upsert, data.LangsToImport);
 
                 return Ok();
             }

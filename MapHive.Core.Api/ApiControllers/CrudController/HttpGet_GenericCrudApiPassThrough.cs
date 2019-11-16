@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils;
 using IdentityModel.Client;
 using MapHive.Core.Api.Extensions;
 using MapHive.Core.Configuration;
@@ -89,7 +90,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="start"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiGetWithRawOutputAsync<TOut>(
+        protected internal virtual async Task<RestApi.ApiCallOutput<TOut>> CoreApiGetWithRawOutputAsync<TOut>(
             string route,
             string sort = null, string filter = null, int start = 0, int limit = 25
         )
@@ -217,7 +218,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="route"></param>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiGetWithRawOutputAsync<TOut>(
+        protected internal virtual async Task<RestApi.ApiCallOutput<TOut>> CoreApiGetWithRawOutputAsync<TOut>(
             string route,
             Guid? uuid = null)
         {

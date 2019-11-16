@@ -7,3 +7,7 @@ https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/dotnet
 dotnet ef migrations add --project MapHive.Core --startup-project MapHive.Cmd --context MapHive.Core.DAL.MapHiveDbContext --output-dir "DAL\Migrations"
 
 dotnet ef database update --project MapHive.Core
+
+dotnet ef migrations remove --project MapHive.Core --startup-project MapHive.Cmd --context MapHive.Core.DAL.MapHiveDbContext --output-dir "DAL\Migrations"
+
+dotnet ef database update InitialCreate --project MapHive.Core --startup-project MapHive.Cmd --context MapHive.Core.DAL.MapHiveDbContext

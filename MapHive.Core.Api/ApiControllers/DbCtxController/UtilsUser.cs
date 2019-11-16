@@ -79,10 +79,10 @@ namespace MapHive.Core.Api.ApiControllers
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        protected async Task<bool> UserIsOrgOwner(Guid orgId)
+        protected async Task<bool> UserIsOrgOwnerAsync(Guid orgId)
         {
             var userId = Cartomatic.Utils.Identity.GetUserGuid();
-            return await UserIsOrgOwner(orgId, userId);
+            return await UserIsOrgOwnerAsync(orgId, userId);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="orgId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        protected async Task<bool> UserIsOrgOwner(Guid orgId, Guid? userId)
+        protected async Task<bool> UserIsOrgOwnerAsync(Guid orgId, Guid? userId)
         {   
             var dbCtx = _db as MapHiveDbContext;
             if (dbCtx == null)
@@ -104,11 +104,11 @@ namespace MapHive.Core.Api.ApiControllers
 
 
         /// <summary>
-        /// Checks if a current (obtained via ClaimsPrinicipal) user is an organization admin
+        /// Checks if a current (obtained via ClaimsPrincipal) user is an organization admin
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        protected async Task<bool> UserIsOrgAdmin(Guid orgId)
+        protected async Task<bool> UserIsOrgAdminAsync(Guid orgId)
         {
             var userId = Cartomatic.Utils.Identity.GetUserGuid();
 
@@ -123,11 +123,11 @@ namespace MapHive.Core.Api.ApiControllers
         }
 
         /// <summary>
-        /// Checks if a current (obtained via ClaimsPrinicipal) user is an organization owner or admin
+        /// Checks if a current (obtained via ClaimsPrincipal) user is an organization owner or admin
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        protected async Task<bool> UserIsOrgOwnerOrAdmin(Guid orgId)
+        protected async Task<bool> UserIsOrgOwnerOrAdminAsync(Guid orgId)
         {
             var userId = Cartomatic.Utils.Identity.GetUserGuid();
 

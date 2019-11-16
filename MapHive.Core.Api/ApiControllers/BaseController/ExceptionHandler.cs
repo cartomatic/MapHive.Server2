@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using Cartomatic.Utils;
 using Serilog;
 
 namespace MapHive.Core.Api.ApiControllers
@@ -59,11 +61,15 @@ namespace MapHive.Core.Api.ApiControllers
                 {
                     Log.Error(e, e.Message);
 
+                    //custom exception logger
+                    Cartomatic.Utils.Logging.LogExceptions(e);
+
                     #if DEBUG
                     return new ObjectResult(e.Message){StatusCode = (int)HttpStatusCode.InternalServerError};
                     #endif
                     return new ObjectResult(string.Empty){StatusCode = (int)HttpStatusCode.InternalServerError};
                 }
             };
+
     }
 }

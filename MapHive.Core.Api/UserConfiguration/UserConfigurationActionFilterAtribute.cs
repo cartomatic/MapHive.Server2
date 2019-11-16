@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace MapHive.Core.Api.UserConfiguration
 {
+
     /// <summary>
     /// Extracts organization context off a request
     /// </summary>
@@ -145,7 +146,9 @@ namespace MapHive.Core.Api.UserConfiguration
                                     {nameof(q.Referrer), q.Referrer},
                                     {nameof(q.TokenId), q.TokenId},
                                     {nameof(q.OrganizationId), q.OrganizationId}
-                        }
+                        },
+
+                        transferRequestHdrs: false
                     );
 
             //because the db encryption does actually depend on the query sent to the usercfg, need to decrypt it as it is only known here...
@@ -267,7 +270,7 @@ namespace MapHive.Core.Api.UserConfiguration
         }
 
         /// <summary>
-        /// Tries to obrain user confoguration off a context
+        /// Tries to obtain user configuration off a context
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
@@ -323,6 +326,7 @@ namespace MapHive.Core.Api.UserConfiguration
         /// Whether or now the action is allowed via user config
         /// </summary>
         /// <param name="actionContext"></param>
+        /// <param name="failureReason"></param>
         /// <returns></returns>
         protected static bool AllowViaUserConfig(ActionExecutingContext actionContext, out string failureReason)
         {
@@ -364,7 +368,7 @@ namespace MapHive.Core.Api.UserConfiguration
             }
 
 
-            //org uuid if any - in such case access is via org api: organizations/orgUuid/conntroller
+            //org uuid if any - in such case access is via org api: organizations/orgUuid/controller
             Organization org = null;
             if (CheckAttributePresence<OrganizationContextActionFilterAttribute>(actionContext))
             {
@@ -396,7 +400,7 @@ namespace MapHive.Core.Api.UserConfiguration
             var ok = orgs.Any(o => o?.Applications?.Any(a => appNames.Contains(a.ShortName)) ?? false);
             if (!ok)
             {
-                failureReason = $"Org(s): '{string.Join(",", orgs.AsEnumerable())}' have no access to the '{string.Join(", ", appNames)}' app(s) granted.";
+                failureReason = $"Org(s): '{string.Join(",", orgs.AsEnumerable().Select(o=>o.Slug))}' have no access to the '{string.Join(", ", appNames)}' app(s) granted.";
             }
             return ok;
         }
@@ -412,4 +416,5 @@ namespace MapHive.Core.Api.UserConfiguration
             return GetUserConfiguration(context)?.Orgs?.FirstOrDefault(o => o.Uuid == orgnizationId);
         }
     }
+
 }

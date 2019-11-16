@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils;
 using IdentityModel.Client;
 using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Mvc;
@@ -64,10 +65,9 @@ namespace MapHive.Core.Api.ApiControllers
         /// </summary>
         /// <typeparam name="TOut"></typeparam>
         /// <param name="route"></param>
-        /// <param name="queryParams"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        protected internal virtual async Task<ApiCallOutput<TOut>> CoreApiPostWithRawOutputAsync<TOut>(
+        protected internal virtual async Task<RestApi.ApiCallOutput<TOut>> CoreApiPostWithRawOutputAsync<TOut>(
             string route,
             object obj
         )

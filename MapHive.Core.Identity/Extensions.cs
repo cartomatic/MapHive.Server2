@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MapHive.Core.Identity
 {
-#pragma warning disable 1591
+
     public static class Extensions
     {
         /// <summary>

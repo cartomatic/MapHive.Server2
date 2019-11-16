@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MapHive.Core.Identity.DataModel
 {
-#pragma warning disable 1591
+
     public class MapHiveIdentityRoleManager : RoleManager<MapHiveIdentityRole>
     {
         /// <inheritdoc />

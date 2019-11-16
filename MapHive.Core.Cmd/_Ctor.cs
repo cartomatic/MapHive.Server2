@@ -14,7 +14,7 @@ namespace MapHive.Core.Cmd
     /// </summary>
     public partial class CommandHandler : Cartomatic.CmdPrompt.Core.DefaultCmdCommandHandler
     {
-#pragma warning disable 1591
+
         public CommandHandler(string handlerInfo)
             : base(handlerInfo)
         {

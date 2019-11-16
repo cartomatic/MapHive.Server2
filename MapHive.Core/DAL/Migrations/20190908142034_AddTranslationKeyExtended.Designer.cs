@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MapHive.Core.DAL.Migrations
 {
     [DbContext(typeof(MapHiveDbContext))]
-    [Migration("20190430124451_ExtendAppModelToIncludeVisualIdentification")]
-    partial class ExtendAppModelToIncludeVisualIdentification
+    [Migration("20190908142034_AddTranslationKeyExtended")]
+    partial class AddTranslationKeyExtended
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,6 +42,12 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<DateTime?>("EndDateUtc")
                         .HasColumnName("end_date_utc");
+
+                    b.Property<bool>("HasDesktopVersion")
+                        .HasColumnName("has_desktop");
+
+                    b.Property<bool>("HasMobileVersion")
+                        .HasColumnName("has_mobile");
 
                     b.Property<bool>("IsApi")
                         .HasColumnName("is_api");
@@ -464,6 +470,9 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<string>("Url")
                         .HasColumnName("url");
 
+                    b.Property<string>("VisualIdentificationSerialized")
+                        .HasColumnName("visual_identification");
+
                     b.HasKey("Uuid")
                         .HasName("pk_organizations");
 
@@ -759,6 +768,9 @@ namespace MapHive.Core.DAL.Migrations
                     b.Property<DateTime?>("EndDateUtc")
                         .HasColumnName("end_date_utc");
 
+                    b.Property<bool?>("Inherited")
+                        .HasColumnName("inherited");
+
                     b.Property<string>("Key")
                         .HasColumnName("key");
 
@@ -770,6 +782,9 @@ namespace MapHive.Core.DAL.Migrations
 
                     b.Property<DateTime?>("ModifyDateUtc")
                         .HasColumnName("modify_date_utc");
+
+                    b.Property<bool?>("Overwrites")
+                        .HasColumnName("overwrites");
 
                     b.Property<string>("TranslationsSerialized")
                         .HasColumnName("translations");
@@ -785,6 +800,70 @@ namespace MapHive.Core.DAL.Migrations
                         .HasName("idx_translation_key_uq_localization_class_translation_key");
 
                     b.ToTable("translation_keys","mh_localization");
+                });
+
+            modelBuilder.Entity("MapHive.Core.DataModel.TranslationKeyExtended", b =>
+                {
+                    b.Property<Guid>("Uuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("uuid");
+
+                    b.Property<string>("ApplicationName")
+                        .HasColumnName("application_name");
+
+                    b.Property<string>("ClassName")
+                        .HasColumnName("class_name");
+
+                    b.Property<DateTime?>("CreateDateUtc")
+                        .HasColumnName("create_date_utc");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnName("created_by");
+
+                    b.Property<string>("CustomDataSerialized")
+                        .HasColumnName("custom_data");
+
+                    b.Property<DateTime?>("EndDateUtc")
+                        .HasColumnName("end_date_utc");
+
+                    b.Property<string>("FullKey")
+                        .HasColumnName("full_key");
+
+                    b.Property<bool?>("Inherited")
+                        .HasColumnName("inherited");
+
+                    b.Property<string>("InheritedClassName")
+                        .HasColumnName("inherited_class_name");
+
+                    b.Property<string>("Key")
+                        .HasColumnName("key");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnName("last_modified_by");
+
+                    b.Property<Guid>("LocalizationClassUuid")
+                        .HasColumnName("localization_class_uuid");
+
+                    b.Property<DateTime?>("ModifyDateUtc")
+                        .HasColumnName("modify_date_utc");
+
+                    b.Property<bool?>("Overwrites")
+                        .HasColumnName("overwrites");
+
+                    b.Property<string>("TranslationsSerialized")
+                        .HasColumnName("translations");
+
+                    b.HasKey("Uuid")
+                        .HasName("pk_translation_keys_extended");
+
+                    b.HasIndex("CreateDateUtc")
+                        .HasName("idx_translation_key_extended_create_date");
+
+                    b.HasIndex("LocalizationClassUuid", "Key")
+                        .IsUnique()
+                        .HasName("idx_translation_key_uq_localization_class_translation_key");
+
+                    b.ToTable("translation_keys_extended","mh_localization");
                 });
 #pragma warning restore 612, 618
         }
