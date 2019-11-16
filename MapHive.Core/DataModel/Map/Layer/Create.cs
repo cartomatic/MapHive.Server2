@@ -8,17 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public abstract partial class LayerBase
+    public partial class Layer
     {
         protected internal override async Task<T> CreateAsync<T>(DbContext dbCtx)
         {
-            if (!(dbCtx is IMapDbContext))
-                throw new ArgumentException($"DbCtx is expected to implement {nameof(IMapDbContext)}");
-
-            var mapDbCtx = (IMapDbContext)dbCtx;
 
             //if the layer has its data store, make sure to mark the data store as in use, so it does not get deleted
-            if (DataStoreId.HasValue)
+            if (DataStoreId.HasValue && dbCtx is IMapDbContext mapDbCtx)
             {
                 var dataStore = await mapDbCtx.DataStores.AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Uuid == DataStoreId);

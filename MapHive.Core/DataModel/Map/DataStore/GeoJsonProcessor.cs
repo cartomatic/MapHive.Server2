@@ -11,7 +11,7 @@ using FeatureCollection = GeoJSON.Net.Feature.FeatureCollection;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public abstract partial class DataStoreBase
+    public partial class DataStore
     {
         /// <summary>
         /// Processes a GeoJSON file and uploads it to a db
@@ -19,7 +19,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="dbCtx"></param>
         /// <param name="path">Path to a directory a GeoJSON has been uploaded to</param>
         /// <returns></returns>
-        public static async Task<DataStoreBase> ProcessGeoJson(DbContext dbCtx, string path)
+        public static async Task<DataStore> ProcessGeoJson(DbContext dbCtx, string path)
         {
             //assuming a single zip can only be present in a directory, as uploading data for a single layer
 

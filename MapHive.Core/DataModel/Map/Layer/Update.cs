@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public abstract partial class LayerBase
+    public partial class Layer
     {
         protected internal override async Task<T> UpdateAsync<T>(DbContext dbCtx, Guid uuid)
         {

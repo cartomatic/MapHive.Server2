@@ -6,7 +6,7 @@ namespace MapHive.Core.DataModel.Map
     /// <summary>
     /// basic model for the layer objects
     /// </summary>
-    public abstract partial class LayerBase : MapHive.Core.DataModel.Base
+    public abstract partial class LayerBase : Base
     {
         /// <summary>
         /// Layer identifier - a key based on which a client app can provide customized UI
