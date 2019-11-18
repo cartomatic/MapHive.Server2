@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Data;
 
 namespace MapHive.Core.DataModel.Map
 {
@@ -16,8 +17,9 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <param name="path">Path to a directory a shapefile has been uploaded to</param>
+        /// <param name="dsc"></param>
         /// <returns></returns>
-        public static async Task<DataStore> ProcessShp(DbContext dbCtx, string path)
+        public static async Task<DataStore> ProcessShp(DbContext dbCtx, string path, DataSourceCredentials dsc)
         {
             //assuming a single zip can only be present in a directory, as uploading data for a single layer
 
@@ -32,7 +34,7 @@ namespace MapHive.Core.DataModel.Map
 
             var fName = Path.GetFileNameWithoutExtension(shp);
 
-            var output = GetDataStore(fName, "shp");
+            var output = GetDataStore(fName, "shp", dsc);
 
 
             //need this for a proper code page handling when reading dbf
