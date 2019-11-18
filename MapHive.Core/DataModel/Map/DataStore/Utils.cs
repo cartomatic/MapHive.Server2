@@ -402,7 +402,7 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
         /// <param name="type"></param>
         /// <param name="schema"></param>
         /// <returns></returns>
-        public static DataStore GetDataStore(string fName, string type, string schema = "imported_geodata")
+        public static DataStore GetDataStore(string fName, string type, DataSourceCredentials ds, string schema = "imported_geodata")
         {
             if (!CheckIfObjectSafe(fName))
                 throw MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException("FileName", "bad_file_name",
@@ -413,8 +413,7 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
                 Name = fName,
                 DataSource = new DataSource
                 {
-                    DataSourceCredentials = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig().GetSection("GeoDatabase")
-                        .Get<DataSourceCredentials>(),
+                    DataSourceCredentials = ds,
                     Schema = schema,
                     Table = $"l_{DateTime.Now:yyyyMMddHHmmss}_{type}_{GetSafeDbObjectName(fName)}",
                     Columns = new List<Column>()
