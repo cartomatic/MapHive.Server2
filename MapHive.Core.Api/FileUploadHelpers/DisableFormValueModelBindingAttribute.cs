@@ -17,6 +17,7 @@ namespace MapHive.Core.Api
         {
             var factories = context.ValueProviderFactories;
             factories.RemoveType<FormValueProviderFactory>();
+            factories.RemoveType<FormFileValueProviderFactory>();
             factories.RemoveType<JQueryFormValueProviderFactory>();
         }
 
