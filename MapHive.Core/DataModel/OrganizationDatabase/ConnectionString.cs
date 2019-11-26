@@ -19,8 +19,9 @@ namespace MapHive.Core.DataModel
         /// </summary>
         /// <param name="serviceDatabase">whether or not to connect to a service db</param>
         /// <param name="superUser">whether or not use superuser credentials</param>
+        /// <param name="pooling">Whether or not pool the connection</param>
         /// <returns></returns>
-        public string GetConnectionString(bool serviceDatabase = false, bool superUser = false)
+        public string GetConnectionString(bool serviceDatabase = false, bool superUser = false, bool pooling = true)
         {
             return new DataSourceCredentials
             {
@@ -35,7 +36,7 @@ namespace MapHive.Core.DataModel
                 ServiceUserPass = ServiceUserPass,
                 UseDefaultServiceDb = true, 
                 UserName = UserName
-            }.GetConnectionString(serviceDatabase, superUser);
+            }.GetConnectionString(serviceDatabase, superUser, pooling);
         }
     }
 }
