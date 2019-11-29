@@ -20,7 +20,7 @@ namespace MapHive.Core.DataModel.Map
         {
             if (SourceLayerId.HasValue && dbCtx is IMapDbContext mapDbCtx)
             {
-                SourceLayer = await mapDbCtx.GetLayersDbSet<TLayer>().AsNoTracking().FirstOrDefaultAsync(l => l.Uuid == SourceLayerId);
+                _sourceLayer = await mapDbCtx.GetLayersDbSet<TLayer>().AsNoTracking().FirstOrDefaultAsync(l => l.Uuid == SourceLayerId);
             }
         }
     }

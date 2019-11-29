@@ -23,8 +23,9 @@ namespace MapHive.Core.DataModel.Map
             if (l?.DataSource?.DataSourceCredentials != null)
                 DataSource.DataSourceCredentials = l.DataSource.DataSourceCredentials;
 
-            if (l?.SourceLayer?.DataSource?.DataSourceCredentials != null)
-                SourceLayer.DataSource.DataSourceCredentials = l.SourceLayer.DataSource.DataSourceCredentials;
+            //source layer is always by reference, so no need to restore anything!
+            //if (l?.SourceLayer?.DataSource?.DataSourceCredentials != null)
+            //    SourceLayer.DataSource.DataSourceCredentials = l.SourceLayer.DataSource.DataSourceCredentials;
 
             return await base.UpdateAsync<TLayer>(dbCtx, uuid);
         }
