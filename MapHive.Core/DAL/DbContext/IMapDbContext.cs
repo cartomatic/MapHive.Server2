@@ -15,7 +15,10 @@ namespace MapHive.Core.DAL
     /// </summary>
     public interface IMapDbContext
     {
-        DbSet<DataStore> DataStores { get; set; }
-        DbSet<Layer> Layers { get; set; }
+        DbSet<T> GetDataStoresDbSet<T>()
+            where T : MapHive.Core.DataModel.Map.DataStore;
+
+        DbSet<T> GetLayersDbSet<T>()
+            where T : MapHive.Core.DataModel.Map.LayerBase;
     }
 }

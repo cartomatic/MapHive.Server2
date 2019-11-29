@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public partial class Layer
+    public partial class LayerBase
     {
         public override IEnumerable<IValidator> GetValidators()
         {
@@ -20,16 +20,16 @@ namespace MapHive.Core.DataModel.Map
             {
                 validators.AddRange(baseValidators);
             }
-            validators.Add(new LayerValidator());
+            validators.Add(new LayerBaseValidator());
             return validators;
         }
 
         /// <summary>
         /// Client validator
         /// </summary>
-        public class LayerValidator : AbstractValidator<Layer>
+        public class LayerBaseValidator : AbstractValidator<LayerBase>
         {
-            public LayerValidator()
+            public LayerBaseValidator()
             {
                 RuleFor(x => x.Name).WithValueRequired().WithLength(1, 254);
             }

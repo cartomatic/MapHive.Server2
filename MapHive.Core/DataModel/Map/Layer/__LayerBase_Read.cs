@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public partial class Layer
+    public abstract partial class LayerBase
     {
         /// <summary>
         /// Customised read procedure that also reads a source layer for the returned object
@@ -20,11 +20,17 @@ namespace MapHive.Core.DataModel.Map
         /// <returns></returns>
         protected internal override async Task<T> ReadAsync<T>(DbContext dbCtx, Guid uuid, bool detached = true)
         {
-            var obj = (Layer)(Base) await base.ReadAsync<T>(dbCtx, uuid, detached);
+            throw new Exception("Override or Use the DestroyAsync<T, TLayer, TDataStore> method instead!");
+        }
 
-            await obj.ReadSourceLayer(dbCtx);
+        protected internal virtual async Task<TLayer> ReadWithExtrasAsync<TLayer>(DbContext dbCtx, Guid uuid, bool detached = true)
+            where TLayer : LayerBase
+        {
+            var obj = await base.ReadAsync<TLayer>(dbCtx, uuid, detached);
 
-            return (T)(Base)obj;
+            await obj.ReadSourceLayer<TLayer>(dbCtx);
+
+            return obj;
         }
     }
 }
