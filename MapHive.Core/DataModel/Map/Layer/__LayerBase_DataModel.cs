@@ -177,11 +177,17 @@ namespace MapHive.Core.DataModel.Map
             }
         }
 
+        /// <summary>
+        /// a protected property for the public SourceLayer container; used so does not have to fight deserialization to abstract LayerBase in some cases
+        /// </summary>
+        protected LayerBase _sourceLayer { get; set; }
 
         /// <summary>
-        /// Source layer; this field is a convenience field for reading single layer data and in most cases will not hold a value
+        /// Source layer; this field is a convenience data container used when reading single layer data and in most cases will not hold a value;
+        /// It is here, so can output extra data when returning a complete layer record
         /// </summary>
-        public LayerBase SourceLayer { get; set; }
+        public LayerBase SourceLayer => _sourceLayer;
+
 
         /// <summary>
         /// cleans up layer's sensitive data
@@ -190,12 +196,12 @@ namespace MapHive.Core.DataModel.Map
         public void CleanSensitiveData(bool cleanLayerMetadata = true)
         {
             CleanDataSourceCredentialsUserInfo(DataSource?.DataSourceCredentials);
-            CleanDataSourceCredentialsUserInfo(SourceLayer?.DataSource?.DataSourceCredentials);
+            CleanDataSourceCredentialsUserInfo(_sourceLayer?.DataSource?.DataSourceCredentials);
 
             if (cleanLayerMetadata)
             {
                 CleanMetadataCredentialsUserInfo(Metadata);
-                CleanMetadataCredentialsUserInfo(SourceLayer?.Metadata);
+                CleanMetadataCredentialsUserInfo(_sourceLayer?.Metadata);
             }
         }
 
