@@ -17,5 +17,10 @@ namespace MapHive.Core.DataModel.Map
         public Layer()
         {
         }
+
+        /// <summary>
+        /// need to cover the base property for proper deserialization
+        /// </summary>
+        //public new Layer SourceLayer { get; set; }
     }
 }

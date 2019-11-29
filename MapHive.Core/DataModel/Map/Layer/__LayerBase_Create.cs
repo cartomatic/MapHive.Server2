@@ -5,19 +5,27 @@ using System.Threading.Tasks;
 using MapHive.Core.DAL;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
+using MimeKit.Encodings;
 
 namespace MapHive.Core.DataModel.Map
 {
-    public partial class Layer
+    public abstract partial class LayerBase
     {
         protected internal override async Task<T> CreateAsync<T>(DbContext dbCtx)
+        {
+            throw new Exception("Override or Use the CreateAsync<T, TDataStore> method instead!");
+        }
+
+        protected internal virtual async Task<TLayer> CreateAsync<TLayer, TDataStore>(DbContext dbCtx)
+            where TLayer : LayerBase
+            where TDataStore : Map.DataStore
         {
 
             //if the layer has its data store, make sure to mark the data store as in use, so it does not get deleted
             if (DataStoreId.HasValue && dbCtx is IMapDbContext mapDbCtx)
             {
-                var dataStore = await mapDbCtx.DataStores.AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.Uuid == DataStoreId);
+                var dataStoresDbSet = mapDbCtx.GetDataStoresDbSet<TDataStore>().AsNoTracking();
+                var dataStore = await dataStoresDbSet.FirstOrDefaultAsync(x => x.Uuid == DataStoreId);
 
                 if (dataStore != null)
                 {
@@ -29,8 +37,7 @@ namespace MapHive.Core.DataModel.Map
                     {
                         foreach (var linkedDataStoreId in dataStore.LinkedDataStoreIds)
                         {
-                            var linkedDataStore = await mapDbCtx.DataStores.AsNoTracking()
-                                .FirstOrDefaultAsync(x => x.Uuid == linkedDataStoreId);
+                            var linkedDataStore = await dataStoresDbSet.FirstOrDefaultAsync(x => x.Uuid == linkedDataStoreId);
                             if (linkedDataStore != null)
                             {
                                 linkedDataStore.InUse = true;
@@ -41,7 +48,7 @@ namespace MapHive.Core.DataModel.Map
                 }
             }
 
-            return (T)(Base)(await base.CreateAsync<Layer>(dbCtx));
+            return await base.CreateAsync<TLayer>(dbCtx);
         }
     }
 }
