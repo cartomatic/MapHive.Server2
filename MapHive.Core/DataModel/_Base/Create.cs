@@ -23,6 +23,8 @@ namespace MapHive.Core.DataModel
 
             await this.ValidateAsync(dbCtx);
 
+            this.XssSanitize();
+
 
             //new object so do generate uuid but only if default. otherwise guid has been set by other party
             if (Uuid == default(Guid))

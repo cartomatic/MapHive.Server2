@@ -25,6 +25,7 @@ namespace MapHive.Core.DataModel
             Uuid = uuid;
 
             await this.ValidateAsync(dbCtx);
+            this.XssSanitize();
 
             //test if an object exists
             if (!await ObjectExistsAsync(dbSet, uuid))
