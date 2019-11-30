@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
-    <Version>1.0.4-dev0231</Version>
+    <Version>1.0.4-dev0232</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>MapHive provides some abstractions (mainly standardised 'base' objects) for easy crud like apps stubbing
 aimed at working with pgsql initially</Description>
@@ -23,31 +23,32 @@ aimed at working with pgsql initially</Description>
 
   <ItemGroup>
     <PackageReference Include="csvhelper" Version="12.2.1" />
-    <PackageReference Include="FluentValidation" Version="8.5.0" />
+    <PackageReference Include="FluentValidation" Version="8.5.1" />
     <PackageReference Include="GeoJSON.Net" Version="1.1.73" />
-    <PackageReference Include="IdentityModel" Version="4.0.0" />
+    <PackageReference Include="HtmlSanitizer" Version="4.0.217" />
+    <PackageReference Include="IdentityModel" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
     <PackageReference Include="msbump" Version="2.3.2" />
     <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="2.0.1" />
     <PackageReference Include="NetTopologySuite.IO.ShapeFile" Version="2.0.0" />
-    <PackageReference Include="newtonsoft.json" Version="12.0.2" />
-    <PackageReference Include="npgsql" Version="4.1.1" />
+    <PackageReference Include="newtonsoft.json" Version="12.0.3" />
+    <PackageReference Include="npgsql" Version="4.1.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
     <PackageReference Include="restsharp" Version="106.6.10" />
-    <PackageReference Include="serilog" Version="2.8.0" />
+    <PackageReference Include="serilog" Version="2.9.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
 
     <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.6.0</Version>
+      <Version>4.6.1</Version>
     </PackageReference>
 
     <PackageReference Include="Microsoft.AspNetCore.Mvc">
@@ -58,7 +59,7 @@ aimed at working with pgsql initially</Description>
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.3.0" />
 
     <PackageReference Include="Microsoft.Extensions.Configuration.Json">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="system.configuration.configurationmanager">
       <Version>4.6.0</Version>
