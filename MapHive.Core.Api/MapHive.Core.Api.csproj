@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>MapHive.Core.Api</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>map hive core api utils - base for mh env api controllers
@@ -12,6 +12,7 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/MapHive.Server2</RepositoryUrl>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UserSecretsId>32c2d3aa-d298-4422-b0f3-506cc7e8d005</UserSecretsId>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -24,7 +25,7 @@ use at your own risk...</Description>
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="msbump" Version="2.3.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
