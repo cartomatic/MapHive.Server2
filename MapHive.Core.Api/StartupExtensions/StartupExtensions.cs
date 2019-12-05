@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Hosting;
 
 namespace MapHive.Core.Api.StartupExtensions
 {
@@ -212,7 +213,7 @@ namespace MapHive.Core.Api.StartupExtensions
         /// <param name="app"></param>
         /// <param name="env"></param>
         /// <param name="settings"></param>
-        public static void ConfigureMapHiveApi(this IApplicationBuilder app, IHostingEnvironment env, ApiConfigurationSettings settings)
+        public static void ConfigureMapHiveApi(this IApplicationBuilder app, IWebHostEnvironment env, ApiConfigurationSettings settings)
         {
             //this makes sure all the types inheriting from object base auto register themselves
             BaseObjectTypeIdentifierExtensions.AutoRegisterBaseTypes();
