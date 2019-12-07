@@ -455,7 +455,7 @@ namespace MapHive.Core.DataModel.Map
                     if (processed > 0 && processed % batchSize == 0)
                     {
                         if (upsert)
-                            await ExecuteUpsertBatch(cmd, dataStore, insertData, key, skipCols);
+                            await ExecuteUpsertBatch(cmd, dataStore, insertData, dataStore.DataSource.Columns.Count, key, skipCols);
                         else
                             await ExecuteInsertBatch(cmd, dataStore, insertData);
                     }
@@ -511,17 +511,20 @@ namespace MapHive.Core.DataModel.Map
                                 CultureInfo.InvariantCulture, out var la)
                         )
                         {
-                            data[data.Length - 1] =
-                                $"ST_Transform(ST_SetSRID(ST_MakePoint({lo.ToString(CultureInfo.InvariantCulture)}, {la.ToString(CultureInfo.InvariantCulture)}),4326),3857)";
+                            data[^1] =
+                                $"ST_Transform(ST_SetSRID(ST_MakePoint(@r{processed}_lo, @r{processed}_la),4326),3857)";
+                            cmd.Parameters.AddWithValue($"@r{processed}_lo", lo);
+                            cmd.Parameters.AddWithValue($"@r{processed}_la", la);
                         }
                         else if (rec.ContainsKey("wkt"))
                         {
-                            data[data.Length - 1] =
-                                $"ST_Transform(ST_SetSRID(ST_GeomFromText('{rec["wkt"]}'),4326),3857)";
+                            data[^1] =
+                                $"ST_Transform(ST_SetSRID(ST_GeomFromText(@r{processed}_wkt),4326),3857)";
+                            cmd.Parameters.AddWithValue($"@r{processed}_wkt", rec["wkt"]);
                         }
                         else
                         {
-                            data[data.Length - 1] = "NULL";
+                            data[^1] = "NULL";
                         }
                     }
 
@@ -532,7 +535,7 @@ namespace MapHive.Core.DataModel.Map
                 if (insertData.Count > 0)
                 {
                     if (upsert)
-                        await ExecuteUpsertBatch(cmd, dataStore, insertData, key, skipCols);
+                        await ExecuteUpsertBatch(cmd, dataStore, insertData, dataStore.DataSource.Columns.Count, key, skipCols);
                     else
                         await ExecuteInsertBatch(cmd, dataStore, insertData);
                 }
@@ -575,7 +578,10 @@ namespace MapHive.Core.DataModel.Map
             if (updateMode == "overwrite")
                 await ExecuteTableDropAsync(dataStoreToUpdate);
 
-            return await ProcessFlatData(dbCtx, newDataStore, flatData, hasGeom, upsert: updateMode == "upsert", key: key);
+            var upsert = updateMode == "upsert";
+
+            //with upsert need to use the basic store as the sql generator, otherwise the new one
+            return await ProcessFlatData(dbCtx, upsert ? dataStoreToUpdate : newDataStore, flatData, hasGeom, upsert: upsert, key: key);
         }
 
         /// <summary>

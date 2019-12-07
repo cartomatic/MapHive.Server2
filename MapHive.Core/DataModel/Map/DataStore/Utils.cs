@@ -333,12 +333,37 @@ from {ds.DataSource.Schema}.{ds.DataSource.Table}";
         /// <param name="insertData"></param>
         /// <param name="key"></param>
         /// <param name="skipCols"></param>
+        /// <param name="colCnt"></param>
         /// <returns></returns>
-        protected internal static async Task ExecuteUpsertBatch(Npgsql.NpgsqlCommand cmd, DataStore ds, List<string> insertData, IEnumerable<string> key, IEnumerable<string> skipCols)
+        protected internal static async Task ExecuteUpsertBatch(Npgsql.NpgsqlCommand cmd, DataStore ds, List<string> insertData, int colCnt, IEnumerable<string> key, IEnumerable<string> skipCols)
         {
+            var colNameRow = string.Empty;
+            var discardColNameRowData = string.Empty;
+            if (key?.Any() == true)
+            {
+                var colsData = new string[colCnt];
+                var keyCols = key.ToArray();
+                for (var colIdx = 0; colIdx < colCnt; colIdx++)
+                {
+                    colsData[colIdx] = colIdx < keyCols.Length ? $"NULL as {keyCols[colIdx]}" : "NULL";
+                }
+
+                colNameRow = $"SELECT {string.Join(",", colsData)} UNION ALL";
+
+                discardColNameRowData = $"WHERE {string.Join(" IS NOT NULL AND ", key)} IS NOT NULL";
+            }
+
             cmd.CommandText = $@"INSERT INTO {ds.DataSource.Schema}.{ds.DataSource.Table}
-({string.Join(",", ds.DataSource.Columns.Select(c => c.Name))})
+({string.Join(",", ds.DataSource.Columns.Where(c => skipCols == null || !skipCols.Contains(c.Name)).Select(c => c.Name))})
+
+{(key?.Any() == true ? $"SELECT DISTINCT ON ({string.Join(",", key)}) * FROM (" : string.Empty)}
+
+{colNameRow}
 {string.Join($"{Environment.NewLine} UNION ALL ", insertData)}
+
+{(key?.Any() == true ? ") as data" : string.Empty)}
+{discardColNameRowData}
+
 ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
 {GetDoUpdateCols(ds, key, skipCols)}
 ;";

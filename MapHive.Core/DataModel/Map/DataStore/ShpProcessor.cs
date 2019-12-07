@@ -198,13 +198,15 @@ namespace MapHive.Core.DataModel.Map
             if (updateMode == "overwrite")
                 await ExecuteTableDropAsync(dataStoreToUpdate);
 
+            var upsert = updateMode == "upsert";
 
             //need this for a proper code page handling when reading dbf
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
             using (var shpReader = new NetTopologySuite.IO.ShapefileDataReader(shp, new GeometryFactory()))
             {
-                await ReadAndLoadShpData(shpReader, newDataStore, updateMode == "upsert", key);
+                //with upsert need to use the basic store as the sql generator, otherwise the new one
+                await ReadAndLoadShpData(shpReader, upsert ? dataStoreToUpdate : newDataStore, upsert, key);
             }
         }
 
@@ -252,35 +254,65 @@ namespace MapHive.Core.DataModel.Map
                 //so if a column does not appear in the shp, then needs to be excluded
                 if (upsert)
                 {
-                    skipCols = dataStore.DataSource.Columns.Where(c => c.Type != ColumnDataType.Geom && dBaseHdr.Fields.All(f => f.Name != c.Name)).Select(c => c.Name).ToList();
+                    skipCols = dataStore.DataSource.Columns.Where(c => c.Type != ColumnDataType.Geom && dBaseHdr.Fields.All(f => GetSafeDbObjectName(f.Name) != c.Name)).Select(c => c.Name).ToList();
                 }
+
+                //in upsert mode need column in the order of data store!!!
+                var dBaseFieldsToRead = dBaseHdr.Fields.Select((fld, idx) => (idx, fld)).ToList();
+                if (upsert)
+                {
+                    dBaseFieldsToRead.Clear();
+
+                    foreach (var col in dataStore.DataSource.Columns)
+                    {
+                        if (skipCols != null && !skipCols.Contains(col.Name))
+                        {
+                            for (var f = 0; f < dBaseHdr.Fields.Length; f++)
+                            {
+                                var fld = dBaseHdr.Fields[f];
+                                if (GetSafeDbObjectName(fld.Name) == col.Name)
+                                {
+                                    dBaseFieldsToRead.Add((f, fld));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //col count for the upsert
+                var colCnt = dBaseFieldsToRead.Count + 1; //+1 to account for geom!
 
                 while (shpReader.Read())
                 {
                     if (processed > 0 && processed % batchSize == 0)
                     {
                         if (upsert)
-                            await ExecuteUpsertBatch(cmd, dataStore, insertData, key, skipCols);
+                            await ExecuteUpsertBatch(cmd, dataStore, insertData, colCnt, key, skipCols);
                         else
                             await ExecuteInsertBatch(cmd, dataStore, insertData);
                     }
 
                     processed += 1;
 
-                    var data = new string[dBaseHdr.Fields.Length + 1];
-                    for (var i = 0; i < dBaseHdr.Fields.Length; i++)
+
+                    var data = new string[dBaseFieldsToRead.Count + 1];
+                    
+                   
+                    for (var i = 0; i < dBaseFieldsToRead.Count; i++)
                     {
+                        var safeFldName = GetSafeDbObjectName(dBaseFieldsToRead[i].fld.Name);
+
                         //in upsert mode the original data model does not change, therefore should only update
                         //columns that are in the original model ignoring all the extra ones
-                        if (upsert && dataStore.DataSource.Columns.All(c => c.Name != dBaseHdr.Fields[i].Name))
+                        if (upsert && dataStore.DataSource.Columns.All(c => c.Name != safeFldName))
                             continue;
 
                         data[i] = $"@r{processed}_p{i}";
 
-                        var value = shpReader.GetValue(i + 1);
+                        var value = shpReader.GetValue(dBaseFieldsToRead[i].idx + 1); //shp reads by 1 based index
                         var valueType = value.GetType();
 
-                        if (valueType == typeof(string) && dBaseHdr.Fields[i].Type != valueType &&
+                        if (valueType == typeof(string) && dBaseFieldsToRead[i].fld.Type != valueType &&
                             value.ToString().Contains("***")) //this indicates a null in shp field
                         {
                             cmd.Parameters.AddWithValue(data[i], DBNull.Value);
@@ -292,17 +324,21 @@ namespace MapHive.Core.DataModel.Map
                     }
 
                     //geom
-                    data[data.Length - 1] =
-                        $"ST_SetSRID(ST_GeomFromText('{shpReader.Geometry.AsText()}'),3857)"; //assume geom always in spherical mercator!
+                    var geomPName = $"@r{processed}_p{dBaseFieldsToRead.Count}";
+                    data[^1] = $"ST_SetSRID(ST_GeomFromText({geomPName}),3857)";
+                    cmd.Parameters.AddWithValue(geomPName, shpReader.Geometry.AsText());
+                    //assume geom always in spherical mercator!
+
                     //TODO - dynamic projection!
 
+                    //note: since col indexing is per dbaseHdr, some cols may be empty. need to discard them when generating sql!
                     insertData.Add($"SELECT {string.Join(",", data)}");
                 }
 
                 if (insertData.Count > 0)
                 {
                     if (upsert)
-                        await ExecuteUpsertBatch(cmd, dataStore, insertData, key, skipCols);
+                        await ExecuteUpsertBatch(cmd, dataStore, insertData, colCnt, key, skipCols);
                     else
                         await ExecuteInsertBatch(cmd, dataStore, insertData);
                 }
@@ -323,8 +359,6 @@ namespace MapHive.Core.DataModel.Map
 
             }
         }
-
-
 
     }
 }
