@@ -552,7 +552,7 @@ namespace MapHive.Core.DataModel.Map
 
                     //work out the actual bbox of data as imported
 
-                    await CalculateBBox(cmd, dataStore);
+                    await CalculateAndApplyBBox(cmd, dataStore);
                 }
 
                 //location col indexing as required

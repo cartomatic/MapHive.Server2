@@ -279,7 +279,7 @@ namespace MapHive.Core.DataModel.Map
         }
 
         /// <summary>
-        /// returns sql that calculates geom bbox
+        /// returns sql that calculates bbox in the ds srid
         /// </summary>
         /// <param name="ds"></param>
         /// <returns></returns>
@@ -288,6 +288,39 @@ namespace MapHive.Core.DataModel.Map
             return $@"select min(ST_XMin(geom)) as l, min(ST_YMin(geom)) as b, max(ST_XMax(geom)) as r, max(ST_YMax(geom)) as t
 from {ds.DataSource.Schema}.{ds.DataSource.Table}";
         }
+
+        /// <summary>
+        /// returns sql that calculates ds bbox in given srid
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <param name="outSrid"></param>
+        /// <returns></returns>
+        protected internal static string GetGeomBBoxSql(DataStore ds, int? outSrid)
+        {
+            return $@"select
+	ST_XMin(geom) as l,
+	ST_YMin(geom) as b,
+	ST_XMax(geom) as r,
+	ST_YMax(geom) as t
+from (
+
+	select
+		st_union(
+			st_transform(st_setsrid(st_makepoint(l,b),srid),{outSrid?.ToString() ?? "srid"}),
+			st_transform(st_setsrid(st_makepoint(r,t),srid),{outSrid?.ToString() ?? "srid"})
+		) as geom
+	from (
+		select 
+			min(ST_XMin(geom)) as l,
+			min(ST_YMin(geom)) as b,
+			max(ST_XMax(geom)) as r,
+			max(ST_YMax(geom)) as t,
+			max(ST_SRID(geom)) as srid
+		from {ds.DataSource.Schema}.{ds.DataSource.Table}
+	) as bbox_agg
+) as transformed_bbox";
+        }
+
 
         /// <summary>
         /// creates an index on a location column if it is present in the data store and of string data type
@@ -447,15 +480,38 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
         }
 
         /// <summary>
-        /// calculates a bbox of a data store
+        /// calculates a bbox of a data store and populates the data store's minx, miny, maxx, maxy properties
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="ds"></param>
+        /// <param name="outSrid"></param>
         /// <returns></returns>
-        protected internal static async Task CalculateBBox(Npgsql.NpgsqlCommand cmd, DataStore ds)
+        protected internal static async Task CalculateAndApplyBBox(Npgsql.NpgsqlCommand cmd, DataStore ds, int? outSrid = null)
+        {
+            var bbox = await CalculateBBox(cmd, ds, outSrid);
+
+            ds.MinX = bbox.l;
+            ds.MinY = bbox.b;
+            ds.MaxX = bbox.r;
+            ds.MaxY = bbox.t;
+        }
+
+        /// <summary>
+        /// Calculates 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="ds"></param>
+        /// <param name="outSrid"></param>
+        /// <returns></returns>
+        public static async Task<(double l, double b, double r, double t)> CalculateBBox(Npgsql.NpgsqlCommand cmd, DataStore ds, int? outSrid = null)
         {
 
-            cmd.CommandText = GetGeomBBoxSql(ds);
+            cmd.CommandText = outSrid.HasValue
+                ? GetGeomBBoxSql(ds, outSrid)
+                : GetGeomBBoxSql(ds);
+
+            var output = (0d, 0d, 0d, 0d);
+
             using (var rdr = await cmd.ExecuteReaderAsync())
             {
                 if (rdr.HasRows)
@@ -463,12 +519,11 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
                     //if any rows, there should be exactly one
                     await rdr.ReadAsync();
 
-                    ds.MinX = (double)rdr[0];
-                    ds.MinY = (double)rdr[1];
-                    ds.MaxX = (double)rdr[2];
-                    ds.MaxY = (double)rdr[3];
+                    output = ((double) rdr[0], (double) rdr[1], (double) rdr[2], (double) rdr[3]);
                 }
             }
+
+            return output;
         }
     }
 }

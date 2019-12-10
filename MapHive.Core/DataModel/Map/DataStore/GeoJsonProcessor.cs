@@ -182,7 +182,7 @@ namespace MapHive.Core.DataModel.Map
                 cmd.CommandText = geomIdxSql;
                 await cmd.ExecuteNonQueryAsync();
 
-                await CalculateBBox(cmd, output);
+                await CalculateAndApplyBBox(cmd, output);
 
                 //location col indexing as required
                 await CreateLocationIndex(cmd, output);
