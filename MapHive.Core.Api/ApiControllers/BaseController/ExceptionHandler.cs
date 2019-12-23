@@ -64,6 +64,9 @@ namespace MapHive.Core.Api.ApiControllers
                     //custom exception logger
                     Cartomatic.Utils.Logging.LogExceptions(e);
 
+                    //rollbar too, if configured
+                    Cartomatic.Utils.Logging.LogToRollbar(e);
+
                     #if DEBUG
                     return new ObjectResult(e.Message){StatusCode = (int)HttpStatusCode.InternalServerError};
                     #endif
