@@ -234,7 +234,7 @@ namespace MapHive.Api.Core.Controllers
                 {
                     {"UserName", $"{u.GetFullUserName()} ({u.Email})"},
                     {"Email", u.Email},
-                    {"RedirectUrl", GetRequestSource(HttpContext).Split('#')[0]}
+                    {"RedirectUrl", (GetRequestSource(HttpContext) ?? string.Empty).Split('#')[0]}
                 };
 
                 await u.ResendActivationLinkAsync(
