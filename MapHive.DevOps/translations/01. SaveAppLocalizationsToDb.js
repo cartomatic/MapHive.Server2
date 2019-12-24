@@ -1,0 +1,1 @@
+mh.localization.Localization.saveAppLocalizations({overwrite: false, langsToImport:['en','nl','pl']});
