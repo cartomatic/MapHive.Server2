@@ -24,6 +24,7 @@ namespace MapHive.Core.Api
             AllowApiTokenAccess = true,
             UsesIdentityUserManagerUtils = true,
             EnableCompression = true,
+            EnableRollbarLogging = true,
 
             //this will ensure the api migrates DB upon a very first call after deploy.
             //this way, will not have to run cmd db setup when deploying to server

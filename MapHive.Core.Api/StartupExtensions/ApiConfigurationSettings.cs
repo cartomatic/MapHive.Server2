@@ -15,7 +15,7 @@ namespace MapHive.Core.Api
     public class ApiConfigurationSettings
     {
         /// <summary>
-        /// comma spearated short app names used to as a scope for user cfg;
+        /// comma separated short app names used to as a scope for user cfg;
         /// usually it will be a single app, but in some scenarios more apps are allowed.
         /// basically value of 'testapi' requires the client to have an access to the testapi app,
         /// while 'testapi,testclient' means that a client granted access to any of those is allowed to use the api
@@ -93,9 +93,14 @@ namespace MapHive.Core.Api
         public bool EnableCompression { get; set; }
 
         /// <summary>
-        /// custom mime types to be compressed. By default the following get coompressed: text/plain, text/css, application/javascript, text/html, application/xml, text/xml, application/json, text/json
+        /// custom mime types to be compressed. By default the following get compressed: text/plain, text/css, application/javascript, text/html, application/xml, text/xml, application/json, text/json
         /// </summary>
         public string[] CompressedMimeTypes { get; set; }
+
+        /// <summary>
+        /// Whether or not rollbar logging should be enabled. when true it requires a further config so a valid <see cref="Cartomatic.Utils.Logging.RollbarConfiguration"/> is provided
+        /// </summary>
+        public bool? EnableRollbarLogging { get; set; }
     }
 
 }

@@ -38,7 +38,7 @@ namespace MapHive.Core.Api
         }
 
         /// <summary>
-        /// sets a valu in the settings obj
+        /// sets a value in the settings obj
         /// </summary>
         /// <param name="key"></param>
         /// <param name="obj"></param>

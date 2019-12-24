@@ -218,8 +218,11 @@ namespace MapHive.Core.Api.StartupExtensions
             //this makes sure all the types inheriting from object base auto register themselves
             BaseObjectTypeIdentifierExtensions.AutoRegisterBaseTypes();
 
-            //store api short name
+            //store some common settings 
             CommonSettings.Set(nameof(settings.AppShortNames), settings?.AppShortNames);
+            
+            CommonSettings.Set(nameof(settings.EnableRollbarLogging), settings?.EnableRollbarLogging);
+
 
             //plug in early, so can watch compressed input
             if (settings?.EnableCompression == true)
