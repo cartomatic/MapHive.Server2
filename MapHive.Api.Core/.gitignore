@@ -2,3 +2,8 @@ wwwroot/apidocs/
 _logs/
 version
 appsettings.*.json
+
+Properties/PublishProfiles/WebDebug.pubxml
+Properties/PublishProfiles/WebRelease.pubxml
+Properties/PublishProfiles/TrajanTestRelease.pubxml
+Properties/PublishProfiles/TrajanProductionRelease.pubxml

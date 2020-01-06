@@ -5,22 +5,6 @@
 #do not ignore web.config - after all this is gonna be a web app...
 #web.config
 
-#MapHive.Core.Api
-#################
-#ignore web deploy
-MapHive.Core.Api/Properties/PublishProfiles/WebDebug.pubxml
-MapHive.Core.Api/Properties/PublishProfiles/WebRelease.pubxml
-#ignore production config
-#################
-
-#MapHive.IdentityServer
-#################
-#ignore web deploy
-MapHive.IdentityServer/Properties/PublishProfiles/WebDebug.pubxml
-MapHive.IdentityServer/Properties/PublishProfiles/WebRelease.pubxml
-#ignore production config
-#################
-
 
 _release/
 
