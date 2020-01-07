@@ -1,0 +1,948 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MapHive.Api.Core</name>
+    </assembly>
+    <members>
+        <member name="T:MapHive.Api.Core.Controllers.AccountController">
+            <summary>
+            Account APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AccountController.CreateAccountAsync(MapHive.Core.AccountCreateInput)">
+            <summary>
+            Creates an organization account
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.ApplicationsController">
+            <summary>
+            Exposes Application APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ApplicationsController.GetAsync(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets a collection of Applications
+            </summary>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ApplicationsController.GetAsync(System.Guid)">
+            <summary>
+            Gets an Application by id
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ApplicationsController.PutAsync(MapHive.Core.DataModel.Application,System.Guid)">
+            <summary>
+            Updates an application
+            </summary>
+            <param name="obj"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ApplicationsController.PostAsync(MapHive.Core.DataModel.Application)">
+            <summary>
+            Creates a new Application
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ApplicationsController.DeleteAsync(System.Guid)">
+            <summary>
+            Deletes an application
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ApplicationsController.GetAppsWithAuthRequiredAsync">
+            <summary>
+            Gets a list of identifiers of apps that do require authentication (uuids, short names, urls) for the apps 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ApplicationsController.GetXWindowOriginsAsync">
+            <summary>
+            Gets x window origins for the xwindow msg bus
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.AppLocalizationController">
+            <summary>
+            App localization APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AppLocalizationController.GetAppLocalizations(System.String,System.String)">
+            <summary>
+            Gets an app localization - all the translations retrieved from a db, for a given app.
+            </summary>
+            <param name="langCodes"></param>
+            <param name="appIdentifiers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AppLocalizationController.GetAppLocalizationsScript(System.String,System.String)">
+            <summary>
+            Gets app localizations in a form of a script that can be consumed by web clients
+            </summary>
+            <param name="langCodes"></param>
+            <param name="appIdentifiers"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.AppLocalizationController.BulkSaveInput">
+            <summary>
+            Bulk localizations save input
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AppLocalizationController.BulkSaveInput.Overwrite">
+            <summary>
+            Whether or not data in db should be overwritten; set to false when this is a differential import!
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AppLocalizationController.BulkSaveInput.Upsert">
+            <summary>
+            Whether or not should perform upsert rather than insert missing keys
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AppLocalizationController.BulkSaveInput.LangsToImport">
+            <summary>
+            What languages should be imported; in a case localization data contains more langs, it will filter out specified langs
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AppLocalizationController.BulkSaveInput.AppLocalizations">
+            <summary>
+            Localization data
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AppLocalizationController.BulkSaveAppLocalizations(MapHive.Api.Core.Controllers.AppLocalizationController.BulkSaveInput)">
+            <summary>
+            Saves app localizations in bulk
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.AuthController">
+            <summary>
+            Auth APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.LetMeInAsync(System.String,System.String)">
+            <summary>
+            Authenticates user; output returned, if successful contains access and refresh tokens
+            </summary>
+            <param name="email"></param>
+            <param name="pass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.LetMeOutOfHereAsync">
+            <summary>
+            Finalises user session on the idsrv
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.ValidateTokenAsync(System.String)">
+            <summary>
+            Validates access token
+            </summary>
+            <param name="accessToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.RefreshTokensAsync(System.String)">
+            <summary>
+            Refreshes auth tokens - access token and refresh token
+            </summary>
+            <param name="refreshToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.AuthController.AccountActivationInput">
+            <summary>
+            Account activation input dto
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.AccountActivationInput.VerificationKey">
+            <summary>
+            email confiration token issued upon account creation
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.ActivateAccountAsync(MapHive.Api.Core.Controllers.AuthController.AccountActivationInput,System.String,Cartomatic.Utils.Email.EmailAccount)">
+            <summary>
+            account activation handler
+            </summary>
+            <param name="activationInput"></param>
+            <param name="app"></param>
+            <param name="ea">Email account details if need to send out emails using a custom account</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.ResendActivationLinkAsync(System.Guid,System.String,Cartomatic.Utils.Email.EmailAccount)">
+            <summary>
+            Resends an activation email for a user
+            </summary>
+            <param name="uuid"></param>
+            <param name="app">application (app short name) to use for the email localization</param>
+            <param name="ea">Email account details if need to send out emails using a custom account</param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.AuthController.PassResetRequestInput">
+            <summary>
+            pass reset request input dto
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.PassResetRequestInput.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.PassResetRequestAsync(MapHive.Api.Core.Controllers.AuthController.PassResetRequestInput,System.String,Cartomatic.Utils.Email.EmailAccount)">
+            <summary>
+            pass reset request handler
+            </summary>
+            <param name="input"></param>
+            <param name="app">Application context to send appropriately translated emails</param>
+            <param name="ea">Email account details if need to send out emails using a custom account</param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.AuthController.PassResetInput">
+            <summary>
+            pass reset input dto
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.PassResetInput.NewPass">
+            <summary>
+            New password
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.PassResetInput.VerificationKey">
+            <summary>
+            password reset verification key
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.ChangePasswordFromResetKeyAsync(MapHive.Api.Core.Controllers.AuthController.PassResetInput)">
+            <summary>
+            Resets user password
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.AuthController.ChangePassInput">
+            <summary>
+            pass change input dto
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.ChangePassInput.OldPass">
+            <summary>
+            Old pass
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.ChangePassInput.NewPass">
+            <summary>
+            new pass
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.ChangePasswordAsync(MapHive.Api.Core.Controllers.AuthController.ChangePassInput)">
+            <summary>
+            Changes user password
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.ForceChangePassInput.Token">
+            <summary>
+            Security token that makes it possible to call this api
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.ForceChangePassInput.UserId">
+            <summary>
+            Identifier of a user to change the pass for
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.ForceChangePassInput.NewPass">
+            <summary>
+            New password to be set for a user
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.ForceChangePasswordAsync(MapHive.Api.Core.Controllers.AuthController.ForceChangePassInput)">
+            <summary>
+            Allows changing password for an arbitrary user. Requires an extra security token in order to be used.
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.ConfigurationController">
+            <summary>
+            Configuration APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ConfigurationController.GetWebClientConfigurationScriptAsync">
+            <summary>
+            Returns a WebGIS webclient configuration script
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ConfigurationController.GetUserConfigurationAsync(MapHive.Core.Configuration.UserConfigurationQuery)">
+            <summary>
+            returns a user configuration for a user/token/etc with specified characterisitcs.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.EmailTemplateLocalizationsController">
+            <summary>
+            EmailTemplateLocalization APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EmailTemplateLocalizationsController.GetAsync(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets a collection of EmailTemplateLocalizations
+            </summary>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EmailTemplateLocalizationsController.GetAsync(System.Guid)">
+            <summary>
+            Gets an EmailTemplateLocalization by id
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EmailTemplateLocalizationsController.PutAsync(MapHive.Core.DataModel.EmailTemplateLocalization,System.Guid)">
+            <summary>
+            Updates an EmailTemplateLocalization
+            </summary>
+            <param name="obj"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EmailTemplateLocalizationsController.PostAsync(MapHive.Core.DataModel.EmailTemplateLocalization)">
+            <summary>
+            Creates a new EmailTemplateLocalization
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EmailTemplateLocalizationsController.DeleteAsync(System.Guid)">
+            <summary>
+            Deletes an EmailTemplateLocalization
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EmailTemplateLocalizationsController.GetEmailTemplate(System.String,System.String,System.String)">
+            <summary>
+            Gets app specific email template in given language;
+            when template for the language specified is not found it defaults to a template in a default enf language and if it is not defined a first template translation (if any!) is returned
+            </summary>
+            <param name="emailIdentifier"></param>
+            <param name="appIdentifier"></param>
+            <param name="langCode"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.EndpointInfoController">
+            <summary>
+            Endpoint info APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EndpointInfoController.GetVersionInfo">
+            <summary>
+            Returns information on the deployed api version
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.LangsController">
+            <summary>
+            Lang APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LangsController.GetAsync(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets a collection of Langs
+            </summary>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LangsController.GetAsync(System.Guid)">
+            <summary>
+            Gets a Lang by id
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LangsController.PutAsync(MapHive.Core.DataModel.Lang,System.Guid)">
+            <summary>
+            Updates a Lang
+            </summary>
+            <param name="obj"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LangsController.PostAsync(MapHive.Core.DataModel.Lang)">
+            <summary>
+            Creates a new Lang
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LangsController.DeleteAsync(System.Guid)">
+            <summary>
+            Deletes a Lang
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LangsController.GetDefaultLangAsync">
+            <summary>
+            Gets a default lang
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LangsController.GetDefaultLangCodeAsync">
+            <summary>
+            Gets a default lang code
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LangsController.GetSupportedLangsAsync">
+            <summary>
+            Gets supported langs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LangsController.GetSupportedLangCodesAsync">
+            <summary>
+            Returns supproted lang codes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.LocalizationClassesController">
+            <summary>
+            LocalizationClass APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LocalizationClassesController.GetAsync(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets a collection of LocalizationClasses
+            </summary>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LocalizationClassesController.GetAsync(System.Guid)">
+            <summary>
+            Gets a LocalizationClass by id
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LocalizationClassesController.PutAsync(MapHive.Core.DataModel.LocalizationClass,System.Guid)">
+            <summary>
+            Updates a LocalizationClass
+            </summary>
+            <param name="obj"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LocalizationClassesController.PostAsync(MapHive.Core.DataModel.LocalizationClass)">
+            <summary>
+            Creates a new LocalizationClass
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.LocalizationClassesController.DeleteAsync(System.Guid)">
+            <summary>
+            Deletes a LocalizationClass
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.OrganizationsController">
+            <summary>
+            Organizaton APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganizationsController.GetAsync(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets a collection of Organizations
+            </summary>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganizationsController.GetAsync(System.Guid)">
+            <summary>
+            Gets an Organization by id
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganizationsController.PutAsync(MapHive.Core.DataModel.Organization,System.Guid)">
+            <summary>
+            Updates an Organization
+            </summary>
+            <param name="obj"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganizationsController.PostAsync(MapHive.Core.DataModel.Organization)">
+            <summary>
+            Creates a new Organization
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganizationsController.DeleteAsync(System.Guid)">
+            <summary>
+            Deletes an Organization
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganizationsController.CheckIOrgCanUseAppAsync(System.Guid,System.Guid)">
+            <summary>
+            Checks whether or not an org allows an app usage
+            </summary>
+            <param name="orgId"></param>
+            <param name="appId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.ResourcesController">
+            <summary>
+            Generic resource APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ResourcesController.GetAsWebResourceAsync(System.Guid)">
+            <summary>
+            Returns a specified resource as a file stream result
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.RolesController">
+            <summary>
+            General role APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.RolesController.GetRoleByIdentifierAsync(System.Guid,System.String)">
+            <summary>
+            Gets organization role by id
+            </summary>
+            <param name="orgid"></param>
+            <param name="identifier"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.TokensController">
+            <summary>
+            General tokens APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.TokensController.ValidateTokenAsync(System.Guid)">
+            <summary>
+            Checks if a token is present in the system and its due date is ok
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.TranslationKeysController">
+            <summary>
+            TranslationKey APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.TranslationKeysController.GetAsync(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets a collection of TranslationKeys
+            </summary>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.TranslationKeysController.GetAsync(System.Guid)">
+            <summary>
+            Gets a TranslationKey by id
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.TranslationKeysController.PutAsync(MapHive.Core.DataModel.TranslationKey,System.Guid)">
+            <summary>
+            Updates a TranslationKey
+            </summary>
+            <param name="obj"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.UsersController">
+            <summary>
+            General User APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.UsersController.GetAsync(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets a list of users
+            </summary>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.UsersController.GetAsync(System.Guid)">
+            <summary>
+            Gets a user by id
+            </summary>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.UsersController.PutAsync(MapHive.Core.DataModel.MapHiveUser,System.Guid)">
+            <summary>
+            Updates a user
+            </summary>
+            <param name="obj"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.UsersController.GetOwnDetailsAsync">
+            <summary>
+            returns details for a currently authenticated user
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.UsersController.UpdateOwnDetailsAsync(MapHive.Core.DataModel.MapHiveUser,System.Guid)">
+            <summary>
+            Updates a record of a currently authenticated user
+            </summary>
+            <param name="obj"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.UsersController.GetUserOrgsAsync">
+            <summary>
+            Returns a list of organisations a user has an access to
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.UsersController.GetUserAppsAsync">
+            <summary>
+            Returns applications available to the current user; does not require auth, and for guests return a list of common apps.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.UsersController.GetUserNameAsync(System.Guid)">
+            <summary>
+            Gets user name from id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.EnvironmentConfigurationController">
+            <summary>
+            Env config controller exposes some management apis; this is a restricted access controller with apis only available to an env admin;
+            An equivalent controller with same route should appear on the api apps so it is possible to distribute some cals, such as org cleanup (see droporg for details)
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.IsEnvAdminAsync">
+            <summary>
+            whether or not authorized user is an env admin
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.GetMasterOrgAsync(System.String)">
+            <summary>
+            Gets an org by name or id
+            </summary>
+            <param name="identifier">slug or guid</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.RegisterAppsAsync(System.Collections.Generic.List{MapHive.Core.DataModel.Application})">
+            <summary>
+            registers applications in the environment...
+            </summary>
+            <param name="apps"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.IsAppRegisteredAsync(System.String)">
+            <summary>
+            checks if an app is registered in the system
+            </summary>
+            <param name="appShortName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.RegisterAppsToOrgAsync(System.String,System.String)">
+            <summary>
+            registers apps with org
+            </summary>
+            <param name="identifier"></param>
+            <param name="appShortNames"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.CreateOrgAsync(System.String,System.Nullable{System.Guid},System.String,System.String,System.Boolean,System.Boolean,System.String,System.String)">
+            <summary>
+            Creates an organization
+            </summary>
+            <param name="orgSlug"></param>
+            <param name="orgName"></param>
+            <param name="orgId"></param>
+            <param name="orgDescription"></param>
+            <param name="clean"></param>
+            <param name="morg"></param>
+            <param name="email"></param>
+            <param name="pass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.DropOrgAsync(System.Guid,System.Boolean)">
+            <summary>
+            Drops an organisation
+            </summary>
+            <param name="orgId"></param>
+            <param name="clean"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.CreateUserAsync(System.String,System.String,System.Boolean)">
+            <summary>
+            creates a user; destroys it first if exists
+            </summary>
+            <param name="email"></param>
+            <param name="pass"></param>
+            <param name="destroy"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.DestroyUserAsync(System.String)">
+            <summary>
+            destroys a user
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.CreateUserInternalAsync(System.String,System.String,System.Boolean)">
+            <summary>
+            create a user
+            </summary>
+            <param name="email"></param>
+            <param name="pass"></param>
+            <param name="destroy">Whether or not a user should be destroyed if exists. If false and user exists no user destroy/recreation happens</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.RegisterTokensAsync(System.Collections.Generic.List{MapHive.Core.DataModel.Token})">
+            <summary>
+            registers tokens in the environment...
+            </summary>
+            <param name="tokens"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.RegisterEmailTemplatesAsync(System.Collections.Generic.List{MapHive.Core.DataModel.EmailTemplateLocalization})">
+            <summary>
+            registers emails templates in the nevironment...
+            </summary>
+            <param name="emailTemplates"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.EnvironmentConfigurationController.RegisterLangsAsync(System.Collections.Generic.List{MapHive.Core.DataModel.Lang})">
+            <summary>
+            Registers langs in the system
+            </summary>
+            <param name="langs"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.OrganizationApplicationsController">
+            <summary>
+            Organization applicatons APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganizationApplicationsController.Get(System.Guid,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Reads applications accessible for an organisation
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.OrganisationTeamsController">
+            <summary>
+            Organization Teams APIs
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationTeamsController.GetAsync(System.Guid,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets a collection of organization Teams
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationTeamsController.GetAsync(System.Guid,System.Guid)">
+            <summary>
+            Gets an organization Team by id
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationTeamsController.PutAsync(System.Guid,MapHive.Core.DataModel.Team,System.Guid)">
+            <summary>
+            Updates an organization Team
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="obj"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationTeamsController.PostAsync(System.Guid,MapHive.Core.DataModel.Team)">
+            <summary>
+            Creates a new organization Lang
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationTeamsController.DeleteAsync(System.Guid,System.Guid)">
+            <summary>
+            Deletes an organization Team
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationTeamsController.GetTeamUsers(System.Guid,System.Guid)">
+            <summary>
+            Gets users linked to an organization team
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationTeamsController.GetTeamApplications(System.Guid,System.Guid)">
+            <summary>
+            Gets applications linked to an orgaznization team
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MapHive.Api.Core.Controllers.OrganisationUsersController">
+            <summary>
+            Organisation users controller - allows for reading users scoped within an organisation
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationUsersController.GetAsync(System.Guid,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            returns a list of organisation users
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="sort"></param>
+            <param name="filter"></param>
+            <param name="start"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationUsersController.GetAsync(System.Guid,System.Guid)">
+            <summary>
+            Gets an organization user by id
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationUsersController.PostAsync(System.Guid,MapHive.Core.DataModel.MapHiveUser,System.String,Cartomatic.Utils.Email.EmailAccount)">
+            <summary>
+            Creates an OrgUser for the organization. Links the user to the org with the default org member role
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="user"></param>
+            <param name="applicationContext">Application context to be used when sending out emails; when not provided, default emails are sent out; if no emails should be sent out simply provide a non-existent context</param>
+            <param name="ea">Email account details if need to send out emails using a custom account</param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationUsersController.LinkAsync(System.Guid,MapHive.Core.DataModel.MapHiveUser)">
+            <summary>
+            Links a user to an organisation
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationUsersController.PutAsync(System.Guid,MapHive.Core.DataModel.MapHiveUser,System.Guid)">
+            <summary>
+            Updates an organization user
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="user"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationUsersController.UpdateLinkAsync(System.Guid,MapHive.Core.DataModel.MapHiveUser,System.Guid)">
+            <summary>
+            Updates a role of a linked user
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="user"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationUsersController.UnLinkAsync(System.Guid,System.Guid)">
+            <summary>
+            Removes and external user link from an Organization
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationUsersController.DeleteAsync(System.Guid,System.Guid)">
+            <summary>
+            Deletes an organization user;
+            this api performs a soft delete only - sets IsAccountClosed property to true, so user should not be able to authenticate anymore;
+            user record is still present in both maphive meta and aspnet identity databases
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.OrganisationUsersController.ForceDeleteAsync(System.Guid,System.Guid)">
+            <summary>
+            Completely deletes an organization user;
+            mind this operation only cleans up links in the core api;
+            objects created by a user do not get deleted
+            </summary>
+            <param name="organizationuuid"></param>
+            <param name="uuid"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MapHive.Core.Api.Startup.Settings">
+            <summary>
+            Api settings
+            </summary>
+        </member>
+        <member name="M:MapHive.Core.Api.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:MapHive.Core.Api.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+            <param name="loggerFactory"></param>
+        </member>
+    </members>
+</doc>
