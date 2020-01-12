@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel

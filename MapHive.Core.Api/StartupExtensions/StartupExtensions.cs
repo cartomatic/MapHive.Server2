@@ -154,6 +154,12 @@ namespace MapHive.Core.Api.StartupExtensions
                 opts.ForwardClientCertificate = false;
             });
 
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+                options.MaxRequestBodySize = null;
+            });
+
 
             //auto swagger documentation
             if (!string.IsNullOrEmpty(settings.XmlCommentsPath))

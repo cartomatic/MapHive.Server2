@@ -6,6 +6,7 @@ using System.Text;
 using MapHive.Core.Api.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 namespace MapHive.Core.Api
@@ -52,8 +53,8 @@ namespace MapHive.Core.Api
             }
         }
 
-        public static IWebHost BuildWebHost<TStartup>(string[] args) 
-            where TStartup: class
+        public static IWebHost BuildWebHost<TStartup>(string[] args)
+            where TStartup : class
             =>
             new WebHostBuilder()
                 .UseSerilog()
@@ -74,9 +75,50 @@ namespace MapHive.Core.Api
                 .UseStartup<TStartup>()
 
                 .UseIIS() // needs to be there for iis in process integration
-                .UseIISIntegration() // needs to be there too for iis in process integration
+                .UseIISIntegration() // needs to be there too for iis out of process integration
 
                 .Build();
+
+        //public static IHost BuildWebHost<TStartup>(string[] args)
+        //    where TStartup : class
+        //{
+        //    var webHost = Host.CreateDefaultBuilder(args)
+        //        .ConfigureWebHostDefaults(webBuilder =>
+        //        {
+        //            webBuilder.UseSerilog();
+        //            webBuilder.UseKestrel();
+
+        //            webBuilder.ConfigureKestrel((context, opts) =>
+        //            {
+        //                opts.AddServerHeader = false;
+        //                opts.Limits.MaxRequestBodySize = null;
+        //                opts.Limits.MaxResponseBufferSize = null;
+        //            }); //needed for IIS in-process
+
+
+        //            webBuilder
+        //                .UseContentRoot(Directory.GetCurrentDirectory());
+
+        //            webBuilder.ConfigureAppConfiguration(AddAppConfiguration);
+
+        //            webBuilder.ConfigureLogging(
+        //                (hostingContext, logging) => { });
+
+        //            webBuilder.UseDefaultServiceProvider((context, options) => { });
+
+        //            webBuilder.UseStartup<TStartup>();
+
+
+        //            //webBuilder.UseIIS(x=>x); // needs to be there for iis in process integration
+        //            //webBuilder.UseIISIntegration(); // needs to be there too for iis out of process integration
+
+        //        });
+
+
+        //    return webHost.Build();
+
+        //}
+
 
         public static void AddAppConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder config)
         {

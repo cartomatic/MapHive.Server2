@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MapHive.Core.DataModel;
 using MapHive.Core.DataModel.Map;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DAL

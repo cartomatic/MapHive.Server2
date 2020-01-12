@@ -36,7 +36,7 @@ namespace MapHive.Core
         {
             var idSrvTokenClientOpts = IdSrvTokenClientOpts.InitDefault();
 
-            //netcreapp2.2
+            //netcoreapp2.2
             //var tokenClient = new TokenClient(
             //     $"{idSrvTokenClientOpts.Authority}/connect/token",
             //    idSrvTokenClientOpts.ClientId,
