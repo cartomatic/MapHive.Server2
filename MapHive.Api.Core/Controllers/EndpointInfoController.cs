@@ -35,5 +35,26 @@ namespace MapHive.Api.Core.Controllers
                 return HandleException(ex);
             }
         }
+
+        /// <summary>
+        /// returns information on the configured environment 
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("environment")]
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetEnvironmentInfo()
+        {
+            try
+            {
+                return Ok(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
     }
 }
