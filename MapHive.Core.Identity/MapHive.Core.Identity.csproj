@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>1.0.1-dev0008</Version>
+    <Version>1.0.1-dev0014</Version>
     <Description>MapHive specific wrapper around Microsoft.AspNetCore.Identity</Description>
     <Copyright>cartomatic</Copyright>
     <PackageLicenseUrl>https://github.com/cartomatic/MapHive.Server2/blob/master/license.txt</PackageLicenseUrl>

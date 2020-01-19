@@ -271,6 +271,28 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="T:MapHive.Api.Core.Controllers.AuthController.ForceAccountActivateInput">
+            <summary>
+            force account activation input
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.ForceAccountActivateInput.Token">
+            <summary>
+            Security token that makes it possible to call this api on the core side
+            </summary>
+        </member>
+        <member name="P:MapHive.Api.Core.Controllers.AuthController.ForceAccountActivateInput.UserId">
+            <summary>
+            User id to activate the account for
+            </summary>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.AuthController.ForceAccountActivateAsync(MapHive.Api.Core.Controllers.AuthController.ForceChangePassInput)">
+            <summary>
+            Allows for force account activation
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:MapHive.Api.Core.Controllers.ConfigurationController">
             <summary>
             Configuration APIs

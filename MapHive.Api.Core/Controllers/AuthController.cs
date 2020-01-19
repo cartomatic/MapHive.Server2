@@ -492,6 +492,9 @@ namespace MapHive.Api.Core.Controllers
         {
             try
             {
+                if (input == null)
+                    return BadRequest();
+
                 //IMPORTANT
                 //make sure the extra security token is allowed, as this api can change pass for any user
                 var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
@@ -500,7 +503,18 @@ namespace MapHive.Api.Core.Controllers
                 if (token != input.Token)
                     return StatusCode((int)HttpStatusCode.Unauthorized);
 
+
+                var user = await GetDefaultDbContext().Users.AsNoTracking().FirstOrDefaultAsync(u => u.Uuid == input.UserId);
+                if (user.IsAccountVerified)
+                    return BadRequest("Account already active");
+
+
                 var output = await Auth.ForceActivateAccountAsync(input.UserId);
+                
+
+                user.IsAccountVerified = true;
+                Cartomatic.Utils.Identity.ImpersonateUserViaHttpContext(user.Uuid); //nee to impersonate, as otherwise dbctx will fail to save changes!
+                await user.UpdateAsync(GetDefaultDbContext());
 
                 return Ok(output);
             }
