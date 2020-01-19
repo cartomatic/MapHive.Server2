@@ -115,6 +115,7 @@ namespace MapHive.Core.Api.UserConfiguration
         }
 
 
+
         /// <summary>
         /// Performs the actual core api inspection to obtain a user config for the callee
         /// </summary>
@@ -414,6 +415,19 @@ namespace MapHive.Core.Api.UserConfiguration
         public static Organization GetOrganization(HttpContext context, Guid? orgnizationId)
         {
             return GetUserConfiguration(context)?.Orgs?.FirstOrDefault(o => o.Uuid == orgnizationId);
+        }
+
+        /// <summary>
+        /// Resets user configuration cache by org id
+        /// </summary>
+        /// <param name="orgId"></param>
+        public static void ResetUserConfigCacheByOrgId(Guid orgId)
+        {
+            var cacheKeys = Cache.GetKeys(orgId.ToString());
+            foreach (var cacheKey in cacheKeys)
+            {
+                Cache.CleanByKey(cacheKey);
+            }
         }
     }
 

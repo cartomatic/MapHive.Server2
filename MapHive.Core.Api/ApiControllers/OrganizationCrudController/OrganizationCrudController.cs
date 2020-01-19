@@ -39,6 +39,13 @@ namespace MapHive.Core.Api.ApiControllers
         protected Organization OrganizationContext => OrganizationContextActionFilterAttribute.GetOrganizationContext(HttpContext);
 
         /// <summary>
+        /// Resets organization context forcing the api to refresh it for the subsequent calls
+        /// </summary>
+        /// <param name="orgId"></param>
+        protected void ResetOrganizationContext(Guid orgId) =>
+            OrganizationContextActionFilterAttribute.ResetOrganizationContext(orgId);
+
+        /// <summary>
         /// Organization database object from GetOrganizationDatabasesbActionFilterAttribute action filter
         /// </summary>
         protected OrganizationDatabase GetOrganizationDatabase(string dbIdentifier = null) =>

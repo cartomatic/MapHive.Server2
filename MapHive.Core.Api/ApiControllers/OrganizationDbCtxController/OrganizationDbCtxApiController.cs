@@ -70,6 +70,13 @@ namespace MapHive.Core.Api.ApiControllers
         }
 
         /// <summary>
+        /// Resets organization context forcing the api to refresh it for the subsequent calls
+        /// </summary>
+        /// <param name="orgId"></param>
+        protected void ResetOrganizationContext(Guid orgId) =>
+            OrganizationContextActionFilterAttribute.ResetOrganizationContext(orgId);
+
+        /// <summary>
         /// Returns org db context
         /// </summary>
         /// <param name="dbIdentifier"></param>

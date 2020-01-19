@@ -99,6 +99,15 @@ namespace MapHive.Core.Api
 
             return orgDb;
         }
+
+        /// <summary>
+        /// Resets organization context for given org id; this will cause a fresh reload of organization context for the subsequent api ops
+        /// </summary>
+        /// <param name="orgId"></param>
+        public static void ResetOrganizationContext(Guid orgId)
+        {
+            UserConfigurationActionFilterAtribute.ResetUserConfigCacheByOrgId(orgId);
+        }
     }
 
 }
