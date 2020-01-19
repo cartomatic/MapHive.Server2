@@ -25,11 +25,15 @@ namespace MapHive.Core.DataModel
             var user = (await ReadAsync<T>(dbCtx, uuid)) as MapHiveUserBase;
 
             //and make sure user exists and has not been 'closed' before!
-            if (user == null || user.IsAccountClosed)
-                throw new ArgumentException(string.Empty);
+            if (user == null)
+                throw new ArgumentException("No such user.");
 
             //Note: Not destroying the account really, just flagging it as closed. 
             //flag the user account as closed
+            //so if olready clsed then it's good
+            if (user.IsAccountClosed)
+                return (T)(Base)user;
+            
             user.IsAccountClosed = true;
 
             //and simply update it

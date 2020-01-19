@@ -353,6 +353,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:MapHive.Api.Core.Controllers.EndpointInfoController.GetEnvironmentInfo">
+            <summary>
+            returns information on the configured environment 
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:MapHive.Api.Core.Controllers.LangsController">
             <summary>
             Lang APIs
