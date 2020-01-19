@@ -461,5 +461,53 @@ namespace MapHive.Api.Core.Controllers
                 return HandleException(ex);
             }
         }
+
+
+        /// <summary>
+        /// force account activation input
+        /// </summary>
+        public class ForceAccountActivateInput
+        {
+            /// <summary>
+            /// Security token that makes it possible to call this api on the core side
+            /// </summary>
+            public string Token { get; set; }
+
+            /// <summary>
+            /// User id to activate the account for
+            /// </summary>
+            public Guid UserId { get; set; }
+        }
+
+        /// <summary>
+        /// Allows for force account activation
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [Route("accountactivation/usetheforceluke")]
+        [HttpPut]
+        [ProducesResponseType(typeof(bool), 200)]
+        [ProducesResponseType(typeof(object), 500)]
+        public async Task<IActionResult> ForceAccountActivateAsync([FromBody] ForceChangePassInput input)
+        {
+            try
+            {
+                //IMPORTANT
+                //make sure the extra security token is allowed, as this api can change pass for any user
+                var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+                var token = cfg.GetSection("AccessTokens:Auth").Get<string>();
+
+                if (token != input.Token)
+                    return StatusCode((int)HttpStatusCode.Unauthorized);
+
+                var output = await Auth.ForceActivateAccountAsync(input.UserId);
+
+                return Ok(output);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
     }
 }

@@ -28,5 +28,28 @@ namespace MapHive.Core
             //and use the user method - implemented at user lvl even though applies to auth - need to send email
             await user.ResendActivationLinkAsync(context, emailSender, emailAccount, emailTemplate);
         }
+
+        /// <summary>
+        /// Gets new details required to activate an account. New details are required when trying to resend activation link or force activating account
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<(string newAccountActivationToken, string newPass)> GetNewAccountActivationDetailsAsync(Guid userId)
+        {
+            //grab user manager
+            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
+
+            //get the id-user user object
+            var idUser = await userManager.FindByIdAsync(userId.ToString());
+
+            if (idUser == null)
+                throw new InvalidOperationException("User does not exist in IdentityManager.");
+
+            //reset the previous pass
+            var passResetToken = await userManager.GeneratePasswordResetTokenAsync(idUser);
+            var newRndPass = Cartomatic.Utils.Crypto.Generator.GenerateRandomString(10);
+            await userManager.ResetPasswordAsync(idUser, passResetToken, newRndPass);
+
+            return (await userManager.GenerateEmailConfirmationTokenAsync(idUser), newRndPass);
+        }
     }
 }

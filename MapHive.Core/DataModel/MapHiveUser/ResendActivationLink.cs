@@ -32,25 +32,13 @@ namespace MapHive.Core.DataModel
             if (Uuid == default(Guid))
                 throw new InvalidOperationException("You cannot resend an activation link - this user has not yet been created...");
 
-            //grab user manager
-            var userManager = MapHive.Core.Identity.UserManagerUtils.GetUserManager();
-
-            //get the id-user user object
-            var idUser = await userManager.FindByIdAsync(Uuid.ToString());
-
-            if (idUser == null)
-                throw new InvalidOperationException("User does not exist in IdentityManager.");
-
-            //reset the previous pass
-            var passResetToken = await userManager.GeneratePasswordResetTokenAsync(idUser);
-            var newRndPass = Cartomatic.Utils.Crypto.Generator.GenerateRandomString(10);
-            await userManager.ResetPasswordAsync(idUser, passResetToken, newRndPass);
+            var newActivationDetails = await Auth.GetNewAccountActivationDetailsAsync(Uuid);
 
             //generate new email confirmation token
             var emailConfirmationToken = 
                 Auth.MergeIdWithToken(
-                    idUser.Id,
-                    await userManager.GenerateEmailConfirmationTokenAsync(idUser)
+                    Uuid,
+                    newActivationDetails.newAccountActivationToken
                 );
                 
 
@@ -62,7 +50,7 @@ namespace MapHive.Core.DataModel
                     emailTemplate.Prepare(new Dictionary<string, object>
                     {
                         {"VerificationKey", emailConfirmationToken},
-                        {"InitialPassword", newRndPass}
+                        {"InitialPassword", newActivationDetails.newPass}
                     }),
                     Email
                 );
