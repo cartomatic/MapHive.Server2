@@ -143,7 +143,7 @@ namespace MapHive.Api.Core.Controllers
                 {
                     {"UserName", $"{user.GetFullUserName()} ({user.Email})"},
                     {"Email", user.Email},
-                    {"RedirectUrl", this.GetRequestSource(HttpContext).Split('#')[0]}
+                    {"RedirectUrl", this.GetRequestSource(HttpContext)?.Split('#')[0]}
                 };
 
                 var (emailAccount, emailTemplate) = await GetEmailStuffAsync("user_created", applicationContext);

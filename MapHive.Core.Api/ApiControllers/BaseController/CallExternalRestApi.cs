@@ -87,8 +87,21 @@ namespace MapHive.Core.Api.ApiControllers
             Dictionary<string, string> customHeaders = null, bool transferAuthHdr = true, bool transferMhHdrs = true,
             bool transferRequestHdrs = true)
         {
+            if (transferMhHdrs)
+            {
+                customHeaders ??= new Dictionary<string, string>();
+                foreach (var mhHdr in WebClientConfiguration.GetMhHeaders())
+                {
+                    if (Request.Headers.ContainsKey(mhHdr))
+                    {
+                        if (!customHeaders.ContainsKey(mhHdr))
+                            customHeaders.Add(mhHdr, Request.Headers[mhHdr]);
+                    }
+                }
+            }
+
             return await Cartomatic.Utils.RestApi.RestApiCall<TOut>(Request, url, route, method, queryParams, data, authToken,
-                customHeaders, transferMhHdrs ? WebClientConfiguration.GetMhHeaders() : null, transferAuthHdr,
+                customHeaders, null, transferAuthHdr,
                 transferRequestHdrs);
         }
     }
