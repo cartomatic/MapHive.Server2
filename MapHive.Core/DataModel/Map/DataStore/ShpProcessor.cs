@@ -309,17 +309,22 @@ namespace MapHive.Core.DataModel.Map
 
                         data[i] = $"@r{processed}_p{i}";
 
+                        var col = dataStore.DataSource.Columns.FirstOrDefault(c => c.Name == safeFldName);
+                        
+
                         var value = shpReader.GetValue(dBaseFieldsToRead[i].idx + 1); //shp reads by 1 based index
                         var valueType = value.GetType();
 
                         if (valueType == typeof(string) && dBaseFieldsToRead[i].fld.Type != valueType &&
                             value.ToString().Contains("***")) //this indicates a null in shp field
                         {
-                            cmd.Parameters.AddWithValue(data[i], DBNull.Value);
+                            //cmd.Parameters.AddWithValue(data[i], DBNull.Value);
+                            cmd.Parameters.Add(data[i], ColumnDataTypeToNpgsqlDbType(col.Type)).Value = DBNull.Value;
                         }
                         else
                         {
-                            cmd.Parameters.AddWithValue(data[i], value);
+                            //cmd.Parameters.AddWithValue(data[i], value);
+                            cmd.Parameters.Add(data[i], ColumnDataTypeToNpgsqlDbType(col.Type)).Value = value;
                         }
                     }
 
