@@ -217,8 +217,20 @@ namespace MapHive.Core.DataModel.Map
             return $@"CREATE TABLE {ds.DataSource.Schema}.{ds.DataSource.Table} (
                 td_id serial not null,
                 {string.Join(", ", ds.DataSource.Columns.Select(c => $"{c.Name} {ColumnDataTypeToDbType(c.Type)}"))},
-                CONSTRAINT {ds.DataSource.Table}_pk PRIMARY KEY (td_id)
+                CONSTRAINT {GetPkName(ds.DataSource.Table)} PRIMARY KEY (td_id)
             );";
+        }
+
+        /// <summary>
+        /// returns a name for a table's primary key
+        /// </summary>
+        /// <param name="tblName"></param>
+        /// <returns></returns>
+        protected internal static string GetPkName(string tblName)
+        {
+            //need rnd for nested datasets that are basically named the same (only suffix differs) as the parent table and other children
+            var rnd = Guid.NewGuid().ToString().Split('-').Skip(1).First();
+            return $"{GetBaseIndexName(tblName)}_{rnd}_pk";
         }
 
         /// <summary>
@@ -262,8 +274,26 @@ namespace MapHive.Core.DataModel.Map
         /// <returns></returns>
         public static string GetCreateUqIdxSql(DataStore ds, params string[] cols)
         {
-            return $@"CREATE UNIQUE INDEX {GetBaseIndexName(ds.DataSource.Table)}_uq_{string.Join("_", cols)}_idx
+            var idxName = GetSafeIndexName($"{GetBaseIndexName(ds.DataSource.Table)}_uq_{string.Join("_", cols)}");
+            
+            return $@"CREATE UNIQUE INDEX {idxName}
                 ON {ds.DataSource.Schema}.{ds.DataSource.Table} USING btree ({string.Join(", ", cols)});";
+        }
+
+        /// <summary>
+        /// returns a safe index name
+        /// </summary>
+        /// <param name="idxName"></param>
+        /// <returns></returns>
+        protected internal static string GetSafeIndexName(string idxName)
+        {
+            if (idxName.Length > 59)
+            {
+                //postgres domain names are by default limited to a length of 63 bytes
+                idxName = idxName.Substring(0, 59);
+            }
+
+            return $"{idxName}_idx";
         }
 
         /// <summary>
@@ -274,7 +304,8 @@ namespace MapHive.Core.DataModel.Map
         /// <returns></returns>
         public static string GetCreateIdxSql(DataStore ds, params string[] cols)
         {
-            return $@"CREATE INDEX {GetBaseIndexName(ds.DataSource.Table)}_{string.Join("_", cols)}_idx
+            var idxName = GetSafeIndexName($"{GetBaseIndexName(ds.DataSource.Table)}_{string.Join("_", cols)}");
+            return $@"CREATE INDEX {idxName}
                 ON {ds.DataSource.Schema}.{ds.DataSource.Table} USING btree ({string.Join(", ", cols)});";
         }
 
@@ -466,6 +497,12 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
                 throw MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException("FileName", "bad_file_name",
                     "File name contains forbidden words");
 
+            //postgres has a 63 byte limit on the domain names
+            var tblName = $"l_{DateTime.Now:yyyyMMddHHmmss}_{type}_{GetSafeDbObjectName(fName)}";
+            if (tblName.Length > 63)
+                tblName = tblName.Substring(0, 63);
+            
+
             return new DataStore
             {
                 Name = fName,
@@ -473,7 +510,7 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
                 {
                     DataSourceCredentials = ds,
                     Schema = schema,
-                    Table = $"l_{DateTime.Now:yyyyMMddHHmmss}_{type}_{GetSafeDbObjectName(fName)}",
+                    Table = tblName,
                     Columns = new List<Column>()
                 }
             };
