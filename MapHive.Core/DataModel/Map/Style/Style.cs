@@ -94,6 +94,11 @@ namespace MapHive.Core.DataModel.Map
         public bool? PointLabels { get; set; }
 
         /// <summary>
+        /// field used to label points
+        /// </summary>
+        public string PointLabelField { get; set; }
+
+        /// <summary>
         /// When to start showing point labels when zooming in and stop showing point labels when zooming out
         /// </summary>
         public int? PointLabelVisibilityScaleMin { get; set; }
