@@ -88,5 +88,105 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         public double? PointStrokeWidth { get; set; }
 
+        /// <summary>
+        /// Whether or not should label points
+        /// </summary>
+        public bool? PointLabels { get; set; }
+
+        /// <summary>
+        /// When to start showing point labels when zooming in and stop showing point labels when zooming out
+        /// </summary>
+        public int? PointLabelVisibilityScaleMin { get; set; }
+
+        /// <summary>
+        /// when to stop showing point labels when zooming in and start showing point labels when zooming out
+        /// </summary>
+        public int? PointLabelVisibilityScaleMax { get; set; }
+
+        /// <summary>
+        /// point label wrapping: hide, normal, shorten, wrap
+        /// </summary>
+        public string PointLabelWrap { get; set; }
+
+        /// <summary>
+        /// point label align: center, end, left, right, start
+        /// </summary>
+        public string PointLabelAlign { get; set; }
+
+        /// <summary>
+        /// point label baseline: alphabetic, bottom, hanging, ideographic, middle, top
+        /// </summary>
+        public string PointLabelBaseLine { get; set; }
+
+        /// <summary>
+        /// Font used to label a point
+        /// </summary>
+        public string PointLabelFont { get; set; }
+
+        /// <summary>
+        /// Rotation of a point label
+        /// </summary>
+        public int? PointLabelRotation { get; set; }
+
+        /// <summary>
+        /// Point label style: Normal, Bold, Italic, Bold Italic
+        /// </summary>
+        public string PointLabelFontStyle { get; set; }
+
+        /// <summary>
+        /// Placement of a point label: point, line
+        /// </summary>
+        public string PointLabelPlacement { get; set; }
+
+        /// <summary>
+        /// Max angle a label can be rotated when being rendered along an object
+        /// </summary>
+        public int? PointLabelMaxAngle { get; set; }
+
+        /// <summary>
+        /// Whether or not a point label can overflow
+        /// </summary>
+        public bool PointLabelOverflow { get; set; }
+
+        /// <summary>
+        /// Size of a point label
+        /// </summary>
+        public int? PointLabelSize { get; set; }
+
+        /// <summary>
+        /// Line height for point labels
+        /// </summary>
+        public decimal? PointLabelLineHeight { get; set; }
+
+        /// <summary>
+        /// Point label x offset
+        /// </summary>
+        public int? PointLabelOffsetX { get; set; }
+
+        /// <summary>
+        /// Point label y offset
+        /// </summary>
+        public int? PointLabelOffsetY { get; set; }
+
+        /// <summary>
+        /// point label color
+        /// </summary>
+        public string PointLabelColor { get; set; }
+
+        /// <summary>
+        /// point label outline color
+        /// </summary>
+        public string PointLabelOutlineColor { get; set; }
+
+        /// <summary>
+        /// point label outline width
+        /// </summary>
+        public int? PointLabelOutlineWidth { get; set; }
+
+        ///// <summary>
+        ///// Whether or not labels should be declutterred
+        ///// </summary>
+        //public bool? PointLabelDeclutter { get; set; }
+
     }
 }
