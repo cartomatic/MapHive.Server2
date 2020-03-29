@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Api.Core.Controllers
 {
@@ -44,7 +45,7 @@ namespace MapHive.Api.Core.Controllers
         }
 
         /// <summary>
-        /// returns a user configuration for a user/token/etc with specified characterisitcs.
+        /// returns a user configuration for a user/token/etc with specified characteristics.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -53,14 +54,43 @@ namespace MapHive.Api.Core.Controllers
         [ProducesResponseType(typeof(UserConfiguration), 200)]
         [ProducesResponseType(500)]
         [ApiExplorerSettings(IgnoreApi = true)] //make sure this api is not visible in docs!!! it's kinda private and while should be available it should not be freely used really
-        public async Task<IActionResult> GetUserConfigurationAsync([FromQuery] UserConfigurationQuery input)
+        public async Task<IActionResult> GetUserConfigurationAsync([FromQuery] UserConfigurationQuery input, [FromQuery] string token)
         {
             try
             {
-                //TODO - secure this endpoint with a m2m token of some sort. so one cannot retrieve user orgs by simply knowing user id.
-                //TODO - calling api needs to provide a token in order to call this api; see the user configuration attribute too as will have to provide the token there!
+                var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+
+                if (token != cfg.GetSection("AccessTokens:Auth").Get<string>())
+                    return Unauthorized();
 
                 return Ok(await MapHive.Core.Configuration.UserConfiguration.GetAsync(GetDefaultDbContext(), input));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        /// <summary>
+        /// returns a organization configuration for an org id.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("organization")]
+        [ProducesResponseType(typeof(UserConfiguration), 200)]
+        [ProducesResponseType(500)]
+        [ApiExplorerSettings(IgnoreApi = true)] //make sure this api is not visible in docs!!! it's kinda private and while should be available it should not be freely used really
+        public async Task<IActionResult> GetUserConfigurationAsync([FromQuery] Guid organizationId, [FromQuery] string token)
+        {
+            try
+            {
+                var cfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig();
+
+                if (token != cfg.GetSection("AccessTokens:Auth").Get<string>())
+                    return Unauthorized();
+
+                return Ok(await MapHive.Core.Configuration.OrganizationConfiguration.GetAsync(GetDefaultDbContext(), organizationId));
             }
             catch (Exception ex)
             {

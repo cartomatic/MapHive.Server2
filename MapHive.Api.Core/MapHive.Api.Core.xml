@@ -304,9 +304,15 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:MapHive.Api.Core.Controllers.ConfigurationController.GetUserConfigurationAsync(MapHive.Core.Configuration.UserConfigurationQuery)">
+        <member name="M:MapHive.Api.Core.Controllers.ConfigurationController.GetUserConfigurationAsync(MapHive.Core.Configuration.UserConfigurationQuery,System.String)">
             <summary>
-            returns a user configuration for a user/token/etc with specified characterisitcs.
+            returns a user configuration for a user/token/etc with specified characteristics.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MapHive.Api.Core.Controllers.ConfigurationController.GetUserConfigurationAsync(System.Guid,System.String)">
+            <summary>
+            returns a organization configuration for an org id.
             </summary>
             <returns></returns>
         </member>

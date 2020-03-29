@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Configuration;
 
 namespace MapHive.Core.Api.UserConfiguration
 {
@@ -141,12 +142,13 @@ namespace MapHive.Core.Api.UserConfiguration
                         "configuration/user",
                         queryParams: new Dictionary<string, object>
                         {
-                                    {nameof(q.UserId), q.UserId},
-                                    {nameof(q.AppNames), q.AppNames},
-                                    {nameof(q.Ip), q.Ip},
-                                    {nameof(q.Referrer), q.Referrer},
-                                    {nameof(q.TokenId), q.TokenId},
-                                    {nameof(q.OrganizationId), q.OrganizationId}
+                            {nameof(q.UserId), q.UserId},
+                            {nameof(q.AppNames), q.AppNames},
+                            {nameof(q.Ip), q.Ip},
+                            {nameof(q.Referrer), q.Referrer},
+                            {nameof(q.TokenId), q.TokenId},
+                            {nameof(q.OrganizationId), q.OrganizationId},
+                            { "token", Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig().GetSection("AccessTokens:Auth").Get<string>()}
                         },
 
                         transferRequestHdrs: false
