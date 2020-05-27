@@ -449,13 +449,16 @@ namespace MapHive.Core.DataModel.Map
                     skipCols = dataStore.DataSource.Columns.Where(c => !rec.ContainsKey(c.Name)).Select(c => c.Name).ToList();
                 }
 
+                //count of cols for the data holder / upsert query
+                var colCount = dataStore.DataSource.Columns.Count(c => skipCols == null || !skipCols.Contains(c.Name));
+
                 //prepare insert data...
                 foreach (var rec in flatData)
                 {
                     if (processed > 0 && processed % batchSize == 0)
                     {
                         if (upsert)
-                            await ExecuteUpsertBatch(cmd, dataStore, insertData, dataStore.DataSource.Columns.Count, key, skipCols);
+                            await ExecuteUpsertBatch(cmd, dataStore, insertData, colCount, key, skipCols);
                         else
                             await ExecuteInsertBatch(cmd, dataStore, insertData);
                     }
@@ -463,7 +466,7 @@ namespace MapHive.Core.DataModel.Map
                     processed += 1;
 
 
-                    var data = new string[dataStore.DataSource.Columns.Count]; //-1 for geom
+                    var data = new string[colCount]; //-1 for geom
                     var pIdx = 0;
 
                     foreach (var c in dataStore.DataSource.Columns)
@@ -535,7 +538,7 @@ namespace MapHive.Core.DataModel.Map
                 if (insertData.Count > 0)
                 {
                     if (upsert)
-                        await ExecuteUpsertBatch(cmd, dataStore, insertData, dataStore.DataSource.Columns.Count, key, skipCols);
+                        await ExecuteUpsertBatch(cmd, dataStore, insertData, colCount, key, skipCols);
                     else
                         await ExecuteInsertBatch(cmd, dataStore, insertData);
                 }

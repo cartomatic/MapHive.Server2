@@ -29,6 +29,9 @@ namespace MapHive.Core.DataModel
         {
             var data = base64Data.Split(new[] { ";base64," }, StringSplitOptions.None);
 
+            if (data.Length != 2)
+                return;
+
             Mime = data[0].Replace("data:", string.Empty);
             Data = Convert.FromBase64String(data[1]);
         }
