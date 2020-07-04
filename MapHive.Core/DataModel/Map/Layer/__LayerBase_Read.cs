@@ -20,7 +20,7 @@ namespace MapHive.Core.DataModel.Map
         /// <returns></returns>
         protected internal override async Task<T> ReadAsync<T>(DbContext dbCtx, Guid uuid, bool detached = true)
         {
-            throw new Exception("Override or Use the DestroyAsync<T, TLayer, TDataStore> method instead!");
+            throw new Exception("Override or Use the ReadWithExtrasAsync<TLayer> method instead!");
         }
 
         protected internal virtual async Task<TLayer> ReadWithExtrasAsync<TLayer>(DbContext dbCtx, Guid uuid, bool detached = true)
