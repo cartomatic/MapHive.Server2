@@ -10,6 +10,12 @@ namespace MapHive.Core.DataModel.Map
     public abstract partial class LayerBase
     {
         /// <summary>
+        /// Identifier of a map this layer is assigned to if any
+        /// </summary>
+        public Guid? MapId { get; set; }
+
+
+        /// <summary>
         /// Layer identifier - a key based on which a client app can provide customized UI
         /// </summary>
         public string Identifier { get; set; }

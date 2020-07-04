@@ -18,7 +18,7 @@ namespace MapHive.Core.DataModel.Map
 
         protected internal virtual async Task<TLayer> CreateAsync<TLayer, TDataStore>(DbContext dbCtx)
             where TLayer : LayerBase
-            where TDataStore : Map.DataStore
+            where TDataStore : DataStore
         {
 
             //if the layer has its data store, make sure to mark the data store as in use, so it does not get deleted

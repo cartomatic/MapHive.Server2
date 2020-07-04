@@ -25,8 +25,8 @@ namespace MapHive.Core.DataModel.Map
         }
 
         protected internal virtual async Task<TLayer> DestroyAsync<TLayer, TDataStore>(DbContext dbCtx, Guid uuid)
-            where TLayer : Map.LayerBase
-            where TDataStore : Map.DataStore
+            where TLayer : LayerBase
+            where TDataStore : DataStore
         {
             if (dbCtx is IMapDbContext mapDbCtx)
             {
