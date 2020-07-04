@@ -236,9 +236,9 @@ namespace MapHive.Core.DataModel.Map
         protected internal static string GetCreateTableSql(DataStore ds)
         {
             return $@"CREATE TABLE {ds.DataSource.Schema}.{ds.DataSource.Table} (
-                td_id serial not null,
+                mh_id serial not null,
                 {string.Join(", ", ds.DataSource.Columns.Select(c => $"{c.Name} {ColumnDataTypeToDbType(c.Type)}"))},
-                CONSTRAINT {GetPkName(ds.DataSource.Table)} PRIMARY KEY (td_id)
+                CONSTRAINT {GetPkName(ds.DataSource.Table)} PRIMARY KEY (mh_id)
             );";
         }
 
