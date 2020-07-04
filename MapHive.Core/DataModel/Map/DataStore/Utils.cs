@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MapHive.Core.DataModel.Map
@@ -33,7 +34,27 @@ namespace MapHive.Core.DataModel.Map
         /// <returns></returns>
         protected internal static string GetSafeDbObjectName(string input)
         {
-            return input.Replace(" ", "_").Replace("-", "_").Replace(".", "_").ToLowerInvariant();
+            input = input.Replace(" ", "_").Replace("-", "_").Replace(".", "_").ToLowerInvariant();
+
+            //postgres does not like col names starting with digits, so need to prefix it
+            if (StartsWithDigit(input))
+            {
+                input = $"_{input}";
+            }
+
+            return input;
+        }
+
+        private static readonly Regex StartsWithDigitRegEx = new Regex(@"^\d+.+$");
+
+        /// <summary>
+        /// whether or not a string starts with a digit
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        protected internal static bool StartsWithDigit(string input)
+        {
+            return StartsWithDigitRegEx.IsMatch(input);
         }
 
         protected static string[] SqlBlackList = { ";", "--", "drop", "create", "alter", "select", "update" };
