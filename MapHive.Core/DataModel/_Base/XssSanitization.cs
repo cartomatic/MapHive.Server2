@@ -155,11 +155,11 @@ namespace MapHive.Core.DataModel
             if (HtmlSanitizerStrictest == null)
             {
                 HtmlSanitizerStrictest = new HtmlSanitizer();
-                HtmlSanitizerStrictest.AllowedTags.Clear();
-                HtmlSanitizerStrictest.AllowedAtRules.Clear();
-                HtmlSanitizerStrictest.AllowedAttributes.Clear();
-                HtmlSanitizerStrictest.AllowedCssClasses.Clear();
-                HtmlSanitizerStrictest.AllowedCssProperties.Clear();
+                HtmlSanitizerStrictest.AllowedTags?.Clear();
+                HtmlSanitizerStrictest.AllowedAtRules?.Clear();
+                HtmlSanitizerStrictest.AllowedAttributes?.Clear();
+                HtmlSanitizerStrictest.AllowedCssClasses?.Clear();
+                HtmlSanitizerStrictest.AllowedCssProperties?.Clear();
             }
 
             return HtmlSanitizerStrictest;
