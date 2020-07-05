@@ -86,7 +86,7 @@ namespace MapHive.Core.DataModel.Map
         /// <summary>
         /// Whether or not layer features can be selected
         /// </summary>
-        public bool Selectable { get; set; }
+        public bool? Selectable { get; set; }
 
         
         /// <summary>
