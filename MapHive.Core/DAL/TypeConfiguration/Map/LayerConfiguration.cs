@@ -4,14 +4,17 @@ using MapHive.Core.DataModel.Map;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace MapHive.Core.DAL.TypeConfiguration
+namespace MapHive.Core.DAL.TypeConfiguration.Map
 {
     public static class MapLayerConfigurationExtensions
     {
-        public static void ApplyMapLayerBaseConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder, string entityName, string tableName, string schema = null)
+        public static void ApplyLayerBaseConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder, string entityName, string tableName, string schema = null)
             where TEntity : LayerBase
         {
             builder.ApplyIBaseConfiguration(entityName, tableName);
+
+            builder.Property(p => p.MapId).HasColumnName("map_id");
+            builder.Ignore(p => p.MapName);
 
             builder.Property(p => p.Identifier).HasColumnName("identifier");
 
@@ -30,13 +33,16 @@ namespace MapHive.Core.DAL.TypeConfiguration
             builder.Property(p => p.VisibilityScaleMin).HasColumnName("visibility_scale_min");
             builder.Property(p => p.VisibilityScaleMax).HasColumnName("visibility_scale_max");
 
+            builder.Property(p => p.Queryable).HasColumnName("queryable");
+            builder.Property(p => p.Selectable).HasColumnName("selectable");
+
             builder.Property(p => p.DataStoreId).HasColumnName("data_store_id");
 
             //ignore convenience properties
             builder.Ignore(p => p.SourceLayer);
         }
 
-        public static void ApplyMapLayerBaseExtendedConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder)
+        public static void ApplyLayerBaseExtendedConfiguration<TEntity>(this EntityTypeBuilder<TEntity> builder)
             where TEntity : LayerBase
         {
             builder.Property(p => p.MetadataSerialized).HasColumnName("metadata");
@@ -53,20 +59,20 @@ namespace MapHive.Core.DAL.TypeConfiguration
         }
     }
 
-    public class MapLayerConfiguration : IEntityTypeConfiguration<Layer>
+    public class LayerConfiguration : IEntityTypeConfiguration<Layer>
     {
         public void Configure(EntityTypeBuilder<Layer> builder)
         {
-            builder.ApplyMapLayerBaseConfiguration(nameof(Layer), "layers");
-            builder.ApplyMapLayerBaseExtendedConfiguration();
+            builder.ApplyLayerBaseConfiguration(nameof(Layer), "layers");
+            builder.ApplyLayerBaseExtendedConfiguration();
         }
     }
 
-    public class MapLayerTruncatedConfiguration : IEntityTypeConfiguration<LayerTruncated>
+    public class LayerTruncatedConfiguration : IEntityTypeConfiguration<LayerTruncated>
     {
         public void Configure(EntityTypeBuilder<LayerTruncated> builder)
         {
-            builder.ApplyMapLayerBaseConfiguration(nameof(LayerTruncated), LayerTruncated.ViewName);
+            builder.ApplyLayerBaseConfiguration(nameof(LayerTruncated), LayerTruncated.ViewName);
         }
     }
 }
