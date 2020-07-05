@@ -18,26 +18,27 @@ namespace MapHive.Core.DataModel.Map
             BaseObjectTypeIdentifierExtensions.RegisterTypeIdentifier(MethodInfo.GetCurrentMethod().DeclaringType, Guid.Parse("87f949bd-c9ed-4356-af66-51c1a067d674"));
         }
 
+        /// <summary>
+        /// Need a new Layers property in order to specify the actually used type for layers collection
+        /// </summary>
         public new List<Layer> Layers { get; set; }
 
-        protected internal virtual async Task ReadLayersAsync(DbContext dbCtx)
+        /// <inheritdoc cref="MapBase.ReadLayersAsync"/>
+        protected internal override async Task ReadLayersAsync(DbContext dbCtx)
         {
             Layers = await ReadLayersAsync<Layer>(dbCtx);
         }
 
+        /// <inheritdoc cref="MapBase.CleanUpLayers"/>
         protected override async Task CleanUpLayers(DbContext dbCtx, Guid mapId)
         {
             await CleanUpLayers<Layer>(dbCtx, mapId);
         }
 
+        /// <inheritdoc cref="MapBase.HandleLayers"/>
         protected override async Task HandleLayers(DbContext dbCtx, Guid mapId)
         {
             await HandleLayers<Layer>(dbCtx, mapId);
-        }
-
-        protected override List<T> GetLayers<T>()
-        {
-            return this.Layers.Select(l => (T)(Base)l).ToList();
         }
     }
 }

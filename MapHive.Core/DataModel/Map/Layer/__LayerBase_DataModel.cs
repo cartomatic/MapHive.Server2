@@ -11,9 +11,17 @@ namespace MapHive.Core.DataModel.Map
     {
         /// <summary>
         /// Identifier of a map this layer is assigned to if any
+        ///
+        /// Basically a layer may be a 'common' layer OR a 'map' layer;
+        /// when a layer is a map layer it is only visible at a specified map's level
+        /// null value of mapId means this is a 'common' layer
         /// </summary>
         public Guid? MapId { get; set; }
 
+        /// <summary>
+        /// Name of a map this layer is assigned to; this property is not persisted and usually populated when reading in map context
+        /// </summary>
+        public string MapName { get; set; }
 
         /// <summary>
         /// Layer identifier - a key based on which a client app can provide customized UI
@@ -69,6 +77,16 @@ namespace MapHive.Core.DataModel.Map
         /// layer is displayed when scale >= the value specified; when a value is not specified, restriction is not applied
         /// </summary>
         public decimal? VisibilityScaleMax { get; set; }
+
+        /// <summary>
+        /// Whether or not layer features can be querried for info
+        /// </summary>
+        public bool? Queryable { get; set; }
+
+        /// <summary>
+        /// Whether or not layer features can be selected
+        /// </summary>
+        public bool Selectable { get; set; }
 
         
         /// <summary>

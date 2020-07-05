@@ -11,12 +11,23 @@ namespace MapHive.Core.DataModel.Map
 {
     public partial class MapBase
     {
+        /// <summary>
+        /// returns a layers collection with the type specified
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         protected virtual List<T> GetLayers<T>()
             where T : LayerBase
         {
-            throw new NotImplementedException("Need to override with a proper return type!");
+            return this.Layers.Select(l => (T)(Base)l).ToList();
         }
 
+        /// <summary>
+        /// Handles proper management of map layers; called on create /update
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <param name="mapId"></param>
+        /// <returns></returns>
         protected virtual async Task HandleLayers(DbContext dbCtx, Guid mapId)
         {
             throw new NotImplementedException("Need to override to call a generic HandleLayers with a proper type!");
@@ -71,6 +82,12 @@ namespace MapHive.Core.DataModel.Map
             }
         }
 
+        /// <summary>
+        /// Cleans up all the layers for given map
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <param name="mapId"></param>
+        /// <returns></returns>
         protected virtual async Task CleanUpLayers(DbContext dbCtx, Guid mapId)
         {
             throw new NotImplementedException("Need to override to call a generic CleanUpLayers with a proper type!");

@@ -22,19 +22,28 @@ namespace MapHive.Core.DataModel.Map
             return (T)(Base)obj;
         }
 
+        /// <summary>
+        /// Reads layers for the map
+        /// </summary>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
         protected internal virtual async Task ReadLayersAsync(DbContext dbCtx)
         {
             throw new NotImplementedException("Override in order to assign proper layer types via ReadLayersAsync");
         }
 
+        /// <summary>
+        /// Reads layers for the map
+        /// </summary>
+        /// <typeparam name="TLayer"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
         protected internal virtual async Task<List<TLayer>> ReadLayersAsync<TLayer>(DbContext dbCtx)
             where TLayer : LayerBase
         {
             var layers = new List<TLayer>();
 
-            var iMapDbCtx = dbCtx as IMapDbContext;
-
-            if (iMapDbCtx != null)
+            if (dbCtx is IMapDbContext iMapDbCtx)
             {
                 layers = await iMapDbCtx.GetLayersDbSet<TLayer>().AsNoTracking()
                     .Where(l => l.MapId == Uuid)
