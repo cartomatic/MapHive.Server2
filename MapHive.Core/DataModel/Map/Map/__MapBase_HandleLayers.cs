@@ -19,7 +19,7 @@ namespace MapHive.Core.DataModel.Map
         protected virtual List<T> GetLayers<T>()
             where T : LayerBase
         {
-            return this.Layers.Select(l => (T)(Base)l).ToList();
+            throw new NotImplementedException("Need to override to obtain layers from a proper type! Layers property is hidden when using customized laeyer types.");
         }
 
         /// <summary>

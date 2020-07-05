@@ -23,6 +23,12 @@ namespace MapHive.Core.DataModel.Map
         /// </summary>
         public new List<Layer> Layers { get; set; }
 
+        /// <inheritdoc cref="MapBase.GetLayers{T}"/>
+        protected override List<T> GetLayers<T>()
+        {
+            return (this.Layers ?? new List<Layer>()).Select(l => (T)(Base)l).ToList();
+        }
+
         /// <inheritdoc cref="MapBase.ReadLayersAsync"/>
         protected internal override async Task ReadLayersAsync(DbContext dbCtx)
         {
