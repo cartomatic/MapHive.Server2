@@ -30,19 +30,27 @@ namespace MapHive.Core.Api.Logging
                 .Build();
 
             var logCfg = config.GetSection("SerilogConfiguration").Get<SerilogCfg>();
+            var appName = $"[{(string.IsNullOrEmpty(logCfg.AppName) ? "Uknown MapHive API" : logCfg.AppName)}]";
+
+            //https://github.com/serilog/serilog/wiki/Formatting-Output
+            //var outputTpl = "{Timestamp:HH:mm:ss}\t[{Level:u3}]\t{App}\t{Message}\t{Exception}\t{Properties:j}{NewLine}";
+            //var outputTpl = "{Timestamp:HH:mm:ss} [{Level:u3}] {App} {Message}{NewLine}{Exception}";
+            var outputTpl = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
+
 
             Log.Logger = new LoggerConfiguration()
 
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-
-                .Enrich.WithProperty("App", string.IsNullOrEmpty(logCfg.AppName) ? "Uknown MapHiveApi" : logCfg.AppName)
-                
+                .Enrich.WithProperty("App", appName)
+                .MinimumLevel.Verbose()
                 .WriteTo.File(
                     $"_logs\\{DateTime.Now:yyyyMMdd}.serilog.log".SolvePath(),
-                    restrictedToMinimumLevel: logCfg?.Sinks != null && logCfg.Sinks.ContainsKey(nameof(Serilog.Sinks.File)) ? logCfg.Sinks[nameof(Serilog.Sinks.File)] ?? LogEventLevel.Warning : LogEventLevel.Warning, rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromMinutes(5)
+                    restrictedToMinimumLevel: logCfg?.Sinks != null && logCfg.Sinks.ContainsKey(nameof(Serilog.Sinks.File)) ? logCfg.Sinks[nameof(Serilog.Sinks.File)] ?? LogEventLevel.Warning : LogEventLevel.Warning, rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromMinutes(5),
+                    outputTemplate: outputTpl
                 )
                 .WriteTo.LiterateConsole(
-                    restrictedToMinimumLevel: logCfg?.Sinks != null && logCfg.Sinks.ContainsKey(nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)) ? logCfg.Sinks[nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)] ?? LogEventLevel.Verbose : LogEventLevel.Verbose
+                    restrictedToMinimumLevel: logCfg?.Sinks != null && logCfg.Sinks.ContainsKey(nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)) ? logCfg.Sinks[nameof(Serilog.LoggerConfigurationLiterateExtensions.LiterateConsole)] ?? LogEventLevel.Verbose : LogEventLevel.Verbose,
+                    outputTemplate: outputTpl
                 )
                 .CreateLogger();
         }
