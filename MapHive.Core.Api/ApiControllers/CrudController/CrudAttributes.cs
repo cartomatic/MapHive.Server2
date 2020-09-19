@@ -17,6 +17,27 @@ namespace MapHive.Core.Api.ApiControllers
 
     public class CrudPrivilegeRequired : ActionFilterAttribute
     {
+        public CrudPrivilegeRequired()
+        {
+        }
+
+        protected string PrivCheckupFnName { get; set; }
+
+        /// <summary>
+        /// Custom method to be called when executing a priv checkup. It gets executed prior to the default checkup logic;
+        /// if it returns true, then the remaining checkup is skipped. method should return a Task{bool} and takes in a dbCtx as a parameter;
+        /// It is also possible to provide a controller level implementations for methods called:
+        /// IsCrudPrivilegeGrantedForReadAsync
+        /// IsCrudPrivilegeGrantedForCreateAsync
+        /// IsCrudPrivilegeGrantedForUpdateAsync
+        /// IsCrudPrivilegeGrantedForDestroyAsync
+        /// </summary>
+        /// <param name="privCheckupFnName"></param>
+        public CrudPrivilegeRequired(string privCheckupFnName)
+        {
+            PrivCheckupFnName = privCheckupFnName;
+        }
+
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var cType = context.Controller.GetType();
@@ -82,6 +103,10 @@ namespace MapHive.Core.Api.ApiControllers
                 privName = "D (destroy)";
             }
 
+            if (!string.IsNullOrEmpty(PrivCheckupFnName))
+                privCheckupFnName = PrivCheckupFnName;
+
+
             if (!string.IsNullOrWhiteSpace(privCheckupFnName))
             {
                 privCheckupFn = cType.GetMethod(privCheckupFnName, bindingFlags);
@@ -115,6 +140,14 @@ namespace MapHive.Core.Api.ApiControllers
     /// </summary>
     public class CrudPrivilegeRequiredRead : CrudPrivilegeRequired
     {
+        public CrudPrivilegeRequiredRead()
+        {
+        }
+
+        public CrudPrivilegeRequiredRead(string privCheckupFnName)
+            : base(privCheckupFnName)
+        {
+        }
     }
 
     /// <summary>
@@ -122,6 +155,14 @@ namespace MapHive.Core.Api.ApiControllers
     /// </summary>
     public class CrudPrivilegeRequiredCreate : CrudPrivilegeRequired
     {
+        public CrudPrivilegeRequiredCreate()
+        {
+        }
+
+        public CrudPrivilegeRequiredCreate(string privCheckupFnName)
+            : base(privCheckupFnName)
+        {
+        }
     }
 
     /// <summary>
@@ -129,6 +170,14 @@ namespace MapHive.Core.Api.ApiControllers
     /// </summary>
     public class CrudPrivilegeRequiredUpdate : CrudPrivilegeRequired
     {
+        public CrudPrivilegeRequiredUpdate()
+        {
+        }
+
+        public CrudPrivilegeRequiredUpdate(string privCheckupFnName)
+            : base(privCheckupFnName)
+        {
+        }
     }
 
     /// <summary>
@@ -136,6 +185,14 @@ namespace MapHive.Core.Api.ApiControllers
     /// </summary>
     public class CrudPrivilegeRequiredDestroy : CrudPrivilegeRequired
     {
+        public CrudPrivilegeRequiredDestroy()
+        {
+        }
+
+        public CrudPrivilegeRequiredDestroy(string privCheckupFnName)
+            : base(privCheckupFnName)
+        {
+        }
     }
 
 }
