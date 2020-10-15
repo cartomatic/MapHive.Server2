@@ -14,6 +14,26 @@ namespace MapHive.Core.DataModel.Map
 {
     public partial class DataStore
     {
+        private static string _idCol = "mh_id";
+        /// <summary>
+        /// Identifier column for the data store tables
+        /// </summary>
+        /// <remarks>If you do not need to modify the id, don't... it does not change anyting, but has been enabled for backwards compatibility with some older apps</remarks>
+        public static string IdCol {
+            get => _idCol;
+            set
+            {
+                if(string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Value cannot be null nor empty");
+
+                //postgres has a 63 byte limit on the domain names
+                if (value.Length > 59)
+                    throw new ArgumentException("Max Length of id column is 59");
+
+                _idCol = value.ToLower();
+            }
+        }
+
         /// <summary>
         /// Extracts first zip archive found in the path
         /// </summary>
@@ -236,9 +256,9 @@ namespace MapHive.Core.DataModel.Map
         protected internal static string GetCreateTableSql(DataStore ds)
         {
             return $@"CREATE TABLE {ds.DataSource.Schema}.{ds.DataSource.Table} (
-                mh_id serial not null,
+                {IdCol} serial not null,
                 {string.Join(", ", ds.DataSource.Columns.Select(c => $"{c.Name} {ColumnDataTypeToDbType(c.Type)}"))},
-                CONSTRAINT {GetPkName(ds.DataSource.Table)} PRIMARY KEY (mh_id)
+                CONSTRAINT {GetPkName(ds.DataSource.Table)} PRIMARY KEY ({IdCol})
             );";
         }
 
