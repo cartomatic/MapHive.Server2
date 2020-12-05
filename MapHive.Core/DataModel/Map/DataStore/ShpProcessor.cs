@@ -315,11 +315,19 @@ namespace MapHive.Core.DataModel.Map
                         var value = shpReader.GetValue(dBaseFieldsToRead[i].idx + 1); //shp reads by 1 based index
                         var valueType = value.GetType();
 
-                        if (valueType == typeof(string) && dBaseFieldsToRead[i].fld.Type != valueType &&
-                            value.ToString().Contains("***")) //this indicates a null in shp field
+                        if (valueType == typeof(string) && dBaseFieldsToRead[i].fld.Type != valueType)
                         {
-                            //cmd.Parameters.AddWithValue(data[i], DBNull.Value);
-                            cmd.Parameters.Add(data[i], ColumnDataTypeToNpgsqlDbType(col.Type)).Value = DBNull.Value;
+                            if (value.ToString().Contains("***") || value.ToString().Contains("*")) //this indicates a null in shp field)
+                            {
+                                cmd.Parameters.Add(data[i], ColumnDataTypeToNpgsqlDbType(col.Type)).Value = DBNull.Value;
+                            }
+
+                            //not using default values, nulls should do just fine
+                            //if (string.IsNullOrWhiteSpace(value.ToString()))
+                            //{
+                            //    var defltValue = Activator.CreateInstance(dBaseFieldsToRead[i].fld.Type);
+                            //    cmd.Parameters.Add(data[i], ColumnDataTypeToNpgsqlDbType(col.Type)).Value = defltValue;
+                            //}
                         }
                         else
                         {
