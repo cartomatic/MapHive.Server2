@@ -22,6 +22,10 @@ namespace MapHive.Core.Configuration
         {
             var cfg = new Dictionary<string, object>();
 
+            //dataset id col
+            cfg[nameof(MhIdCol)] = MhIdCol;
+
+
             //output the app hash properties
             cfg[nameof(AppHashProperties)] = AppHashProperties;
             cfg[nameof(HashPropertyDelimiter)] = HashPropertyDelimiter;

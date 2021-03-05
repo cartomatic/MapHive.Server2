@@ -29,6 +29,11 @@ namespace MapHive.Core.Configuration
         public static string MhCfgVariableName { get; set; } = "__mhcfg__";
 
         /// <summary>
+        /// Identifier column for the data store tables
+        /// </summary>
+        public static string MhIdCol { get; set; } = MapHive.Core.DataModel.Map.DataStore.IdCol;
+
+        /// <summary>
         /// Hash property delimiters
         /// </summary>
         public static string HashPropertyDelimiter { get; set; } = ";";
