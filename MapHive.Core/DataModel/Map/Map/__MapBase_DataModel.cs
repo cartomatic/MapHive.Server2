@@ -41,6 +41,11 @@ namespace MapHive.Core.DataModel.Map
         public int? InitZoom { get; set; }
 
         /// <summary>
+        /// Index of a base layer to be turned on when 
+        /// </summary>
+        public int? BaseLayer { get; set; }
+
+        /// <summary>
         /// Collection of layers assigned to this project
         /// </summary>
         public List<LayerBase> Layers { get; set; }
