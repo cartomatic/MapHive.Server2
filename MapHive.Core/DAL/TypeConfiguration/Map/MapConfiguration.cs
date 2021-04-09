@@ -23,7 +23,7 @@ namespace MapHive.Core.DAL.TypeConfiguration.Map
 
             builder.Property(p => p.InitZoom).HasColumnName("init_zoom");
 
-            builder.Property(p => p.BaseLayer).HasColumnName("base_layer");
+            builder.Property(p => p.BaseLayerIdx).HasColumnName("base_layer_idx");
 
             builder.Ignore(p => p.Layers);
 
