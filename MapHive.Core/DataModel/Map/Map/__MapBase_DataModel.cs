@@ -43,7 +43,7 @@ namespace MapHive.Core.DataModel.Map
         /// <summary>
         /// Index of a base layer to be turned on when 
         /// </summary>
-        public int? BaseLayer { get; set; }
+        public int? BaseLayerIdx { get; set; }
 
         /// <summary>
         /// Collection of layers assigned to this project
