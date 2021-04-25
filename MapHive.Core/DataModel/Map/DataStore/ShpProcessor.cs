@@ -265,7 +265,7 @@ namespace MapHive.Core.DataModel.Map
 
                     foreach (var col in dataStore.DataSource.Columns)
                     {
-                        if (skipCols != null && !skipCols.Contains(col.Name))
+                        if (col.Virtual != true && (skipCols == null || !skipCols.Contains(col.Name)))
                         {
                             for (var f = 0; f < dBaseHdr.Fields.Length; f++)
                             {

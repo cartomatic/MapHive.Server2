@@ -230,8 +230,9 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="dataStore"></param>
         /// <param name="delimiter"></param>
         /// <param name="hasHeader"></param>
+        /// <param name="hasGeom"></param>
         /// <returns></returns>
-        public static List<Dictionary<string, object>> ExtractCsvData(string file, DataStore dataStore, string delimiter = ";", bool hasHeader = true, bool hasGeo = true)
+        public static List<Dictionary<string, object>> ExtractCsvData(string file, DataStore dataStore, string delimiter = ";", bool hasHeader = true, bool hasGeom = true)
         {
             var data = new List<Dictionary<string, object>>();
 
@@ -276,7 +277,7 @@ namespace MapHive.Core.DataModel.Map
                         rec.Add(cName, ParseToColumnDataType(csvRdr.GetField(colName), colTypesMap.ContainsKey(cName) ? colTypesMap[cName] : ColumnDataType.String));
                     }
 
-                    if (hasGeo && !(rec.ContainsKey("lo") && rec.ContainsKey("la") || rec.ContainsKey("wkt")))
+                    if (hasGeom && !(rec.ContainsKey("lo") && rec.ContainsKey("la") || rec.ContainsKey("wkt")))
                         throw MapHive.Core.DataModel.Validation.Utils.GenerateValidationFailedException("FlatData", "no_geo",
                             "Flat file does not contain any spatial information (usually lon / lat)");
 
@@ -627,6 +628,57 @@ namespace MapHive.Core.DataModel.Map
             return (minX, minY, maxX, maxY);
         }
 
+
+        /// <summary>
+        /// Bulk loads flat csv data
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="dataStore"></param>
+        /// <param name="delimiter"></param>
+        /// <param name="hasHeader"></param>
+        /// <returns></returns>
+        public static async Task<DataStore> BulkLoadCsvData(string file, DataStore dataStore, string delimiter = ";", bool hasHeader = true)
+        {
+            //Note - for the time being does not process geom data! 
+
+            using (var conn = new NpgsqlConnection(dataStore.DataSource.DataSourceCredentials.GetConnectionString()))
+            using (var cmd = new NpgsqlCommand())
+            {
+                await conn.OpenAsync();
+                cmd.Connection = conn;
+
+                //create storage for new data
+                cmd.CommandText = GetEnsureSchemaSql(dataStore);
+                await cmd.ExecuteNonQueryAsync();
+
+                cmd.CommandText = GetCreateTableSql(dataStore);
+                await cmd.ExecuteNonQueryAsync();
+
+                //table ready, so pump in the data
+                var copyFromQuery = @$"COPY {dataStore.DataSource.Schema}.{dataStore.DataSource.Table} ({string.Join(",", dataStore.DataSource.Columns.Where(c => c.Name != MapHive.Core.DataModel.Map.DataStore.IdCol).Select(c => c.Name))})
+FROM '{file.Replace("\\", "/")}' CSV {(hasHeader ? "HEADER" : string.Empty)} DELIMITER E'{GetDelimiter(delimiter)}'";
+
+                cmd.CommandText = copyFromQuery;
+                await cmd.ExecuteNonQueryAsync();
+            }
+
+            return dataStore;
+        }
+
+        protected static string GetDelimiter(string delimiter)
+        {
+            var outDelimiter = string.Empty;
+            foreach (var c in delimiter)
+            {
+                //need to properly escape some delimiters
+                if (c == '\t')
+                {
+                    outDelimiter += "\\t";
+                }
+            }
+
+            return outDelimiter;
+        }
 
     }
 }

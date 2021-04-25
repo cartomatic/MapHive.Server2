@@ -257,7 +257,7 @@ namespace MapHive.Core.DataModel.Map
         {
             return $@"CREATE TABLE {ds.DataSource.Schema}.{ds.DataSource.Table} (
                 {IdCol} serial not null,
-                {string.Join(", ", ds.DataSource.Columns.Select(c => $"{c.Name} {ColumnDataTypeToDbType(c.Type)}"))},
+                {string.Join(", ", ds.DataSource.Columns.Where(c => c.Virtual != true).Select(c => $"{c.Name} {ColumnDataTypeToDbType(c.Type)}"))},
                 CONSTRAINT {GetPkName(ds.DataSource.Table)} PRIMARY KEY ({IdCol})
             );";
         }
@@ -421,7 +421,7 @@ from (
         protected internal static async Task ExecuteInsertBatch(Npgsql.NpgsqlCommand cmd, DataStore ds, List<string> insertData)
         {
             cmd.CommandText = $@"INSERT INTO {ds.DataSource.Schema}.{ds.DataSource.Table}
-({string.Join(",", ds.DataSource.Columns.Select(c => c.Name))})
+({string.Join(",", ds.DataSource.Columns.Where(c => c.Virtual != true).Select(c => c.Name))})
 {string.Join($"{Environment.NewLine} UNION ALL ", insertData)}
 ;";
             await cmd.ExecuteNonQueryAsync();
@@ -459,7 +459,7 @@ from (
             }
 
             cmd.CommandText = $@"INSERT INTO {ds.DataSource.Schema}.{ds.DataSource.Table}
-({string.Join(",", ds.DataSource.Columns.Where(c => skipCols == null || !skipCols.Contains(c.Name)).Select(c => c.Name))})
+({string.Join(",", ds.DataSource.Columns.Where(c => c.Virtual != true && (skipCols == null || !skipCols.Contains(c.Name))).Select(c => c.Name))})
 
 {(key?.Any() == true ? $"SELECT DISTINCT ON ({string.Join(",", key)}) * FROM (" : string.Empty)}
 
@@ -492,9 +492,11 @@ ON CONFLICT({string.Join(",", key)}) DO UPDATE SET
 
             foreach (var c in ds.DataSource.Columns)
             {
-                //need to ignore the cols that make up a key, as they should not be updated
-                //and columns to skip - in upsert mode the original model is not changed, and therefore need to exclude columns that are not updated in a specified batch
-                if (key.Contains(c.Name) || skipCols?.Contains(c.Name) == true)
+                //need to ignore the cols that:
+                //* virtual columns
+                //* make up a key, as they should not be updated
+                //* columns to skip - in upsert mode the original model is not changed, and therefore need to exclude columns that are not updated in a specified batch
+                if (c.Virtual == true || key.Contains(c.Name) || skipCols?.Contains(c.Name) == true)
                     continue;
 
                 updates.Add($"{c.Name} = excluded.{c.Name}");

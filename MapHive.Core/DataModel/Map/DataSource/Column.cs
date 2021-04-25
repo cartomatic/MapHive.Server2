@@ -23,7 +23,7 @@ namespace MapHive.Core.DataModel.Map
         public ColumnDataType Type { get; set; }
 
         /// <summary>
-        /// Whether or not column should appear in info output
+        /// Whether or not column should be handled by widgets
         /// </summary>
         public bool? Queryable { get; set; }
 
@@ -36,5 +36,10 @@ namespace MapHive.Core.DataModel.Map
         /// Whether or not a layer should appear in the info panel
         /// </summary>
         public bool? Info { get; set; }
+
+        /// <summary>
+        /// Whether or not a column is virtual; virtual columns are not addressed when reading data
+        /// </summary>
+        public bool? Virtual { get; set; }
     }
 }
