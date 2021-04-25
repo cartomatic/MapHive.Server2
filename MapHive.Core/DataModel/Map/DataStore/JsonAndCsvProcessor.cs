@@ -656,7 +656,7 @@ namespace MapHive.Core.DataModel.Map
 
                 //table ready, so pump in the data
                 var copyFromQuery = @$"COPY {dataStore.DataSource.Schema}.{dataStore.DataSource.Table} ({string.Join(",", dataStore.DataSource.Columns.Where(c => c.Name != MapHive.Core.DataModel.Map.DataStore.IdCol).Select(c => c.Name))})
-FROM '{file.Replace("\\", "/")}' CSV {(hasHeader ? "HEADER" : string.Empty)} DELIMITER E'{GetDelimiter(delimiter)}'";
+FROM '{file.Replace("\\", "/")}' CSV {(hasHeader ? "HEADER" : string.Empty)} DELIMITER E'{GetDelimiter(delimiter)}' NULL ''";
 
                 cmd.CommandText = copyFromQuery;
                 await cmd.ExecuteNonQueryAsync();
