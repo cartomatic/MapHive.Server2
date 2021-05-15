@@ -162,7 +162,7 @@ namespace MapHive.Core.DataModel.Map
         /// <param name="value"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        protected internal static object ParseToColumnDataType(string value, ColumnDataType ct)
+        public static object ParseToColumnDataType(string value, ColumnDataType ct)
         {
             if (value == null)
                 return null;
