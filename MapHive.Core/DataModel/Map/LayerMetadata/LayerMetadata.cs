@@ -51,5 +51,10 @@ namespace MapHive.Core.DataModel.Map
         /// Password for layers that require authentication
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// Attribution for this layer
+        /// </summary>
+        public string Attribution { get; set; }
     }
 }
