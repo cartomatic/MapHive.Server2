@@ -72,7 +72,7 @@ namespace MapHive.Core.DataModel.Map
                 }
                 else
                 {
-                    imgDirs.Add(Path.GetDirectoryName(dir), dir);
+                    imgDirs.Add(dir.Split('\\').Last(), dir);
                 }
             }
 
