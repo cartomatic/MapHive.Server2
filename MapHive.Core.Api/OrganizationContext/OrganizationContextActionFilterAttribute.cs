@@ -81,8 +81,12 @@ namespace MapHive.Core.Api
         /// <param name="context"></param>
         /// <param name="dbIdentifier">Identifier of a db to extract</param>
         /// <returns></returns>
-        public static OrganizationDatabase GetOrganisationDatabase(HttpContext context, string dbIdentifier = "")
+        public static OrganizationDatabase GetOrganisationDatabase(HttpContext context, string dbIdentifier)
         {
+            //no id, so...
+            if (string.IsNullOrWhiteSpace(dbIdentifier))
+                return null;
+
             //Note: as described in the OnActionExecuting, org related stuff is now always retrieved by the UserConfiguration attribute.
             //so provided an action is not an anonymous action, all the needed stuff should really be here!
 

@@ -32,9 +32,12 @@ namespace MapHive.Core.DataModel
                     ? JsonConvert.DeserializeObject<OrganizationDatabase>(ConfigurationManager.AppSettings["OrganizationsDatabase"]) 
                     : cfg?.GetSection("OrganizationsDatabase")?.Get<OrganizationDatabase>();
 
-                defaultDb.OrganizationId = orgId;
-                defaultDb.DbName = $"mhorg_{orgId:N}"; //uuid without dashes
-                defaultDb.Identifier = dbIdentifier;
+                if (defaultDb != null)
+                {
+                    defaultDb.OrganizationId = orgId;
+                    defaultDb.DbName = $"mhorg_{orgId:N}"; //uuid without dashes
+                    defaultDb.Identifier = dbIdentifier;
+                }
             }
             catch
             {

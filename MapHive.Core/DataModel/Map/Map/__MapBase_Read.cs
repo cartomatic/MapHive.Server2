@@ -17,7 +17,10 @@ namespace MapHive.Core.DataModel.Map
         {
             var obj = (MapBase)(Base)await base.ReadAsync<T>(dbCtx, uuid, detached);
 
-            await obj.ReadLayersAsync(dbCtx);
+            if (obj != null)
+            {
+                await obj.ReadLayersAsync(dbCtx);
+            }
 
             return (T)(Base)obj;
         }
