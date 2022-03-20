@@ -24,7 +24,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// each api looks up a db by key in the dbs property of an organization. when this is not found a default org db as configured in app settings is used; when found thoug
         /// all the org db ops are performed against a specified db
         /// </summary>
-        protected virtual string DbIdentifier { get; set; } = "maphive_meta";
+        protected virtual string DbIdentifier { get; set; }
 
         /// <summary>
         /// Organization id from OrganizationContextActionFilterAttribute action filter
