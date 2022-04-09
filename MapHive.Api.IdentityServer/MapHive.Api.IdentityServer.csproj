@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Cartomatic\Utils\MsBuildUtils\Cartomatic.MsBuildUtils.csproj" />
+    <ProjectReference Include="..\..\..\Cartomatic\Cartomatic.Utils\MsBuildUtils\Cartomatic.MsBuildUtils.csproj" />
     <ProjectReference Include="..\MapHive.Core.IdentityServer\MapHive.Core.IdentityServer.csproj" />
     <ProjectReference Include="..\MapHive.Core.Identity\MapHive.Core.Identity.csproj" />
   </ItemGroup>

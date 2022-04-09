@@ -28,12 +28,12 @@
     </PackageReference>-->
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cartomatic\Cartomatic.Utils\Cartomatic.Utils\Cartomatic.Utils.csproj" />
   </ItemGroup>
 
   
