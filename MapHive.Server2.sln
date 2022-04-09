@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Core", "MapHive.Core\MapHive.Core.csproj", "{DD574872-9218-4D13-8B5E-5DB9FDA91F3B}"
 EndProject
@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapHive.Api.Core", "MapHive
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cartomatic", "Cartomatic", "{3A2F9760-9FF0-45D0-919F-9195E4421E43}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartomatic.Utils", "..\..\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.csproj", "{4D4C9456-9274-4D78-A78E-68205D479AD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartomatic.Utils", "..\..\Cartomatic\Cartomatic.Utils\Cartomatic.Utils\Cartomatic.Utils.csproj", "{4D4C9456-9274-4D78-A78E-68205D479AD5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartomatic.MsBuildUtils", "..\..\Cartomatic\Utils\MsBuildUtils\Cartomatic.MsBuildUtils.csproj", "{4FF191D7-F29D-4DDE-A5CE-85EC060C1E42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartomatic.MsBuildUtils", "..\..\Cartomatic\Cartomatic.Utils\MsBuildUtils\Cartomatic.MsBuildUtils.csproj", "{4FF191D7-F29D-4DDE-A5CE-85EC060C1E42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
