@@ -20,7 +20,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <returns></returns>
         protected virtual IActionResult HandleException(Exception ex, Func<Exception, IActionResult> exceptionHandler)
         {
-            return HandleException(ex, new[] { exceptionHandler });
+            return HandleException(ex, new[] {exceptionHandler});
         }
 
         /// <summary>
@@ -29,7 +29,8 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="ex"></param>
         /// <param name="exceptionHandlers"></param>
         /// <returns></returns>
-        protected virtual IActionResult HandleException(Exception ex, IEnumerable<Func<Exception, IActionResult>> exceptionHandlers = null)
+        protected virtual IActionResult HandleException(Exception ex,
+            IEnumerable<Func<Exception, IActionResult>> exceptionHandlers = null)
         {
             IActionResult handled = null;
             foreach (var handler in exceptionHandlers ?? DefaultExceptionHandlers)
@@ -38,20 +39,19 @@ namespace MapHive.Core.Api.ApiControllers
                 if (handled != null)
                     break;
             }
+
             return handled;
         }
 
-        /// <summary>
-        /// Default exception handlers
-        /// </summary>
-        protected virtual IEnumerable<Func<Exception, IActionResult>> DefaultExceptionHandlers
-            => new List<Func<Exception, IActionResult>>()
+        protected List<Func<Exception, IActionResult>> _defaultExceptionHandlers =
+            new List<Func<Exception, IActionResult>>()
             {
                 //model validation exceptions
                 (e) =>
                 {
-                    if (e is ValidationFailedException && ((ValidationFailedException)e).ValidationErrors.Any())
-                        return new ObjectResult(((ValidationFailedException)e).ValidationErrors){StatusCode = (int)HttpStatusCode.BadRequest};
+                    if (e is ValidationFailedException && ((ValidationFailedException) e).ValidationErrors.Any())
+                        return new ObjectResult(((ValidationFailedException) e).ValidationErrors)
+                            {StatusCode = (int) HttpStatusCode.BadRequest};
 
                     return null;
                 },
@@ -68,12 +68,18 @@ namespace MapHive.Core.Api.ApiControllers
                     if (CommonSettings.Get<bool?>(nameof(ApiConfigurationSettings.EnableRollbarLogging)) == true)
                         Cartomatic.Utils.Logging.LogToRollbar(e);
 
-                    #if DEBUG
-                    return new ObjectResult(e.Message){StatusCode = (int)HttpStatusCode.InternalServerError};
-                    #endif
-                    return new ObjectResult(string.Empty){StatusCode = (int)HttpStatusCode.InternalServerError};
+#if DEBUG
+                    return new ObjectResult(e.Message) {StatusCode = (int) HttpStatusCode.InternalServerError};
+#endif
+                    return new ObjectResult(string.Empty) {StatusCode = (int) HttpStatusCode.InternalServerError};
                 }
             };
+
+        /// <summary>
+        /// Default exception handlers
+        /// </summary>
+        protected virtual IEnumerable<Func<Exception, IActionResult>> DefaultExceptionHandlers
+            => _defaultExceptionHandlers;
 
     }
 }
