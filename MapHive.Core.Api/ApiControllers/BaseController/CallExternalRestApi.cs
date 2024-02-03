@@ -46,7 +46,7 @@ namespace MapHive.Core.Api.ApiControllers
         /// <param name="transferRequestHdrs">Whether or not should auto transfer request headers so they are sent out </param>
         /// <returns></returns>
         protected internal virtual async Task<IRestResponse> RestApiCall(string url, string route, Method method = Method.GET,
-            Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null, bool transferAuthHdr = true, bool transferMhHdrs = true, bool transferRequestHdrs = true)
+            Dictionary<string, object> queryParams = null, object data = null, string authToken = null, Dictionary<string, string> customHeaders = null, bool transferAuthHdr = true, bool transferMhHdrs = true, bool transferRequestHdrs = true, int? timeout = null)
         {
             if (transferMhHdrs)
             {
@@ -63,7 +63,7 @@ namespace MapHive.Core.Api.ApiControllers
 
             return await Cartomatic.Utils.RestApi.RestApiCall(Request, url, route, method, queryParams, data, authToken,
                 customHeaders, null, transferAuthHdr,
-                transferRequestHdrs);
+                transferRequestHdrs, null, timeout);
         }
 
         /// <summary>
