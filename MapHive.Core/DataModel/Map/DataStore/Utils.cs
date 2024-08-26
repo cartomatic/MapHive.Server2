@@ -249,6 +249,12 @@ namespace MapHive.Core.DataModel.Map
         }
 
         /// <summary>
+        /// returns a create schema sql
+        /// </summary>
+        /// <returns></returns>
+        public string GetEnsureSchemaSql() => GetEnsureSchemaSql(this);
+
+        /// <summary>
         /// returns a create table sql
         /// </summary>
         /// <param name="ds"></param>
@@ -261,6 +267,12 @@ namespace MapHive.Core.DataModel.Map
                 CONSTRAINT {GetPkName(ds.DataSource.Table)} PRIMARY KEY ({IdCol})
             );";
         }
+
+        /// <summary>
+        /// returns a create table sql
+        /// </summary>
+        /// <returns></returns>
+        public string GetCreateTableSql() => GetCreateTableSql(this);
 
         /// <summary>
         /// returns a name for a table's primary key
@@ -283,6 +295,12 @@ namespace MapHive.Core.DataModel.Map
         {
             return $@"DROP TABLE IF EXISTS {ds.DataSource.Schema}.{ds.DataSource.Table} CASCADE;";
         }
+
+        /// <summary>
+        /// returns a create schema sql
+        /// </summary>
+        /// <returns></returns>
+        public string GetDropTableSql() => GetDropTableSql(this);
 
         /// <summary>
         /// Gets base index name from table name
