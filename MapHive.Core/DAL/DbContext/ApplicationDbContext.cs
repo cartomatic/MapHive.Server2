@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MapHive.Core.DataModel;
-using MapHive.Core.DAL;
+﻿using MapHive.Core.DataModel;
 using MapHive.Core.DAL.TypeConfigs;
 using MapHive.Core.DAL.TypeConfiguration;
 

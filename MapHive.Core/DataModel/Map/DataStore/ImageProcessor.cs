@@ -1,15 +1,9 @@
-﻿using GeoJSON.Net;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Cartomatic.Utils.Data;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using FeatureCollection = GeoJSON.Net.Feature.FeatureCollection;
 
 namespace MapHive.Core.DataModel.Map
 {

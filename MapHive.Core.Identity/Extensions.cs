@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MapHive.Core.Identity.DataModel;
 using MapHive.Core.Identity.DAL;
 using Microsoft.AspNetCore.Identity;

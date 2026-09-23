@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using Cartomatic.Utils.Data;
+﻿using Cartomatic.Utils.Data;
 using MapHive.Core.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Cartomatic.Utils.Ef;
-using IdentityServer4.Models;
 using MapHive.Core.Identity.DataModel;
 using MapHive.Core.Identity.DAL;
 using MapHive.Core.IdentityServer;
 using MapHive.Core.IdentityServer.DAL;
-using Microsoft.AspNetCore.Identity;
 
 namespace MapHive.Api.IdentityServer
 {

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
-using MapHive.Core.Configuration;
 using MapHive.Core.DataModel;
-using MapHive.Core.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.Cmd

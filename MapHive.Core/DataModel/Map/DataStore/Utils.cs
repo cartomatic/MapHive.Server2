@@ -1,5 +1,4 @@
 ﻿using Cartomatic.Utils.Data;
-using Microsoft.Extensions.Configuration;
 using Npgsql;
 using NpgsqlTypes;
 using System;

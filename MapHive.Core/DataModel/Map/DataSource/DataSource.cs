@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Cartomatic.Utils.Data;
 
 namespace MapHive.Core.DataModel.Map

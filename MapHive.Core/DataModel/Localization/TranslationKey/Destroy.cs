@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using MapHive.Core.DAL;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 using static MapHive.Core.DataModel.AppLocalization;
 
 using Microsoft.EntityFrameworkCore;

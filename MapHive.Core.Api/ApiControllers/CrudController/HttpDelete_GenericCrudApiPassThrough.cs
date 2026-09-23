@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils;
-using IdentityModel.Client;
-using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 using RestSharp;
 
 namespace MapHive.Core.Api.ApiControllers

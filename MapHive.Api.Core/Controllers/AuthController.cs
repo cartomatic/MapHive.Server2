@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Email;
-using IdentityServer4.Models;
 using MapHive.Core;
 using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.DataModel;

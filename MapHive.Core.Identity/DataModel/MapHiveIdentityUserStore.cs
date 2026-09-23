@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using MapHive.Core.Identity.DAL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

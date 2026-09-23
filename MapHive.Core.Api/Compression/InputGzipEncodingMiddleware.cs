@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Cartomatic.Utils;
-using Cartomatic.Utils.Cache;
-using MapHive.Core.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using RestSharp;
 
 namespace MapHive.Core.Api.Authorize
 {

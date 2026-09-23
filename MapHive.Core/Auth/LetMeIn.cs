@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using FluentValidation.Validators;
 using IdentityModel.Client;
 using MapHive.Core.IdentityServer.SerializableConfig;
-using Microsoft.Extensions.Http.Logging;
 
 namespace MapHive.Core
 {

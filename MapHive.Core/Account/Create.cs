@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Email;
 using Cartomatic.Utils.JsonSerializableObjects;
 using MapHive.Core.DataModel;
 using MapHive.Core.DataModel.Validation;
 using MapHive.Core.DAL;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core

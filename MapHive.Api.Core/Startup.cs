@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Cartomatic.Utils.Email;
+﻿using Cartomatic.Utils.Email;
 using MapHive.Core.Api.StartupExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

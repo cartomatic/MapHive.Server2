@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using IdentityModel;
 using IdentityModel.Client;
 using MapHive.Core.Identity;
-using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 
 namespace MapHive.Core.IdentityServer.Test

@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cartomatic.Utils.Ef;
+﻿using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
-using MapHive.Core.DAL.TypeConfiguration;
-
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

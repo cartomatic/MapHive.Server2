@@ -1,20 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
-using Cartomatic.Utils.Data;
-using MapHive.Core;
 using MapHive.Core.DataModel;
-using MapHive.Core.DAL;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json;
 using RestSharp;
 
 

@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cartomatic.CmdPrompt.Core;
-using Cartomatic.Utils.Data;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 
 namespace MapHive.Core.Cmd
 {

@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.Api.UserConfiguration;
-using MapHive.Core.Api;
 using MapHive.Core.Api.Extensions;
 using MapHive.Core.DataModel;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
-using RestSharp.Extensions;
 
 namespace MapHive.Core.Api
 {

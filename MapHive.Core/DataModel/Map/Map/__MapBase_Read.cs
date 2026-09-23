@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.DirectoryServices.Protocols;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 using MapHive.Core.DAL;
-using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel.Map

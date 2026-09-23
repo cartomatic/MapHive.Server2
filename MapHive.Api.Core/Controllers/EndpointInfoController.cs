@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Cartomatic.Utils.Email;
-using MapHive.Core;
 using MapHive.Core.Api.ApiControllers;
 using MapHive.Core.DAL;
 using Microsoft.AspNetCore.Authorization;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MapHive.Core.Cmd
+﻿namespace MapHive.Core.Cmd
 {
     public partial class CommandHandler
     {

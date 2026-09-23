@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using Cartomatic.Utils.Data;
-using MapHive.Core.DataModel;
 
 namespace MapHive.Core.DataModel
 {

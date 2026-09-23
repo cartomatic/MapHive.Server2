@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MapHive.Core.DataModel.Map
+﻿namespace MapHive.Core.DataModel.Map
 {
     public enum LayerType
     {

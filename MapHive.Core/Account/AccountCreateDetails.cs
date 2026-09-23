@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MapHive.Core
+﻿namespace MapHive.Core
 {
     /// <summary>
     /// Input gathered from a client in order to create an account

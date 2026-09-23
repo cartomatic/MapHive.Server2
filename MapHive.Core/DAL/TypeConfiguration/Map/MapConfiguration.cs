@@ -1,5 +1,4 @@
 ﻿using Cartomatic.Utils.Ef;
-using MapHive.Core.DAL.TypeConfiguration;
 using MapHive.Core.DataModel.Map;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

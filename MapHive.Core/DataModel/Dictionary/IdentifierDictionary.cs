@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MapHive.Core.DataModel.Dictionary
+﻿namespace MapHive.Core.DataModel.Dictionary
 {
     /// <summary>
     /// Identifier dictionary - enforces a presence of a unique Identifier field

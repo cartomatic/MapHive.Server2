@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Cartomatic.Utils.JsonSerializableObjects;
+﻿using Cartomatic.Utils.JsonSerializableObjects;
 
 namespace MapHive.Core.DataModel
 {

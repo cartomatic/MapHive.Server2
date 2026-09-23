@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Filtering;
 using Cartomatic.Utils.Sorting;
-using MapHive.Core.DataModel;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace MapHive.Core.DataModel

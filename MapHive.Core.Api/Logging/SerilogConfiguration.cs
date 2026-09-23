@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Cartomatic.Utils;
 using MapHive.Core.Api.Extensions;
 using Microsoft.Extensions.Configuration;

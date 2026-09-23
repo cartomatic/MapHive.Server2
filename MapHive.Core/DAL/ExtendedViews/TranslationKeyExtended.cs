@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Cartomatic.Utils.Ef;
+﻿using Cartomatic.Utils.Ef;
 using MapHive.Core.DataModel;
 using Microsoft.EntityFrameworkCore;
 

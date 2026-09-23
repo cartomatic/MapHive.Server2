@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 using MapHive.Core.Identity.DAL;
 using MapHive.Core.Identity.DataModel;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MapHive.Core.Identity
 {
@@ -31,8 +27,10 @@ namespace MapHive.Core.Identity
         /// <param name="connStrName"></param>
         /// <param name="isConnStr"></param>
         /// <param name="dbProvider"></param>
+        [Obsolete("This method is now deprecated and should not be used.")]
         public static void Configure(string connStrName, bool isConnStr = false, DataSourceProvider dbProvider = DataSourceProvider.Npgsql)
         {
+            throw new Exception("This method is now deprecated and should not be used.");
             Configure(null, connStrName, isConnStr, dbProvider);
         }
 
@@ -45,8 +43,8 @@ namespace MapHive.Core.Identity
         /// <param name="dbProvider"></param>
         public static void Configure(IServiceCollection services, string connStrName, bool isConnStr = false, DataSourceProvider dbProvider = DataSourceProvider.Npgsql)
         {
-            if(services == null)
-                services = new ServiceCollection();
+            if (services == null)
+                throw new ArgumentException($"'{nameof(services)}' cannot be null.");
 
             _services = services;
 

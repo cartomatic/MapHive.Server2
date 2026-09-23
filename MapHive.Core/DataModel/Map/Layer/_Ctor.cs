@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using MapHive.Core.DataModel;
 
 namespace MapHive.Core.DataModel.Map
 {

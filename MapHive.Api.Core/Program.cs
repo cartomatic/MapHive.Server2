@@ -1,15 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using MapHive.Core.Api.Extensions;
-using Serilog;
-using Serilog.Events;
-
-
-namespace MapHive.Core.Api
+﻿namespace MapHive.Core.Api
 {
 
     public class Program

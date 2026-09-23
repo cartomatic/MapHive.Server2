@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Cartomatic.Utils.Data;
 using Cartomatic.Utils.Ef;
 using MapHive.Core.Identity.DataModel;

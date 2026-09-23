@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Identity;
-
-namespace MapHive.Core.Identity.DataModel
+﻿namespace MapHive.Core.Identity.DataModel
 {
     //Note: not only user, but more customizations, as they are required in order to hook into user manager...
     //more details:

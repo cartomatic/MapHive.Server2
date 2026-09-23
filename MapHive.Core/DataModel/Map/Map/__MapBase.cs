@@ -1,8 +1,4 @@
-﻿using System;
-using System.Reflection;
-using MapHive.Core.DataModel;
-
-namespace MapHive.Core.DataModel.Map
+﻿namespace MapHive.Core.DataModel.Map
 {
     /// <summary>
     /// Project exposes some data specified by a customer.
